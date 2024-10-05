@@ -1,0 +1,18 @@
+{
+  "name": "root",
+  "license": "proprietary",
+  "version": "0.1.0",
+  "description": "Guardian Policies SDK",
+  "scripts": {
+    "build:all": "pnpm -r build",
+    "build:all:dev": "pnpm -r build:dev",
+    "clean:all": "pnpm -r clean",
+    "check:all": "pnpm -r check",
+    "remove:node_modules": "rm -rf node_modules",
+    "version": "cross-env-shell \"pnpm -r version $npm_package_version\" && git add **/package.json",
+    "test:all": "pnpm -r test"
+  },
+	"devDependencies": {
+			"cross-env": "^7.0.3"
+	}
+}

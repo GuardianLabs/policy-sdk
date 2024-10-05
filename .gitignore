@@ -1,0 +1,21 @@
+node_modules
+.env
+coverage
+coverage.json
+dist
+testMatrix.json
+mochaOutput.json
+
+#Hardhat files
+cache
+artifacts
+
+.idea
+.deps
+
+slither_output.file
+output.txt
+
+packages/**/constants/contract-error-messages.ts
+packages/**/typechain/
+!packages/**/wrappers-prev/typechain

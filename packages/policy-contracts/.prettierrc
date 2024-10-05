@@ -1,0 +1,25 @@
+{
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "singleQuote": true,
+        "trailingComma": "all",
+        "plugins": ["prettier-plugin-organize-imports"]
+      }
+    },
+    {
+      "files": "*.sol",
+      "options": {
+        "plugins": ["prettier-plugin-solidity"],
+        "compiler": "0.8.27",
+        "trailingComma": "all",
+        "singleQuote": false,
+        "printWidth": 100,
+        "useTabs": false,
+        "tabWidth": 4,
+        "bracketSpacing": true
+      }
+    }
+  ]
+}

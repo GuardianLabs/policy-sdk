@@ -1,0 +1,59 @@
+{
+  "name": "@guardian-network/policy-contracts",
+  "author": "",
+  "description": "Policy with dynamic conditions written onchain",
+  "license": "ISC",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "engines": {
+    "node": ">=18.20.4"
+  },
+  "scripts": {
+    "build": "pnpm format:sol:fix && pnpm build:contracts && tsc -p tsconfig-prod.json && pnpm format:fix && pnpm copy-dts",
+    "build:dev": "pnpm format:sol:fix && pnpm build:contracts && tsc -p tsconfig.json && pnpm format:fix && pnpm copy-dts",
+    "build:contracts": "npx hardhat compile",
+    "build:contracts:force": "pnpm build:contracts --force",
+    "clean": "pnpm remove:dist && pnpm remove:contracts && pnpm remove:typechain",
+    "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
+    "format:all:fix": "pnpm format:sol:fix && pnpm format:ts:fix",
+    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\"",
+    "format:sol:fix": "prettier --plugin=prettier-plugin-solidity -w -c \"contracts/**/*.sol\"",
+    "generate-errors": "ts-node src/constants/generate-errors-enum.ts",
+    "remove:contracts": "npx hardhat clean",
+    "remove:dist": "npx rimraf dist",
+    "remove:typechain": "npx rimraf src/typechain",
+    "test": "pnpm test:contracts",
+    "test:contracts": "npx hardhat test"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "copyfiles": "^2.4.1",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^17.10.3",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "hardhat": "^2.22.12",
+    "hardhat-contract-sizer": "^2.10.0",
+    "hardhat-deploy": "^0.12.4",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-solidity": "^1.4.1",
+    "rimraf": "^6.0.1",
+    "solhint": "^5.0.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "@solidity-parser/parser": "^0.18.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig-prod.json",
+  "include": [
+    "./src/**/*",
+    "./test/**/*",
+    "./diamond-deploy/**/*",
+    "./config/**/*"
+  ],
+  "files": ["./hardhat.config.ts"],
+  "compilerOptions": {
+    "resolveJsonModule": true
+  }
+}

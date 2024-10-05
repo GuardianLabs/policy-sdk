@@ -1,0 +1,14 @@
+{
+  "extends": "solhint:recommended",
+  "rules": {
+    "compiler-version": ["error", "^0.8.27"],
+    "contract-name-camelcase": ["error"],
+    "no-unused-vars": ["error"],
+    "func-visibility": ["warn", { "ignoreConstructors": true }],
+    "imports-on-top": ["error"],
+    "ordering": ["warn"],
+    "state-visibility": ["warn"],
+    "func-name-mixedcase": ["error"],
+    "no-global-import": ["off"]
+  }
+}
