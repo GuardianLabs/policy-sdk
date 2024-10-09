@@ -3,7 +3,7 @@
   "include": [
     "./src/**/*",
     "./test/**/*",
-    "./diamond-deploy/**/*",
+    "./deploy-configuration/**/*",
     "./config/**/*"
   ],
   "files": ["./hardhat.config.ts"],

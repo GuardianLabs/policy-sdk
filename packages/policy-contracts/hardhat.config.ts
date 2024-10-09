@@ -102,7 +102,12 @@ const config: HardhatUserConfig = {
     alphaSort: true,
     disambiguatePaths: true,
     runOnCompile: true,
-    only: [':AND$', ':OR$', ':XOR$'],
+    only: [
+      ':AND$',
+      ':OR$',
+      ':XOR$',
+      ':NOT$' /* , 'BusinessHoursValidation$' */,
+    ],
     strict: false,
   },
 };

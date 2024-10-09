@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import { ArtifactBase } from "../common/basis/ArtifactBase.sol";
-import { BOOL, ADDRESS, BYTES, UINT, STRING } from "../common/constants/Export.sol";
+import { BOOL, ADDRESS, BYTES, UINT, STRING } from "../constants/Export.sol";
 
 contract StatefulMock is ArtifactBase {
     bool private var1;
@@ -23,6 +23,8 @@ contract StatefulMock is ArtifactBase {
     }
 
     function exec(bytes[] memory data) external view override returns (bytes memory encodedResult) {
+        validateExecArgumentsLength(data);
+
         bool arg1 = abi.decode(data[0], (bool));
         address arg2 = abi.decode(data[1], (address));
         bytes memory arg3 = abi.decode(data[2], (bytes));
@@ -44,14 +46,16 @@ contract StatefulMock is ArtifactBase {
         override
         returns (string[] memory argsNames, string[] memory argsTypes)
     {
-        argsNames = new string[](5);
+        uint256 argsLength = 5;
+
+        argsNames = new string[](argsLength);
         argsNames[0] = "init1";
         argsNames[1] = "init2";
         argsNames[2] = "init3";
         argsNames[3] = "init4";
         argsNames[4] = "init5";
 
-        argsTypes = new string[](5);
+        argsTypes = new string[](argsLength);
         argsTypes[0] = BOOL;
         argsTypes[1] = ADDRESS;
         argsTypes[2] = BYTES;
@@ -60,19 +64,21 @@ contract StatefulMock is ArtifactBase {
     }
 
     function getExecDescriptor()
-        external
+        public
         pure
         override
         returns (string[] memory argsNames, string[] memory argsTypes, string memory returnType)
     {
-        argsNames = new string[](5);
+        uint256 argsLength = 5;
+
+        argsNames = new string[](argsLength);
         argsNames[0] = "arg1";
         argsNames[1] = "arg2";
         argsNames[2] = "arg3";
         argsNames[3] = "arg4";
         argsNames[4] = "arg5";
 
-        argsTypes = new string[](5);
+        argsTypes = new string[](argsLength);
         argsTypes[0] = BOOL;
         argsTypes[1] = ADDRESS;
         argsTypes[2] = BYTES;

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import { ArtifactBase } from "../basis/ArtifactBase.sol";
-import { UINT } from "../constants/Export.sol";
+import { UINT } from "../../constants/Export.sol";
 
 contract CurrentTimestamp is ArtifactBase {
     function exec(bytes[] memory data) external view override returns (bytes memory) {
@@ -12,7 +12,7 @@ contract CurrentTimestamp is ArtifactBase {
     }
 
     function getExecDescriptor()
-        external
+        public
         pure
         override
         returns (string[] memory argsNames, string[] memory argsTypes, string memory returnType)

@@ -1,0 +1,1 @@
+export const DEFAULT_MOCKED_DATA_LIST_LENGTH = 3;
