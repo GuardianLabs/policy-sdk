@@ -2,15 +2,19 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-import { SolidityAddressType, SolidityUint24ListType } from './solidity-types';
-import { check } from './test-helpers';
-import { BusinessHoursValidation, TrustedTimezoneOffsetSource } from './types';
+import { SolidityAddressType, SolidityUint24ListType } from '../solidity-types';
+import { check } from '../test-helpers';
 import {
   deployBusinessHoursContracts,
   solidityDecodeSingleParam,
-} from './utils';
-import { TimezoneOffset, toSeconds } from './utils/business-hours';
-import { InitParams, MockedExecParams } from './utils/init-exec-arguments';
+} from '../utils';
+import { InitParams, MockedExecParams } from '../utils/init-exec-arguments';
+import {
+  BusinessHoursValidation,
+  TimezoneOffset,
+  toSeconds,
+  TrustedTimezoneOffsetSource,
+} from './';
 
 describe('Business Hours', () => {
   const TIMEZONE_ID: string = 'Europe/Kyiv';

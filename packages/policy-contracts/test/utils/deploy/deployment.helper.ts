@@ -1,4 +1,5 @@
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
+import { TimezoneOffset } from '../../business-hours';
 import {
   AND__factory,
   BusinessHoursValidation,
@@ -21,7 +22,6 @@ import {
   TrustedTimezoneOffsetSource__factory,
   XOR__factory,
 } from '../../types';
-import { TimezoneOffset } from '../business-hours';
 
 type SupportedDeployments =
   | AND__factory
