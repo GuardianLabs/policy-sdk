@@ -1,1 +1,1 @@
-export * from './check.helper';
+export * from './check-helper';

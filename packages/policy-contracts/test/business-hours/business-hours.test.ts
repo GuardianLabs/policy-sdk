@@ -77,12 +77,10 @@ describe('Business Hours', () => {
 
   describe('Business Hours Artifact: Initialization', () => {
     it('should init Business hours artifact', async () => {
-      const openingSecondsUint24List = SolidityUint24ListType.create([
-        ...openingSeconds,
-      ]);
-      const closingSecondsUint24List = SolidityUint24ListType.create([
-        ...closingSeconds,
-      ]);
+      const openingSecondsUint24List =
+        SolidityUint24ListType.create(openingSeconds);
+      const closingSecondsUint24List =
+        SolidityUint24ListType.create(closingSeconds);
       const trustedTimezoneSourceAddress = SolidityAddressType.create(
         await trustedTimezoneOffsetSourceInstance.getAddress(),
       );
@@ -125,12 +123,10 @@ describe('Business Hours', () => {
           trustedTimezoneSource: trustedTimezoneOffsetSourceInstance,
         } = await deployBusinessHoursContracts(adminSigner, offsetParams));
 
-        openingSecondsUint24List = SolidityUint24ListType.create([
-          ...openingSeconds,
-        ]);
-        closingSecondsUint24List = SolidityUint24ListType.create([
-          ...closingSeconds,
-        ]);
+        openingSecondsUint24List =
+          SolidityUint24ListType.create(openingSeconds);
+        closingSecondsUint24List =
+          SolidityUint24ListType.create(closingSeconds);
         trustedTimezoneSourceAddress = SolidityAddressType.create(
           await trustedTimezoneOffsetSourceInstance.getAddress(),
         );

@@ -45,7 +45,7 @@ export class SolidityBytesType extends SolidityType<string> {
 // implicitness
 export class SolidityUint24ListType extends SolidityType<Array<number>> {
   static create = (uintList: Array<number>) => {
-    return this.build(uintList, verifyUint24Array);
+    return this.build([...uintList], verifyUint24Array);
   };
 
   public get uintArray(): Array<number> {

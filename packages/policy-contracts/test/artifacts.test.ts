@@ -52,7 +52,7 @@ import {
   MockedExecParams,
 } from './utils/init-exec-arguments';
 
-describe('predefined artifacts', () => {
+describe('Artifacts: Pre defined', () => {
   let adminSigner: SignerWithAddress;
 
   // logical
