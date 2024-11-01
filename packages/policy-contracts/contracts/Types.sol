@@ -3,11 +3,11 @@ pragma solidity ^0.8.27;
 
 struct Node {
     bytes32 id;
-    address artifactContractAddress;
-    address implementationContractAddress;
+    address artifactContractAddress; // address originally deployed by author of Artifact
+    address implementationContractAddress; // address of clone artifacts
     BytesAndIndex[] partialExecData; // todo: could be 'constantsData'
     uint256 argsCount;
-    uint256[] variables; // could be run-time 'suppliedVariables'
+    uint256[] variables; // could be something describring: position of variables supplied run-time in general variables list
     Bytes32AndIndex[] substitutions; // could be run-time 'evaluatedVariables'
 }
 

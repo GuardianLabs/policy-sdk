@@ -3,7 +3,7 @@ pragma solidity ^0.8.27;
 
 import { AUTH_ADMIN_ERR } from "./Errors.sol";
 
-contract TreeGatewayBase {
+contract OwnerBase {
     address private adminUser;
 
     modifier onlyOwner() {
