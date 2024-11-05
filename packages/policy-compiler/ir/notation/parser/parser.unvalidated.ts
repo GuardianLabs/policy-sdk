@@ -7,11 +7,13 @@ import {
   extractArguments,
   extractComponents,
   indexConstants,
+  isConstant,
   strIsSubst,
   strIsVar,
 } from '../helpers';
 import { ParsingResult } from './types';
 
+// todo: variety with onchain-infered-first typings
 export const parseIRWithInterceptor = async (
   { ir, typings }: TranspilerOutput,
   middleware?: (
@@ -55,7 +57,7 @@ export const parseIRWithInterceptor = async (
     const initTypes = currentInstanceConfig.initArguments.map((el) => el.type);
 
     const partialExecData = indexConstants(
-      parameters,
+      parameters.filter((arg) => isConstant(arg.value)),
       execConstTypes.map(DSLTypesToIRTypes),
     );
     const initData = bytesEncodeArgs(

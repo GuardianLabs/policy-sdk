@@ -63,5 +63,5 @@ export class LatentState {
 
   public instancesById: InstancesById = new Map();
 
-  public evaluateRelativeTo: Evaluate = <Evaluate>{};
+  public evaluateRelativeTo?: Evaluate;
 }

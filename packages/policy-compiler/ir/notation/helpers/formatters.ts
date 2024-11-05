@@ -1,5 +1,5 @@
 import { defaultAbiCoder } from '@ethersproject/abi';
-import { isConstant, toTypedWithKnownType } from '.';
+import { toTypedWithKnownType } from '.';
 import { DSLType, DSLTypesMapping, Type } from '../parser/types';
 
 export const bytesEncodeArgs = (args: string[], types: Type[]) => {
@@ -14,15 +14,13 @@ export const indexConstants = (
   parameters: { value: string; index: number }[],
   argsTypes: Type[],
 ) =>
-  parameters
-    .filter((arg) => isConstant(arg.value))
-    .map((arg) => ({
-      value: defaultAbiCoder.encode(
-        [argsTypes[arg.index]],
-        [toTypedWithKnownType(arg.value, argsTypes[arg.index])],
-      ),
-      index: arg.index,
-    }));
+  parameters.map((arg, index) => ({
+    value: defaultAbiCoder.encode(
+      [argsTypes[index]],
+      [toTypedWithKnownType(arg.value, argsTypes[index])],
+    ),
+    index: arg.index,
+  }));
 
 export function extractComponents(input: string) {
   const regex = /\{([^}]+)\}\s*\(([^)]*)\)\s*<([^>]*)>/;

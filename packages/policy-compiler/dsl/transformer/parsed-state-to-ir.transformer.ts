@@ -30,7 +30,7 @@ export class IRTransformer {
       definitions: sortedInstances.map((el) =>
         this.buildIRFromInstanceDeclaration(el.config),
       ),
-      rootNode: state.evaluateRelativeTo.nodeId,
+      rootNode: state.evaluateRelativeTo!.nodeId,
       typings: sortedInstances.map((el) => el.config),
     };
   }

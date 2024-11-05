@@ -66,6 +66,6 @@ export const toTypedWithKnownType = (arg: string, type: Type): any => {
     case Type.Uint256:
       return BigInt(arg);
     default:
-      throw new Error('Unsupported constant value type');
+      throw new Error(`Unsupported constant value type: ${arg}: ${type}`);
   }
 };

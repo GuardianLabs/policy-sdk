@@ -168,6 +168,7 @@ const inferTypedValue = (ctx: LiteralContext): TypedValue => {
   return {
     type,
     value,
+    constant: true,
   };
 };
 
