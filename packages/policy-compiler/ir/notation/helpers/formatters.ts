@@ -1,6 +1,6 @@
 import { defaultAbiCoder } from '@ethersproject/abi';
 import { isConstant, toTypedWithKnownType } from '.';
-import { DSLTypesMapping, Type } from '../parser/types';
+import { DSLType, DSLTypesMapping, Type } from '../parser/types';
 
 export const bytesEncodeArgs = (args: string[], types: Type[]) => {
   const typedArgs = args.map((arg, index) =>
@@ -44,4 +44,4 @@ export function extractArguments(input: string): string[] {
   return input.split(',').map((value) => value.trim());
 }
 
-export const DSLTypesToIRTypes = (el: string) => DSLTypesMapping[el];
+export const DSLTypesToIRTypes = (el: string) => DSLTypesMapping[<DSLType>el];

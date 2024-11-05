@@ -22,8 +22,8 @@ const DSLToOnchainTypingsValidator =
 
     for (let i = 0; i < initArgsNames.length; i++) {
       const mirroredDslParameter = currentInstanceConfig.initArguments[i];
-      const parsedType = DSLTypesToIRTypes[mirroredDslParameter.type];
-      if (!initArgsTypes[i] !== parsedType) {
+      const parsedType = DSLTypesToIRTypes(mirroredDslParameter.type);
+      if (initArgsTypes[i] !== parsedType) {
         throw new InitTypesDoNotMatchError(
           mirroredDslParameter.value,
           initArgsNames[i],
@@ -35,8 +35,8 @@ const DSLToOnchainTypingsValidator =
 
     for (let i = 0; i < argsNames.length; i++) {
       const mirroredDslParameter = currentInstanceConfig.execArguments[i];
-      const parsedType = DSLTypesToIRTypes[mirroredDslParameter.type];
-      if (!argsTypes[i] !== parsedType) {
+      const parsedType = DSLTypesToIRTypes(mirroredDslParameter.type);
+      if (argsTypes[i] !== parsedType) {
         throw new ExecTypesDoNotMatchError(
           mirroredDslParameter.value,
           argsNames[i],

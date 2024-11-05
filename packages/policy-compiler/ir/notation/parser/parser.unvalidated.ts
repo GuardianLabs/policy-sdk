@@ -14,7 +14,7 @@ import { ParsingResult } from './types';
 
 export const parseIRWithInterceptor = async (
   { ir, typings }: TranspilerOutput,
-  middleware: (
+  middleware?: (
     artifactAddress: string,
     currentInstanceConfig: InstanceConfig,
   ) => Promise<void>,
@@ -47,7 +47,7 @@ export const parseIRWithInterceptor = async (
 
     const currentInstanceConfig = typings[index];
 
-    await middleware(artifactAddress, currentInstanceConfig);
+    if (middleware) await middleware(artifactAddress, currentInstanceConfig);
 
     const execConstTypes = currentInstanceConfig.execArguments
       .filter((el) => el.constant)
