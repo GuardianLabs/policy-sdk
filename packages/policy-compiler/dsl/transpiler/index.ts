@@ -4,6 +4,13 @@ import { ParseTreeWalker } from 'antlr4ts/tree/ParseTreeWalker';
 import { LacLangLexer, LacLangParser, ProgramContext } from '../antlr';
 import { IRTransformer } from '../transformer';
 import { LacLangTranspiler } from './listener';
+import { InstanceConfig } from './state';
+
+export type TranspilerOutput = {
+  ir: string;
+  rootNode: string;
+  typings: InstanceConfig[];
+};
 
 export class Transpiler {
   inputStream: CodePointCharStream;
@@ -28,7 +35,7 @@ export class Transpiler {
     this.walker.walk(<ParseTreeListener>this.listener, this.tree);
   }
 
-  getFullIR() {
+  getFullIR(): TranspilerOutput {
     const { definitions, rootNode, typings } = IRTransformer.buildFullIR(
       this.listener.latentState,
     );

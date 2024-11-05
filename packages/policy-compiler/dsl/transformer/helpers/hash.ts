@@ -7,3 +7,6 @@ export const nodeId = (def: InstanceConfig, salt: number) =>
     ['string', 'uint256'],
     [IRTransformer.buildIRFromInstanceDeclaration(def), salt],
   );
+
+export const nodeIdByNotation = (def: string, salt: number) =>
+  solidityPackedKeccak256(['string', 'uint256'], [def, salt]);

@@ -13,6 +13,7 @@ export type TypedValue = {
   type: string;
   value: string;
   substitution?: boolean;
+  constant?: boolean;
 };
 
 export const extractAndLookupExecArguments = (
@@ -56,11 +57,13 @@ export const extractAndLookupExecArguments = (
           return {
             value: formatBytesLiteral(refConst.value),
             type: refConst.type,
+            constant: true,
           };
         } else
           return {
             value: refConst.value,
             type: refConst.type,
+            constant: true,
           };
       }
     });

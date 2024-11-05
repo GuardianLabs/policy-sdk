@@ -1,1 +1,1 @@
-export { Transpiler } from './transpiler';
+export { Transpiler, TranspilerOutput } from './transpiler';
