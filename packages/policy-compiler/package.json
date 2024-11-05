@@ -8,13 +8,14 @@
     "node": ">=18.20.4"
   },
   "scripts": {
-    "build": "tsc -p tsconfig-prod.json && pnpm format:fix && pnpm copy-dts",
-    "build:dev": "tsc -p tsconfig.json && pnpm format:fix && pnpm copy-dts",
+    "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
+    "build:dev": "tsc -p tsconfig.json && pnpm format:all:fix && pnpm copy-dts",
     "clean": "pnpm remove:dist",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
-    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\"",
+    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"dsl/**/*.ts\" \"ir/**/*.ts\"",
     "remove:dist": "npx rimraf dist",
+    "antlr": "antlr4ts ./dsl/grammar/LacLang.g4 -o ./dsl/antlr/generated",
     "test": "mocha"
   },
   "keywords": [],
@@ -42,7 +43,11 @@
     "prettier-plugin-organize-imports": "^4.1.0"
   },
   "dependencies": {
+    "antlr4ts": "0.5.0-alpha.4",
+    "antlr4ts-cli": "0.5.0-alpha.4",
     "dotenv": "^16.4.5",
+    "ethers": "^6.13.3",
+    "generator-code": "^1.11.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }
