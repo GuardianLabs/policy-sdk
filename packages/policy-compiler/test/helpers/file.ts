@@ -1,5 +1,5 @@
-import path from "path";
-import { Stub } from "../sources";
+import path from 'path';
+import { Stub } from '../sources';
 
 export const toLac = (path: string) => `${path}.lac`;
 const toJson = (path: string) => `${path}.json`;
