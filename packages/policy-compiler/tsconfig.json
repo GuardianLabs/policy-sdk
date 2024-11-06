@@ -3,7 +3,10 @@
   "include": [
     "./src/**/*",
     "./test/**/*",
-    "./config/**/*"
+    "./config/**/*",
+    "./dsl/**/*",
+    "./ir/**/*",
+    "./compiler/**/*"
   ],
   "compilerOptions": {
     "resolveJsonModule": true

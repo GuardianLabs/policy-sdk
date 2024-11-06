@@ -13,7 +13,7 @@
     "clean": "pnpm remove:dist",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
-    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"dsl/**/*.ts\" \"ir/**/*.ts\"",
+    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"dsl/**/*.ts\" \"ir/**/*.ts\" \"compiler/**/*.ts\"",
     "remove:dist": "npx rimraf dist",
     "antlr": "antlr4ts ./dsl/grammar/LacLang.g4 -o ./dsl/antlr/generated",
     "test": "mocha"
@@ -22,12 +22,12 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
-    "@types/chai": "^5.0.0",
+    "@types/chai": "4.3.3",
     "@types/mocha": "^10.0.9",
     "@types/node": "^22.8.0",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
-    "chai": "^5.1.2",
+    "chai": "^4.5.0",
     "copyfiles": "^2.4.1",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
@@ -38,7 +38,6 @@
     "eslint-plugin-promise": "^7.1.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.11.0",
-    "mocha": "^10.7.3",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0"
   },
@@ -51,6 +50,7 @@
     "dotenv": "^16.4.5",
     "ethers": "^6.13.3",
     "generator-code": "^1.11.4",
+    "mocha": "^10.8.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
     "utils": "link:ethers/lib/utils"
