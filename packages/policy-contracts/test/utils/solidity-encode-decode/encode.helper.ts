@@ -40,7 +40,7 @@ export const solidityEncode = (
 };
 
 // note: this encode string, number, bool into respective Solidity presentation; type will pick automatically
-// unless ObjectEncodeParamTypes is apllied, this will fail with proper encoding when raw string-bytes or string-address supplied
+// unless ObjectEncodeParamTypes is applied, this will fail with proper encoding when raw string-bytes or string-address supplied
 export const solidityEncodeSingleParam = <T extends EncodedParamType>(
   primitiveTypeOrObject: T,
 ): SolidityEncodeReturnType => {
@@ -66,7 +66,7 @@ export const solidityEncodeMultipleParams = <T extends Array<EncodedParamType>>(
   return encodedResult;
 };
 
-const inferSolidityType = <T extends EncodedParamType>(
+export const inferSolidityType = <T extends EncodedParamType>(
   primitiveTypeOrObject: T,
 ) => {
   if (isPrimitiveType(primitiveTypeOrObject)) {
