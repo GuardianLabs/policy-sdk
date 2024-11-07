@@ -16,12 +16,18 @@ export const verifyUint24Array = (
   list: Array<number>,
   expectedLength?: number,
 ) => {
-  const tresholdMin = 0;
-  const tresholdMax = Math.pow(2, 24);
   // validates each element fits into solidity uint24 type
-  let isValid = list.every(
-    (value) => value >= tresholdMin && value <= tresholdMax,
-  );
+  const isValidTreshold = (value: number): boolean => {
+    const tresholdMin = 0;
+    const tresholdMax = Math.pow(2, 24);
+
+    const result = value >= tresholdMin && value <= tresholdMax;
+    return result;
+  };
+
+  let isValid =
+    Array.isArray(list) &&
+    list.every((value) => typeof value === 'number' && isValidTreshold(value));
 
   // validate: 'list.length' is equal to 'expectedLength'
   isValid = !!expectedLength
