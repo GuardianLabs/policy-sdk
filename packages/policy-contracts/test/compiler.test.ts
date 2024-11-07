@@ -99,120 +99,253 @@ describe('Policy: compilation with predefined artifacts', () => {
     gateway.waitForDeployment();
   });
 
-  it('simple policy with one artifcat: validated dsl', async () => {
-    const compiler = new LacLangCompiler({
-      provider: adminSigner.provider,
-      checkTypesAgainstDeclaration: true,
+  describe('One artifact', () => {
+    let dsl: string;
+
+    before(async () => {
+      dsl =
+        policy.simple.one_artifact.one_variable.one_constant.zero_substitutions.xor(
+          await xorArtifact.getAddress(),
+        );
     });
 
-    const dsl = policy.simple.one_artifact.one_variable.one_constant.xor(
-      await xorArtifact.getAddress(),
-    );
+    it('simple policy with one artifcat: validated dsl', async () => {
+      const compiler = new LacLangCompiler({
+        provider: adminSigner.provider,
+        checkTypesAgainstDeclaration: true,
+      });
+      const compilerOutput = await compiler.compileSources(dsl);
+      await gateway.initGraph(compilerOutput);
 
-    const compilerOutput = await compiler.compileSources(dsl);
-    await gateway.initGraph(compilerOutput);
+      const execTrue = ExecParams.create(xorArtifact).add(true);
 
-    const execTrue = ExecParams.create(xorArtifact).add(true);
+      let tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.rootNode,
+          values: execTrue.params,
+        },
+      ]);
 
-    let tx = await gateway.evaluateGraph([
-      {
-        nodeId: compilerOutput.rootNode,
-        values: execTrue.params,
-      },
-    ]);
+      let evaluationResult = await decodeEvaluationResult(tx, gateway);
 
-    let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      check(evaluationResult, true);
 
-    check(evaluationResult, true);
+      const execFalse = ExecParams.create(xorArtifact).add(false);
 
-    const execFalse = ExecParams.create(xorArtifact).add(false);
+      tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.rootNode,
+          values: execFalse.params,
+        },
+      ]);
 
-    tx = await gateway.evaluateGraph([
-      {
-        nodeId: compilerOutput.rootNode,
-        values: execFalse.params,
-      },
-    ]);
+      evaluationResult = await decodeEvaluationResult(tx, gateway);
 
-    evaluationResult = await decodeEvaluationResult(tx, gateway);
-
-    check(evaluationResult, false);
-  });
-
-  it('simple policy with one artifcat: validated onchain', async () => {
-    const compiler = new LacLangCompiler({
-      provider: adminSigner.provider,
-      checkTypesAgainstOnchain: true,
+      check(evaluationResult, false);
     });
 
-    const dsl = policy.simple.one_artifact.one_variable.one_constant.xor(
-      await xorArtifact.getAddress(),
-    );
+    it('simple policy with one artifcat: validated onchain', async () => {
+      const compiler = new LacLangCompiler({
+        provider: adminSigner.provider,
+        checkTypesAgainstOnchain: true,
+      });
 
-    const compilerOutput = await compiler.compileSources(dsl);
-    await gateway.initGraph(compilerOutput);
+      const compilerOutput = await compiler.compileSources(dsl);
+      await gateway.initGraph(compilerOutput);
 
-    const execTrue = ExecParams.create(xorArtifact).add(true);
+      const execTrue = ExecParams.create(xorArtifact).add(true);
 
-    let tx = await gateway.evaluateGraph([
-      {
-        nodeId: compilerOutput.rootNode,
-        values: execTrue.params,
-      },
-    ]);
+      let tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.rootNode,
+          values: execTrue.params,
+        },
+      ]);
 
-    let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx, gateway);
 
-    check(evaluationResult, true);
+      check(evaluationResult, true);
 
-    const execFalse = ExecParams.create(xorArtifact).add(false);
+      const execFalse = ExecParams.create(xorArtifact).add(false);
 
-    tx = await gateway.evaluateGraph([
-      {
-        nodeId: compilerOutput.rootNode,
-        values: execFalse.params,
-      },
-    ]);
+      tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.rootNode,
+          values: execFalse.params,
+        },
+      ]);
 
-    evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx, gateway);
 
-    check(evaluationResult, false);
+      check(evaluationResult, false);
+    });
+
+    it('simple policy with one artifcat: unvalidated', async () => {
+      const compiler = new LacLangCompiler();
+
+      const compilerOutput = await compiler.compileSources(dsl);
+      await gateway.initGraph(compilerOutput);
+
+      const execTrue = ExecParams.create(xorArtifact).add(true);
+
+      let tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.rootNode,
+          values: execTrue.params,
+        },
+      ]);
+
+      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+
+      check(evaluationResult, true);
+
+      const execFalse = ExecParams.create(xorArtifact).add(false);
+
+      tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.rootNode,
+          values: execFalse.params,
+        },
+      ]);
+
+      evaluationResult = await decodeEvaluationResult(tx, gateway);
+
+      check(evaluationResult, false);
+    });
   });
 
-  it('simple policy with one artifcat: unvalidated', async () => {
-    const compiler = new LacLangCompiler();
+  describe('two artifacts', () => {
+    let dsl: string;
 
-    const dsl = policy.simple.one_artifact.one_variable.one_constant.xor(
-      await xorArtifact.getAddress(),
-    );
+    before(async () => {
+      dsl =
+        policy.simple.two_artifacts.one_variable.one_constant.one_substitution.and(
+          await andArtifact.getAddress(),
+          await equalStringsArtifact.getAddress(),
+        );
+    });
 
-    const compilerOutput = await compiler.compileSources(dsl);
-    await gateway.initGraph(compilerOutput);
+    it('simple policy with two artifcats: validated dsl', async () => {
+      const compiler = new LacLangCompiler({
+        provider: adminSigner.provider,
+        checkTypesAgainstDeclaration: true,
+      });
 
-    const execTrue = ExecParams.create(xorArtifact).add(true);
+      const compilerOutput = await compiler.compileSources(dsl);
+      await gateway.initGraph(compilerOutput);
 
-    let tx = await gateway.evaluateGraph([
-      {
-        nodeId: compilerOutput.rootNode,
-        values: execTrue.params,
-      },
-    ]);
+      let tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.nodes[0].id,
+          values:
+            ExecParams.create(equalStringsArtifact).add("I'm an input").params,
+        },
+        {
+          nodeId: compilerOutput.nodes[1].id,
+          values: [],
+        },
+      ]);
 
-    let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx, gateway);
 
-    check(evaluationResult, true);
+      check(evaluationResult, true);
 
-    const execFalse = ExecParams.create(xorArtifact).add(false);
+      tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.nodes[0].id,
+          values:
+            ExecParams.create(equalStringsArtifact).add('lol not me').params,
+        },
+        {
+          nodeId: compilerOutput.nodes[1].id,
+          values: [],
+        },
+      ]);
 
-    tx = await gateway.evaluateGraph([
-      {
-        nodeId: compilerOutput.rootNode,
-        values: execFalse.params,
-      },
-    ]);
+      evaluationResult = await decodeEvaluationResult(tx, gateway);
 
-    evaluationResult = await decodeEvaluationResult(tx, gateway);
+      check(evaluationResult, false);
+    });
 
-    check(evaluationResult, false);
+    it('simple policy with two artifcats: validated onchain', async () => {
+      const compiler = new LacLangCompiler({
+        provider: adminSigner.provider,
+        checkTypesAgainstOnchain: true,
+      });
+
+      const compilerOutput = await compiler.compileSources(dsl);
+      await gateway.initGraph(compilerOutput);
+
+      let tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.nodes[0].id,
+          values:
+            ExecParams.create(equalStringsArtifact).add("I'm an input").params,
+        },
+        {
+          nodeId: compilerOutput.nodes[1].id,
+          values: [],
+        },
+      ]);
+
+      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+
+      check(evaluationResult, true);
+
+      tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.nodes[0].id,
+          values:
+            ExecParams.create(equalStringsArtifact).add('lol not me').params,
+        },
+        {
+          nodeId: compilerOutput.nodes[1].id,
+          values: [],
+        },
+      ]);
+
+      evaluationResult = await decodeEvaluationResult(tx, gateway);
+
+      check(evaluationResult, false);
+    });
+
+    it('simple policy with two artifcats: unvalidated', async () => {
+      const compiler = new LacLangCompiler();
+
+      const compilerOutput = await compiler.compileSources(dsl);
+      await gateway.initGraph(compilerOutput);
+
+      let tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.nodes[0].id,
+          values:
+            ExecParams.create(equalStringsArtifact).add("I'm an input").params,
+        },
+        {
+          nodeId: compilerOutput.nodes[1].id,
+          values: [],
+        },
+      ]);
+
+      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+
+      check(evaluationResult, true);
+
+      tx = await gateway.evaluateGraph([
+        {
+          nodeId: compilerOutput.nodes[0].id,
+          values:
+            ExecParams.create(equalStringsArtifact).add('lol not me').params,
+        },
+        {
+          nodeId: compilerOutput.nodes[1].id,
+          values: [],
+        },
+      ]);
+
+      evaluationResult = await decodeEvaluationResult(tx, gateway);
+
+      check(evaluationResult, false);
+    });
   });
 });
