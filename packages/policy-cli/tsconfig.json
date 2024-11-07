@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig-prod.json",
+  "include": [
+    "./src/**/*",
+    "./test/**/*",
+    "./config/**/*",
+    "./dsl/**/*",
+    "./ir/**/*",
+    "./compiler/**/*"
+  ],
+  "compilerOptions": {
+    "resolveJsonModule": true
+  }
+}
