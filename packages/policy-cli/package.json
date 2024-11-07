@@ -1,0 +1,24 @@
+{
+  "name": "@guardian-network/policy-cli",
+  "author": "",
+  "description": "CLI for an SDK",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "engines": {
+    "node": ">=18.20.4"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
+    "build:dev": "tsc -p tsconfig.json && pnpm format:all:fix && pnpm copy-dts",
+    "clean": "pnpm remove:dist",
+    "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
+    "format:all:fix": "pnpm format:ts:fix",
+    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\"",
+    "remove:dist": "npx rimraf dist",
+    "test": "mocha"
+  },
+  "keywords": [],
+  "dependencies": {
+    "commander": "^12.1.0"
+  }
+}

@@ -214,7 +214,7 @@ describe('Policy: compilation with predefined artifacts', () => {
     });
   });
 
-  describe('two artifacts', () => {
+  describe('Two artifacts', () => {
     let dsl: string;
 
     before(async () => {

@@ -18,6 +18,7 @@ constantDeclaration
     : 'constant' dataType IDENTIFIER '=' literal ';'
     ;
 
+// todo: maybe allow address reference?
 artifactDeclaration
     : 'artifact' IDENTIFIER '=' ADDRESS_LITERAL ';'
     ;

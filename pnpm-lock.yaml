@@ -12,6 +12,12 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
 
+  packages/policy-cli:
+    dependencies:
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
+
   packages/policy-compiler:
     dependencies:
       '@ethersproject/abi':
@@ -1590,6 +1596,10 @@ packages:
   commander@10.0.1:
     resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
     engines: {node: '>=14'}
+
+  commander@12.1.0:
+    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
+    engines: {node: '>=18'}
 
   commander@8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
@@ -6072,6 +6082,8 @@ snapshots:
       typical: 5.2.0
 
   commander@10.0.1: {}
+
+  commander@12.1.0: {}
 
   commander@8.3.0: {}
 

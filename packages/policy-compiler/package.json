@@ -1,5 +1,5 @@
 {
-  "name": "@guardian-network/artifacts-dsl",
+  "name": "@guardian-network/policy-compiler",
   "author": "",
   "description": "Artifcts high level declaration language",
   "version": "0.1.0",
