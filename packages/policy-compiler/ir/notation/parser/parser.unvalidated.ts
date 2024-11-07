@@ -1,3 +1,5 @@
+import { Provider } from 'ethers';
+import { IArbitraryDataArtifact__factory } from '../../../../policy-contracts/src/typechain';
 import { TranspilerOutput } from '../../../dsl';
 import { nodeIdByNotation } from '../../../dsl/transformer';
 import { InstanceConfig } from '../../../dsl/transpiler/state';
@@ -11,10 +13,10 @@ import {
   strIsSubst,
   strIsVar,
 } from '../helpers';
-import { ParsingResult } from './types';
+import { ParsingResult, Type } from './types';
 
-// todo: variety with onchain-infered-first typings
-export const parseIRWithInterceptor = async (
+// note: types dsl-inferred-first
+export const parseIRByDSLTypesWithInterceptor = async (
   { ir, typings }: TranspilerOutput,
   middleware?: (
     artifactAddress: string,
@@ -64,6 +66,72 @@ export const parseIRWithInterceptor = async (
       initArgs,
       initTypes.map(DSLTypesToIRTypes),
     );
+
+    res.push({
+      id: nodeIdByNotation(artifact, index),
+      artifactAddress,
+      partialExecData,
+      variables,
+      argsCount: parameters.length,
+      substitutions,
+      initData,
+      needsInitialization: initArgs.length != 0,
+    });
+  }
+
+  return res;
+};
+
+// note: types onchain-inferred-first
+export const parseIRByOnchainTypesWithInterceptor = async (
+  { ir, typings }: TranspilerOutput,
+  provider: Provider,
+  middleware?: (
+    artifactAddress: string,
+    currentInstanceConfig: InstanceConfig,
+  ) => Promise<void>,
+) => {
+  const res: ParsingResult[] = [];
+
+  const artifacts = ir.trim().split(/\r?\n/);
+  for (let [index, artifact] of artifacts.entries()) {
+    artifact = artifact.trim();
+    const { addressClause, paramsClause, initClause } =
+      extractComponents(artifact);
+
+    const artifactAddress = addressClause;
+    const parameters = extractArguments(paramsClause).map((value, index) => ({
+      value,
+      index,
+    }));
+
+    const initArgs = extractArguments(initClause);
+
+    const variables = parameters
+      .filter((val) => strIsVar(val.value))
+      .map((val) => val.index);
+    const substitutions = parameters
+      .filter((val) => strIsSubst(val.value))
+      .map((val) => ({
+        value: val.value.replace(/\|/g, ''),
+        index: val.index,
+      }));
+
+    const currentInstanceConfig = typings[index];
+
+    if (middleware) await middleware(artifactAddress, currentInstanceConfig);
+
+    const instance = IArbitraryDataArtifact__factory.connect(
+      artifactAddress,
+      provider,
+    );
+
+    const { argsTypes } = await instance.getExecDescriptor();
+
+    const { argsTypes: initArgsTypes } = await instance.getInitDescriptor();
+
+    const partialExecData = indexConstants(parameters, <Type[]>argsTypes);
+    const initData = bytesEncodeArgs(initArgs, <Type[]>initArgsTypes);
 
     res.push({
       id: nodeIdByNotation(artifact, index),

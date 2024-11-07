@@ -4,7 +4,10 @@ import { TranspilerOutput } from '../../../dsl';
 import { InstanceConfig } from '../../../dsl/transpiler/state';
 import { ExecTypesDoNotMatchError, InitTypesDoNotMatchError } from '../errors';
 import { DSLTypesToIRTypes } from '../helpers';
-import { parseIRWithInterceptor } from './parser.unvalidated';
+import {
+  parseIRByDSLTypesWithInterceptor,
+  parseIRByOnchainTypesWithInterceptor,
+} from './parser.unvalidated';
 
 const DSLToOnchainTypingsValidator =
   (provider: Provider) =>
@@ -45,8 +48,27 @@ const DSLToOnchainTypingsValidator =
         );
       }
     }
+
+    // todo: instance return type => exec arg type validation
   };
 
-export const parseIR = async (input: TranspilerOutput, provider: Provider) => {
-  return parseIRWithInterceptor(input, DSLToOnchainTypingsValidator(provider));
+export const getIRParser = (input: TranspilerOutput, provider?: Provider) => {
+  return {
+    validated: {
+      DSL_TYPING: async () =>
+        await parseIRByDSLTypesWithInterceptor(
+          input,
+          DSLToOnchainTypingsValidator(provider!),
+        ),
+      ONCHAIN_TYPING: async () =>
+        await parseIRByOnchainTypesWithInterceptor(
+          input,
+          provider!,
+          DSLToOnchainTypingsValidator(provider!),
+        ),
+    },
+    unvalidated: {
+      DSL_TYPING: async () => await parseIRByDSLTypesWithInterceptor(input),
+    },
+  };
 };

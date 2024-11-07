@@ -1,52 +1,97 @@
-import { Provider } from 'ethers';
 import { promises as fs } from 'fs';
+import { LacLangCompilerOptions } from '.';
 import { GraphInitParamsStruct } from '../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
 import { Transpiler, TranspilerOutput } from '../dsl';
-import { parseIR, parseIRWithInterceptor, ParsingResult } from '../ir';
+import { getIRParser, ParsingResult } from '../ir';
+import { NoProviderError } from './errors';
+import { validateFinalRepresentation } from './validations';
+
+const defaultCompilerOptions: LacLangCompilerOptions = {};
 
 export class Compiler {
-  public transpiler?: Transpiler;
+  private transpiler?: Transpiler;
+  private transpilerOutput?: TranspilerOutput;
+  private parserOutput?: ParsingResult[];
+  private sources?: string;
 
-  constructor(private readonly provider?: Provider) {}
+  constructor(
+    private readonly options: LacLangCompilerOptions = defaultCompilerOptions,
+  ) {
+    if (
+      (options.checkTypesAgainstDeclaration ||
+        options.checkTypesAgainstOnchain) &&
+      !options.provider
+    ) {
+      throw new NoProviderError();
+    }
+  }
 
   public async compileSources(sources: string): Promise<GraphInitParamsStruct> {
-    this.transpiler = new Transpiler(sources);
-    let transpilerOutput: TranspilerOutput;
+    this.sources = sources;
 
-    try {
-      this.transpiler.transpile();
-      transpilerOutput = this.transpiler.getFullIR();
-    } catch (transpilerError: unknown) {
-      console.error('DSL transpiler error during compilation:');
-      throw transpilerError;
-    }
+    this.transpileDSL();
+    await this.parseIR();
 
-    let parserOutput: ParsingResult[];
-
-    try {
-      if (this.provider) {
-        parserOutput = await parseIR(transpilerOutput, this.provider);
-      } else {
-        parserOutput = await parseIRWithInterceptor(transpilerOutput);
-      }
-    } catch (parserError: unknown) {
-      console.error('IR parser error during compilation:');
-      throw parserError;
-    }
-
-    return {
-      rootNode: transpilerOutput.rootNode,
-      nodes: parserOutput,
+    const finalRepresentation = {
+      rootNode: this.transpilerOutput!.rootNode,
+      nodes: this.parserOutput!,
     };
+
+    try {
+      validateFinalRepresentation(finalRepresentation);
+    } catch (frValidationError: unknown) {
+      console.error(
+        'Finar representation validation error during compilation:',
+      );
+      throw frValidationError;
+    }
+
+    return finalRepresentation;
   }
 
   public async compileFile(sourcesPath: string) {
-    const sources: string = await this.readTextFromFile(sourcesPath);
+    const sources: string = await this._readTextFromFile(sourcesPath);
 
     return this.compileSources(sources);
   }
 
-  private async readTextFromFile(filePath: string): Promise<string> {
+  private transpileDSL() {
+    try {
+      this.transpiler = new Transpiler(this.sources!);
+
+      this.transpiler.transpile();
+      this.transpilerOutput = this.transpiler.getFullIR();
+    } catch (transpilerError: unknown) {
+      console.error('DSL transpiler error during compilation:');
+      throw transpilerError;
+    }
+  }
+
+  private async parseIR() {
+    try {
+      let parser: (...args: any[]) => Promise<ParsingResult[]>;
+
+      switch (true) {
+        case this.options.checkTypesAgainstDeclaration:
+          parser = getIRParser(this.transpilerOutput!, this.options.provider!)
+            .validated.DSL_TYPING;
+          break;
+        case this.options.checkTypesAgainstOnchain:
+          parser = getIRParser(this.transpilerOutput!, this.options.provider!)
+            .validated.ONCHAIN_TYPING;
+          break;
+        default:
+          parser = getIRParser(this.transpilerOutput!).unvalidated.DSL_TYPING;
+      }
+
+      this.parserOutput = await parser();
+    } catch (parserError: unknown) {
+      console.error('IR parser error during compilation:');
+      throw parserError;
+    }
+  }
+
+  private async _readTextFromFile(filePath: string): Promise<string> {
     try {
       const fileContent = await fs.readFile(filePath, 'utf-8');
       return fileContent;
