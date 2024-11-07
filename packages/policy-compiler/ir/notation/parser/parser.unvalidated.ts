@@ -130,7 +130,10 @@ export const parseIRByOnchainTypesWithInterceptor = async (
 
     const { argsTypes: initArgsTypes } = await instance.getInitDescriptor();
 
-    const partialExecData = indexConstants(parameters, <Type[]>argsTypes);
+    const partialExecData = indexConstants(
+      parameters.filter((arg) => isConstant(arg.value)),
+      <Type[]>argsTypes,
+    );
     const initData = bytesEncodeArgs(initArgs, <Type[]>initArgsTypes);
 
     res.push({
