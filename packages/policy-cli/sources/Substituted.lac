@@ -1,0 +1,9 @@
+var string str;
+
+artifact and = 0x8e8daC834e4AF482D6D3cd954BAC30fd9E661809;
+artifact equalString = 0xE6c6C404223E6EDCCCcfe419c76f5a3742B4b7CF;
+
+instance bool stringOutput of equalString takes ("I'm an input", str);
+instance bool andOutput of and takes (true, stringOutput);
+
+evaluate andOutput;

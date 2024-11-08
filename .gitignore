@@ -9,6 +9,7 @@ mochaOutput.json
 #Hardhat files
 cache
 artifacts
+build-info
 
 .idea
 .deps

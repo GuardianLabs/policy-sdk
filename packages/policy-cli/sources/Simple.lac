@@ -1,0 +1,7 @@
+constant bool a = false;
+var bool b;
+
+artifact xor = 0x30c3992a678a6EF6e9D5FE91815b47B7711c05cC;
+instance bool xorOutput of xor takes (a, b);
+
+evaluate xorOutput;

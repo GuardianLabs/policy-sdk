@@ -16,6 +16,7 @@ import {
   REPORT_GAS,
 } from './config';
 import { Config } from './config/Config';
+import "@nomicfoundation/hardhat-ignition-ethers";
 
 const MAX_ACCOUNT_NUMBER = 16;
 const DEPLOY_SCRIPTS_PATH = 'deploy-configuration/';

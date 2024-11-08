@@ -14,7 +14,7 @@ export const compileHandler = async (program: Command) => {
   let config: LacLangCompilerOptions = {};
 
   if (options.typeOnchain || options.typeDsl) {
-    const rpc = options.rpc || process.env.RPC;
+    const rpc: string = options.rpc ?? process.env.RPC;
     if (!rpc) throw new NoRpcUrlError();
 
     const provider = new JsonRpcProvider(rpc);

@@ -18,10 +18,13 @@ import { ParsingResult, Type } from './types';
 // note: types dsl-inferred-first
 export const parseIRByDSLTypesWithInterceptor = async (
   { ir, typings }: TranspilerOutput,
-  middleware?: (
-    artifactAddress: string,
-    currentInstanceConfig: InstanceConfig,
-  ) => Promise<void>,
+  middleware?: {
+    innerValidations: (
+      artifactAddress: string,
+      currentInstanceConfig: InstanceConfig,
+    ) => Promise<void>;
+    outerValidations: (output: ParsingResult[]) => Promise<void>;
+  },
 ) => {
   const res: ParsingResult[] = [];
 
@@ -51,7 +54,8 @@ export const parseIRByDSLTypesWithInterceptor = async (
 
     const currentInstanceConfig = typings[index];
 
-    if (middleware) await middleware(artifactAddress, currentInstanceConfig);
+    if (middleware)
+      await middleware.innerValidations(artifactAddress, currentInstanceConfig);
 
     const execConstTypes = currentInstanceConfig.execArguments
       .filter((el) => el.constant)
@@ -79,6 +83,8 @@ export const parseIRByDSLTypesWithInterceptor = async (
     });
   }
 
+  if (middleware) await middleware.outerValidations(res);
+
   return res;
 };
 
@@ -86,10 +92,13 @@ export const parseIRByDSLTypesWithInterceptor = async (
 export const parseIRByOnchainTypesWithInterceptor = async (
   { ir, typings }: TranspilerOutput,
   provider: Provider,
-  middleware?: (
-    artifactAddress: string,
-    currentInstanceConfig: InstanceConfig,
-  ) => Promise<void>,
+  middleware?: {
+    innerValidations: (
+      artifactAddress: string,
+      currentInstanceConfig: InstanceConfig,
+    ) => Promise<void>;
+    outerValidations: (output: ParsingResult[]) => Promise<void>;
+  },
 ) => {
   const res: ParsingResult[] = [];
 
@@ -119,7 +128,8 @@ export const parseIRByOnchainTypesWithInterceptor = async (
 
     const currentInstanceConfig = typings[index];
 
-    if (middleware) await middleware(artifactAddress, currentInstanceConfig);
+    if (middleware)
+      await middleware.innerValidations(artifactAddress, currentInstanceConfig);
 
     const instance = IArbitraryDataArtifact__factory.connect(
       artifactAddress,
@@ -147,6 +157,8 @@ export const parseIRByOnchainTypesWithInterceptor = async (
       needsInitialization: initArgs.length != 0,
     });
   }
+
+  if (middleware) await middleware.outerValidations(res);
 
   return res;
 };

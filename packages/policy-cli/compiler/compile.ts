@@ -3,19 +3,22 @@
 import { Command } from 'commander';
 import { version } from '../package.json';
 import { compileHandler } from './handler/compile.handler';
+import { config } from 'dotenv';
+
+config();
 
 const program = new Command();
 
-const args = process.argv;
-const redirectionIndex = args.findIndex((arg) => arg === '>>');
-if (redirectionIndex !== -1 && args[redirectionIndex + 1]) {
-  process.argv.splice(
-    redirectionIndex,
-    2,
-    '--write',
-    args[redirectionIndex + 1],
-  );
-}
+// const args = process.argv;
+// const redirectionIndex = args.findIndex((arg) => arg === '>>');
+// if (redirectionIndex !== -1 && args[redirectionIndex + 1]) {
+//   process.argv.splice(
+//     redirectionIndex,
+//     2,
+//     '--write',
+//     args[redirectionIndex + 1],
+//   );
+// }
 
 program
   .name('@guardian-network/policy-dsl-compiler')
@@ -30,7 +33,7 @@ program
     '[OPTIONAL] Triggers types checking via dsl definitions, equivalent to checkTypesAgainstDeclaration = true',
   )
   .option(
-    '--rpc',
+    '--rpc <URL>',
     '[OPTIONAL, if --type-*] JSON RPC URL for type checking communication. Otherwise $RPC env variable will be serched',
   )
   .option(
