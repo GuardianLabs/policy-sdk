@@ -1,5 +1,11 @@
 import { BytesLike } from 'ethers';
 import {
+  ExecParamsDescriptorType,
+  ExecParamsDescriptorValueType,
+  InitParamsDescriptorType,
+  InitParamsDescriptorValueType,
+} from '../../types';
+import {
   EncodedParamType as NormalizedParamType,
   solidityEncodeMultipleParams,
   solidityEncodeSingleParam,
@@ -10,15 +16,7 @@ import {
   UnnormalizedExecParamsBase,
   UnnormalizedInitParamsBase,
 } from './base/ArtifactParamsBase';
-import {
-  ExecParamsDescriptorType,
-  ExecParamsDescriptorValueType,
-  InitParamsDescriptorType,
-  InitParamsDescriptorValueType,
-  ParamsConfig,
-  Unnormalized,
-  UnnormalizedParamType,
-} from './types';
+import { ParamsConfig, Unnormalized, UnnormalizedParamType } from './types';
 import {
   normalizeParams,
   unwrapUnnormalized,

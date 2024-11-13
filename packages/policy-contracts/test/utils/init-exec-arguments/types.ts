@@ -1,4 +1,3 @@
-import { ArtifactBase } from '../../types';
 import { EncodedParamType as NormalizedParamType } from '../solidity-encode-decode';
 export { EncodedParamType as NormalizedParamType } from '../solidity-encode-decode';
 
@@ -16,23 +15,6 @@ export type UnnormalizedParamType = {
 export type UnnormalizedOrNormalizedParamType =
   | NormalizedParamType
   | UnnormalizedParamType;
-
-export type InitParamsDescriptorType = Pick<ArtifactBase, 'getInitDescriptor'>;
-export type ExecParamsDescriptorType = Pick<ArtifactBase, 'getExecDescriptor'>;
-export type DescriptorType =
-  | InitParamsDescriptorType
-  | ExecParamsDescriptorType;
-
-export type ExecParamsDescriptorValueType = Awaited<
-  ReturnType<ArtifactBase['getExecDescriptor']>
->;
-export type InitParamsDescriptorValueType = Awaited<
-  ReturnType<ArtifactBase['getInitDescriptor']>
->;
-
-export type ParamsDescriptorValueType =
-  | ExecParamsDescriptorValueType
-  | InitParamsDescriptorValueType;
 
 export type MockecExecArgumentsConfig = {
   argsCount?: number;

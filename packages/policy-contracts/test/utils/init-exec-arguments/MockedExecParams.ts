@@ -1,15 +1,16 @@
+import { ExecParamsDescriptorValueType } from '../../types';
 import { duplicatedValuesArray, randomBoolean } from '../random.helper';
 import { ExecParams } from './artifact-params';
 import { DEFAULT_MOCKED_DATA_LIST_LENGTH } from './constants';
-import {
-  ExecParamsDescriptorValueType,
-  MockecExecArgumentsConfig,
-  NormalizedParamType,
-} from './types';
+import { MockecExecArgumentsConfig, NormalizedParamType } from './types';
 
 export class MockedExecParams extends ExecParams {
   static make = (config?: MockecExecArgumentsConfig) => {
     return this.makeWithDescriptor(undefined, config);
+  };
+
+  static withNormalizedArgs = (...params: Array<NormalizedParamType>) => {
+    return this.create(undefined, ...params);
   };
 
   static makeWithDescriptor = (

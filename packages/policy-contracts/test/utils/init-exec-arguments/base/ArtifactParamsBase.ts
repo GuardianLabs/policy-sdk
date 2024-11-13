@@ -1,10 +1,12 @@
 import { BytesLike } from 'ethers';
-import { EncodedParamType as NormalizedParamType } from '../../solidity-encode-decode';
 import {
   ExecParamsDescriptorValueType,
   InitParamsDescriptorValueType,
-  ParamsConfig,
   ParamsDescriptorValueType,
+} from '../../../types';
+import { EncodedParamType as NormalizedParamType } from '../../solidity-encode-decode';
+import {
+  ParamsConfig,
   UnnormalizedOrNormalizedParamType,
   UnnormalizedParamType,
 } from '../types';
