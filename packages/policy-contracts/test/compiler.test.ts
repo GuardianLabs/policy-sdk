@@ -126,7 +126,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
@@ -139,7 +139,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -162,7 +162,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
@@ -175,7 +175,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -195,7 +195,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
@@ -208,7 +208,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -246,7 +246,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
@@ -262,7 +262,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -288,7 +288,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
@@ -304,7 +304,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -327,7 +327,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
@@ -343,7 +343,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });

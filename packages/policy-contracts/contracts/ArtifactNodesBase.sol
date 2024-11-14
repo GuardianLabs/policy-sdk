@@ -34,10 +34,7 @@ contract ArtifactNodesBase is OwnerBase {
         setArgsCount(newNode, params);
     }
 
-    function maybeCreateArtifactState(
-        Node storage node,
-        TreeNodeInitParams memory params
-    ) internal {
+    function maybeCreateArtifactState(Node storage node, TreeNodeInitParams memory params) private {
         // note: IArbitraryDataArtifact is erc165-compatible
         node.artifactContractAddress = Validate.validateAddressIsArtifact(params.artifactAddress);
 
@@ -53,7 +50,7 @@ contract ArtifactNodesBase is OwnerBase {
         }
     }
 
-    function createEmptyNode() internal returns (Node storage emptyNode, uint256 emptyNodeIndex) {
+    function createEmptyNode() private returns (Node storage emptyNode, uint256 emptyNodeIndex) {
         // note: pushing new empty node thereby making its storage accesible to write/reade
         nodes.push();
 
@@ -67,7 +64,7 @@ contract ArtifactNodesBase is OwnerBase {
 
     function createEmptyNodeWithId(
         bytes32 nodeId
-    ) internal returns (Node storage emptyNode, uint256 emptyNodeIndex) {
+    ) private returns (Node storage emptyNode, uint256 emptyNodeIndex) {
         (Node storage node, uint256 index) = createEmptyNode();
         node.id = nodeId;
         idToIndex[nodeId] = index;
@@ -75,25 +72,25 @@ contract ArtifactNodesBase is OwnerBase {
         return (node, index);
     }
 
-    function setNodeConstants(Node storage node, TreeNodeInitParams memory params) internal {
+    function setNodeConstants(Node storage node, TreeNodeInitParams memory params) private {
         for (uint256 i = 0; i < params.partialExecData.length; i++) {
             node.partialExecData.push(params.partialExecData[i]);
         }
     }
 
-    function setNodeVariables(Node storage node, TreeNodeInitParams memory params) internal {
+    function setNodeVariables(Node storage node, TreeNodeInitParams memory params) private {
         for (uint256 i = 0; i < params.variables.length; i++) {
             node.variables.push(params.variables[i]);
         }
     }
 
-    function setNodeSubstibutions(Node storage node, TreeNodeInitParams memory params) internal {
+    function setNodeSubstibutions(Node storage node, TreeNodeInitParams memory params) private {
         for (uint256 i = 0; i < params.substitutions.length; i++) {
             node.substitutions.push(params.substitutions[i]);
         }
     }
 
-    function setArgsCount(Node storage node, TreeNodeInitParams memory params) internal {
+    function setArgsCount(Node storage node, TreeNodeInitParams memory params) private {
         Validate.validateArgsCount(node, params.argsCount);
         node.argsCount = params.argsCount;
     }

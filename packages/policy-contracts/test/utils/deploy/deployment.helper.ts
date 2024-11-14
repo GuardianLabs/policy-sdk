@@ -2,6 +2,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { TimezoneOffset } from '../../business-hours';
 import {
   AND__factory,
+  ArtifactsGraph__factory,
   BusinessHoursValidation,
   BusinessHoursValidation__factory,
   CurrentTimestamp__factory,
@@ -150,4 +151,20 @@ export const deployBusinessHoursInstance = async (
   deploySigner: SignerWithAddress,
 ): Promise<BusinessHoursValidation> => {
   return deployWithFactory(new BusinessHoursValidation__factory(deploySigner));
+};
+
+export const deployGraphAndArtifacts = async (
+  deploySigner: SignerWithAddress,
+) => {
+  const artifacts = await deployArtifacts(deploySigner);
+
+  const artifactsGraphFactory = new ArtifactsGraph__factory(deploySigner);
+  const adminUser = deploySigner.address;
+  const artifactsGraphInstance = await artifactsGraphFactory.deploy(adminUser);
+  await artifactsGraphInstance.waitForDeployment();
+
+  return {
+    artifactsGraphInstance,
+    ...artifacts,
+  };
 };

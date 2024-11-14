@@ -1,15 +1,20 @@
+import { ExecParamsDescriptorValueType } from '../../types';
 import { duplicatedValuesArray, randomBoolean } from '../random.helper';
 import { ExecParams } from './artifact-params';
 import { DEFAULT_MOCKED_DATA_LIST_LENGTH } from './constants';
-import { ExecParamsDescriptorType, MockecExecArgumentsConfig } from './types';
+import { MockecExecArgumentsConfig, NormalizedParamType } from './types';
 
 export class MockedExecParams extends ExecParams {
   static make = (config?: MockecExecArgumentsConfig) => {
     return this.makeWithDescriptor(undefined, config);
   };
 
+  static withNormalizedArgs = (...params: Array<NormalizedParamType>) => {
+    return this.create(undefined, ...params);
+  };
+
   static makeWithDescriptor = (
-    descriptor?: ExecParamsDescriptorType,
+    descriptorValue?: ExecParamsDescriptorValueType,
     config?: MockecExecArgumentsConfig,
   ) => {
     // when 'config' not supplied, the list with length '3' is created and filled with random-booleans
@@ -18,12 +23,23 @@ export class MockedExecParams extends ExecParams {
 
     const mockedParams = duplicatedValuesArray(argsCount, defaultValue);
 
-    return this.create(descriptor, ...mockedParams);
+    return this.create(descriptorValue, ...mockedParams);
   };
 
   // the 'validateNewParam' is overrided to loose some of validations
-  protected validateNewParam(): void {
-    if (!!this.paramsDescriptor) {
+  protected validateNewParam(
+    ...params: Array<NormalizedParamType>
+  ): NormalizedParamType[] {
+    // this.omitValidations();
+    return params;
+  }
+
+  protected validateTotalParamsCount(): void {
+    this.omitValidations();
+  }
+
+  private omitValidations(): void {
+    if (!!this.argsDescriptorValue) {
       // do validations
     }
     // otherwise

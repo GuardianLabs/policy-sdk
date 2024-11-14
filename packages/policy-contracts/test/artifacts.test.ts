@@ -50,6 +50,7 @@ import {
   ExecParams,
   InitParams,
   MockedExecParams,
+  UnnormalizedExecParams,
 } from './utils/init-exec-arguments';
 
 describe('Artifacts: Pre defined', () => {
@@ -119,7 +120,11 @@ describe('Artifacts: Pre defined', () => {
   describe('Logical', () => {
     describe('AND', () => {
       it('success', async () => {
-        const exec = ExecParams.create(andArtifact, false, true);
+        const exec = await ExecParams.createWithDescriptor(
+          andArtifact,
+          false,
+          true,
+        );
         let encodedResult = await andArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, false);
@@ -144,7 +149,10 @@ describe('Artifacts: Pre defined', () => {
 
     describe('NOT', () => {
       it('success', async () => {
-        const exec = ExecParams.create(notArtifact, false);
+        const exec = UnnormalizedExecParams.create(
+          await notArtifact.getExecDescriptor(),
+          false,
+        );
         const encodedResult = await notArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
@@ -161,7 +169,10 @@ describe('Artifacts: Pre defined', () => {
 
     describe('OR', () => {
       it('success', async () => {
-        const exec = ExecParams.create(orArtifact).add(true, false);
+        const exec = (await ExecParams.createWithDescriptor(orArtifact)).add(
+          true,
+          false,
+        );
         const encodedResult = await orArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
@@ -176,7 +187,10 @@ describe('Artifacts: Pre defined', () => {
 
     describe('XOR', () => {
       it('success', async () => {
-        const exec = ExecParams.create(xorArtifact).add(true, true);
+        const exec = (await ExecParams.createWithDescriptor(xorArtifact)).add(
+          true,
+          true,
+        );
         const encodedResult = await xorArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, false);
@@ -198,7 +212,10 @@ describe('Artifacts: Pre defined', () => {
     describe('Keccak256: String', () => {
       it('success', async () => {
         const toHash = faker.commerce.product();
-        const exec = ExecParams.create(keccakStringArtifact, toHash);
+        const exec = ExecParams.create(
+          await keccakStringArtifact.getExecDescriptor(),
+          toHash,
+        );
         const encodedResult = await keccakStringArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam(
           'bytes32',
@@ -224,7 +241,10 @@ describe('Artifacts: Pre defined', () => {
     describe('Keccak256: Uint', () => {
       it('success', async () => {
         const toHash = randomUint();
-        const exec = ExecParams.create(keccakUintArtifact, toHash);
+        const exec = await ExecParams.createWithDescriptor(
+          keccakUintArtifact,
+          toHash,
+        );
         const encodedResult = await keccakUintArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam(
           'bytes32',
@@ -251,7 +271,9 @@ describe('Artifacts: Pre defined', () => {
   describe('Comparison', () => {
     describe('Greater than or equal uint', () => {
       it('success', async () => {
-        const exec = ExecParams.create(gteUintArtifact).add(10, 10);
+        const exec = ExecParams.create(
+          await gteUintArtifact.getExecDescriptor(),
+        ).add(10, 10);
         const encodedResult = await gteUintArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
@@ -271,7 +293,9 @@ describe('Artifacts: Pre defined', () => {
 
     describe('Greater than uint', () => {
       it('success', async () => {
-        const exec = ExecParams.create(gtUintArtifact).add(15, 10);
+        const exec = ExecParams.create(
+          await gtUintArtifact.getExecDescriptor(),
+        ).add(15, 10);
         const encodedResult = await gtUintArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
@@ -291,7 +315,9 @@ describe('Artifacts: Pre defined', () => {
 
     describe('Less than or equal uint', () => {
       it('success', async () => {
-        const exec = ExecParams.create(lteUintArtifact).add(10, 10);
+        const exec = ExecParams.create(
+          await lteUintArtifact.getExecDescriptor(),
+        ).add(10, 10);
         const encodedResult = await lteUintArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
@@ -312,13 +338,15 @@ describe('Artifacts: Pre defined', () => {
     describe('Less than uint', () => {
       it('success', async () => {
         let encodedResult = await ltUintArtifact.exec(
-          ExecParams.create(ltUintArtifact, 9, 10).params,
+          ExecParams.create(await ltUintArtifact.getExecDescriptor(), 9, 10)
+            .params,
         );
         let decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
 
         encodedResult = await ltUintArtifact.exec(
-          ExecParams.create(ltUintArtifact, 10, 10).params,
+          ExecParams.create(await ltUintArtifact.getExecDescriptor(), 10, 10)
+            .params,
         );
         decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, false);
@@ -340,7 +368,11 @@ describe('Artifacts: Pre defined', () => {
       it('success', async () => {
         const paramA = randomUint();
         const paramB = paramA;
-        const exec = ExecParams.create(equalUintsArtifact, paramA, paramB);
+        const exec = ExecParams.create(
+          await equalUintsArtifact.getExecDescriptor(),
+          paramA,
+          paramB,
+        );
 
         const encodedResult = await equalUintsArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -364,7 +396,11 @@ describe('Artifacts: Pre defined', () => {
         const mockedAddress = randomEthAddress();
         const paramA = SolidityAddressType.create(mockedAddress);
         const paramB = SolidityAddressType.create(mockedAddress);
-        const exec = ExecParams.create(equalAddressesArtifact, paramA, paramB);
+        const exec = ExecParams.create(
+          await equalAddressesArtifact.getExecDescriptor(),
+          paramA,
+          paramB,
+        );
 
         const encodedResult = await equalAddressesArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -387,7 +423,11 @@ describe('Artifacts: Pre defined', () => {
       it('success', async () => {
         const paramA = randomString();
         const paramB = paramA;
-        const exec = ExecParams.create(equalStringsArtifact, paramA, paramB);
+        const exec = ExecParams.create(
+          await equalStringsArtifact.getExecDescriptor(),
+          paramA,
+          paramB,
+        );
 
         const encodedResult = await equalStringsArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -411,7 +451,11 @@ describe('Artifacts: Pre defined', () => {
         const mockedBytesParams = randomHex();
         const paramA = SolidityBytesType.create(mockedBytesParams);
         const paramB = SolidityBytesType.create(mockedBytesParams);
-        const exec = ExecParams.create(equalBytesArtifact, paramA, paramB);
+        const exec = ExecParams.create(
+          await equalBytesArtifact.getExecDescriptor(),
+          paramA,
+          paramB,
+        );
 
         const encodedResult = await equalBytesArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -464,10 +508,9 @@ describe('Artifacts: Pre defined', () => {
         const incorrectParamB = 4;
         const correctParamB = 5;
 
-        const exec = ExecParams.create(isDividableUintArtifact).add(
-          paramA,
-          correctParamB,
-        );
+        const exec = (
+          await ExecParams.createWithDescriptor(isDividableUintArtifact)
+        ).add(paramA, correctParamB);
         let encodedResult = await isDividableUintArtifact.exec(exec.params);
         let decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, paramA % correctParamB === 0);
@@ -492,7 +535,9 @@ describe('Artifacts: Pre defined', () => {
 
     describe('Current timestamp', () => {
       it('success', async () => {
-        const exec = ExecParams.create();
+        const exec = await ExecParams.createWithDescriptor(
+          currentTimestampArtifact,
+        );
         const encodedResult = await currentTimestampArtifact.exec(exec.params);
         const decodedResult = solidityDecodeSingleParam(
           'uint256',
@@ -526,7 +571,7 @@ describe('Artifacts: Pre defined', () => {
         );
 
         const init = InitParams.create(
-          businessHoursArtifact,
+          await businessHoursArtifact.getInitDescriptor(),
           TIMEZONE_ID,
           trustedTimezoneSourceAddress,
           openingSeconds,
@@ -545,7 +590,7 @@ describe('Artifacts: Pre defined', () => {
         await time.increaseTo(nextOpenTime);
 
         let encodedResult = await businessHoursArtifact.exec(
-          ExecParams.create().params,
+          (await ExecParams.createWithDescriptor(businessHoursArtifact)).params,
         );
         let decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
@@ -560,7 +605,8 @@ describe('Artifacts: Pre defined', () => {
         await time.increaseTo(nextClosedTime);
 
         encodedResult = await businessHoursArtifact.exec(
-          ExecParams.create().params,
+          ExecParams.create(await businessHoursArtifact.getExecDescriptor())
+            .params,
         );
         decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, false);

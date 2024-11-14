@@ -7,7 +7,7 @@ struct Node {
     address implementationContractAddress; // address of clone artifacts
     BytesAndIndex[] partialExecData; // todo: could be 'constantsData'
     uint256 argsCount;
-    uint256[] variables; // could be something describring: position of variables supplied run-time in general variables list
+    uint256[] variables; // could be something describing: position of variables supplied run-time in general variables list
     Bytes32AndIndex[] substitutions; // could be run-time 'evaluatedVariables'
 }
 
