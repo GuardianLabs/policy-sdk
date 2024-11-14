@@ -1,106 +1,87 @@
 import { BytesLike } from 'ethers';
 import {
-  EncodedParamType,
+  ExecParamsDescriptorType,
+  ExecParamsDescriptorValueType,
+  InitParamsDescriptorType,
+  InitParamsDescriptorValueType,
+} from '../../types';
+import {
+  EncodedParamType as NormalizedParamType,
   solidityEncodeMultipleParams,
   solidityEncodeSingleParam,
 } from '../solidity-encode-decode';
-import { ExecParamsDescriptorType, InitParamsDescriptorType } from './types';
+import {
+  ExecParamsBase,
+  InitParamsBase,
+  UnnormalizedExecParamsBase,
+  UnnormalizedInitParamsBase,
+} from './base/ArtifactParamsBase';
+import { ParamsConfig, Unnormalized, UnnormalizedParamType } from './types';
+import {
+  normalizeParams,
+  unwrapUnnormalized,
+  wrapUnnormalized,
+} from './validations.helper';
 
-type ParamsConfig<T> = {
-  descriptor?: T;
-  params?: Array<EncodedParamType>;
-};
+export class InitParams extends InitParamsBase {
+  static async createWithDescriptor(
+    descriptor: InitParamsDescriptorType,
+    ...params: Array<NormalizedParamType>
+  ) {
+    const descriptorValue = await descriptor.getInitDescriptor();
 
-abstract class ArtifactParams<T> {
-  protected args: EncodedParamType[];
-  protected paramsDescriptor!: T;
-
-  protected static build<T, R>(
-    this: new (config: ParamsConfig<T>) => R,
-    config: ParamsConfig<T>,
-  ): R {
-    return new this(config);
+    return this.create(descriptorValue, ...params);
   }
 
-  constructor(config: ParamsConfig<T>) {
-    const { params } = config;
-    this.args = [];
-
-    if (!!config.descriptor) {
-      this.paramsDescriptor = config.descriptor;
-    }
-
-    if (!!params && params.length > 0) {
-      this.appendParams(...params);
-    }
-  }
-
-  add = (...params: Array<EncodedParamType>): this => {
-    this.appendParams(...params);
-
-    return this;
-  };
-
-  clear = (): this => {
-    this.args.length = 0;
-    return this;
-  };
-
-  descriptor = (newDescriptor: T): this => {
-    this.paramsDescriptor = newDescriptor;
-    return this;
-  };
-
-  public abstract get params(): Array<BytesLike> | BytesLike;
-
-  // raw (not processed) init (or exec) arguments
-  public get rawParams(): Array<EncodedParamType> {
-    return this.args;
-  }
-
-  protected appendParams = (...params: Array<EncodedParamType>): void => {
-    this.validateNewParam(...params);
-    this.args.push(...params);
-  };
-
-  protected validateNewParam(...params: Array<EncodedParamType>): void {
-    if (!this.paramsDescriptor) {
-      throw new Error('Descriptor is not set');
-    }
-  }
-}
-
-export class InitParams extends ArtifactParams<InitParamsDescriptorType> {
-  static create = (
-    descriptor?: InitParamsDescriptorType,
-    ...params: Array<EncodedParamType>
-  ) => {
-    const config: ParamsConfig<InitParamsDescriptorType> = {
-      descriptor,
+  static create(
+    descriptorValue?: InitParamsDescriptorValueType,
+    ...params: Array<NormalizedParamType>
+  ) {
+    const config: ParamsConfig<
+      InitParamsDescriptorValueType,
+      NormalizedParamType
+    > = {
+      paramsDescriptorValue: descriptorValue,
       params,
     };
     return this.build(config);
-  };
+  }
 
   // processed init arguments
   public get params(): BytesLike {
+    this.validateTotalParamsCount();
+
     const processdArgs = solidityEncodeMultipleParams(...this.args);
 
     return processdArgs;
   }
 
-  protected validateNewParam(...params: Array<EncodedParamType>): void {
-    super.validateNewParam(...params);
+  protected normalizeParams(
+    params: Array<NormalizedParamType>,
+  ): Array<NormalizedParamType> {
+    return params;
   }
 }
 
-export class ExecParams extends ArtifactParams<ExecParamsDescriptorType> {
-  static create(
-    descriptor?: ExecParamsDescriptorType,
-    ...params: Array<EncodedParamType>
+export class ExecParams extends ExecParamsBase {
+  static async createWithDescriptor(
+    descriptor: ExecParamsDescriptorType,
+    ...params: Array<NormalizedParamType>
   ) {
-    const config: ParamsConfig<ExecParamsDescriptorType> = {
-      descriptor,
+    const descriptorValue = await descriptor.getExecDescriptor();
+
+    return this.create(descriptorValue, ...params);
+  }
+
+  static create(
+    descriptorValue?: ExecParamsDescriptorValueType,
+    ...params: Array<NormalizedParamType>
+  ) {
+    const config: ParamsConfig<
+      ExecParamsDescriptorValueType,
+      NormalizedParamType
+    > = {
+      paramsDescriptorValue: descriptorValue,
       params,
     };
     return this.build(config);
@@ -108,6 +89,8 @@ export class ExecParams extends ArtifactParams<ExecParamsDescriptorType> {
 
   // processed exec arguments
   public get params(): Array<BytesLike> {
+    this.validateTotalParamsCount();
+
     const processdArgs: BytesLike[] = this.args.map((v) =>
       solidityEncodeSingleParam(v),
     );
@@ -117,7 +100,117 @@ export class ExecParams extends ArtifactParams<ExecParamsDescriptorType> {
 
   // note: consume only a "method notation" when accessing parent class method, not "arrow function"; as well as in parent class
   // otherwise it will not override parent method
-  protected validateNewParam(...params: Array<EncodedParamType>): void {
-    super.validateNewParam(...params);
+  // protected validateNewParam(...params: Array<EncodedParamType>): void {
+  //   super.validateNewParam(...params);
+  // }
+
+  protected normalizeParams(
+    params: Array<NormalizedParamType>,
+  ): Array<NormalizedParamType> {
+    return params;
+  }
+}
+
+export class UnnormalizedExecParams extends UnnormalizedExecParamsBase {
+  static async createWithDescriptor(
+    descriptor: ExecParamsDescriptorType,
+    ...params: Array<Unnormalized>
+  ) {
+    const descriptorValue = await descriptor.getExecDescriptor();
+
+    return this.create(descriptorValue, ...params);
+  }
+
+  static create(
+    descriptorValue?: ExecParamsDescriptorValueType,
+    ...params: Array<Unnormalized>
+  ) {
+    // this is needed just in case type guard facilitation
+    const wrappedParams = wrapUnnormalized(params);
+
+    const config: ParamsConfig<
+      ExecParamsDescriptorValueType,
+      UnnormalizedParamType
+    > = {
+      paramsDescriptorValue: descriptorValue,
+      params: wrappedParams,
+    };
+    return this.build(config);
+  }
+
+  public get params(): Array<BytesLike> {
+    this.validateTotalParamsCount();
+
+    const processdArgs: BytesLike[] = this.args.map((v) =>
+      solidityEncodeSingleParam(v),
+    );
+
+    return processdArgs;
+  }
+
+  // note: consume only a "method notation" when accessing parent class method, not "arrow function"; as well as in parent class
+  // otherwise it will not override parent method
+  // protected validateNewParam(...params: Array<EncodedParamType>): void {
+  //   super.validateNewParam(...params);
+  // }
+
+  protected normalizeParams(
+    params: Array<UnnormalizedParamType>,
+  ): Array<NormalizedParamType> {
+    const unwrappedParams: Array<Unnormalized> = unwrapUnnormalized(params);
+
+    return normalizeParams(
+      this.expectedTypes,
+      this.args.length,
+      unwrappedParams,
+    );
+  }
+}
+
+export class UnnormalizedInitParams extends UnnormalizedInitParamsBase {
+  static async createWithDescriptor(
+    descriptor: InitParamsDescriptorType,
+    ...params: Array<Unnormalized>
+  ) {
+    const descriptorValue = await descriptor.getInitDescriptor();
+
+    return this.create(descriptorValue, ...params);
+  }
+
+  static create(
+    descriptorValue?: InitParamsDescriptorValueType,
+    ...params: Array<Unnormalized>
+  ) {
+    // this is needed just in case type guard facilitation
+    const wrappedParams = wrapUnnormalized(params);
+
+    const config: ParamsConfig<
+      InitParamsDescriptorValueType,
+      UnnormalizedParamType
+    > = {
+      paramsDescriptorValue: descriptorValue,
+      params: wrappedParams,
+    };
+    return this.build(config);
+  }
+
+  public get params(): BytesLike {
+    this.validateTotalParamsCount();
+
+    const processdArgs = solidityEncodeMultipleParams(...this.args);
+
+    return processdArgs;
+  }
+
+  protected normalizeParams(
+    params: Array<UnnormalizedParamType>,
+  ): Array<NormalizedParamType> {
+    const unwrappedParams: Array<Unnormalized> = unwrapUnnormalized(params);
+
+    return normalizeParams(
+      this.expectedTypes,
+      this.args.length,
+      unwrappedParams,
+    );
   }
 }

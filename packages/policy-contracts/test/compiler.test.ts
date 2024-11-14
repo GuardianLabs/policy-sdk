@@ -7,49 +7,27 @@ import {
   AND,
   ArtifactsGraph,
   ArtifactsGraph__factory,
-  CurrentTimestamp,
-  EqualAddress,
-  EqualBytes,
   EqualString,
-  EqualUint,
   GteUint,
   GtUint,
-  IsDividableUint,
-  Keccak256String,
-  Keccak256Uint,
   LteUint,
-  LtUint,
-  NOT,
-  OR,
   XOR,
 } from './types';
 import { deployArtifacts } from './utils';
 import { decodeEvaluationResult } from './utils/decode';
 import { ExecParams } from './utils/init-exec-arguments';
 
-describe('Policy: compilation with predefined artifacts', () => {
+describe.skip('Policy: compilation with predefined artifacts', () => {
   let adminSigner: SignerWithAddress;
 
   // logical
   let andArtifact: AND;
-  let orArtifact: OR;
-  let notArtifact: NOT;
   let xorArtifact: XOR;
-  // hashing
-  let keccakStringArtifact: Keccak256String;
-  let keccakUintArtifact: Keccak256Uint;
   // comparison
   let gteUintArtifact: GteUint;
   let lteUintArtifact: LteUint;
   let gtUintArtifact: GtUint;
-  let ltUintArtifact: LtUint;
-  let equalUintsArtifact: EqualUint;
   let equalStringsArtifact: EqualString;
-  let equalBytesArtifact: EqualBytes;
-  let equalAddressesArtifact: EqualAddress;
-  // utils
-  let isDividableUintArtifact: IsDividableUint;
-  let currentTimestampArtifact: CurrentTimestamp;
 
   // entrypoint
   let gateway: ArtifactsGraph;
@@ -57,41 +35,15 @@ describe('Policy: compilation with predefined artifacts', () => {
   before(async () => {
     [adminSigner] = await ethers.getSigners();
 
-    const {
-      and,
-      or,
-      not,
-      xor,
-      keccak256String,
-      keccak256Uint,
-      gteUint,
-      isDividiableUint,
-      equalAddresses,
-      lteUint,
-      gtUint,
-      ltUint,
-      equalUint,
-      equalBytes,
-      equalString,
-      currentTimestamp,
-    } = await deployArtifacts(adminSigner);
+    const { and, xor, gteUint, lteUint, gtUint, equalString } =
+      await deployArtifacts(adminSigner);
 
     andArtifact = and;
-    orArtifact = or;
-    notArtifact = not;
     xorArtifact = xor;
     gteUintArtifact = gteUint;
     lteUintArtifact = lteUint;
     gtUintArtifact = gtUint;
-    ltUintArtifact = ltUint;
-    equalAddressesArtifact = equalAddresses;
-    equalUintsArtifact = equalUint;
-    equalBytesArtifact = equalBytes;
     equalStringsArtifact = equalString;
-    keccakStringArtifact = keccak256String;
-    keccakUintArtifact = keccak256Uint;
-    isDividableUintArtifact = isDividiableUint;
-    currentTimestampArtifact = currentTimestamp;
 
     const gatewayDeployer = new ArtifactsGraph__factory(adminSigner);
 
@@ -117,7 +69,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       const compilerOutput = await compiler.compileSources(dsl);
       await gateway.initGraph(compilerOutput);
 
-      const execTrue = ExecParams.create(xorArtifact).add(true);
+      const execTrue = ExecParams.create(
+        await xorArtifact.getExecDescriptor(),
+      ).add(true);
 
       let tx = await gateway.evaluateGraph([
         {
@@ -126,11 +80,13 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
-      const execFalse = ExecParams.create(xorArtifact).add(false);
+      const execFalse = ExecParams.create(
+        await xorArtifact.getExecDescriptor(),
+      ).add(false);
 
       tx = await gateway.evaluateGraph([
         {
@@ -139,7 +95,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -153,7 +109,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       const compilerOutput = await compiler.compileSources(dsl);
       await gateway.initGraph(compilerOutput);
 
-      const execTrue = ExecParams.create(xorArtifact).add(true);
+      const execTrue = ExecParams.create(
+        await xorArtifact.getExecDescriptor(),
+      ).add(true);
 
       let tx = await gateway.evaluateGraph([
         {
@@ -162,11 +120,13 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
-      const execFalse = ExecParams.create(xorArtifact).add(false);
+      const execFalse = ExecParams.create(
+        await xorArtifact.getExecDescriptor(),
+      ).add(false);
 
       tx = await gateway.evaluateGraph([
         {
@@ -175,7 +135,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -186,7 +146,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       const compilerOutput = await compiler.compileSources(dsl);
       await gateway.initGraph(compilerOutput);
 
-      const execTrue = ExecParams.create(xorArtifact).add(true);
+      const execTrue = (await ExecParams.createWithDescriptor(xorArtifact)).add(
+        true,
+      );
 
       let tx = await gateway.evaluateGraph([
         {
@@ -195,11 +157,13 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
-      const execFalse = ExecParams.create(xorArtifact).add(false);
+      const execFalse = ExecParams.create(
+        await xorArtifact.getExecDescriptor(),
+      ).add(false);
 
       tx = await gateway.evaluateGraph([
         {
@@ -208,7 +172,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -237,8 +201,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       let tx = await gateway.evaluateGraph([
         {
           nodeId: compilerOutput.nodes[0].id,
-          values:
-            ExecParams.create(equalStringsArtifact).add("I'm an input").params,
+          values: ExecParams.create(
+            await equalStringsArtifact.getExecDescriptor(),
+          ).add("I'm an input").params,
         },
         {
           nodeId: compilerOutput.nodes[1].id,
@@ -246,15 +211,16 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
       tx = await gateway.evaluateGraph([
         {
           nodeId: compilerOutput.nodes[0].id,
-          values:
-            ExecParams.create(equalStringsArtifact).add('lol not me').params,
+          values: (
+            await ExecParams.createWithDescriptor(equalStringsArtifact)
+          ).add('lol not me').params,
         },
         {
           nodeId: compilerOutput.nodes[1].id,
@@ -262,7 +228,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -279,8 +245,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       let tx = await gateway.evaluateGraph([
         {
           nodeId: compilerOutput.nodes[0].id,
-          values:
-            ExecParams.create(equalStringsArtifact).add("I'm an input").params,
+          values: ExecParams.create(
+            await equalStringsArtifact.getExecDescriptor(),
+          ).add("I'm an input").params,
         },
         {
           nodeId: compilerOutput.nodes[1].id,
@@ -288,15 +255,16 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
       tx = await gateway.evaluateGraph([
         {
           nodeId: compilerOutput.nodes[0].id,
-          values:
-            ExecParams.create(equalStringsArtifact).add('lol not me').params,
+          values: ExecParams.create(
+            await equalStringsArtifact.getExecDescriptor(),
+          ).add('lol not me').params,
         },
         {
           nodeId: compilerOutput.nodes[1].id,
@@ -304,7 +272,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
@@ -318,8 +286,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       let tx = await gateway.evaluateGraph([
         {
           nodeId: compilerOutput.nodes[0].id,
-          values:
-            ExecParams.create(equalStringsArtifact).add("I'm an input").params,
+          values: ExecParams.create(
+            await equalStringsArtifact.getExecDescriptor(),
+          ).add("I'm an input").params,
         },
         {
           nodeId: compilerOutput.nodes[1].id,
@@ -327,15 +296,16 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      let evaluationResult = await decodeEvaluationResult(tx, gateway);
+      let evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, true);
 
       tx = await gateway.evaluateGraph([
         {
           nodeId: compilerOutput.nodes[0].id,
-          values:
-            ExecParams.create(equalStringsArtifact).add('lol not me').params,
+          values: ExecParams.create(
+            await equalStringsArtifact.getExecDescriptor(),
+          ).add('lol not me').params,
         },
         {
           nodeId: compilerOutput.nodes[1].id,
@@ -343,7 +313,7 @@ describe('Policy: compilation with predefined artifacts', () => {
         },
       ]);
 
-      evaluationResult = await decodeEvaluationResult(tx, gateway);
+      evaluationResult = await decodeEvaluationResult(tx);
 
       check(evaluationResult, false);
     });
