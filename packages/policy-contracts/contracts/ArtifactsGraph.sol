@@ -16,7 +16,7 @@ contract ArtifactsGraph is OwnerBase {
     ArtifactNodes private graph;
     bytes32 private rootNodeId;
 
-    event EvaluationResult(bool result);
+    event Evaluated(bool indexed result, bytes32 indexed rootNode);
 
     constructor(address _adminUser) OwnerBase(_adminUser) {}
 
@@ -72,8 +72,8 @@ contract ArtifactsGraph is OwnerBase {
         // note: implicitness
         bool decodedResult = abi.decode(encodedResult, (bool));
 
-        emit EvaluationResult(decodedResult);
-
         result = decodedResult;
+
+        emit Evaluated(result, rootNodeId);
     }
 }

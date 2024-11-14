@@ -16,7 +16,7 @@ import {
   TrustedTimezoneOffsetSource,
 } from './';
 
-describe('Business Hours', () => {
+describe('Business Hours artifact', () => {
   const TIMEZONE_ID: string = 'Europe/Kyiv';
   const timezoneOffset: number = 2 * 60;
   const timezoneOffsetIsNegative = false;
@@ -85,7 +85,9 @@ describe('Business Hours', () => {
         await trustedTimezoneOffsetSourceInstance.getAddress(),
       );
 
-      const init = InitParams.create(businessHoursInstance).add(
+      const init = InitParams.create(
+        await businessHoursInstance.getInitDescriptor(),
+      ).add(
         TIMEZONE_ID,
         trustedTimezoneSourceAddress,
         openingSecondsUint24List,
@@ -136,7 +138,9 @@ describe('Business Hours', () => {
         openingSecondsUint24List.uintArray[0] = 5;
         closingSecondsUint24List.uintArray[0] = 4;
 
-        const init = InitParams.create(businessHoursInstance).add(
+        const init = InitParams.create(
+          await businessHoursInstance.getInitDescriptor(),
+        ).add(
           TIMEZONE_ID,
           trustedTimezoneSourceAddress,
           openingSecondsUint24List,
@@ -151,7 +155,9 @@ describe('Business Hours', () => {
         openingSecondsUint24List.uintArray[0] = 40;
         closingSecondsUint24List.uintArray[0] = 50;
 
-        const init = InitParams.create(businessHoursInstance).add(
+        const init = InitParams.create(
+          await businessHoursInstance.getInitDescriptor(),
+        ).add(
           TIMEZONE_ID,
           trustedTimezoneSourceAddress,
           openingSecondsUint24List,
@@ -166,7 +172,9 @@ describe('Business Hours', () => {
         openingSecondsUint24List.uintArray[0] = 40;
         closingSecondsUint24List.uintArray[0] = 86401;
 
-        const init = InitParams.create(businessHoursInstance).add(
+        const init = InitParams.create(
+          await businessHoursInstance.getInitDescriptor(),
+        ).add(
           TIMEZONE_ID,
           trustedTimezoneSourceAddress,
           openingSecondsUint24List,
