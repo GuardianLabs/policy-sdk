@@ -1,3 +1,5 @@
+import { InstanceConfig } from '../../../dsl/transpiler/state';
+
 export enum Type {
   Uint256 = 'uint256',
   String = 'string',
@@ -28,6 +30,14 @@ export const DSLTypesMapping = {
   [DSLType.Bool]: Type.Bool,
   [DSLType.String]: Type.String,
   [DSLType.Bytes]: Type.Bytes,
+};
+
+export type ValidationMiddlware = {
+  innerValidations: (
+    artifactAddress: string,
+    currentInstanceConfig: InstanceConfig,
+  ) => Promise<void>;
+  outerValidations: (output: ParsingResult[]) => Promise<void>;
 };
 
 export type ParsingResult = {
