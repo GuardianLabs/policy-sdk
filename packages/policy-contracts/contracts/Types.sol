@@ -8,6 +8,7 @@ struct Node {
     BytesAndIndex[] partialExecData; // todo: could be 'constantsData'
     uint256 argsCount;
     uint256[] variables; // could be something describring: position of variables supplied run-time in general variables list
+    StringAndIndex[] injections;
     Bytes32AndIndex[] substitutions; // could be run-time 'evaluatedVariables'
 }
 
@@ -18,6 +19,10 @@ struct CacheRecord {
 
 struct Bytes32AndIndex {
     bytes32 value;
+    uint256 index;
+}
+struct StringAndIndex {
+    string value;
     uint256 index;
 }
 
@@ -37,6 +42,7 @@ struct TreeNodeInitParams {
     uint256 argsCount;
     BytesAndIndex[] partialExecData;
     uint256[] variables;
+    StringAndIndex[] injections;
     Bytes32AndIndex[] substitutions;
     bytes initData;
     bool needsInitialization;
@@ -49,7 +55,10 @@ struct Variables {
 
 struct NamedTypedVariables {
     bytes32 nodeId;
+    uint256 nodeIndex;
+    address artifactAddress;
     Argument[] variables;
+    StringAndIndex[] injections;
 }
 
 struct Argument {
