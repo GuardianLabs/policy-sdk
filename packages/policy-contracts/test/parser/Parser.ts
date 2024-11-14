@@ -15,7 +15,7 @@ export class Parser {
   };
 
   // note: This expects String of intermediate-representation of artifacts and their relations.
-  // The string value is validate in processor and/or extractor
+  // The string value is validated in ParserBase, Extractor
   constructor(
     private getDescriptors: GetDescriptors,
     private intermediatePresentation: string,

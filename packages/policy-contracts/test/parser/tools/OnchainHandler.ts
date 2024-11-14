@@ -34,6 +34,8 @@ export class OnchainHandler implements IOnchainHandler {
       artifactAddress,
       this.provider,
     );
+
+    return this;
   };
 
   getDescriptors = async (instanceAddress: string): Promise<Descriptors> => {
