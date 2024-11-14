@@ -5,7 +5,7 @@ import {
 } from 'ethers';
 
 export const decodeEvaluationResult = async (
-  txResponse: ContractTransactionResponse
+  txResponse: ContractTransactionResponse,
 ): Promise<boolean> => {
   // Wait for the transaction to be mined
   const receipt: ContractTransactionReceipt = <ContractTransactionReceipt>(
@@ -23,4 +23,4 @@ export const decodeEvaluationResult = async (
   } else {
     throw new Error('Evaluated event not found in transaction logs');
   }
-}
+};
