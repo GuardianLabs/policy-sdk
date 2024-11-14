@@ -30,7 +30,7 @@ contract ArtifactsGraph is OwnerBase {
 
     // todo: verify the following:
     // initGraph' is a way to add more than one graph??
-    function initGraph(GraphInitParams memory params) public onlyOwner returns(address) {
+    function initGraph(GraphInitParams memory params) public onlyOwner returns (address) {
         // note: solves https://ethereum.stackexchange.com/questions/142102/solidity-1024-call-stack-depth as ad-hoc
         // todo: bring instead sophisticated check
         require(

@@ -3,7 +3,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ZeroAddress, ZeroHash } from 'ethers';
 import { ethers } from 'hardhat';
-import { IntermediatePresentationParser, nodeId } from './parser';
+import { IntermediateRepresentationParser, nodeId } from './parser';
 import { SolidityAddressType, SolidityBytesType } from './solidity-types';
 import {
   AND,
@@ -30,7 +30,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
     let andArtifact: AND;
     let xorArtifact: XOR;
 
-    let intermediatePresentation: string;
+    let intermediateRepresentation: string;
     let andNode: string;
     let xorNode: string;
 
@@ -53,19 +53,19 @@ describe('Artifacts Graph: Base-usage flow', () => {
       //     variable1
       //     true
       //   variable2
-      intermediatePresentation = `
+      intermediateRepresentation = `
       ${AND_NODE}
       ${XOR_NODE}
       `;
-      console.log(intermediatePresentation);
+      console.log(intermediateRepresentation);
 
       andNode = nodeId(AND_NODE, 0);
       xorNode = nodeId(XOR_NODE, 1);
     });
 
     it('should succefully evaluate "(variable1 ^ true) && variable2"', async () => {
-      const parser = IntermediatePresentationParser.build(
-        intermediatePresentation,
+      const parser = IntermediateRepresentationParser.build(
+        intermediateRepresentation,
         adminSigner,
       );
 
@@ -109,7 +109,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
     let equalAddressArtifact: EqualAddress;
     let isDividableUintArtifact: IsDividableUint;
 
-    let intermediatePresentation: string;
+    let intermediateRepresentation: string;
     let equalAddressNodeId: string;
     let isDividableUintNodeId: string;
     let equalStringsNodeId: string;
@@ -156,7 +156,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
       )}|) <>`;
 
       // condition: randomAddress == address(0) && number % 2 == 0 || h(string) == h("reference") || !(bytes == 0x)
-      intermediatePresentation = `
+      intermediateRepresentation = `
       ${OR2_NODE}
       ${OR1_NODE}
       ${AND_NODE}
@@ -166,7 +166,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
       ${IS_DIVIDABLE_NODE}
       ${EQUAL_ADDRESS_NODE}
       `;
-      console.log(intermediatePresentation);
+      console.log(intermediateRepresentation);
 
       equalAddressNodeId = nodeId(EQUAL_ADDRESS_NODE, 7);
       isDividableUintNodeId = nodeId(IS_DIVIDABLE_NODE, 6);
@@ -179,8 +179,8 @@ describe('Artifacts Graph: Base-usage flow', () => {
     });
 
     it('should evaluate successfully', async () => {
-      const paser = IntermediatePresentationParser.build(
-        intermediatePresentation,
+      const paser = IntermediateRepresentationParser.build(
+        intermediateRepresentation,
         adminSigner,
       );
       const rootNode = or2NodeId;

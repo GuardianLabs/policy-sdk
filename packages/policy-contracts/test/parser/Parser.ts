@@ -6,23 +6,23 @@ import { GetDescriptors, IOnchainHandler } from './types';
 
 export class Parser {
   static build = (
-    intermediatePresentation: string,
+    intermediateRepresentation: string,
     providerOrHandler: ContractRunner | IOnchainHandler,
   ): Parser => {
     const getDescrpiptors = prepareGetDescriptors(providerOrHandler);
 
-    return new Parser(getDescrpiptors, intermediatePresentation);
+    return new Parser(getDescrpiptors, intermediateRepresentation);
   };
 
   // note: This expects String of intermediate-representation of artifacts and their relations.
   // The string value is validated in ParserBase, Extractor
   constructor(
     private getDescriptors: GetDescriptors,
-    private intermediatePresentation: string,
+    private intermediateRepresentation: string,
   ) {}
 
   private get unprocessedArtifacts(): Array<string> {
-    return toUnprocessedArtifactsList(this.intermediatePresentation);
+    return toUnprocessedArtifactsList(this.intermediateRepresentation);
   }
 
   // note:
