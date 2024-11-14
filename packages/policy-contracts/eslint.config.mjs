@@ -30,6 +30,8 @@ export default [
     "plugin:prettier/recommended",
     "plugin:n/recommended",
     "plugin:promise/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
   ),
   {
     plugins: {
@@ -54,7 +56,7 @@ export default [
         project: "./tsconfig.lint.json",
       },
       ecmaVersion: 14,
-      sourceType: "commonjs",
+      sourceType: "module",
     },
 
     rules: {
@@ -72,16 +74,16 @@ export default [
         },
       ],
 
+      "import/no-dynamic-require": 2,
+      "import/no-unresolved": 1,
+      "import/no-nodejs-modules": "warn",
+      "import/first": 1,
+
       "n/no-unpublished-import": "off",
 
       "unused-imports/no-unused-imports": "error",
 
-      "n/no-missing-import": [
-        "error",
-        {
-          tryExtensions: [".ts"],
-        },
-      ],
+      "n/no-missing-import": "off",
 
       "prettier/prettier": [
         "error",

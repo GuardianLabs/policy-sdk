@@ -1,5 +1,5 @@
-export * from '../../src';
 import { ArtifactBase } from '../../src';
+export * from '../../src';
 
 export type ExecParamsDescriptorValueType = Awaited<
   ReturnType<ArtifactBase['getExecDescriptor']>
