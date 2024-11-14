@@ -23,6 +23,7 @@ contract EqualAddress is ArtifactBase {
         uint256 argsLength = 2;
 
         argsNames = new string[](argsLength);
+
         argsNames[0] = "argA";
         argsNames[1] = "argB";
 

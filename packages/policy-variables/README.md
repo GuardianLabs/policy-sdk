@@ -1,0 +1,1 @@
+pnpm compile ./sources/DummyValid.lac
