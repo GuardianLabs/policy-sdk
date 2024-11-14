@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
-import { ZeroAddress } from 'ethers';
+import { ZeroAddress, ZeroHash } from 'ethers';
 import { ethers } from 'hardhat';
 import { IntermediatePresentationParser, nodeId } from './parser';
 import { SolidityAddressType, SolidityBytesType } from './solidity-types';
@@ -12,7 +12,6 @@ import {
   EqualBytes,
   EqualString,
   IsDividableUint,
-  Keccak256String,
   NOT,
   OR,
   XOR,
@@ -24,8 +23,8 @@ const xor = (argA: boolean, argB: boolean) => {
   return (argA || argB) && !(argA && argB);
 };
 
-describe.only('Artifacts Graph: Base-usage flow', () => {
-  describe.only('Evaluate simple condition', () => {
+describe('Artifacts Graph: Base-usage flow', () => {
+  describe('Evaluate simple condition', () => {
     let adminSigner: SignerWithAddress;
     let graph: ArtifactsGraph;
     let andArtifact: AND;
@@ -72,8 +71,6 @@ describe.only('Artifacts Graph: Base-usage flow', () => {
 
       const rootNode = andNode;
 
-      // console.log((await parser.process())[0]);
-      // console.log((await parser.process())[1]);
       await graph.initGraph({
         rootNode,
         nodes: await parser.process(),
@@ -92,6 +89,7 @@ describe.only('Artifacts Graph: Base-usage flow', () => {
         },
       ];
 
+      // TestSuite(adminSigner, gatewayInstance, intermedatePresentation).pushArgs(...args).evaluate(assertionHelpers)
       const tx = graph.evaluateGraph(variables);
 
       await expect(tx)
@@ -106,23 +104,20 @@ describe.only('Artifacts Graph: Base-usage flow', () => {
     let andArtifact: AND;
     let orArtifact: OR;
     let notArtifact: NOT;
-    let hashStringsArtifact: Keccak256String;
     let equalStringArtifact: EqualString;
     let equalBytesArtifact: EqualBytes;
     let equalAddressArtifact: EqualAddress;
     let isDividableUintArtifact: IsDividableUint;
 
-    let eqlAddrNodeId: string;
-    let dividable_node_id: string;
-    let eqlStrNodeId: string;
-    let hashNodeId: string;
-    let eqlBytesNodeId: string;
+    let intermediatePresentation: string;
+    let equalAddressNodeId: string;
+    let isDividableUintNodeId: string;
+    let equalStringsNodeId: string;
+    let equalBytesNodeId: string;
     let notNodeId: string;
     let andNodeId: string;
     let or1NodeId: string;
     let or2NodeId: string;
-
-    let intermediatePresentation: string;
 
     before(async () => {
       [adminSigner] = await ethers.getSigners();
@@ -136,95 +131,82 @@ describe.only('Artifacts Graph: Base-usage flow', () => {
         equalString: equalStringArtifact,
         equalBytes: equalBytesArtifact,
         isDividiableUint: isDividableUintArtifact,
-        keccak256String: hashStringsArtifact,
       } = await deployGraphAndArtifacts(adminSigner));
 
-      /*
-      address == address(0) && number % 2 == 0 || hash(string) == h("reference") || !(bytes == 0x)
-      */
       const EQUAL_ADDRESS_NODE = `{${await equalAddressArtifact.getAddress()}} (varAddress,${ZeroAddress}) <>`;
       const IS_DIVIDABLE_NODE = `{${await isDividableUintArtifact.getAddress()}} (varNumber,${2}) <>`;
-      const HASH_STRING_NODE = `{${await hashStringsArtifact.getAddress()}} (varString) <>`;
-      const eql_str_node = `{${await equalStringArtifact.getAddress()}} (|${nodeId(
-        HASH_STRING_NODE,
-        6,
-      )}|,${'"reference"'}) <>`;
-      const eql_bytes_node = `{${await equalBytesArtifact.getAddress()}} (varBytes,${ZeroAddress}) <>`;
-      const not_node = `{${await notArtifact.getAddress()}} (|${nodeId(
-        eql_bytes_node,
+      // const HASH_STRING_NODE = `{${await hashStringArtifact.getAddress()}} (varString) <>`;
+      const EQUAL_STRING_NODE = `{${await equalStringArtifact.getAddress()}} (varString,${'"reference"'}) <>`;
+      const EQUAL_BYTES_NODE = `{${await equalBytesArtifact.getAddress()}} (varBytes,${ZeroHash}) <>`;
+      const NOT_NODE = `{${await notArtifact.getAddress()}} (|${nodeId(
+        EQUAL_BYTES_NODE,
         4,
       )}|) <>`;
-      const and1_node = `{${await andArtifact.getAddress()}} (|${nodeId(
+      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeId(
         EQUAL_ADDRESS_NODE,
-        8,
-      )}|,|${nodeId(IS_DIVIDABLE_NODE, 7)}|) <>`;
-      const or1_node = `{${await orArtifact.getAddress()}} (|${nodeId(and1_node, 2)}|,|${nodeId(
-        eql_str_node,
+        7,
+      )}|,|${nodeId(IS_DIVIDABLE_NODE, 6)}|) <>`;
+      const OR1_NODE = `{${await orArtifact.getAddress()}} (|${nodeId(AND_NODE, 2)}|,|${nodeId(
+        EQUAL_STRING_NODE,
         5,
       )}|) <>`;
-      const or2_node = `{${await orArtifact.getAddress()}} (|${nodeId(or1_node, 1)}|,|${nodeId(
-        not_node,
+      const OR2_NODE = `{${await orArtifact.getAddress()}} (|${nodeId(OR1_NODE, 1)}|,|${nodeId(
+        NOT_NODE,
         3,
       )}|) <>`;
 
+      // condition: randomAddress == address(0) && number % 2 == 0 || h(string) == h("reference") || !(bytes == 0x)
       intermediatePresentation = `
-      ${or2_node}
-      ${or1_node}
-      ${and1_node}
-      ${not_node}
-      ${eql_bytes_node}
-      ${eql_str_node}
-      ${HASH_STRING_NODE}
+      ${OR2_NODE}
+      ${OR1_NODE}
+      ${AND_NODE}
+      ${NOT_NODE}
+      ${EQUAL_BYTES_NODE}
+      ${EQUAL_STRING_NODE}
       ${IS_DIVIDABLE_NODE}
       ${EQUAL_ADDRESS_NODE}
       `;
+      console.log(intermediatePresentation);
 
-      const rootNode = or2NodeId;
+      equalAddressNodeId = nodeId(EQUAL_ADDRESS_NODE, 7);
+      isDividableUintNodeId = nodeId(IS_DIVIDABLE_NODE, 6);
+      equalStringsNodeId = nodeId(EQUAL_STRING_NODE, 5);
+      equalBytesNodeId = nodeId(EQUAL_BYTES_NODE, 4);
+      notNodeId = nodeId(NOT_NODE, 3);
+      andNodeId = nodeId(AND_NODE, 2);
+      or1NodeId = nodeId(OR1_NODE, 1);
+      or2NodeId = nodeId(OR2_NODE, 0);
+    });
+
+    it('should evaluate successfully', async () => {
       const paser = IntermediatePresentationParser.build(
         intermediatePresentation,
         adminSigner,
       );
-      // const intermadiatePresentation = await parseAndExtend(dsl, signer);
-
+      const rootNode = or2NodeId;
       await graph.initGraph({
         rootNode,
         nodes: await paser.process(),
       });
 
-      eqlAddrNodeId = nodeId(EQUAL_ADDRESS_NODE, 8);
-      dividable_node_id = nodeId(IS_DIVIDABLE_NODE, 7);
-      eqlStrNodeId = nodeId(eql_str_node, 5);
-      eqlBytesNodeId = nodeId(eql_bytes_node, 4);
-      notNodeId = nodeId(not_node, 3);
-      andNodeId = nodeId(and1_node, 2);
-      or1NodeId = nodeId(or1_node, 1);
-      or2NodeId = nodeId(or2_node, 0);
-      hashNodeId = nodeId(HASH_STRING_NODE, 6);
-    });
-
-    it('should eveluate successfully', async () => {
-      // 0xrandom == address(0) && 4 % 2 == 0 || hash("ref") == h("reference") || !(0xdead == 0x) === true
+      // randomAddress == address(0) && 4 % 2 == 0 || h("ref") == h("reference") || !(0xdead == 0x) === true
       const variables = [
         {
-          nodeId: eqlAddrNodeId,
+          nodeId: equalAddressNodeId,
           values: MockedExecParams.withNormalizedArgs(
             SolidityAddressType.create(faker.finance.ethereumAddress()),
           ).params,
         },
         {
-          nodeId: dividable_node_id,
+          nodeId: isDividableUintNodeId,
           values: MockedExecParams.withNormalizedArgs(4).params,
         },
         {
-          nodeId: eqlStrNodeId,
-          values: [],
-        },
-        {
-          nodeId: hashNodeId,
+          nodeId: equalStringsNodeId,
           values: MockedExecParams.withNormalizedArgs('ref').params,
         },
         {
-          nodeId: eqlBytesNodeId,
+          nodeId: equalBytesNodeId,
           values: MockedExecParams.withNormalizedArgs(
             SolidityBytesType.create('0xdead'),
           ).params,
@@ -246,8 +228,6 @@ describe.only('Artifacts Graph: Base-usage flow', () => {
           values: [],
         },
       ];
-
-      const rootNode = or2NodeId;
 
       const tx = graph.evaluateGraph(variables);
 
