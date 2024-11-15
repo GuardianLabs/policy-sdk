@@ -1,3 +1,4 @@
+import { VariableNodeNotFoundError } from "../errors";
 import { AllowedVariablesType, FilledVariables, IAsyncMapGetter, VariablesFormattedDescription } from "../types";
 
 export class VariablesInserter implements IAsyncMapGetter<AllowedVariablesType> {
@@ -22,7 +23,7 @@ export class VariablesInserter implements IAsyncMapGetter<AllowedVariablesType> 
 
     public insert(variableUniqueName: string, value: AllowedVariablesType) {
         const targetNodeId = this.nameToNodeId.get(variableUniqueName);
-        if(!targetNodeId) throw new Error();
+        if(!targetNodeId) throw new VariableNodeNotFoundError(variableUniqueName);
 
         this.variablesValues.get(targetNodeId)?.push({
             index: this.nameToVariableIndex.get(variableUniqueName)!,

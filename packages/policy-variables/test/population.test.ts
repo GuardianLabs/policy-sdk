@@ -1,26 +1,30 @@
-import { AllowedVariablesType } from "../src/types";
-import { ArtifactNodes__factory } from "../../policy-contracts/src/typechain/factories/contracts/ArtifactNodes__factory";
-import { VariablesPopulator } from "../src/population";
+import { VariablesPopulator, AllowedVariablesType } from "../src";
+import { NamedTypedVariablesStructOutput } from "../../policy-contracts/src/typechain/contracts/ArtifactNodes";
 
-async function main() {
-    const graph = ArtifactNodes__factory.connect("");
-    const varsOutput = await graph.getVariablesList();
+describe("Variables population minimal flow", () => {
+    let rawOnchainVariables: NamedTypedVariablesStructOutput[];
 
-    let attributes: Map<string, AllowedVariablesType> = new Map();
+    before(async () => {
 
-    attributes.set("allowance", 13_000);
-    attributes.set("magic_hash", "0xdeadbeef");
-    attributes.set("IS_DEC", false);
+    });
 
-    const vars = new VariablesPopulator(varsOutput);
+    it("insertion and injection", async () => {
+        let attributes: Map<string, AllowedVariablesType> = new Map();
 
-    vars.insert("username", "Admin");
-    vars.insert("timestamp_login", 11111111111);
-    vars.insert("isAdmin", true);
+        attributes.set("allowance", 13_000);
+        attributes.set("magic_hash", "0xdeadbeef");
+        attributes.set("IS_DEC", false);
 
-    vars.inject(attributes);
+        const vars = new VariablesPopulator(rawOnchainVariables);
 
-    const fullyPopulatedVariables = vars.getVariablesValues();
+        vars.insert("username", "Admin");
+        vars.insert("timestamp_login", 11111111111);
+        vars.insert("isAdmin", true);
 
-    console.log(fullyPopulatedVariables);
-}
+        vars.inject(attributes);
+
+        const fullyPopulatedVariables = vars.getVariablesValues();
+
+        console.log(fullyPopulatedVariables);
+    });
+});
