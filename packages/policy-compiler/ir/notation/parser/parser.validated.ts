@@ -4,7 +4,7 @@ import {
   dslTypesToOnchainTypesParamsValidation,
   onchainSubstitutionToReturnTypesValidation,
 } from '../helpers';
-import { IntermediatePresentationParserWithValidation } from './parser-contracts';
+import { ParserWithValidation } from './parser-contracts';
 import { parseIRByDSLTypesWithInterceptor } from './parser.unvalidated';
 
 const TypingsValidator = (provider: Provider) => ({
@@ -21,12 +21,11 @@ export const getIRParser = (input: TranspilerOutput, provider?: Provider) => {
           TypingsValidator(provider!),
         ),
       ONCHAIN_TYPING: async () => {
-        const parser =
-          IntermediatePresentationParserWithValidation.buildWithValidations(
-            input.ir,
-            provider!,
-            TypingsValidator(provider!),
-          );
+        const parser = ParserWithValidation.buildWithValidations(
+          input.ir,
+          provider!,
+          TypingsValidator(provider!),
+        );
         const parsed = await parser.process();
         return parsed;
         // const parsed = await parseIRByOnchainTypesWithInterceptor(
