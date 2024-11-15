@@ -2,7 +2,6 @@ import { Provider } from 'ethers';
 import { IArbitraryDataArtifact__factory } from '../../../../policy-contracts/src/typechain';
 import { TranspilerOutput } from '../../../dsl';
 import { nodeIdByNotation } from '../../../dsl/transformer';
-import { InstanceConfig } from '../../../dsl/transpiler/state';
 import {
   bytesEncodeArgs,
   DSLTypesToIRTypes,
@@ -13,18 +12,12 @@ import {
   strIsSubst,
   strIsVar,
 } from '../helpers';
-import { ParsingResult, Type } from './types';
+import { ParsingResult, Type, ValidationMiddlware } from './types';
 
 // note: types dsl-inferred-first
 export const parseIRByDSLTypesWithInterceptor = async (
   { ir, typings }: TranspilerOutput,
-  middleware?: {
-    innerValidations: (
-      artifactAddress: string,
-      currentInstanceConfig: InstanceConfig,
-    ) => Promise<void>;
-    outerValidations: (output: ParsingResult[]) => Promise<void>;
-  },
+  middleware?: ValidationMiddlware,
 ) => {
   const res: ParsingResult[] = [];
 
@@ -92,13 +85,7 @@ export const parseIRByDSLTypesWithInterceptor = async (
 export const parseIRByOnchainTypesWithInterceptor = async (
   { ir, typings }: TranspilerOutput,
   provider: Provider,
-  middleware?: {
-    innerValidations: (
-      artifactAddress: string,
-      currentInstanceConfig: InstanceConfig,
-    ) => Promise<void>;
-    outerValidations: (output: ParsingResult[]) => Promise<void>;
-  },
+  middleware?: ValidationMiddlware,
 ) => {
   const res: ParsingResult[] = [];
 
