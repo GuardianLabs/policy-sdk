@@ -1,4 +1,6 @@
-export type AllowedVariablesType = string | number | boolean;
+import { PrimitiveEncodeParamTypes } from "../../../policy-contracts/test/utils";
+
+export type AllowedVariablesType = PrimitiveEncodeParamTypes;  // string | number | boolean;
 
 export type VariablesFormattedDescription = {
     nodeId: string,

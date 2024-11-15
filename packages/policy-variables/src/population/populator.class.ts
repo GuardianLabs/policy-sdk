@@ -1,7 +1,7 @@
-import { NamedTypedVariablesStructOutput, VariablesStruct } from "../../../policy-contracts/src/typechain/contracts/ArtifactNodes";
+import { VariablesStruct } from "../../../policy-contracts/src/typechain/contracts/ArtifactNodes";
 import { VariablesInjector } from "../injection";
 import { VariablesInserter } from "../insertion";
-import { AllowedVariablesType, FilledVariables, IAsyncMapGetter, VariablesFormattedDescription } from "../types";
+import { AllowedVariablesType, FilledVariables, IAsyncMapGetter, OnchainVariablesDescription, VariablesFormattedDescription } from "../types";
 import { formatOnchainVariables } from "../utils";
 import { solidityEncodeSingleParam } from '../../../policy-contracts/test/utils'
 
@@ -11,7 +11,7 @@ export class VariablesPopulator {
     private injector: VariablesInjector<AllowedVariablesType>;
     private filledVariables: FilledVariables[];
 
-    constructor(rawVariablesDescription: NamedTypedVariablesStructOutput[]) {
+    constructor(rawVariablesDescription: OnchainVariablesDescription[]) {
         this.formattedVariablesConfiguration = formatOnchainVariables(rawVariablesDescription);
 
         this.inserter = new VariablesInserter(this.formattedVariablesConfiguration);

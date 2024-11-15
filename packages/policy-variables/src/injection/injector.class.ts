@@ -1,4 +1,3 @@
-import { NamedTypedVariablesStructOutput } from "../../../policy-contracts/src/typechain/contracts/ArtifactNodes";
 import { CannotLookupVariableValueError } from "../errors";
 import { AllowedVariablesType, FilledVariables, IAsyncMapGetter, VariablesFormattedDescription } from "../types";
 import { formatOnchainVariables } from "../utils";

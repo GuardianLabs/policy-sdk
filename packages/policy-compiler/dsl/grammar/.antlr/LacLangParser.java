@@ -114,6 +114,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterProgram(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitProgram(this);
+		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -173,6 +181,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitStatement(this);
+		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -242,6 +258,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterVarDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitVarDeclaration(this);
+		}
 	}
 
 	public final VarDeclarationContext varDeclaration() throws RecognitionException {
@@ -284,6 +308,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_constantDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterConstantDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitConstantDeclaration(this);
+		}
 	}
 
 	public final ConstantDeclarationContext constantDeclaration() throws RecognitionException {
@@ -325,6 +357,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_artifactDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterArtifactDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitArtifactDeclaration(this);
+		}
 	}
 
 	public final ArtifactDeclarationContext artifactDeclaration() throws RecognitionException {
@@ -375,6 +415,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_instanceDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterInstanceDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitInstanceDeclaration(this);
+		}
 	}
 
 	public final InstanceDeclarationContext instanceDeclaration() throws RecognitionException {
@@ -456,6 +504,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_evaluateStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterEvaluateStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitEvaluateStatement(this);
+		}
 	}
 
 	public final EvaluateStatementContext evaluateStatement() throws RecognitionException {
@@ -489,6 +545,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_dataType; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterDataType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitDataType(this);
+		}
 	}
 
 	public final DataTypeContext dataType() throws RecognitionException {
@@ -530,6 +594,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_constantsList; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterConstantsList(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitConstantsList(this);
+		}
 	}
 
 	public final ConstantsListContext constantsList() throws RecognitionException {
@@ -565,6 +637,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_argumentsList; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterArgumentsList(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitArgumentsList(this);
+		}
 	}
 
 	public final ArgumentsListContext argumentsList() throws RecognitionException {
@@ -615,6 +695,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_identifier_or_literal; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterIdentifier_or_literal(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitIdentifier_or_literal(this);
+		}
 	}
 
 	public final Identifier_or_literalContext identifier_or_literal() throws RecognitionException {
@@ -668,6 +756,14 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_literal; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitLiteral(this);
+		}
 	}
 
 	public final LiteralContext literal() throws RecognitionException {

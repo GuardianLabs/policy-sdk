@@ -1,8 +1,8 @@
 import { VariablesPopulator, AllowedVariablesType } from "../src";
-import { NamedTypedVariablesStructOutput } from "../../policy-contracts/src/typechain/contracts/ArtifactNodes";
+import { OnchainVariablesDescription } from "../src/types";
 
 describe("Variables population minimal flow", () => {
-    let rawOnchainVariables: NamedTypedVariablesStructOutput[];
+    let rawOnchainVariables: OnchainVariablesDescription[];
 
     before(async () => {
 
@@ -21,7 +21,7 @@ describe("Variables population minimal flow", () => {
         vars.insert("timestamp_login", 11111111111);
         vars.insert("isAdmin", true);
 
-        vars.inject(attributes);
+        await vars.inject(attributes);
 
         const fullyPopulatedVariables = vars.getVariablesValues();
 
