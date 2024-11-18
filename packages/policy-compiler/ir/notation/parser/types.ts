@@ -1,4 +1,5 @@
 import { InstanceConfig } from '../../../dsl/transpiler/state';
+import { TreeNodeInitParamsStruct } from '../../../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
 
 export enum Type {
   Uint256 = 'uint256',
@@ -32,13 +33,4 @@ export type ValidationMiddlware = {
   outerValidations: (output: ParsingResult[]) => Promise<void>;
 };
 
-export type ParsingResult = {
-  id: string;
-  artifactAddress: string;
-  partialExecData: { value: string; index: number }[];
-  variables: number[];
-  argsCount: number;
-  substitutions: { value: string; index: number }[];
-  initData: string;
-  needsInitialization: boolean;
-};
+export type ParsingResult = TreeNodeInitParamsStruct;

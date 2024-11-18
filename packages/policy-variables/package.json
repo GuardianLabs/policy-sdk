@@ -13,9 +13,9 @@
     "clean": "pnpm remove:dist",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
-    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"compiler/**/*.ts\"",
+    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\"",
     "remove:dist": "npx rimraf dist",
-    "test": "mocha"
+    "test": "mocha -r ts-node/register test/**/*.test.ts"
   },
   "keywords": [],
   "dependencies": {
@@ -23,6 +23,7 @@
     "ethers": "^6.13.3",
     "mocha": "^10.8.2",
     "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
   "devDependencies": {

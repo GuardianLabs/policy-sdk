@@ -11,7 +11,11 @@ statement
     ;
 
 varDeclaration
-    : 'var' dataType IDENTIFIER ';'
+    : 'var' injectionModifier? dataType IDENTIFIER ';'
+    ;
+
+injectionModifier
+    : 'inject' '(' STRING_LITERAL ')'
     ;
 
 constantDeclaration

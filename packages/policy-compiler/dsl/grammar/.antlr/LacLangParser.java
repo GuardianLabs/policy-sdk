@@ -18,34 +18,34 @@ public class LacLangParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, ADDRESS_LITERAL=19, BOOL_LITERAL=20, NUMBER_LITERAL=21, STRING_LITERAL=22, 
-		BYTES_LITERAL=23, IDENTIFIER=24, WHITESPACE=25, COMMENT=26;
+		T__17=18, T__18=19, ADDRESS_LITERAL=20, BOOL_LITERAL=21, NUMBER_LITERAL=22, 
+		STRING_LITERAL=23, BYTES_LITERAL=24, IDENTIFIER=25, WHITESPACE=26, COMMENT=27;
 	public static final int
-		RULE_program = 0, RULE_statement = 1, RULE_varDeclaration = 2, RULE_constantDeclaration = 3, 
-		RULE_artifactDeclaration = 4, RULE_instanceDeclaration = 5, RULE_evaluateStatement = 6, 
-		RULE_dataType = 7, RULE_constantsList = 8, RULE_argumentsList = 9, RULE_identifier_or_literal = 10, 
-		RULE_literal = 11;
+		RULE_program = 0, RULE_statement = 1, RULE_varDeclaration = 2, RULE_injectionModifier = 3, 
+		RULE_constantDeclaration = 4, RULE_artifactDeclaration = 5, RULE_instanceDeclaration = 6, 
+		RULE_evaluateStatement = 7, RULE_dataType = 8, RULE_constantsList = 9, 
+		RULE_argumentsList = 10, RULE_identifier_or_literal = 11, RULE_literal = 12;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "statement", "varDeclaration", "constantDeclaration", "artifactDeclaration", 
-			"instanceDeclaration", "evaluateStatement", "dataType", "constantsList", 
-			"argumentsList", "identifier_or_literal", "literal"
+			"program", "statement", "varDeclaration", "injectionModifier", "constantDeclaration", 
+			"artifactDeclaration", "instanceDeclaration", "evaluateStatement", "dataType", 
+			"constantsList", "argumentsList", "identifier_or_literal", "literal"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'var'", "';'", "'constant'", "'='", "'artifact'", "'instance'", 
-			"'of'", "'takes'", "'('", "')'", "'with'", "'evaluate'", "'bool'", "'number'", 
-			"'string'", "'bytes'", "'address'", "','"
+			null, "'var'", "';'", "'inject'", "'('", "')'", "'constant'", "'='", 
+			"'artifact'", "'instance'", "'of'", "'takes'", "'with'", "'evaluate'", 
+			"'bool'", "'number'", "'string'", "'bytes'", "'address'", "','"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, "ADDRESS_LITERAL", "BOOL_LITERAL", 
+			null, null, null, null, null, null, null, null, "ADDRESS_LITERAL", "BOOL_LITERAL", 
 			"NUMBER_LITERAL", "STRING_LITERAL", "BYTES_LITERAL", "IDENTIFIER", "WHITESPACE", 
 			"COMMENT"
 		};
@@ -114,14 +114,6 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterProgram(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitProgram(this);
-		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -131,21 +123,21 @@ public class LacLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(27);
+			setState(29);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4202L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 9026L) != 0)) {
 				{
 				{
-				setState(24);
+				setState(26);
 				statement();
 				}
 				}
-				setState(29);
+				setState(31);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(30);
+			setState(32);
 			match(EOF);
 			}
 		}
@@ -181,55 +173,47 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitStatement(this);
-		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_statement);
 		try {
-			setState(37);
+			setState(39);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(32);
+				setState(34);
 				varDeclaration();
 				}
 				break;
-			case T__2:
+			case T__5:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(33);
+				setState(35);
 				constantDeclaration();
 				}
 				break;
-			case T__4:
+			case T__7:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(34);
+				setState(36);
 				artifactDeclaration();
 				}
 				break;
-			case T__5:
+			case T__8:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(35);
+				setState(37);
 				instanceDeclaration();
 				}
 				break;
-			case T__11:
+			case T__12:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(36);
+				setState(38);
 				evaluateStatement();
 				}
 				break;
@@ -254,34 +238,76 @@ public class LacLangParser extends Parser {
 			return getRuleContext(DataTypeContext.class,0);
 		}
 		public TerminalNode IDENTIFIER() { return getToken(LacLangParser.IDENTIFIER, 0); }
+		public InjectionModifierContext injectionModifier() {
+			return getRuleContext(InjectionModifierContext.class,0);
+		}
 		public VarDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterVarDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitVarDeclaration(this);
-		}
 	}
 
 	public final VarDeclarationContext varDeclaration() throws RecognitionException {
 		VarDeclarationContext _localctx = new VarDeclarationContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_varDeclaration);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
-			match(T__0);
-			setState(40);
-			dataType();
 			setState(41);
+			match(T__0);
+			setState(43);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__2) {
+				{
+				setState(42);
+				injectionModifier();
+				}
+			}
+
+			setState(45);
+			dataType();
+			setState(46);
 			match(IDENTIFIER);
-			setState(42);
+			setState(47);
 			match(T__1);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class InjectionModifierContext extends ParserRuleContext {
+		public TerminalNode STRING_LITERAL() { return getToken(LacLangParser.STRING_LITERAL, 0); }
+		public InjectionModifierContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_injectionModifier; }
+	}
+
+	public final InjectionModifierContext injectionModifier() throws RecognitionException {
+		InjectionModifierContext _localctx = new InjectionModifierContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_injectionModifier);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(49);
+			match(T__2);
+			setState(50);
+			match(T__3);
+			setState(51);
+			match(STRING_LITERAL);
+			setState(52);
+			match(T__4);
 			}
 		}
 		catch (RecognitionException re) {
@@ -308,33 +334,25 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_constantDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterConstantDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitConstantDeclaration(this);
-		}
 	}
 
 	public final ConstantDeclarationContext constantDeclaration() throws RecognitionException {
 		ConstantDeclarationContext _localctx = new ConstantDeclarationContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_constantDeclaration);
+		enterRule(_localctx, 8, RULE_constantDeclaration);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
-			match(T__2);
-			setState(45);
+			setState(54);
+			match(T__5);
+			setState(55);
 			dataType();
-			setState(46);
+			setState(56);
 			match(IDENTIFIER);
-			setState(47);
-			match(T__3);
-			setState(48);
+			setState(57);
+			match(T__6);
+			setState(58);
 			literal();
-			setState(49);
+			setState(59);
 			match(T__1);
 			}
 		}
@@ -357,31 +375,23 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_artifactDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterArtifactDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitArtifactDeclaration(this);
-		}
 	}
 
 	public final ArtifactDeclarationContext artifactDeclaration() throws RecognitionException {
 		ArtifactDeclarationContext _localctx = new ArtifactDeclarationContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_artifactDeclaration);
+		enterRule(_localctx, 10, RULE_artifactDeclaration);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(51);
-			match(T__4);
-			setState(52);
+			setState(61);
+			match(T__7);
+			setState(62);
 			match(IDENTIFIER);
-			setState(53);
-			match(T__3);
-			setState(54);
+			setState(63);
+			match(T__6);
+			setState(64);
 			match(ADDRESS_LITERAL);
-			setState(55);
+			setState(65);
 			match(T__1);
 			}
 		}
@@ -415,74 +425,66 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_instanceDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterInstanceDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitInstanceDeclaration(this);
-		}
 	}
 
 	public final InstanceDeclarationContext instanceDeclaration() throws RecognitionException {
 		InstanceDeclarationContext _localctx = new InstanceDeclarationContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_instanceDeclaration);
+		enterRule(_localctx, 12, RULE_instanceDeclaration);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(57);
-			match(T__5);
-			setState(58);
-			dataType();
-			setState(59);
-			match(IDENTIFIER);
-			setState(60);
-			match(T__6);
-			setState(61);
-			identifier_or_literal();
-			setState(62);
-			match(T__7);
-			setState(63);
+			setState(67);
 			match(T__8);
-			setState(65);
+			setState(68);
+			dataType();
+			setState(69);
+			match(IDENTIFIER);
+			setState(70);
+			match(T__9);
+			setState(71);
+			identifier_or_literal();
+			setState(72);
+			match(T__10);
+			setState(73);
+			match(T__3);
+			setState(75);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 33030144L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 66060288L) != 0)) {
 				{
-				setState(64);
+				setState(74);
 				argumentsList();
 				}
 			}
 
-			setState(67);
-			match(T__9);
-			setState(74);
+			setState(77);
+			match(T__4);
+			setState(84);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__10) {
+			if (_la==T__11) {
 				{
-				setState(68);
-				match(T__10);
-				setState(69);
-				match(T__8);
-				setState(71);
+				setState(78);
+				match(T__11);
+				setState(79);
+				match(T__3);
+				setState(81);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 33030144L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 66060288L) != 0)) {
 					{
-					setState(70);
+					setState(80);
 					constantsList();
 					}
 				}
 
-				setState(73);
-				match(T__9);
+				setState(83);
+				match(T__4);
 				}
 			}
 
-			setState(76);
+			setState(86);
 			match(T__1);
 			}
 		}
@@ -504,27 +506,19 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_evaluateStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterEvaluateStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitEvaluateStatement(this);
-		}
 	}
 
 	public final EvaluateStatementContext evaluateStatement() throws RecognitionException {
 		EvaluateStatementContext _localctx = new EvaluateStatementContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_evaluateStatement);
+		enterRule(_localctx, 14, RULE_evaluateStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(78);
-			match(T__11);
-			setState(79);
+			setState(88);
+			match(T__12);
+			setState(89);
 			match(IDENTIFIER);
-			setState(80);
+			setState(90);
 			match(T__1);
 			}
 		}
@@ -545,26 +539,18 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_dataType; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterDataType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitDataType(this);
-		}
 	}
 
 	public final DataTypeContext dataType() throws RecognitionException {
 		DataTypeContext _localctx = new DataTypeContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_dataType);
+		enterRule(_localctx, 16, RULE_dataType);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(82);
+			setState(92);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 253952L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 507904L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -594,23 +580,15 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_constantsList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterConstantsList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitConstantsList(this);
-		}
 	}
 
 	public final ConstantsListContext constantsList() throws RecognitionException {
 		ConstantsListContext _localctx = new ConstantsListContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_constantsList);
+		enterRule(_localctx, 18, RULE_constantsList);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84);
+			setState(94);
 			argumentsList();
 			}
 		}
@@ -637,38 +615,30 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_argumentsList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterArgumentsList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitArgumentsList(this);
-		}
 	}
 
 	public final ArgumentsListContext argumentsList() throws RecognitionException {
 		ArgumentsListContext _localctx = new ArgumentsListContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_argumentsList);
+		enterRule(_localctx, 20, RULE_argumentsList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(86);
+			setState(96);
 			identifier_or_literal();
-			setState(91);
+			setState(101);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__17) {
+			while (_la==T__18) {
 				{
 				{
-				setState(87);
-				match(T__17);
-				setState(88);
+				setState(97);
+				match(T__18);
+				setState(98);
 				identifier_or_literal();
 				}
 				}
-				setState(93);
+				setState(103);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -695,27 +665,19 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_identifier_or_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterIdentifier_or_literal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitIdentifier_or_literal(this);
-		}
 	}
 
 	public final Identifier_or_literalContext identifier_or_literal() throws RecognitionException {
 		Identifier_or_literalContext _localctx = new Identifier_or_literalContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_identifier_or_literal);
+		enterRule(_localctx, 22, RULE_identifier_or_literal);
 		try {
-			setState(96);
+			setState(106);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(94);
+				setState(104);
 				match(IDENTIFIER);
 				}
 				break;
@@ -726,7 +688,7 @@ public class LacLangParser extends Parser {
 			case BYTES_LITERAL:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(95);
+				setState(105);
 				literal();
 				}
 				break;
@@ -756,26 +718,18 @@ public class LacLangParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_literal; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).enterLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LacLangListener ) ((LacLangListener)listener).exitLiteral(this);
-		}
 	}
 
 	public final LiteralContext literal() throws RecognitionException {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_literal);
+		enterRule(_localctx, 24, RULE_literal);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(98);
+			setState(108);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 16252928L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 32505856L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -797,62 +751,67 @@ public class LacLangParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u001ae\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u001bo\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
-		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0001"+
-		"\u0000\u0005\u0000\u001a\b\u0000\n\u0000\f\u0000\u001d\t\u0000\u0001\u0000"+
-		"\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
-		"\u0003\u0001&\b\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
-		"\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
-		"\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0003\u0005B\b\u0005"+
-		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0003\u0005H\b\u0005"+
-		"\u0001\u0005\u0003\u0005K\b\u0005\u0001\u0005\u0001\u0005\u0001\u0006"+
-		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\b\u0001"+
-		"\b\u0001\t\u0001\t\u0001\t\u0005\tZ\b\t\n\t\f\t]\t\t\u0001\n\u0001\n\u0003"+
-		"\na\b\n\u0001\u000b\u0001\u000b\u0001\u000b\u0000\u0000\f\u0000\u0002"+
-		"\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0000\u0002\u0001\u0000"+
-		"\r\u0011\u0001\u0000\u0013\u0017b\u0000\u001b\u0001\u0000\u0000\u0000"+
-		"\u0002%\u0001\u0000\u0000\u0000\u0004\'\u0001\u0000\u0000\u0000\u0006"+
-		",\u0001\u0000\u0000\u0000\b3\u0001\u0000\u0000\u0000\n9\u0001\u0000\u0000"+
-		"\u0000\fN\u0001\u0000\u0000\u0000\u000eR\u0001\u0000\u0000\u0000\u0010"+
-		"T\u0001\u0000\u0000\u0000\u0012V\u0001\u0000\u0000\u0000\u0014`\u0001"+
-		"\u0000\u0000\u0000\u0016b\u0001\u0000\u0000\u0000\u0018\u001a\u0003\u0002"+
-		"\u0001\u0000\u0019\u0018\u0001\u0000\u0000\u0000\u001a\u001d\u0001\u0000"+
-		"\u0000\u0000\u001b\u0019\u0001\u0000\u0000\u0000\u001b\u001c\u0001\u0000"+
-		"\u0000\u0000\u001c\u001e\u0001\u0000\u0000\u0000\u001d\u001b\u0001\u0000"+
-		"\u0000\u0000\u001e\u001f\u0005\u0000\u0000\u0001\u001f\u0001\u0001\u0000"+
-		"\u0000\u0000 &\u0003\u0004\u0002\u0000!&\u0003\u0006\u0003\u0000\"&\u0003"+
-		"\b\u0004\u0000#&\u0003\n\u0005\u0000$&\u0003\f\u0006\u0000% \u0001\u0000"+
-		"\u0000\u0000%!\u0001\u0000\u0000\u0000%\"\u0001\u0000\u0000\u0000%#\u0001"+
-		"\u0000\u0000\u0000%$\u0001\u0000\u0000\u0000&\u0003\u0001\u0000\u0000"+
-		"\u0000\'(\u0005\u0001\u0000\u0000()\u0003\u000e\u0007\u0000)*\u0005\u0018"+
-		"\u0000\u0000*+\u0005\u0002\u0000\u0000+\u0005\u0001\u0000\u0000\u0000"+
-		",-\u0005\u0003\u0000\u0000-.\u0003\u000e\u0007\u0000./\u0005\u0018\u0000"+
-		"\u0000/0\u0005\u0004\u0000\u000001\u0003\u0016\u000b\u000012\u0005\u0002"+
-		"\u0000\u00002\u0007\u0001\u0000\u0000\u000034\u0005\u0005\u0000\u0000"+
-		"45\u0005\u0018\u0000\u000056\u0005\u0004\u0000\u000067\u0005\u0013\u0000"+
-		"\u000078\u0005\u0002\u0000\u00008\t\u0001\u0000\u0000\u00009:\u0005\u0006"+
-		"\u0000\u0000:;\u0003\u000e\u0007\u0000;<\u0005\u0018\u0000\u0000<=\u0005"+
-		"\u0007\u0000\u0000=>\u0003\u0014\n\u0000>?\u0005\b\u0000\u0000?A\u0005"+
-		"\t\u0000\u0000@B\u0003\u0012\t\u0000A@\u0001\u0000\u0000\u0000AB\u0001"+
-		"\u0000\u0000\u0000BC\u0001\u0000\u0000\u0000CJ\u0005\n\u0000\u0000DE\u0005"+
-		"\u000b\u0000\u0000EG\u0005\t\u0000\u0000FH\u0003\u0010\b\u0000GF\u0001"+
-		"\u0000\u0000\u0000GH\u0001\u0000\u0000\u0000HI\u0001\u0000\u0000\u0000"+
-		"IK\u0005\n\u0000\u0000JD\u0001\u0000\u0000\u0000JK\u0001\u0000\u0000\u0000"+
-		"KL\u0001\u0000\u0000\u0000LM\u0005\u0002\u0000\u0000M\u000b\u0001\u0000"+
-		"\u0000\u0000NO\u0005\f\u0000\u0000OP\u0005\u0018\u0000\u0000PQ\u0005\u0002"+
-		"\u0000\u0000Q\r\u0001\u0000\u0000\u0000RS\u0007\u0000\u0000\u0000S\u000f"+
-		"\u0001\u0000\u0000\u0000TU\u0003\u0012\t\u0000U\u0011\u0001\u0000\u0000"+
-		"\u0000V[\u0003\u0014\n\u0000WX\u0005\u0012\u0000\u0000XZ\u0003\u0014\n"+
-		"\u0000YW\u0001\u0000\u0000\u0000Z]\u0001\u0000\u0000\u0000[Y\u0001\u0000"+
-		"\u0000\u0000[\\\u0001\u0000\u0000\u0000\\\u0013\u0001\u0000\u0000\u0000"+
-		"][\u0001\u0000\u0000\u0000^a\u0005\u0018\u0000\u0000_a\u0003\u0016\u000b"+
-		"\u0000`^\u0001\u0000\u0000\u0000`_\u0001\u0000\u0000\u0000a\u0015\u0001"+
-		"\u0000\u0000\u0000bc\u0007\u0001\u0000\u0000c\u0017\u0001\u0000\u0000"+
-		"\u0000\u0007\u001b%AGJ[`";
+		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
+		"\f\u0007\f\u0001\u0000\u0005\u0000\u001c\b\u0000\n\u0000\f\u0000\u001f"+
+		"\t\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0003\u0001(\b\u0001\u0001\u0002\u0001\u0002\u0003"+
+		"\u0002,\b\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
+		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
+		"\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
+		"\u0006\u0001\u0006\u0003\u0006L\b\u0006\u0001\u0006\u0001\u0006\u0001"+
+		"\u0006\u0001\u0006\u0003\u0006R\b\u0006\u0001\u0006\u0003\u0006U\b\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007"+
+		"\u0001\b\u0001\b\u0001\t\u0001\t\u0001\n\u0001\n\u0001\n\u0005\nd\b\n"+
+		"\n\n\f\ng\t\n\u0001\u000b\u0001\u000b\u0003\u000bk\b\u000b\u0001\f\u0001"+
+		"\f\u0001\f\u0000\u0000\r\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012"+
+		"\u0014\u0016\u0018\u0000\u0002\u0001\u0000\u000e\u0012\u0001\u0000\u0014"+
+		"\u0018l\u0000\u001d\u0001\u0000\u0000\u0000\u0002\'\u0001\u0000\u0000"+
+		"\u0000\u0004)\u0001\u0000\u0000\u0000\u00061\u0001\u0000\u0000\u0000\b"+
+		"6\u0001\u0000\u0000\u0000\n=\u0001\u0000\u0000\u0000\fC\u0001\u0000\u0000"+
+		"\u0000\u000eX\u0001\u0000\u0000\u0000\u0010\\\u0001\u0000\u0000\u0000"+
+		"\u0012^\u0001\u0000\u0000\u0000\u0014`\u0001\u0000\u0000\u0000\u0016j"+
+		"\u0001\u0000\u0000\u0000\u0018l\u0001\u0000\u0000\u0000\u001a\u001c\u0003"+
+		"\u0002\u0001\u0000\u001b\u001a\u0001\u0000\u0000\u0000\u001c\u001f\u0001"+
+		"\u0000\u0000\u0000\u001d\u001b\u0001\u0000\u0000\u0000\u001d\u001e\u0001"+
+		"\u0000\u0000\u0000\u001e \u0001\u0000\u0000\u0000\u001f\u001d\u0001\u0000"+
+		"\u0000\u0000 !\u0005\u0000\u0000\u0001!\u0001\u0001\u0000\u0000\u0000"+
+		"\"(\u0003\u0004\u0002\u0000#(\u0003\b\u0004\u0000$(\u0003\n\u0005\u0000"+
+		"%(\u0003\f\u0006\u0000&(\u0003\u000e\u0007\u0000\'\"\u0001\u0000\u0000"+
+		"\u0000\'#\u0001\u0000\u0000\u0000\'$\u0001\u0000\u0000\u0000\'%\u0001"+
+		"\u0000\u0000\u0000\'&\u0001\u0000\u0000\u0000(\u0003\u0001\u0000\u0000"+
+		"\u0000)+\u0005\u0001\u0000\u0000*,\u0003\u0006\u0003\u0000+*\u0001\u0000"+
+		"\u0000\u0000+,\u0001\u0000\u0000\u0000,-\u0001\u0000\u0000\u0000-.\u0003"+
+		"\u0010\b\u0000./\u0005\u0019\u0000\u0000/0\u0005\u0002\u0000\u00000\u0005"+
+		"\u0001\u0000\u0000\u000012\u0005\u0003\u0000\u000023\u0005\u0004\u0000"+
+		"\u000034\u0005\u0017\u0000\u000045\u0005\u0005\u0000\u00005\u0007\u0001"+
+		"\u0000\u0000\u000067\u0005\u0006\u0000\u000078\u0003\u0010\b\u000089\u0005"+
+		"\u0019\u0000\u00009:\u0005\u0007\u0000\u0000:;\u0003\u0018\f\u0000;<\u0005"+
+		"\u0002\u0000\u0000<\t\u0001\u0000\u0000\u0000=>\u0005\b\u0000\u0000>?"+
+		"\u0005\u0019\u0000\u0000?@\u0005\u0007\u0000\u0000@A\u0005\u0014\u0000"+
+		"\u0000AB\u0005\u0002\u0000\u0000B\u000b\u0001\u0000\u0000\u0000CD\u0005"+
+		"\t\u0000\u0000DE\u0003\u0010\b\u0000EF\u0005\u0019\u0000\u0000FG\u0005"+
+		"\n\u0000\u0000GH\u0003\u0016\u000b\u0000HI\u0005\u000b\u0000\u0000IK\u0005"+
+		"\u0004\u0000\u0000JL\u0003\u0014\n\u0000KJ\u0001\u0000\u0000\u0000KL\u0001"+
+		"\u0000\u0000\u0000LM\u0001\u0000\u0000\u0000MT\u0005\u0005\u0000\u0000"+
+		"NO\u0005\f\u0000\u0000OQ\u0005\u0004\u0000\u0000PR\u0003\u0012\t\u0000"+
+		"QP\u0001\u0000\u0000\u0000QR\u0001\u0000\u0000\u0000RS\u0001\u0000\u0000"+
+		"\u0000SU\u0005\u0005\u0000\u0000TN\u0001\u0000\u0000\u0000TU\u0001\u0000"+
+		"\u0000\u0000UV\u0001\u0000\u0000\u0000VW\u0005\u0002\u0000\u0000W\r\u0001"+
+		"\u0000\u0000\u0000XY\u0005\r\u0000\u0000YZ\u0005\u0019\u0000\u0000Z[\u0005"+
+		"\u0002\u0000\u0000[\u000f\u0001\u0000\u0000\u0000\\]\u0007\u0000\u0000"+
+		"\u0000]\u0011\u0001\u0000\u0000\u0000^_\u0003\u0014\n\u0000_\u0013\u0001"+
+		"\u0000\u0000\u0000`e\u0003\u0016\u000b\u0000ab\u0005\u0013\u0000\u0000"+
+		"bd\u0003\u0016\u000b\u0000ca\u0001\u0000\u0000\u0000dg\u0001\u0000\u0000"+
+		"\u0000ec\u0001\u0000\u0000\u0000ef\u0001\u0000\u0000\u0000f\u0015\u0001"+
+		"\u0000\u0000\u0000ge\u0001\u0000\u0000\u0000hk\u0005\u0019\u0000\u0000"+
+		"ik\u0003\u0018\f\u0000jh\u0001\u0000\u0000\u0000ji\u0001\u0000\u0000\u0000"+
+		"k\u0017\u0001\u0000\u0000\u0000lm\u0007\u0001\u0000\u0000m\u0019\u0001"+
+		"\u0000\u0000\u0000\b\u001d\'+KQTej";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

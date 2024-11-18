@@ -42,4 +42,9 @@ export function extractArguments(input: string): string[] {
   return input.split(',').map((value) => value.trim());
 }
 
+export function extractInjection(inputString: string): string | null {
+  const match = inputString.match(/\$"([^"]*)"$/);
+  return match ? match[1] : null;
+}
+
 export const DSLTypesToIRTypes = (el: string) => DSLTypesMapping[<DSLType>el];

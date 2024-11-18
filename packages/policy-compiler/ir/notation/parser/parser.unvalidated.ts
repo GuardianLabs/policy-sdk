@@ -7,6 +7,7 @@ import {
   DSLTypesToIRTypes,
   extractArguments,
   extractComponents,
+  extractInjection,
   indexConstants,
   isConstant,
   strIsSubst,
@@ -64,11 +65,24 @@ export const parseIRByDSLTypesWithInterceptor = async (
       initTypes.map(DSLTypesToIRTypes),
     );
 
+    const injections = parameters
+    .filter((val) => strIsVar(val.value)).map((el, index) => {
+      const injection = extractInjection(el.value);
+
+      if(injection && injection != "") {
+        return {
+          value: injection,
+          index
+        };
+      }
+    }).filter(el => !!el);
+
     res.push({
       id: nodeIdByNotation(artifact, index),
       artifactAddress,
       partialExecData,
       variables,
+      injections,
       argsCount: parameters.length,
       substitutions,
       initData,
@@ -133,11 +147,24 @@ export const parseIRByOnchainTypesWithInterceptor = async (
     );
     const initData = bytesEncodeArgs(initArgs, <Type[]>initArgsTypes);
 
+    const injections = parameters
+    .filter((val) => strIsVar(val.value)).map((el, index) => {
+      const injection = extractInjection(el.value);
+
+      if(injection && injection != "") {
+        return {
+          value: el.value,
+          index
+        };
+      }
+    }).filter(el => !!el);
+
     res.push({
       id: nodeIdByNotation(artifact, index),
       artifactAddress,
       partialExecData,
       variables,
+      injections,
       argsCount: parameters.length,
       substitutions,
       initData,

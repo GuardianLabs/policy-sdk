@@ -53,14 +53,14 @@ export const onchainSubstitutionToReturnTypesValidation =
   (provider: Provider) => async (output: ParsingResult[]) => {
     for (const instance of output) {
       const currentInstance = IArbitraryDataArtifact__factory.connect(
-        instance.artifactAddress,
+        <string>instance.artifactAddress,
         provider,
       );
 
       for (const refNode of instance.substitutions) {
         const refDeclaration = output.find((el) => el.id == refNode.value)!;
         const refArtifactInstance = IArbitraryDataArtifact__factory.connect(
-          refDeclaration?.artifactAddress,
+          <string>refDeclaration?.artifactAddress,
           provider,
         );
 
@@ -68,12 +68,12 @@ export const onchainSubstitutionToReturnTypesValidation =
         const { argsTypes, argsNames } =
           await currentInstance.getExecDescriptor();
 
-        if (!(argsTypes[refNode.index] == returnType))
+        if (!(argsTypes[Number(refNode.index)] == returnType))
           throw new SubstitutionTypesDoNotMatchError(
-            instance.id,
-            argsNames[refNode.index],
-            argsTypes[refNode.index],
-            refNode.value,
+            <string>instance.id,
+            argsNames[Number(refNode.index)],
+            argsTypes[Number(refNode.index)],
+            <string>refNode.value,
             returnType,
           );
       }
