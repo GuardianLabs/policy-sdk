@@ -18,12 +18,7 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: [
-      "node_modules/",
-      "**/node_modules",
-      "**/dist",
-      "eslint.config.*",
-    ],
+    ignores: ["node_modules/", "**/node_modules", "**/dist", "eslint.config.*"],
   },
   ...compat.extends(
     "plugin:prettier/recommended",
@@ -72,6 +67,12 @@ export default [
           allowModules: [],
         },
       ],
+
+      "no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-expressions": "error",
+
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "error",
 
       "import/no-dynamic-require": 2,
       "import/no-unresolved": 1,

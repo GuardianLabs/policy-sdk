@@ -16,14 +16,6 @@ export enum DSLType {
   Address = 'address',
 }
 
-export const TypesMapping = {
-  [Type.Uint256]: 'Uint256',
-  [Type.Address]: 'Address',
-  [Type.Bool]: 'Bool',
-  [Type.String]: 'String',
-  [Type.Bytes]: 'Bytes',
-};
-
 export const DSLTypesMapping = {
   [DSLType.Number]: Type.Uint256,
   [DSLType.Address]: Type.Address,
