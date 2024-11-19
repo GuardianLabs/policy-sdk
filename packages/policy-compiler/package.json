@@ -18,12 +18,14 @@
     "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"dsl/**/*.ts\" \"ir/**/*.ts\" \"compiler/**/*.ts\"",
     "remove:dist": "npx rimraf dist",
     "antlr": "antlr4ts ./dsl/grammar/LacLang.g4 -o ./dsl/antlr/generated",
-    "test": "mocha"
+    "test": "pnpm exec hardhat test --bail"
   },
   "keywords": [],
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@types/chai": "4.3.3",
     "@types/mocha": "^10.0.9",
     "@types/node": "^22.8.0",
@@ -41,14 +43,13 @@
     "eslint-plugin-promise": "^7.1.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.11.0",
+    "hardhat": "^2.22.15",
+    "hardhat-deploy": "^0.12.4",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "rimraf": "^6.0.1"
   },
   "dependencies": {
-    "@ethersproject/abi": "^5.7.0",
-    "@nomicfoundation/ethereumjs-util": "^9.0.4",
-    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "antlr4ts": "0.5.0-alpha.4",
     "antlr4ts-cli": "0.5.0-alpha.4",
     "dotenv": "^16.4.5",

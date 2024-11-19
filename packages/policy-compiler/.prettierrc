@@ -7,6 +7,10 @@
         "trailingComma": "all",
         "plugins": ["prettier-plugin-organize-imports"]
       }
+    },
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
     }
   ]
 }

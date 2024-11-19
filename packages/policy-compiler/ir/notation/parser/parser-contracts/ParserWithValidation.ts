@@ -1,29 +1,55 @@
 import { ContractRunner } from 'ethers';
+import { InstanceConfig } from '../../../../dsl/transpiler/state/types';
+import { TypingsValidator } from '../parser.validated';
 import { ParsingResult, ValidationMiddlware } from '../types';
 import { ParserBase } from './base/ParserBase';
 import { prepareGetDescriptors, toUnprocessedArtifactsList } from './tools';
-import { GetDescriptors, IOnchainHandler } from './types';
+import { ConfigArgsTypesHandler } from './tools/ConfigArgsTypesHandler';
+import { GetDescriptors } from './types';
 
 export class ParserWithValidation {
-  static build = (
+  static fromOnchainSource = (
     intermediatePresentation: string,
-    providerOrHandler: ContractRunner | IOnchainHandler,
+    provider: ContractRunner,
   ): ParserWithValidation => {
-    return this.buildWithValidations(
+    let middleware: ValidationMiddlware | undefined;
+    if (!!provider) {
+      middleware = TypingsValidator(provider);
+    }
+
+    const getDescrpiptors = prepareGetDescriptors(provider);
+
+    return this.build(intermediatePresentation, getDescrpiptors, middleware);
+  };
+
+  static fromDSLBasedConfig = (
+    intermediatePresentation: string,
+    ipArtifactInstanceConfig: Array<InstanceConfig>,
+    provider?: ContractRunner,
+  ) => {
+    let middleware: ValidationMiddlware | undefined;
+    if (!!provider) {
+      middleware = TypingsValidator(provider);
+    }
+
+    const getTypesHandler = ConfigArgsTypesHandler.build(
+      ipArtifactInstanceConfig,
+    );
+
+    return this.build(
       intermediatePresentation,
-      providerOrHandler,
+      getTypesHandler.getDescriptors,
+      middleware,
     );
   };
 
-  static buildWithValidations = (
+  static build = (
     intermediatePresentation: string,
-    providerOrHandler: ContractRunner | IOnchainHandler,
+    getTypesHandler: GetDescriptors,
     middleware?: ValidationMiddlware,
   ): ParserWithValidation => {
-    const getDescrpiptors = prepareGetDescriptors(providerOrHandler);
-
     return new ParserWithValidation(
-      getDescrpiptors,
+      getTypesHandler,
       intermediatePresentation,
       middleware,
     );

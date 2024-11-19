@@ -5,7 +5,7 @@ import {
   mapToArray,
   TypedValue,
 } from '../helpers';
-import { Instances, InstancesById } from '../state';
+import { Instances, InstancesById } from '../state/types';
 import { findCycle } from '../validations';
 import { CyclicReferenceError, SelfReferenceError } from './';
 

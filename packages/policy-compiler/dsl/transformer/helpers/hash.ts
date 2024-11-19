@@ -1,6 +1,6 @@
 import { solidityPackedKeccak256 } from 'ethers';
 import { IRTransformer } from '../';
-import { InstanceConfig } from '../../transpiler/state';
+import { InstanceConfig } from '../../transpiler/state/types';
 
 export const nodeId = (def: InstanceConfig, salt: number) =>
   solidityPackedKeccak256(

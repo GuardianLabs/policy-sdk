@@ -51,15 +51,6 @@ importers:
 
   packages/policy-compiler:
     dependencies:
-      '@ethersproject/abi':
-        specifier: ^5.7.0
-        version: 5.7.0
-      '@nomicfoundation/ethereumjs-util':
-        specifier: ^9.0.4
-        version: 9.0.4
-      '@nomiclabs/hardhat-ethers':
-        specifier: ^2.2.3
-        version: 2.2.3(ethers@6.13.3)(hardhat@2.22.15(ts-node@10.9.2(@types/node@22.8.0)(typescript@5.6.2))(typescript@5.6.2))
       antlr4ts:
         specifier: 0.5.0-alpha.4
         version: 0.5.0-alpha.4
@@ -94,6 +85,12 @@ importers:
       '@eslint/js':
         specifier: ^9.13.0
         version: 9.13.0
+      '@nomicfoundation/hardhat-ethers':
+        specifier: ^3.0.8
+        version: 3.0.8(ethers@6.13.3)(hardhat@2.22.15(ts-node@10.9.2(@types/node@22.8.0)(typescript@5.6.2))(typescript@5.6.2))
+      '@nomicfoundation/hardhat-toolbox':
+        specifier: ^5.0.0
+        version: 5.0.0(ryo6qxnfgekbyrb7gtrzrrgwry)
       '@types/chai':
         specifier: 4.3.3
         version: 4.3.3
@@ -145,6 +142,12 @@ importers:
       globals:
         specifier: ^15.11.0
         version: 15.11.0
+      hardhat:
+        specifier: ^2.22.15
+        version: 2.22.15(ts-node@10.9.2(@types/node@22.8.0)(typescript@5.6.2))(typescript@5.6.2)
+      hardhat-deploy:
+        specifier: ^0.12.4
+        version: 0.12.4
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -1024,12 +1027,6 @@ packages:
   '@nomicfoundation/solidity-analyzer@0.1.2':
     resolution: {integrity: sha512-q4n32/FNKIhQ3zQGGw5CvPF6GTvDCpYwIf7bEY/dZTZbgfDsHyjJwURxUJf3VQuuJj+fDIFl4+KkBVbw4Ef6jA==}
     engines: {node: '>= 12'}
-
-  '@nomiclabs/hardhat-ethers@2.2.3':
-    resolution: {integrity: sha512-YhzPdzb612X591FOe68q+qXVXGG2ANZRvDo0RRUtimev85rCrAlv/TLMEZw5c+kq9AbzocLTVX/h2jVIFPL9Xg==}
-    peerDependencies:
-      ethers: ^5.0.0
-      hardhat: ^2.0.0
 
   '@octokit/auth-token@2.5.0':
     resolution: {integrity: sha512-r5FVUJCOLl19AxiuZD2VRZ/ORjp/4IN98Of6YJoJOkY75CIBuYfmiNHGrDwXr+aLGG55igl9QrxX3hbiXlLb+g==}
@@ -5566,11 +5563,6 @@ snapshots:
       '@nomicfoundation/solidity-analyzer-linux-x64-gnu': 0.1.2
       '@nomicfoundation/solidity-analyzer-linux-x64-musl': 0.1.2
       '@nomicfoundation/solidity-analyzer-win32-x64-msvc': 0.1.2
-
-  '@nomiclabs/hardhat-ethers@2.2.3(ethers@6.13.3)(hardhat@2.22.15(ts-node@10.9.2(@types/node@22.8.0)(typescript@5.6.2))(typescript@5.6.2))':
-    dependencies:
-      ethers: 6.13.3
-      hardhat: 2.22.15(ts-node@10.9.2(@types/node@22.8.0)(typescript@5.6.2))(typescript@5.6.2)
 
   '@octokit/auth-token@2.5.0':
     dependencies:

@@ -1,5 +1,6 @@
 import { mapToArray, TypedValue } from '../transpiler/helpers';
-import { InstanceConfig, LatentState } from '../transpiler/state';
+import { LatentState } from '../transpiler/state/LatentState';
+import { InstanceConfig } from '../transpiler/state/types';
 
 const formatArtifactClause = (artifactAddress: string) =>
   `{${artifactAddress}}`;

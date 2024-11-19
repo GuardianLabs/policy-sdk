@@ -7,11 +7,15 @@ import {
   lookupOrThrow,
   VariableNotDefinedError,
 } from '../errors';
-import { Artifacts, InstanceConfig, LatentState } from '../state';
+import { LatentState } from '../state/LatentState';
+import { Artifacts, InstanceConfig } from '../state/types';
 
-export type TypedValue = {
+export type MinTypedValue = {
   type: string;
   value: string;
+};
+
+export type TypedValue = MinTypedValue & {
   substitution?: boolean;
   constant?: boolean;
 };

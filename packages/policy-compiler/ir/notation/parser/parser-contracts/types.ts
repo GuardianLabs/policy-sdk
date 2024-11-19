@@ -1,7 +1,16 @@
 import { ParsingResult } from '../types';
 
-export interface IOnchainHandler {
-  getDescriptors(instanceAddress: string): Promise<Descriptors>;
+export type GetDescriptors = (
+  instanceAddress: string,
+  posAtConfigList?: number,
+) => Promise<Descriptors>;
+
+export interface IGetArgsTypes {
+  getDescriptors: GetDescriptors;
+}
+
+export interface IGetArgsTypesAndNames {
+  getAllDescriptors(instanceAddress: string): Promise<AllDescriptors>;
 }
 
 export interface IParamsExtractor {
@@ -23,7 +32,10 @@ export type Descriptors = {
   initParamsTypes: string[];
 };
 
-export type GetDescriptors = (address: string) => Promise<Descriptors>;
+export type AllDescriptors = Descriptors & {
+  execParamsNames: string[];
+  initParamsNames: string[];
+};
 
 export type KnownTSType = string | bigint | boolean | Uint8Array;
 

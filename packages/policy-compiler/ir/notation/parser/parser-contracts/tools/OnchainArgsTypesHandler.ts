@@ -3,9 +3,16 @@ import {
   IArbitraryDataArtifact,
   IArbitraryDataArtifact__factory,
 } from '../../../../../../policy-contracts/src/typechain';
-import { Descriptors, IOnchainHandler } from '../types';
+import {
+  AllDescriptors,
+  Descriptors,
+  IGetArgsTypes,
+  IGetArgsTypesAndNames,
+} from '../types';
 
-export class OnchainHandler implements IOnchainHandler {
+export class OnchainArgsTypesHandler
+  implements IGetArgsTypesAndNames, IGetArgsTypes
+{
   private artifactInstance!: IArbitraryDataArtifact;
 
   constructor(private provider: ContractRunner) {}
@@ -39,6 +46,29 @@ export class OnchainHandler implements IOnchainHandler {
     return {
       initParamsTypes: [...initParamsTypes],
       execParamsTypes: [...execParamsTypes],
+    };
+  };
+
+  getAllDescriptors = async (
+    instanceAddress: string,
+  ): Promise<AllDescriptors> => {
+    const {
+      execDescriptorValue: {
+        argsTypes: execParamsTypes,
+        argsNames: execParamsNames,
+      },
+      initDescriptorValue: {
+        argsTypes: initParamsTypes,
+        argsNames: initParamsNames,
+      },
+    } = await this.getDescriptorsValues(instanceAddress);
+
+    // note: this requires spread to omit wrappers
+    return {
+      initParamsTypes: [...initParamsTypes],
+      initParamsNames: [...initParamsNames],
+      execParamsTypes: [...execParamsTypes],
+      execParamsNames: [...execParamsNames],
     };
   };
 }

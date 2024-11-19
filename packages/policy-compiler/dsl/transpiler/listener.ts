@@ -27,7 +27,7 @@ import {
   extractAndLookupExecArguments,
   extractAndLookupInitArguments,
 } from './helpers';
-import { LatentState } from './state';
+import { LatentState } from './state/LatentState';
 
 export class LacLangTranspiler implements LacLangListener {
   constructor(public readonly latentState: LatentState = new LatentState()) {}

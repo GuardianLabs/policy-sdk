@@ -2,12 +2,12 @@ import { ContractRunner } from 'ethers';
 import { ParsingResult } from '../types';
 import { ParserBase } from './base/ParserBase';
 import { prepareGetDescriptors, toUnprocessedArtifactsList } from './tools';
-import { GetDescriptors, IOnchainHandler } from './types';
+import { GetDescriptors, IGetArgsTypes } from './types';
 
 export class Parser {
   static build = (
     intermediatePresentation: string,
-    providerOrHandler: ContractRunner | IOnchainHandler,
+    providerOrHandler: ContractRunner | IGetArgsTypes,
   ): Parser => {
     const getDescrpiptors = prepareGetDescriptors(providerOrHandler);
 

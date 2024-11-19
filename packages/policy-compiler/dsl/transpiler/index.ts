@@ -4,7 +4,7 @@ import { ParseTreeWalker } from 'antlr4ts/tree/ParseTreeWalker';
 import { LacLangLexer, LacLangParser, ProgramContext } from '../antlr';
 import { IRTransformer } from '../transformer';
 import { LacLangTranspiler } from './listener';
-import { InstanceConfig } from './state';
+import { InstanceConfig } from './state/types';
 
 export type TranspilerOutput = {
   ir: string;
