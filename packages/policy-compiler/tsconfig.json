@@ -8,6 +8,7 @@
     "./ir/**/*",
     "./compiler/**/*"
   ],
+  "files": ["./hardhat.config.ts"],
   "compilerOptions": {
     "resolveJsonModule": true
   }
