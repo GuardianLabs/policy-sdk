@@ -1,3 +1,4 @@
+import { ConstantDeclarationContext, VarDeclarationContext } from '../../antlr';
 import {
   Artifacts,
   Constants,
@@ -55,8 +56,26 @@ export class LatentState {
   get evaluateRelativeTo() {
     return this.evaluateRelativeToInternal;
   }
-
   set setEvaluateRelativeTo(value: Evaluate) {
     this.evaluateRelativeToInternal = value;
+  }
+
+  setVariables(ctx: VarDeclarationContext) {
+    const { text: name } = ctx.IDENTIFIER();
+    const { text: type } = ctx.dataType();
+
+    this.variablesMap.set(name, { type, ctx });
+  }
+
+  setConstants(ctx: ConstantDeclarationContext) {
+    const { text: name } = ctx.IDENTIFIER();
+    const { text: value } = ctx.literal();
+    const { text: type } = ctx.dataType();
+
+    this.constantsMap.set(name, {
+      value,
+      type,
+      ctx,
+    });
   }
 }

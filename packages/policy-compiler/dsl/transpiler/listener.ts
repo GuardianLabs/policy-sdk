@@ -32,7 +32,7 @@ import { LatentState } from './state/LatentState';
 export class LacLangTranspiler implements LacLangListener {
   constructor(public readonly latentState: LatentState = new LatentState()) {}
 
-  enterVarDeclaration(ctx: VarDeclarationContext) {
+  enterVarDeclaration(ctx: VarDeclarationContext): void {
     const name = ctx.IDENTIFIER().text;
     lookupAndThrow(
       name,
@@ -40,7 +40,7 @@ export class LacLangTranspiler implements LacLangListener {
       (declared) => new VariableAlreadyDefinedError(name, ctx, declared.ctx),
     );
 
-    this.latentState.variables.set(name, { type: ctx.dataType().text, ctx });
+    this.latentState.setVariables(ctx);
   }
 
   enterConstantDeclaration(ctx: ConstantDeclarationContext) {
@@ -51,11 +51,7 @@ export class LacLangTranspiler implements LacLangListener {
       (declared) => new ConstantAlreadyDefinedError(name, ctx, declared.ctx),
     );
 
-    this.latentState.constants.set(name, {
-      value: ctx.literal().text,
-      type: ctx.dataType().text,
-      ctx,
-    });
+    this.latentState.setConstants(ctx);
   }
 
   enterArtifactDeclaration(ctx: ArtifactDeclarationContext) {
