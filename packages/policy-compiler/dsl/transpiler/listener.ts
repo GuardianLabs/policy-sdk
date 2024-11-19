@@ -39,13 +39,17 @@ export class LacLangTranspiler implements LacLangListener {
       this.latentState.variables,
       (declared) => new VariableAlreadyDefinedError(name, ctx, declared.ctx),
     );
-    let injection = "\"\"";
+    let injection = '""';
 
-    if(ctx.injectionModifier()) {
+    if (ctx.injectionModifier()) {
       injection = ctx.injectionModifier()!.STRING_LITERAL().text;
     }
 
-    this.latentState.variables.set(name, { type: ctx.dataType().text, ctx, injection });
+    this.latentState.variables.set(name, {
+      type: ctx.dataType().text,
+      ctx,
+      injection,
+    });
   }
 
   enterConstantDeclaration(ctx: ConstantDeclarationContext) {

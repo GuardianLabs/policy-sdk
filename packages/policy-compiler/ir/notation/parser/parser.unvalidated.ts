@@ -160,16 +160,18 @@ const parse = async (
       );
 
     const injections = parameters
-    .filter((val) => strIsVar(val.value)).map((el, index) => {
-      const injection = extractInjection(el.value);
+      .filter((val) => strIsVar(val.value))
+      .map((el, index) => {
+        const injection = extractInjection(el.value);
 
-      if(injection && injection != "") {
-        return {
-          value: el.value,
-          index
-        };
-      }
-    }).filter(el => !!el);
+        if (injection && injection != '') {
+          return {
+            value: el.value,
+            index,
+          };
+        }
+      })
+      .filter((el) => !!el);
 
     res.push({
       id: nodeIdByNotation(artifact, index),
