@@ -72,7 +72,7 @@ export class LacLangTranspiler implements LacLangListener {
     const name = ctx.IDENTIFIER().text;
     lookupAndThrow(
       name,
-      this.latentState.instances,
+      this.latentState.instancesByName,
       (declared) => new InstanceAlreadyDefinedError(name, ctx, declared.ctx),
     );
 
@@ -90,29 +90,29 @@ export class LacLangTranspiler implements LacLangListener {
       initArguments,
     };
 
-    const instancesCount = this.latentState.instances.size;
+    const instancesCount = this.latentState.instancesByName.size;
     const id = nodeId(instanceConfig, instancesCount);
 
     findSelfReferenceAndThrow(name, id, execArguments, ctx); // note: may be redundant cause in this case instance will not be even defined yet
 
-    this.latentState.instances.set(name, {
+    this.latentState.instancesByName.set(name, {
       ctx,
+      id,
       config: instanceConfig,
       type: ctx.dataType().text,
       index: instancesCount,
-      id,
     });
 
     this.latentState.instancesById.set(id, {
       ctx,
+      name,
       config: instanceConfig,
       type: ctx.dataType().text,
       index: instancesCount,
-      name,
     });
 
     findCycleAndThrow(
-      this.latentState.instances,
+      this.latentState.instancesByName,
       this.latentState.instancesById,
     ); // note: may be redundant due to linear declaration by design
   }
@@ -125,7 +125,7 @@ export class LacLangTranspiler implements LacLangListener {
     const instName = ctx.IDENTIFIER().text;
     const refInst = lookupOrThrow(
       instName,
-      this.latentState.instances,
+      this.latentState.instancesByName,
       new InstanceNotDefinedError(instName, ctx),
     );
 

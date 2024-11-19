@@ -42,7 +42,7 @@ export const extractAndLookupExecArguments = (
         if (!refVar) {
           const refInst = lookupOrThrow(
             name,
-            latentState.instances,
+            latentState.instancesByName,
             new VariableNotDefinedError(name, el.ruleContext),
           );
 

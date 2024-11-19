@@ -1,57 +1,62 @@
 import { ParserRuleContext } from 'antlr4ts';
 import { TypedValue } from '../helpers';
 
-export type InstanceConfigArgumentsOnly = {
+type KeyType = string;
+type IdKeyType = string;
+type NameKeyType = string;
+
+type InstanceConfigArgumentsOnly = {
   execArguments: TypedValue[];
   initArguments: TypedValue[];
 };
 
-export type InstanceConfig = InstanceConfigArgumentsOnly & {
+type InstanceConfigNameAndAddressOnly = {
   name?: string;
   artifactAddress: string;
 };
 
-export type Name = { name: string };
-export type Type = { type: string };
-type Context = { ctx: ParserRuleContext };
+export type InstanceConfig = InstanceConfigArgumentsOnly &
+  InstanceConfigNameAndAddressOnly;
 
-export type Constants = Map<
-  string,
-  {
-    value: string;
-  } & Context &
-    Type
->;
+type DataType = { type: string };
+type AddressType = {
+  address: string;
+};
+type NameType = {
+  name: string;
+};
+type NodeIdType = {
+  nodeId: string;
+};
+type IndexType = {
+  index: number;
+};
+type ConfigType = {
+  config: InstanceConfig;
+};
+type ValueType = { value: string };
 
-export type Variables = Map<string, Type & Context>;
+type ContextWrapped = { ctx: ParserRuleContext };
 
-export type Artifacts = Map<
-  string,
-  {
-    address: string;
-  } & Context
->;
+export type Constants = Map<KeyType, ValueType & DataType & ContextWrapped>;
 
-export type Instances = Map<
-  string,
+export type Variables = Map<KeyType, DataType & ContextWrapped>;
+
+export type Artifacts = Map<KeyType, AddressType & ContextWrapped>;
+
+export type InstancesByName = Map<
+  NameKeyType,
   {
     id: string;
-    index: number;
-    config: InstanceConfig;
-  } & Context &
-    Type
+  } & IndexType &
+    ConfigType &
+    DataType &
+    ContextWrapped
 >;
 
 export type InstancesById = Map<
-  string,
-  {
-    name: string;
-    index: number;
-    config: InstanceConfig;
-  } & Context &
-    Type
+  IdKeyType,
+  NameType & IndexType & ConfigType & DataType & ContextWrapped
 >;
 
-export type Evaluate = {
-  nodeId: string;
-} & Context;
+export type Evaluating = NodeIdType & ContextWrapped;

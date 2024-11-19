@@ -2,9 +2,9 @@ import { ConstantDeclarationContext, VarDeclarationContext } from '../../antlr';
 import {
   Artifacts,
   Constants,
-  Evaluate,
-  Instances,
+  Evaluating,
   InstancesById,
+  InstancesByName,
   Variables,
 } from './types';
 
@@ -15,11 +15,11 @@ export class LatentState {
 
   private artifactsMap: Artifacts;
 
-  private instancesMap: Instances;
+  private instancesByNameMap: InstancesByName;
 
   private instancesByIdMap: InstancesById;
 
-  private evaluateRelativeToInternal?: Evaluate;
+  private evaluateRelativeToInternal?: Evaluating;
 
   constructor() {
     this.constantsMap = new Map();
@@ -28,7 +28,7 @@ export class LatentState {
 
     this.artifactsMap = new Map();
 
-    this.instancesMap = new Map();
+    this.instancesByNameMap = new Map();
 
     this.instancesByIdMap = new Map();
   }
@@ -45,8 +45,8 @@ export class LatentState {
     return this.artifactsMap;
   }
 
-  get instances() {
-    return this.instancesMap;
+  get instancesByName() {
+    return this.instancesByNameMap;
   }
 
   get instancesById() {
@@ -56,7 +56,7 @@ export class LatentState {
   get evaluateRelativeTo() {
     return this.evaluateRelativeToInternal;
   }
-  set setEvaluateRelativeTo(value: Evaluate) {
+  set setEvaluateRelativeTo(value: Evaluating) {
     this.evaluateRelativeToInternal = value;
   }
 
@@ -65,6 +65,7 @@ export class LatentState {
     const { text: type } = ctx.dataType();
 
     this.variablesMap.set(name, { type, ctx });
+    [...this.variablesMap.values()];
   }
 
   setConstants(ctx: ConstantDeclarationContext) {

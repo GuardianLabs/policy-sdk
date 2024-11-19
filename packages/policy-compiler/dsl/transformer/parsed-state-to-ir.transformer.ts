@@ -23,7 +23,7 @@ export class IRTransformer {
     definitions: string[];
     typings: InstanceConfig[];
   } {
-    const sortedInstances = mapToArray(state.instances).sort(
+    const sortedInstances = mapToArray(state.instancesByName).sort(
       (a, b) => a.index - b.index,
     );
 

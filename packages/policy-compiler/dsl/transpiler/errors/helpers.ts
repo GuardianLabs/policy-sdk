@@ -5,7 +5,7 @@ import {
   mapToArray,
   TypedValue,
 } from '../helpers';
-import { Instances, InstancesById } from '../state/types';
+import { InstancesById, InstancesByName } from '../state/types';
 import { findCycle } from '../validations';
 import { CyclicReferenceError, SelfReferenceError } from './';
 
@@ -30,7 +30,7 @@ export const lookupAndThrow = (
 };
 
 export const findCycleAndThrow = (
-  instancesByNameMap: Instances,
+  instancesByNameMap: InstancesByName,
   instancesByIdMap: InstancesById,
 ) => {
   const cycleFound = findCycle(
