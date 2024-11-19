@@ -1,12 +1,12 @@
-import { InstanceConfig } from '../../../../../dsl/transpiler/state/types';
-import { DSLTypesToIRTypes } from '../../../helpers';
-import { Descriptors, IGetArgsTypes } from '../types';
+import { InstanceConfig } from '../../../../../../dsl/transpiler/state/types';
+import { DSLTypesToIRTypes } from '../../../../helpers';
+import { ExecInitArtifactTypes, IArgsTypesSource } from '../../types';
 
-export class ConfigArgsTypesHandler implements IGetArgsTypes {
+export class DSLConfigArgsTypesSource implements IArgsTypesSource {
   static build = (
     ipArtifactInstanceConfigList: InstanceConfig[],
-  ): ConfigArgsTypesHandler => {
-    return new ConfigArgsTypesHandler(ipArtifactInstanceConfigList);
+  ): DSLConfigArgsTypesSource => {
+    return new DSLConfigArgsTypesSource(ipArtifactInstanceConfigList);
   };
 
   constructor(private configList: InstanceConfig[]) {}
@@ -35,7 +35,7 @@ export class ConfigArgsTypesHandler implements IGetArgsTypes {
   getDescriptors = async (
     instanceAddress: string,
     posAtConfigList?: number,
-  ): Promise<Descriptors> => {
+  ): Promise<ExecInitArtifactTypes> => {
     const { initArguments: initArgsRaw, execArguments: execArgsRaw } =
       this.getArtifactConfig(instanceAddress, posAtConfigList);
 

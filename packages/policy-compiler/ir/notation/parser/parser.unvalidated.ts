@@ -12,7 +12,7 @@ import {
   strIsSubst,
   strIsVar,
 } from '../helpers';
-import { OnchainArgsTypesHandler } from './parser-contracts/tools';
+import { OnchainDescriptorArgsTypesSource } from './parser-contracts/tools';
 import { ParsingResult, Type, ValidationMiddlware } from './types';
 
 type Parameter = {
@@ -68,7 +68,7 @@ const getKnownExecDataAndInitDataFromOnchainTypes = async (
   artifactAddress: string,
   provider?: ContractRunner,
 ): Promise<KnownParamsAndInitData> => {
-  const onchain = new OnchainArgsTypesHandler(provider!);
+  const onchain = new OnchainDescriptorArgsTypesSource(provider!);
 
   const { execParamsTypes, initParamsTypes } =
     await onchain.getDescriptors(artifactAddress);

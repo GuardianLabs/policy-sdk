@@ -1,16 +1,18 @@
 import { ParsingResult } from '../types';
 
-export type GetDescriptors = (
+export type GetTypesValues = (
   instanceAddress: string,
   posAtConfigList?: number,
-) => Promise<Descriptors>;
+) => Promise<ExecInitArtifactTypes>;
 
-export interface IGetArgsTypes {
-  getDescriptors: GetDescriptors;
+export interface IArgsTypesSource {
+  getDescriptors: GetTypesValues;
 }
 
-export interface IGetArgsTypesAndNames {
-  getAllDescriptors(instanceAddress: string): Promise<AllDescriptors>;
+export interface IArgsTypesAndNamesSource {
+  getAllDescriptors(
+    instanceAddress: string,
+  ): Promise<ExecInitArtifactTypesAndNames>;
 }
 
 export interface IParamsExtractor {
@@ -27,12 +29,12 @@ export type ArtifactData = {
   needsInitialization: boolean;
 };
 
-export type Descriptors = {
+export type ExecInitArtifactTypes = {
   execParamsTypes: string[];
   initParamsTypes: string[];
 };
 
-export type AllDescriptors = Descriptors & {
+export type ExecInitArtifactTypesAndNames = ExecInitArtifactTypes & {
   execParamsNames: string[];
   initParamsNames: string[];
 };

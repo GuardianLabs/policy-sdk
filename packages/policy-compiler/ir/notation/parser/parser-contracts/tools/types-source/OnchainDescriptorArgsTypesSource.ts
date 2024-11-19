@@ -2,16 +2,16 @@ import { ContractRunner } from 'ethers';
 import {
   IArbitraryDataArtifact,
   IArbitraryDataArtifact__factory,
-} from '../../../../../../policy-contracts/src/typechain';
+} from '../../../../../../../policy-contracts/src/typechain';
 import {
-  AllDescriptors,
-  Descriptors,
-  IGetArgsTypes,
-  IGetArgsTypesAndNames,
-} from '../types';
+  ExecInitArtifactTypes,
+  ExecInitArtifactTypesAndNames,
+  IArgsTypesAndNamesSource,
+  IArgsTypesSource,
+} from '../../types';
 
-export class OnchainArgsTypesHandler
-  implements IGetArgsTypesAndNames, IGetArgsTypes
+export class OnchainDescriptorArgsTypesSource
+  implements IArgsTypesAndNamesSource, IArgsTypesSource
 {
   private artifactInstance!: IArbitraryDataArtifact;
 
@@ -36,7 +36,9 @@ export class OnchainArgsTypesHandler
     return { execDescriptorValue, initDescriptorValue };
   };
 
-  getDescriptors = async (instanceAddress: string): Promise<Descriptors> => {
+  getDescriptors = async (
+    instanceAddress: string,
+  ): Promise<ExecInitArtifactTypes> => {
     const {
       execDescriptorValue: { argsTypes: execParamsTypes },
       initDescriptorValue: { argsTypes: initParamsTypes },
@@ -51,7 +53,7 @@ export class OnchainArgsTypesHandler
 
   getAllDescriptors = async (
     instanceAddress: string,
-  ): Promise<AllDescriptors> => {
+  ): Promise<ExecInitArtifactTypesAndNames> => {
     const {
       execDescriptorValue: {
         argsTypes: execParamsTypes,
