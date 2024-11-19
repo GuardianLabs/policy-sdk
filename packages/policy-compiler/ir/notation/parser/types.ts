@@ -1,4 +1,4 @@
-import { InstanceConfig } from '../../../dsl/transpiler/state';
+import { InstanceConfig } from '../../../dsl/transpiler/state/types';
 
 export enum Type {
   Uint256 = 'uint256',

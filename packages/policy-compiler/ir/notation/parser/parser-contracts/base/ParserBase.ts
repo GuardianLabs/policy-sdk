@@ -10,10 +10,15 @@ export class ParserBase {
   static processSingle = async (
     unprocessedArtifact: string,
     getDescriptors: GetDescriptors,
+    pos?: number,
   ) => {
+    // note: wrapper is kinda temporaty solution;
+    // todo: re-design Parser class to support 'IGetArgsTypes' a bit smootherly
+    const getDescriptorsAtIndex = (param: string) => getDescriptors(param, pos);
+
     const exctractionHandler = ParamsExtractor.build(
       unprocessedArtifact,
-      getDescriptors,
+      getDescriptorsAtIndex,
     );
 
     const extractedData = await exctractionHandler.artifactData();
@@ -50,6 +55,7 @@ export class ParserBase {
     const processed = await this.processSingle(
       unprocessedArtifact,
       getDescriptors,
+      salt,
     );
 
     return {
