@@ -1,4 +1,4 @@
-import { Provider } from 'ethers';
+import { ContractRunner } from 'ethers';
 import { TranspilerOutput } from '../../../dsl';
 import {
   dslTypesToOnchainTypesParamsValidation,
@@ -7,24 +7,36 @@ import {
 import { ParserWithValidation } from './parser-contracts';
 import { parseIRByDSLTypesWithInterceptor } from './parser.unvalidated';
 
-const TypingsValidator = (provider: Provider) => ({
+export const TypingsValidator = (provider: ContractRunner) => ({
   innerValidations: dslTypesToOnchainTypesParamsValidation(provider),
   outerValidations: onchainSubstitutionToReturnTypesValidation(provider),
 });
 
-export const getIRParser = (input: TranspilerOutput, provider?: Provider) => {
+export const getIRParser = (
+  input: TranspilerOutput,
+  provider: ContractRunner,
+) => {
+  const middlerware = TypingsValidator(provider);
   return {
     validated: {
-      DSL_TYPING: async () =>
-        await parseIRByDSLTypesWithInterceptor(
-          input,
-          TypingsValidator(provider!),
-        ),
-      ONCHAIN_TYPING: async () => {
-        const parser = ParserWithValidation.buildWithValidations(
+      DSL_TYPING: async () => {
+        const parser = ParserWithValidation.fromDSLBasedConfig(
           input.ir,
-          provider!,
-          TypingsValidator(provider!),
+          input.typings,
+          provider,
+        );
+        const parsed = await parser.process();
+        return parsed;
+        // const parsed = await parseIRByDSLTypesWithInterceptor(
+        //   input,
+        //   TypingsValidator(provider),
+        // );
+        // return parsed;
+      },
+      ONCHAIN_TYPING: async () => {
+        const parser = ParserWithValidation.fromOnchainSource(
+          input.ir,
+          provider,
         );
         const parsed = await parser.process();
         return parsed;
@@ -36,8 +48,20 @@ export const getIRParser = (input: TranspilerOutput, provider?: Provider) => {
         // return parsed;
       },
     },
-    unvalidated: {
-      DSL_TYPING: async () => await parseIRByDSLTypesWithInterceptor(input),
-    },
   };
+};
+
+export const getIRParserUnvalidate = (input: TranspilerOutput) => {
+  const unvalidateParser = async () => {
+    const parser = ParserWithValidation.fromDSLBasedConfig(
+      input.ir,
+      input.typings,
+    );
+    const parsed = await parser.process();
+    return parsed;
+    // const parsed = await parseIRByDSLTypesWithInterceptor(input);
+    // return parsed;
+  };
+
+  return unvalidateParser;
 };
