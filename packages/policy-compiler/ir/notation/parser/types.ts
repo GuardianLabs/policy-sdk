@@ -32,6 +32,7 @@ export type ValidationMiddlware = {
   outerValidations: (output: ParsingResult[]) => Promise<void>;
 };
 
+// todo: use TreeNodeInitParamsStruct
 export type ParsingResult = {
   id: string;
   artifactAddress: string;
