@@ -1,20 +1,22 @@
 import { ContractRunner } from 'ethers';
 import { ParsingResult } from '../types';
 import { ParserBase } from './base/ParserBase';
-import { prepareGetDescriptors, toUnprocessedArtifactsList } from './tools';
-import { IGetArgsTypes } from './types';
+import { createOrInferTypesSource, toUnprocessedArtifactsList } from './tools';
+import { IArgsTypesSource } from './types';
 
 export class StaticParser {
   static process = async (
-    ip: string,
-    providerOrHandler: ContractRunner | IGetArgsTypes,
+    intermediatePresentation: string,
+    providerOrSource: ContractRunner | IArgsTypesSource,
   ): Promise<Array<ParsingResult>> => {
-    const unprocessedArtifacts = toUnprocessedArtifactsList(ip);
+    const unprocessedArtifacts = toUnprocessedArtifactsList(
+      intermediatePresentation,
+    );
 
-    const getDescriptors = prepareGetDescriptors(providerOrHandler);
+    const getTypesSource = createOrInferTypesSource(providerOrSource);
 
     const processPromises = unprocessedArtifacts.map((v, i) =>
-      ParserBase.processSingleWithId(v, i, getDescriptors),
+      ParserBase.processSingleWithId(v, i, getTypesSource),
     );
 
     const processedArtifacts = await Promise.all(processPromises);

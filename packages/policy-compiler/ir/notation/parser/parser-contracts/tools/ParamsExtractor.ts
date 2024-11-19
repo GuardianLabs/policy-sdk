@@ -1,7 +1,7 @@
 import { getAddress } from 'ethers';
 import {
   ArtifactData,
-  GetDescriptors,
+  GetTypesValues,
   IParamsExtractor,
   Parameter,
   RawArtifactComponents,
@@ -14,14 +14,14 @@ import { TypesNormalizer } from './TypesNormalizer';
 export class ParamsExtractor implements IParamsExtractor {
   static build = (
     artifactDeclarationUnprocessed: string,
-    descriptors: GetDescriptors,
+    descriptors: GetTypesValues,
   ): ParamsExtractor => {
     return new ParamsExtractor(artifactDeclarationUnprocessed, descriptors);
   };
 
   constructor(
     private artifactDeclarationUnprocessed: string,
-    private descriptors: GetDescriptors,
+    private descriptors: GetTypesValues,
   ) {}
 
   private get artifact() {

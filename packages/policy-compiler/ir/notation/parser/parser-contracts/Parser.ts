@@ -1,23 +1,23 @@
 import { ContractRunner } from 'ethers';
 import { ParsingResult } from '../types';
 import { ParserBase } from './base/ParserBase';
-import { prepareGetDescriptors, toUnprocessedArtifactsList } from './tools';
-import { GetDescriptors, IGetArgsTypes } from './types';
+import { createOrInferTypesSource, toUnprocessedArtifactsList } from './tools';
+import { GetTypesValues, IArgsTypesSource } from './types';
 
 export class Parser {
   static build = (
     intermediatePresentation: string,
-    providerOrHandler: ContractRunner | IGetArgsTypes,
+    providerOrSource: ContractRunner | IArgsTypesSource,
   ): Parser => {
-    const getDescrpiptors = prepareGetDescriptors(providerOrHandler);
+    const getTypesSource = createOrInferTypesSource(providerOrSource);
 
-    return new Parser(getDescrpiptors, intermediatePresentation);
+    return new Parser(getTypesSource, intermediatePresentation);
   };
 
   // note: This expects String of intermediate-representation of artifacts and their relations.
   // The string value is validated in ParserBase, Extractor
   constructor(
-    private getDescriptors: GetDescriptors,
+    private getTypesSource: GetTypesValues,
     private intermediatePresentation: string,
   ) {}
 
@@ -32,7 +32,7 @@ export class Parser {
   // and other related data of Artifact.
   process = async (): Promise<Array<ParsingResult>> => {
     const processPromises = this.unprocessedArtifacts.map((v, i) =>
-      ParserBase.processSingleWithId(v, i, this.getDescriptors),
+      ParserBase.processSingleWithId(v, i, this.getTypesSource),
     );
 
     const processedArtifacts = await Promise.all(processPromises);

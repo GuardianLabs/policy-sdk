@@ -6,8 +6,8 @@ import { OnchainDescriptorArgsTypesSource } from './types-source/OnchainDescript
 
 // note: this takes intermeditate presentation of artifact.
 // regex validations should be applied at different abstraction layer
-export const nodeId = (ipArtifact: string, salt: number) =>
-  keccak256Hash(['string', 'uint256'], [ipArtifact, salt]);
+export const nodeId = (intermediatePresentation: string, salt: number) =>
+  keccak256Hash(['string', 'uint256'], [intermediatePresentation, salt]);
 
 // note: this extracts raw artifacts (list: Array<string>) – as they declared in intermeditate presentation
 export const toUnprocessedArtifactsList = (
@@ -23,17 +23,17 @@ export const toUnprocessedArtifactsList = (
   return list;
 };
 
-export const prepareGetDescriptors = (
+export const createOrInferTypesSource = (
   providerOrSource: ContractRunner | IArgsTypesSource,
 ): GetTypesValues => {
-  let getDescriptors: GetTypesValues;
+  let getTypesSource: GetTypesValues;
 
   if (isContractProviderType(providerOrSource)) {
-    getDescriptors = new OnchainDescriptorArgsTypesSource(providerOrSource)
-      .getDescriptors;
+    getTypesSource = new OnchainDescriptorArgsTypesSource(providerOrSource)
+      .getTypes;
   } else {
-    getDescriptors = providerOrSource.getDescriptors;
+    getTypesSource = providerOrSource.getTypes;
   }
 
-  return getDescriptors;
+  return getTypesSource;
 };

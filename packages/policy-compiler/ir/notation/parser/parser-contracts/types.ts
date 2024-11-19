@@ -1,16 +1,16 @@
 import { ParsingResult } from '../types';
 
 export type GetTypesValues = (
-  instanceAddress: string,
+  artifactAddress: string,
   posAtConfigList?: number,
 ) => Promise<ExecInitArtifactTypes>;
 
 export interface IArgsTypesSource {
-  getDescriptors: GetTypesValues;
+  getTypes: GetTypesValues;
 }
 
 export interface IArgsTypesAndNamesSource {
-  getAllDescriptors(
+  getTypesAndNames(
     instanceAddress: string,
   ): Promise<ExecInitArtifactTypesAndNames>;
 }

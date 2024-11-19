@@ -71,7 +71,7 @@ const getKnownExecDataAndInitDataFromOnchainTypes = async (
   const onchain = new OnchainDescriptorArgsTypesSource(provider!);
 
   const { execParamsTypes, initParamsTypes } =
-    await onchain.getDescriptors(artifactAddress);
+    await onchain.getTypes(artifactAddress);
 
   const knownExecParams = indexConstants(
     parameters.filter((arg) => isConstant(arg.value)),

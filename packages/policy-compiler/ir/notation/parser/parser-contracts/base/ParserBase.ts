@@ -1,7 +1,7 @@
 import { ParsingResult } from '../../types';
 import { ParamsExtractor, nodeId } from '../tools';
 import {
-  GetDescriptors,
+  GetTypesValues,
   NormalizedExecParameter,
   SubstitutingParameter,
 } from '../types';
@@ -9,16 +9,16 @@ import {
 export class ParserBase {
   static processSingle = async (
     unprocessedArtifact: string,
-    getDescriptors: GetDescriptors,
+    getTypesSource: GetTypesValues,
     pos?: number,
   ) => {
     // note: wrapper is kinda temporaty solution;
     // todo: re-design Parser class to support 'IGetArgsTypes' a bit smootherly
-    const getDescriptorsAtIndex = (param: string) => getDescriptors(param, pos);
+    const getTypesSourceAtIndex = (param: string) => getTypesSource(param, pos);
 
     const exctractionHandler = ParamsExtractor.build(
       unprocessedArtifact,
-      getDescriptorsAtIndex,
+      getTypesSourceAtIndex,
     );
 
     const extractedData = await exctractionHandler.artifactData();
@@ -49,12 +49,12 @@ export class ParserBase {
   static processSingleWithId = async (
     unprocessedArtifact: string,
     salt: number,
-    getDescriptors: GetDescriptors,
+    getTypesSource: GetTypesValues,
   ): Promise<ParsingResult> => {
     const id = nodeId(unprocessedArtifact, salt);
     const processed = await this.processSingle(
       unprocessedArtifact,
-      getDescriptors,
+      getTypesSource,
       salt,
     );
 

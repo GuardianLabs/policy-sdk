@@ -3,9 +3,12 @@ import { InstanceConfig } from '../../../../dsl/transpiler/state/types';
 import { TypingsValidator } from '../parser.validated';
 import { ParsingResult, ValidationMiddlware } from '../types';
 import { ParserBase } from './base/ParserBase';
-import { prepareGetDescriptors, toUnprocessedArtifactsList } from './tools';
-import { ConfigArgsTypesHandler } from './tools/ConfigArgsTypesHandler';
-import { GetDescriptors } from './types';
+import {
+  DSLConfigArgsTypesSource,
+  createOrInferTypesSource,
+  toUnprocessedArtifactsList,
+} from './tools';
+import { GetTypesValues } from './types';
 
 export class ParserWithValidation {
   static fromOnchainSource = (
@@ -17,9 +20,9 @@ export class ParserWithValidation {
       middleware = TypingsValidator(provider);
     }
 
-    const getDescrpiptors = prepareGetDescriptors(provider);
+    const getTypesSource = createOrInferTypesSource(provider);
 
-    return this.build(intermediatePresentation, getDescrpiptors, middleware);
+    return this.build(intermediatePresentation, getTypesSource, middleware);
   };
 
   static fromDSLBasedConfig = (
@@ -32,24 +35,24 @@ export class ParserWithValidation {
       middleware = TypingsValidator(provider);
     }
 
-    const getTypesHandler = ConfigArgsTypesHandler.build(
+    const getTypesSource = DSLConfigArgsTypesSource.build(
       ipArtifactInstanceConfig,
     );
 
     return this.build(
       intermediatePresentation,
-      getTypesHandler.getDescriptors,
+      getTypesSource.getTypes,
       middleware,
     );
   };
 
   static build = (
     intermediatePresentation: string,
-    getTypesHandler: GetDescriptors,
+    getTypesSource: GetTypesValues,
     middleware?: ValidationMiddlware,
   ): ParserWithValidation => {
     return new ParserWithValidation(
-      getTypesHandler,
+      getTypesSource,
       intermediatePresentation,
       middleware,
     );
@@ -58,7 +61,7 @@ export class ParserWithValidation {
   // note: This expects String of intermediate-representation of artifacts and their relations.
   // The string value is validated in ParserBase, Extractor
   constructor(
-    private getDescriptors: GetDescriptors,
+    private getTypesSource: GetTypesValues,
     private intermediatePresentation: string,
     private middleware?: ValidationMiddlware,
   ) {}
@@ -74,7 +77,7 @@ export class ParserWithValidation {
   // and other related data of Artifact.
   process = async (): Promise<Array<ParsingResult>> => {
     const processPromises = this.unprocessedArtifacts.map((v, i) =>
-      ParserBase.processSingleWithId(v, i, this.getDescriptors),
+      ParserBase.processSingleWithId(v, i, this.getTypesSource),
     );
 
     const processedArtifacts = await Promise.all(processPromises);

@@ -26,7 +26,7 @@ export class OnchainDescriptorArgsTypesSource
     return this;
   };
 
-  private getDescriptorsValues = async (instanceAddress: string) => {
+  private getTypesValues = async (instanceAddress: string) => {
     this.connectInstance(instanceAddress);
 
     const execDescriptorValue = await this.artifactInstance.getExecDescriptor();
@@ -36,13 +36,13 @@ export class OnchainDescriptorArgsTypesSource
     return { execDescriptorValue, initDescriptorValue };
   };
 
-  getDescriptors = async (
+  getTypes = async (
     instanceAddress: string,
   ): Promise<ExecInitArtifactTypes> => {
     const {
       execDescriptorValue: { argsTypes: execParamsTypes },
       initDescriptorValue: { argsTypes: initParamsTypes },
-    } = await this.getDescriptorsValues(instanceAddress);
+    } = await this.getTypesValues(instanceAddress);
 
     // note: this requires spread to omit wrappers
     return {
@@ -51,7 +51,7 @@ export class OnchainDescriptorArgsTypesSource
     };
   };
 
-  getAllDescriptors = async (
+  getTypesAndNames = async (
     instanceAddress: string,
   ): Promise<ExecInitArtifactTypesAndNames> => {
     const {
@@ -63,7 +63,7 @@ export class OnchainDescriptorArgsTypesSource
         argsTypes: initParamsTypes,
         argsNames: initParamsNames,
       },
-    } = await this.getDescriptorsValues(instanceAddress);
+    } = await this.getTypesValues(instanceAddress);
 
     // note: this requires spread to omit wrappers
     return {

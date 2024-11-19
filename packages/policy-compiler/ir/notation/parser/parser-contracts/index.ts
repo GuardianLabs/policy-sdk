@@ -1,3 +1,7 @@
 export { Parser } from './Parser';
 export { ParserWithValidation } from './ParserWithValidation';
-export { nodeId } from './tools';
+export {
+  DSLConfigArgsTypesSource,
+  OnchainDescriptorArgsTypesSource,
+  nodeId,
+} from './tools';

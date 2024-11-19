@@ -11,7 +11,7 @@ export class DSLConfigArgsTypesSource implements IArgsTypesSource {
 
   constructor(private configList: InstanceConfig[]) {}
 
-  private getArtifactConfig = (
+  private getArtifactConfiguration = (
     instanceAddress: string,
     pos?: number,
   ): InstanceConfig => {
@@ -32,12 +32,12 @@ export class DSLConfigArgsTypesSource implements IArgsTypesSource {
     return config;
   };
 
-  getDescriptors = async (
+  getTypes = async (
     instanceAddress: string,
     posAtConfigList?: number,
   ): Promise<ExecInitArtifactTypes> => {
     const { initArguments: initArgsRaw, execArguments: execArgsRaw } =
-      this.getArtifactConfig(instanceAddress, posAtConfigList);
+      this.getArtifactConfiguration(instanceAddress, posAtConfigList);
 
     const initParamsTypes = initArgsRaw
       .map((v) => v.type)
