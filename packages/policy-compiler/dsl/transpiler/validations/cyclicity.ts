@@ -15,10 +15,10 @@ export function findCycle(nodes: Node[]): NodeAndReference | null {
   const visited = new Set<string>();
   const explored = new Set<string>();
 
-  function hasCycle(
+  const hasCycle = (
     nodeId: string,
     parentNodeId: string,
-  ): [isCyclic: boolean, NodeAndReference?] {
+  ): [isCyclic: boolean, NodeAndReference?] => {
     if (visited.has(nodeId)) {
       return [true, { nodeId, parentNodeId }];
     }
@@ -46,7 +46,7 @@ export function findCycle(nodes: Node[]): NodeAndReference | null {
     explored.add(nodeId);
 
     return [false];
-  }
+  };
 
   for (const node of nodes) {
     const cycleTestResult = hasCycle(node.id, '0');

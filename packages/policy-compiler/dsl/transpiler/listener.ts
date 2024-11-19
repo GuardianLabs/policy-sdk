@@ -7,7 +7,7 @@ import {
   ProgramContext,
   VarDeclarationContext,
 } from '../antlr';
-import { nodeId } from '../transformer/helpers';
+import { nodeId as calculateNodeId } from '../transformer/helpers';
 import {
   ArtifactAlreadyDefinedError,
   ConstantAlreadyDefinedError,
@@ -91,19 +91,20 @@ export class LacLangTranspiler implements LacLangListener {
     };
 
     const instancesCount = this.latentState.instancesByName.size;
-    const id = nodeId(instanceConfig, instancesCount);
+    const nodeId = calculateNodeId(instanceConfig, instancesCount);
 
-    findSelfReferenceAndThrow(name, id, execArguments, ctx); // note: may be redundant cause in this case instance will not be even defined yet
+    // note: may be redundant cause in this case instance will not be even defined yet
+    findSelfReferenceAndThrow(name, nodeId, execArguments, ctx);
 
     this.latentState.instancesByName.set(name, {
       ctx,
-      id,
+      id: nodeId,
       config: instanceConfig,
       type: ctx.dataType().text,
       index: instancesCount,
     });
 
-    this.latentState.instancesById.set(id, {
+    this.latentState.instancesById.set(nodeId, {
       ctx,
       name,
       config: instanceConfig,
