@@ -65,7 +65,6 @@ export class LatentState {
     const { text: type } = ctx.dataType();
 
     this.variablesMap.set(name, { type, ctx });
-    [...this.variablesMap.values()];
   }
 
   setConstants(ctx: ConstantDeclarationContext) {
