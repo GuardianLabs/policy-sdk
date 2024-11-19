@@ -1,10 +1,10 @@
 import { ContractRunner } from 'ethers';
 import { keccak256Hash } from '../../../../../../policy-contracts/test/utils/solidity-encode-decode';
 import { isContractProviderType } from '../guards';
-import { GetDescriptors, IOnchainHandler } from '../types';
-import { OnchainHandler } from './OnchainHandler';
+import { GetDescriptors, IGetArgsTypes } from '../types';
+import { OnchainArgsTypesHandler } from './OnchainArgsTypesHandler';
 
-export * from './OnchainHandler';
+export * from './OnchainArgsTypesHandler';
 export * from './ParamsExtractor';
 export * from './TypesNormalizer';
 
@@ -28,12 +28,13 @@ export const toUnprocessedArtifactsList = (
 };
 
 export const prepareGetDescriptors = (
-  providerOrHandler: ContractRunner | IOnchainHandler,
+  providerOrHandler: ContractRunner | IGetArgsTypes,
 ): GetDescriptors => {
   let getDescriptors: GetDescriptors;
 
   if (isContractProviderType(providerOrHandler)) {
-    getDescriptors = new OnchainHandler(providerOrHandler).getDescriptors;
+    getDescriptors = new OnchainArgsTypesHandler(providerOrHandler)
+      .getDescriptors;
   } else {
     getDescriptors = providerOrHandler.getDescriptors;
   }
