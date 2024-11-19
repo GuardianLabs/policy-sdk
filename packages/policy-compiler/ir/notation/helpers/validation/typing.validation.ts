@@ -1,7 +1,7 @@
-import { Provider } from 'ethers';
+import { ContractRunner } from 'ethers';
 import { ParsingResult } from '../../..';
 import { IArbitraryDataArtifact__factory } from '../../../../../policy-contracts/src/typechain';
-import { InstanceConfig } from '../../../../dsl/transpiler/state';
+import { MinTypedValue } from '../../../../dsl/transpiler/helpers';
 import {
   ExecTypesDoNotMatchError,
   InitTypesDoNotMatchError,
@@ -9,9 +9,17 @@ import {
 } from '../../errors';
 import { DSLTypesToIRTypes } from '../formatters';
 
+type InitExecArgumentsConfig = {
+  execArguments: Array<MinTypedValue>;
+  initArguments: Array<MinTypedValue>;
+};
+
 export const dslTypesToOnchainTypesParamsValidation =
-  (provider: Provider) =>
-  async (artifactAddress: string, currentInstanceConfig: InstanceConfig) => {
+  (provider: ContractRunner) =>
+  async (
+    artifactAddress: string,
+    initExecArgumentsConfig: InitExecArgumentsConfig,
+  ) => {
     const instance = IArbitraryDataArtifact__factory.connect(
       artifactAddress,
       provider,
@@ -23,7 +31,7 @@ export const dslTypesToOnchainTypesParamsValidation =
       await instance.getInitDescriptor();
 
     for (let i = 0; i < initArgsNames.length; i++) {
-      const mirroredDslParameter = currentInstanceConfig.initArguments[i];
+      const mirroredDslParameter = initExecArgumentsConfig.initArguments[i];
       const parsedType = DSLTypesToIRTypes(mirroredDslParameter.type);
       if (initArgsTypes[i] !== parsedType) {
         throw new InitTypesDoNotMatchError(
@@ -36,7 +44,7 @@ export const dslTypesToOnchainTypesParamsValidation =
     }
 
     for (let i = 0; i < argsNames.length; i++) {
-      const mirroredDslParameter = currentInstanceConfig.execArguments[i];
+      const mirroredDslParameter = initExecArgumentsConfig.execArguments[i];
       const parsedType = DSLTypesToIRTypes(mirroredDslParameter.type);
       if (argsTypes[i] !== parsedType) {
         throw new ExecTypesDoNotMatchError(
@@ -50,7 +58,7 @@ export const dslTypesToOnchainTypesParamsValidation =
   };
 
 export const onchainSubstitutionToReturnTypesValidation =
-  (provider: Provider) => async (output: ParsingResult[]) => {
+  (provider: ContractRunner) => async (output: ParsingResult[]) => {
     for (const instance of output) {
       const currentInstance = IArbitraryDataArtifact__factory.connect(
         instance.artifactAddress,
