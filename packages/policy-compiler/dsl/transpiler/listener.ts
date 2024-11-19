@@ -136,7 +136,7 @@ export class LacLangTranspiler implements LacLangListener {
     if (refInst.type != 'bool')
       throw new EvaluateTypeNotBoolError(instName, ctx, refInst.ctx);
 
-    this.latentState.evaluateRelativeTo = {
+    this.latentState.setEvaluateRelativeTo = {
       nodeId: refInst.id,
       ctx,
     };

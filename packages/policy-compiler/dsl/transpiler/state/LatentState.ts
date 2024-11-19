@@ -8,15 +8,55 @@ import {
 } from './types';
 
 export class LatentState {
-  public constants: Constants = new Map();
+  private constantsMap: Constants;
 
-  public variables: Variables = new Map();
+  private variablesMap: Variables;
 
-  public artifacts: Artifacts = new Map();
+  private artifactsMap: Artifacts;
 
-  public instances: Instances = new Map();
+  private instancesMap: Instances;
 
-  public instancesById: InstancesById = new Map();
+  private instancesByIdMap: InstancesById;
 
-  public evaluateRelativeTo?: Evaluate;
+  private evaluateRelativeToInternal?: Evaluate;
+
+  constructor() {
+    this.constantsMap = new Map();
+
+    this.variablesMap = new Map();
+
+    this.artifactsMap = new Map();
+
+    this.instancesMap = new Map();
+
+    this.instancesByIdMap = new Map();
+  }
+
+  get constants() {
+    return this.constantsMap;
+  }
+
+  get variables() {
+    return this.variablesMap;
+  }
+
+  get artifacts() {
+    return this.artifactsMap;
+  }
+
+  get instances() {
+    return this.instancesMap;
+  }
+
+  get instancesById() {
+    return this.instancesByIdMap;
+  }
+
+  get evaluateRelativeTo() {
+    return this.evaluateRelativeToInternal;
+  }
+
+  set setEvaluateRelativeTo(value: Evaluate) {
+    this.evaluateRelativeToInternal = value;
+  }
 }
