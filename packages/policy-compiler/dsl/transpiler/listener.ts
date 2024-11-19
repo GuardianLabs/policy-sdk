@@ -39,7 +39,7 @@ export class LacLangTranspiler implements LacLangListener {
       this.latentState.variables,
       (declared) => new VariableAlreadyDefinedError(name, ctx, declared.ctx),
     );
-
+    
     this.latentState.setVariables(ctx);
   }
 

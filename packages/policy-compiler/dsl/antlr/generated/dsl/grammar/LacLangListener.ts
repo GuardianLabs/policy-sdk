@@ -10,6 +10,7 @@ import {
   DataTypeContext,
   EvaluateStatementContext,
   Identifier_or_literalContext,
+  InjectionModifierContext,
   InstanceDeclarationContext,
   LiteralContext,
   ProgramContext,
@@ -54,6 +55,17 @@ export interface LacLangListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   exitVarDeclaration?: (ctx: VarDeclarationContext) => void;
+
+  /**
+   * Enter a parse tree produced by `LacLangParser.injectionModifier`.
+   * @param ctx the parse tree
+   */
+  enterInjectionModifier?: (ctx: InjectionModifierContext) => void;
+  /**
+   * Exit a parse tree produced by `LacLangParser.injectionModifier`.
+   * @param ctx the parse tree
+   */
+  exitInjectionModifier?: (ctx: InjectionModifierContext) => void;
 
   /**
    * Enter a parse tree produced by `LacLangParser.constantDeclaration`.

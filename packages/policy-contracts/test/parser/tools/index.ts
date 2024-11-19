@@ -15,10 +15,10 @@ export const nodeId = (ipArtifact: string, salt: number) =>
 
 // note: this extracts raw artifacts (list: Array<string>) – as they declared in intermeditate presentation
 export const toUnprocessedArtifactsList = (
-  intermediatePresentation: string,
+  intermediateRepresentation: string,
 ): Array<string> => {
   // note: no extra whitespaces + split input (by lines count) into individual artifact strings
-  const list = intermediatePresentation
+  const list = intermediateRepresentation
     .trim() // remove surrounding whitespaces in declaration (intermediate-presentation)
     .split(/\r?\n/) // split by each line
     .map((v) => v.trim()); // remove surrounding whitespaces in each artifact

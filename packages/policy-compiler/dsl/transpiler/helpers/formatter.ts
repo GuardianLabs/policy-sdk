@@ -53,7 +53,7 @@ export const extractAndLookupExecArguments = (
           };
         } else
           return {
-            value: 'var' + name,
+            value: 'var' + name + `$${refVar.injection}`,
             type: refVar.type,
           };
       } else {

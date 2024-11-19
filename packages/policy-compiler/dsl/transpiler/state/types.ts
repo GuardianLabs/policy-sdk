@@ -23,7 +23,7 @@ export type Constants = Map<
     Type
 >;
 
-export type Variables = Map<string, Type & Context>;
+export type Variables = Map<string, Type & Context & { injection: string }>;
 
 export type Artifacts = Map<
   string,

@@ -19,6 +19,9 @@ function getVariablesListInternal(
 
         NamedTypedVariables memory variablesOfNode = variablesList[i];
         variablesOfNode.nodeId = node.id;
+        variablesOfNode.artifactAddress = node.implementationContractAddress;
+        variablesOfNode.injections = node.injections;
+        variablesOfNode.nodeIndex = i;
 
         require(
             argNames.length >= node.variables.length,

@@ -63,8 +63,9 @@ export class LatentState {
   setVariables(ctx: VarDeclarationContext) {
     const { text: name } = ctx.IDENTIFIER();
     const { text: type } = ctx.dataType();
+    const injection = ctx.injectionModifier() ? ctx.injectionModifier()!.STRING_LITERAL().text : "";
 
-    this.variablesMap.set(name, { type, ctx });
+    this.variablesMap.set(name, { type, ctx, injection });
   }
 
   setConstants(ctx: ConstantDeclarationContext) {

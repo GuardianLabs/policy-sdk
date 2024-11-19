@@ -1,2 +1,2 @@
-export { Parser as IntermediatePresentationParser } from './Parser';
+export { Parser as IntermediateRepresentationParser } from './Parser';
 export { nodeId } from './tools';

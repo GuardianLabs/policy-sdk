@@ -125,10 +125,8 @@ contract ArtifactNodes is ArtifactNodesBase {
         return nodes[index];
     }
 
-    // note: this should return what run-time arguments has to be supplied to Node;
-    // the arguments consists of node.variables and node.substitutions
-    function getVariablesList() public view returns (NamedTypedVariables[] memory variablesList) {
-        variablesList = Utils.getVariablesListInternal(nodes);
+    function getNodes() public view returns (Node[] memory) {
+        return nodes;
     }
 
     // nodeById

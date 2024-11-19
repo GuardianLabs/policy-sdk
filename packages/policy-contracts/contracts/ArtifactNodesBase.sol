@@ -29,6 +29,8 @@ contract ArtifactNodesBase is OwnerBase {
 
         setNodeVariables(newNode, params);
 
+        setNodeInjections(newNode, params);
+
         setNodeSubstibutions(newNode, params);
 
         setArgsCount(newNode, params);
@@ -81,6 +83,12 @@ contract ArtifactNodesBase is OwnerBase {
     function setNodeVariables(Node storage node, TreeNodeInitParams memory params) private {
         for (uint256 i = 0; i < params.variables.length; i++) {
             node.variables.push(params.variables[i]);
+        }
+    }
+
+    function setNodeInjections(Node storage node, TreeNodeInitParams memory params) private {
+        for (uint256 i = 0; i < params.injections.length; i++) {
+            node.injections.push(params.injections[i]);
         }
     }
 
