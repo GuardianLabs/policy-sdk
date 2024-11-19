@@ -1,10 +1,14 @@
-import { CannotLookupVariableValueError } from '../errors';
+import {
+  CannotLookupVariableValueError,
+  VariableTypeNotMetError,
+} from '../errors';
 import {
   AllowedVariablesType,
   FilledVariables,
   IAsyncMapGetter,
   VariablesFormattedDescription,
 } from '../types';
+import { valueCompliesExpectedType } from '../utils';
 
 export class VariablesInjector<ValueType extends AllowedVariablesType> {
   constructor(
@@ -36,10 +40,23 @@ export class VariablesInjector<ValueType extends AllowedVariablesType> {
               onchainVariableDefinition.injection,
             );
             const defaultValue = variablePotentiallyFilled.values[index];
+            const expectedType = onchainVariableDefinition.type;
 
             if (attribute !== undefined) {
+              if (!valueCompliesExpectedType(attribute, expectedType))
+                throw new VariableTypeNotMetError(
+                  attribute.toString(),
+                  expectedType,
+                );
+
               variablePotentiallyFilled.values[index] = attribute;
-            } else if (defaultValue) {
+            } else if (defaultValue !== undefined) {
+              if (!valueCompliesExpectedType(defaultValue, expectedType))
+                throw new VariableTypeNotMetError(
+                  defaultValue.toString(),
+                  expectedType,
+                );
+
               variablePotentiallyFilled.values[index] = defaultValue;
             } else
               throw new CannotLookupVariableValueError(
@@ -50,8 +67,6 @@ export class VariablesInjector<ValueType extends AllowedVariablesType> {
         }
       }
     }
-
-    console.log(injectedOnPlaceVariables);
 
     return injectedOnPlaceVariables;
   }

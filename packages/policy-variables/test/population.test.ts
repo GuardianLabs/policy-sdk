@@ -18,9 +18,14 @@ describe('Variables population minimal flow', () => {
     attributes.set('allowance', 13_000);
     attributes.set('magic_hash', '0xdeadbeef');
     attributes.set('IS_DEV', false);
-    attributes.set('admin-address', '0xfffff');
+    attributes.set(
+      'admin-address',
+      '0xFE1e4447f5b124227fe45C5e7f0B9C878CF782C3',
+    );
 
     const vars = new VariablesPopulator(rawOnchainVariables);
+
+    console.log(vars.getVariablesDescription());
 
     vars.insert(
       'argA_string_0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed_1',

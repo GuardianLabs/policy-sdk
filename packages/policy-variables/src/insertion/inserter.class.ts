@@ -75,7 +75,7 @@ export class VariablesInserter
       filledVariablesValuesByNode.push(filledVariable);
     }
 
-    // push nodes without variables so they are precessed anyways
+    // push nodes without variables so they are processed anyways
     filledVariablesValuesByNode = filledVariablesValuesByNode.concat(
       this.spareNodes.map(({ nodeId }) => ({
         nodeId,

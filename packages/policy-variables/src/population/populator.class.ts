@@ -11,10 +11,12 @@ import {
 import {
   formatOnchainVariables,
   TypedRawOnchainVariablesDescription,
+  valueCompliesExpectedType,
 } from '../utils';
 import { solidityEncodeSingleParam } from '../../../policy-contracts/test/utils';
+import { VariableNotFoundError, VariableTypeNotMetError } from '../errors';
 
-// todo: type checks, filling completeness checks
+// todo: filling completeness checks
 export class VariablesPopulator {
   public formattedVariablesConfiguration: VariablesFormattedDescription[] = [];
   private inserter: VariablesInserter;
@@ -38,6 +40,8 @@ export class VariablesPopulator {
   }
 
   public insert(variableUniqueName: string, value: AllowedVariablesType) {
+    this._validateVariableValueType(value, variableUniqueName);
+
     this.inserter.insert(variableUniqueName, value);
 
     this.filledVariables = this.inserter.getFilledVariables();
@@ -49,6 +53,10 @@ export class VariablesPopulator {
     this.filledVariables = await this.injector.injectValues(attributes);
   }
 
+  public getVariablesDescription() {
+    return this.formattedVariablesConfiguration.flatMap((el) => el.variables);
+  }
+
   public getVariablesValues() {
     return this.filledVariables;
   }
@@ -58,5 +66,25 @@ export class VariablesPopulator {
       nodeId,
       values: values.map((val) => solidityEncodeSingleParam(val)),
     }));
+  }
+
+  public getVariableDescription(uniqueName: string) {
+    return this.getVariablesDescription().find(
+      (el) => el.uniqueName == uniqueName,
+    );
+  }
+
+  private _validateVariableValueType(
+    filledValue: AllowedVariablesType,
+    uniqueVariableName: string,
+  ) {
+    const varDescription = this.getVariableDescription(uniqueVariableName);
+    if (!varDescription) throw new VariableNotFoundError(uniqueVariableName);
+
+    if (!valueCompliesExpectedType(filledValue, varDescription.type))
+      throw new VariableTypeNotMetError(
+        filledValue.toString(),
+        varDescription.type,
+      );
   }
 }
