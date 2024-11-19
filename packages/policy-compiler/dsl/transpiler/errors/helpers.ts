@@ -33,16 +33,18 @@ export const findCycleAndThrow = (
   instancesByNameMap: InstancesByName,
   instancesByIdMap: InstancesById,
 ) => {
-  const cycleFound = findCycle(
-    mapToArray(instancesByNameMap).map(({ id, config }) => ({
-      id,
-      references: extractReferenceNodeIds(config),
-    })),
-  );
+  const instancesList = mapToArray(instancesByNameMap);
 
-  if (cycleFound) {
-    const invokingNode = instancesByIdMap.get(cycleFound.parentNodeId)!;
-    const referencedNode = instancesByIdMap.get(cycleFound.nodeId)!;
+  const nodesList = instancesList.map((instance) => ({
+    id: instance.id,
+    references: extractReferenceNodeIds(instance.config),
+  }));
+
+  const cycle = findCycle(nodesList);
+
+  if (!!cycle) {
+    const invokingNode = instancesByIdMap.get(cycle.parentNodeId)!;
+    const referencedNode = instancesByIdMap.get(cycle.nodeId)!;
 
     throw new CyclicReferenceError(
       invokingNode.name,
@@ -55,7 +57,7 @@ export const findCycleAndThrow = (
 
 export const findSelfReferenceAndThrow = (
   instanceName: string,
-  instanceId: string,
+  instanceId: string, // same as nodeId
   execArguments: TypedValue[],
   ctx: ParserRuleContext,
 ) => {
