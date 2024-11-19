@@ -9,24 +9,26 @@ import { InstancesById, InstancesByName } from '../state/types';
 import { findCycle } from '../validations';
 import { CyclicReferenceError, SelfReferenceError } from './';
 
-export const lookupOrThrow = (
+export const lookupOrThrow = <T>(
   key: string,
-  storage: Map<string, any>,
+  storage: Map<string, T>,
   error: Error,
 ) => {
   const item = storage.get(key);
+
   if (!item) throw error;
 
   return item;
 };
 
-export const lookupAndThrow = (
+export const lookupAndThrow = <T>(
   key: string,
-  storage: Map<string, any>,
-  errorMorph: (item: any) => Error,
+  storage: Map<string, T>,
+  errorMorph: (item: T) => Error,
 ) => {
   const item = storage.get(key);
-  if (item) throw errorMorph(item);
+
+  if (!!item) throw errorMorph(item);
 };
 
 export const findCycleAndThrow = (

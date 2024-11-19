@@ -5,7 +5,7 @@ export const strToBool = (str: string): boolean => {
   return str == 'true' ? true : false;
 };
 
-export const toTypedWithKnownType = (arg: string, type: Type): any => {
+export const toTypedWithKnownType = (arg: string, type: Type) => {
   switch (type) {
     case Type.Address:
       return getAddress(arg);
