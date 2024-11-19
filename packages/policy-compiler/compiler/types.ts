@@ -1,7 +1,7 @@
-import { Provider } from 'ethers';
+import { ContractRunner } from 'ethers';
 
 export interface CompilerOptions {
   checkTypesAgainstOnchain?: boolean;
   checkTypesAgainstDeclaration?: boolean;
-  provider?: Provider;
+  provider?: ContractRunner;
 }

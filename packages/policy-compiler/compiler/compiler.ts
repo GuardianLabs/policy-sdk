@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import { LacLangCompilerOptions } from '.';
 import { GraphInitParamsStruct } from '../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
 import { Transpiler, TranspilerOutput } from '../dsl';
-import { getIRParser, ParsingResult } from '../ir';
+import { getIRParser, getIRParserUnvalidate, ParsingResult } from '../ir';
 import { NoProviderError } from './errors';
 import { validateFinalRepresentation } from './validations';
 
@@ -81,7 +81,7 @@ export class Compiler {
             .validated.ONCHAIN_TYPING;
           break;
         default:
-          parser = getIRParser(this.transpilerOutput!).unvalidated.DSL_TYPING;
+          parser = getIRParserUnvalidate(this.transpilerOutput!);
       }
 
       this.parserOutput = await parser();

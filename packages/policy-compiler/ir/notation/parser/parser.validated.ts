@@ -5,7 +5,6 @@ import {
   onchainSubstitutionToReturnTypesValidation,
 } from '../helpers';
 import { ParserWithValidation } from './parser-contracts';
-import { parseIRByDSLTypesWithInterceptor } from './parser.unvalidated';
 
 export const TypingsValidator = (provider: ContractRunner) => ({
   innerValidations: dslTypesToOnchainTypesParamsValidation(provider),

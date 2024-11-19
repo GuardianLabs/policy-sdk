@@ -1,7 +1,4 @@
-import {
-  hexToBytes,
-  toChecksumAddress,
-} from '@nomicfoundation/ethereumjs-util';
+import { getAddress, getBytes } from 'ethers';
 import { Type } from '../parser/types';
 
 export const strToBool = (str: string): boolean => {
@@ -11,13 +8,13 @@ export const strToBool = (str: string): boolean => {
 export const toTypedWithKnownType = (arg: string, type: Type): any => {
   switch (type) {
     case Type.Address:
-      return toChecksumAddress(arg);
+      return getAddress(arg);
     case Type.Bool:
       return strToBool(arg);
     case Type.String:
       return arg.replace(/^"(.*)"$/, '$1');
     case Type.Bytes:
-      return hexToBytes(arg);
+      return getBytes(arg);
     case Type.Uint256:
       return BigInt(arg);
     default:
