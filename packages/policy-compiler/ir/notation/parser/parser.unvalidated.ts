@@ -1,8 +1,7 @@
-import { Provider } from 'ethers';
-import { IArbitraryDataArtifact__factory } from '../../../../policy-contracts/src/typechain';
+import { ContractRunner } from 'ethers';
 import { TranspilerOutput } from '../../../dsl';
 import { nodeIdByNotation } from '../../../dsl/transformer';
-import { InstanceConfig } from '../../../dsl/transpiler/state';
+import { InstanceConfig } from '../../../dsl/transpiler/state/types';
 import {
   bytesEncodeArgs,
   DSLTypesToIRTypes,
@@ -13,6 +12,7 @@ import {
   strIsSubst,
   strIsVar,
 } from '../helpers';
+import { OnchainArgsTypesHandler } from './parser-contracts/tools';
 import { ParsingResult, Type, ValidationMiddlware } from './types';
 
 type Parameter = {
@@ -30,7 +30,7 @@ type RetrieveExecAndInitData = (
   initArgs: string[],
   instanceConfig: InstanceConfig,
   artifactAddress: string,
-  provider?: Provider,
+  provider?: ContractRunner,
 ) => KnownParamsAndInitData | Promise<KnownParamsAndInitData>;
 
 const getKnownExecDataAndInitDataFromDslTypes = (
@@ -38,17 +38,18 @@ const getKnownExecDataAndInitDataFromDslTypes = (
   initArgs: string[],
   instanceConfig: InstanceConfig,
   artifactAddress: string,
-  provider?: Provider,
+  provider?: ContractRunner,
 ): KnownParamsAndInitData => {
   const execConstTypes = instanceConfig.execArguments
     .filter((el) => el.constant)
     .map((el) => el.type);
-  const initTypes = instanceConfig.initArguments.map((el) => el.type);
 
   const knownExecParams = indexConstants(
     parameters.filter((arg) => isConstant(arg.value)),
     execConstTypes.map(DSLTypesToIRTypes),
   );
+
+  const initTypes = instanceConfig.initArguments.map((el) => el.type);
   const initDataEncoded = bytesEncodeArgs(
     initArgs,
     initTypes.map(DSLTypesToIRTypes),
@@ -65,22 +66,18 @@ const getKnownExecDataAndInitDataFromOnchainTypes = async (
   initArgs: string[],
   instanceConfig: InstanceConfig,
   artifactAddress: string,
-  provider?: Provider,
+  provider?: ContractRunner,
 ): Promise<KnownParamsAndInitData> => {
-  const instance = IArbitraryDataArtifact__factory.connect(
-    artifactAddress,
-    provider!,
-  );
+  const onchain = new OnchainArgsTypesHandler(provider!);
 
-  const { argsTypes } = await instance.getExecDescriptor();
-
-  const { argsTypes: initArgsTypes } = await instance.getInitDescriptor();
+  const { execParamsTypes, initParamsTypes } =
+    await onchain.getDescriptors(artifactAddress);
 
   const knownExecParams = indexConstants(
     parameters.filter((arg) => isConstant(arg.value)),
-    <Type[]>argsTypes,
+    <Type[]>execParamsTypes,
   );
-  const initDataEncoded = bytesEncodeArgs(initArgs, <Type[]>initArgsTypes);
+  const initDataEncoded = bytesEncodeArgs(initArgs, <Type[]>initParamsTypes);
 
   return {
     knownExecParams,
@@ -103,7 +100,7 @@ export const parseIRByDSLTypesWithInterceptor = async (
 // note: types onchain-inferred-first
 export const parseIRByOnchainTypesWithInterceptor = async (
   { ir, typings }: TranspilerOutput,
-  provider: Provider,
+  provider: ContractRunner,
   middleware?: ValidationMiddlware,
 ) => {
   return parse(
@@ -118,7 +115,7 @@ const parse = async (
   transpileOutput: Pick<TranspilerOutput, 'ir' | 'typings'>,
   exectAndInitData: RetrieveExecAndInitData,
   middleware?: ValidationMiddlware,
-  provider?: Provider,
+  provider?: ContractRunner,
 ) => {
   const res: ParsingResult[] = [];
 
@@ -148,8 +145,9 @@ const parse = async (
 
     const currentInstanceConfig = transpileOutput.typings[index];
 
-    if (middleware)
+    if (middleware) {
       await middleware.innerValidations(artifactAddress, currentInstanceConfig);
+    }
 
     const { knownExecParams: partialExecData, initDataEncoded: initData } =
       await exectAndInitData(
@@ -172,7 +170,9 @@ const parse = async (
     });
   }
 
-  if (middleware) await middleware.outerValidations(res);
+  if (middleware) {
+    await middleware.outerValidations(res);
+  }
 
   return res;
 };
