@@ -4,13 +4,14 @@ export type AllowedVariablesType = PrimitiveEncodeParamTypes; // string | number
 
 export type VariablesFormattedDescription = {
   nodeId: string;
-  variables: {
-    name: string;
-    type: string;
-    uniqueName: string;
-    index: number;
-    injection?: string;
-  }[];
+  variables: FormattedVariableDescription[];
+};
+export type FormattedVariableDescription = {
+  name: string;
+  type: string;
+  uniqueName: string;
+  index: number;
+  injection?: string;
 };
 export type FilledVariables = {
   nodeId: string;

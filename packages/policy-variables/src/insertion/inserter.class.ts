@@ -56,6 +56,15 @@ export class VariablesInserter
       )?.value;
   }
 
+  public import(dump: FilledVariables[]) {
+    for (const { nodeId, values } of dump) {
+      this.variablesValues.set(
+        nodeId,
+        values.map((value, index) => ({ index, value })),
+      );
+    }
+  }
+
   public getFilledVariables(): FilledVariables[] {
     let filledVariablesValuesByNode: FilledVariables[] = [];
 

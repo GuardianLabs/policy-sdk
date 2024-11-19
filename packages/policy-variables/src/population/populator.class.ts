@@ -4,6 +4,7 @@ import { VariablesInserter } from '../insertion';
 import {
   AllowedVariablesType,
   FilledVariables,
+  FormattedVariableDescription,
   IAsyncMapGetter,
   OnchainVariablesDescription,
   VariablesFormattedDescription,
@@ -14,9 +15,12 @@ import {
   valueCompliesExpectedType,
 } from '../utils';
 import { solidityEncodeSingleParam } from '../../../policy-contracts/test/utils';
-import { VariableNotFoundError, VariableTypeNotMetError } from '../errors';
+import {
+  VariableNotFilledError,
+  VariableNotFoundError,
+  VariableTypeNotMetError,
+} from '../errors';
 
-// todo: filling completeness checks
 export class VariablesPopulator {
   public formattedVariablesConfiguration: VariablesFormattedDescription[] = [];
   private inserter: VariablesInserter;
@@ -43,6 +47,12 @@ export class VariablesPopulator {
     this._validateVariableValueType(value, variableUniqueName);
 
     this.inserter.insert(variableUniqueName, value);
+
+    this.filledVariables = this.inserter.getFilledVariables();
+  }
+
+  public import(filledValues: FilledVariables[]) {
+    this.inserter.import(filledValues);
 
     this.filledVariables = this.inserter.getFilledVariables();
   }
@@ -74,6 +84,17 @@ export class VariablesPopulator {
     );
   }
 
+  public validateFilledAllOrThrow() {
+    this._validateFillingWithAdditionalCondition();
+  }
+
+  public validateFilledAllExceptInjectionsOrThrow() {
+    const graceToInjections = (varDecl: FormattedVariableDescription) =>
+      !varDecl.injection;
+
+    this._validateFillingWithAdditionalCondition(graceToInjections);
+  }
+
   private _validateVariableValueType(
     filledValue: AllowedVariablesType,
     uniqueVariableName: string,
@@ -86,5 +107,25 @@ export class VariablesPopulator {
         filledValue.toString(),
         varDescription.type,
       );
+  }
+
+  private _validateFillingWithAdditionalCondition(
+    nuance: (varDecl: FormattedVariableDescription) => boolean = (_) => true,
+  ) {
+    for (let i = 0; i < this.formattedVariablesConfiguration.length; i++) {
+      const expectedVariables = this.formattedVariablesConfiguration[i];
+      const filledValues = this.filledVariables[i];
+
+      for (let j = 0; j < expectedVariables.variables.length; j++) {
+        const expectedVariable = expectedVariables.variables[j];
+
+        if (filledValues.values[j] == undefined && nuance(expectedVariable)) {
+          throw new VariableNotFilledError(
+            expectedVariable.uniqueName,
+            expectedVariable.injection,
+          );
+        }
+      }
+    }
   }
 }

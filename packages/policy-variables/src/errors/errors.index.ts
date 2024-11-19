@@ -45,3 +45,11 @@ export class VariableTypeNotMetError extends Error {
     super(msg);
   }
 }
+
+export class VariableNotFilledError extends Error {
+  constructor(variableUniqueName: string, injection?: string) {
+    const msg = `Variable ${variableUniqueName} ${injection ? `(injection: ${injection})` : ''} was not filled`;
+
+    super(msg);
+  }
+}
