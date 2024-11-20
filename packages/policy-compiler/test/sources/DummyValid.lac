@@ -1,4 +1,4 @@
-var bool boolVar;
+var inject("is_dev") bool boolVar;
 
 constant number init1 = 0;
 constant bool bool1 = true; 
