@@ -66,9 +66,6 @@ importers:
       generator-code:
         specifier: ^1.11.4
         version: 1.11.4(@yeoman/types@1.5.0(@types/node@22.8.0)(@yeoman/adapter@1.6.0)(mem-fs@4.1.1))(mem-fs@4.1.1)
-      mocha:
-        specifier: ^10.8.2
-        version: 10.8.2
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.8.0)(typescript@5.6.2)
@@ -148,6 +145,9 @@ importers:
       hardhat-deploy:
         specifier: ^0.12.4
         version: 0.12.4
+      mocha:
+        specifier: ^10.8.2
+        version: 10.8.2
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -281,21 +281,6 @@ importers:
 
   packages/policy-variables:
     dependencies:
-      chai-as-promised:
-        specifier: ^8.0.0
-        version: 8.0.0(chai@4.5.0)
-      copyfiles:
-        specifier: ^2.4.1
-        version: 2.4.1
-      ethers:
-        specifier: ^6.13.3
-        version: 6.13.3
-      mocha:
-        specifier: ^10.8.2
-        version: 10.8.2
-      prettier:
-        specifier: ^3.3.3
-        version: 3.3.3
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.8.0)(typescript@5.6.2)
@@ -303,12 +288,15 @@ importers:
         specifier: ^5.6.2
         version: 5.6.2
     devDependencies:
+      '@eslint/eslintrc':
+        specifier: ^3.1.0
+        version: 3.1.0
+      '@eslint/js':
+        specifier: ^9.13.0
+        version: 9.14.0
       '@types/chai':
         specifier: 4.3.3
         version: 4.3.3
-      '@types/chai-as-promised':
-        specifier: ^8.0.1
-        version: 8.0.1
       '@types/mocha':
         specifier: ^10.0.9
         version: 10.0.9
@@ -318,12 +306,51 @@ importers:
       chai:
         specifier: ^4.5.0
         version: 4.5.0
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      tsx:
-        specifier: ^4.19.2
-        version: 4.19.2
+      copyfiles:
+        specifier: ^2.4.1
+        version: 2.4.1
+      eslint:
+        specifier: ^9.11.1
+        version: 9.14.0
+      eslint-config-prettier:
+        specifier: ^9.1.0
+        version: 9.1.0(eslint@9.14.0)
+      eslint-import-resolver-typescript:
+        specifier: ^3.6.3
+        version: 3.6.3(@typescript-eslint/parser@8.8.0(eslint@9.14.0)(typescript@5.6.2))(eslint-plugin-import@2.31.0)(eslint@9.14.0)
+      eslint-plugin-import:
+        specifier: ^2.31.0
+        version: 2.31.0(@typescript-eslint/parser@8.8.0(eslint@9.14.0)(typescript@5.6.2))(eslint-import-resolver-typescript@3.6.3)(eslint@9.14.0)
+      eslint-plugin-mocha:
+        specifier: ^10.5.0
+        version: 10.5.0(eslint@9.14.0)
+      eslint-plugin-n:
+        specifier: ^17.10.3
+        version: 17.13.1(eslint@9.14.0)
+      eslint-plugin-prettier:
+        specifier: ^5.2.1
+        version: 5.2.1(eslint-config-prettier@9.1.0(eslint@9.14.0))(eslint@9.14.0)(prettier@3.3.3)
+      eslint-plugin-promise:
+        specifier: ^7.1.0
+        version: 7.1.0(eslint@9.14.0)
+      eslint-plugin-unused-imports:
+        specifier: ^4.1.4
+        version: 4.1.4(@typescript-eslint/eslint-plugin@8.11.0(@typescript-eslint/parser@8.8.0(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0)
+      globals:
+        specifier: ^15.11.0
+        version: 15.11.0
+      mocha:
+        specifier: ^10.8.2
+        version: 10.8.2
+      prettier:
+        specifier: ^3.3.3
+        version: 3.3.3
+      prettier-plugin-organize-imports:
+        specifier: ^4.1.0
+        version: 4.1.0(prettier@3.3.3)(typescript@5.6.2)
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
 
 packages:
 
@@ -1229,9 +1256,6 @@ packages:
   '@types/chai-as-promised@7.1.8':
     resolution: {integrity: sha512-ThlRVIJhr69FLlh6IctTXFkmhtP3NpMZ2QGq69StYLyKZFp/HOp1VdKZj7RvfNWYYcJ1xlbLGLLWj1UvP5u/Gw==}
 
-  '@types/chai-as-promised@8.0.1':
-    resolution: {integrity: sha512-dAlDhLjJlABwAVYObo9TPWYTRg9NaQM5CXeaeJYcYAkvzUf0JRLIiog88ao2Wqy/20WUnhbbUZcgvngEbJ3YXQ==}
-
   '@types/chai@4.3.3':
     resolution: {integrity: sha512-hC7OMnszpxhZPduX+m+nrx+uFoLkWOMiR4oa/AZF3MuSETYTZmFfJAHqZEM8MVlvfG7BEUcgvtwoCTxBp6hm3g==}
 
@@ -1739,11 +1763,6 @@ packages:
     peerDependencies:
       chai: '>= 2.1.2 < 6'
 
-  chai-as-promised@8.0.0:
-    resolution: {integrity: sha512-sMsGXTrS3FunP/wbqh/KxM8Kj/aLPXQGkNtvE5wPfSToq8wkkvBpTZo1LIiEVmC4BwkKpag+l5h/20lBMk6nUg==}
-    peerDependencies:
-      chai: '>= 2.1.2 < 6'
-
   chai@4.5.0:
     resolution: {integrity: sha512-RITGBfijLkBddZvnn8jdqoTypxvqbOLYQkGGxXzeFjVHvudaPw0HNFD9x928/eUwYWd2dPCugVqspGALTZZQKw==}
     engines: {node: '>=4'}
@@ -1768,10 +1787,6 @@ packages:
 
   check-error@1.0.3:
     resolution: {integrity: sha512-iKEoDYaRmd1mxM90a2OEfWhjsjPpYPuQ+lMYsoxB126+t8fw7ySEO48nmDg5COTjxDI65/Y2OWpeEHk3ZOe8zg==}
-
-  check-error@2.1.1:
-    resolution: {integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==}
-    engines: {node: '>= 16'}
 
   chokidar@3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
@@ -1892,7 +1907,7 @@ packages:
     resolution: {integrity: sha512-4hm4VPpIecmlg59CHXnRDnqGplJFrbLG4aFEl5vl6cK1u76ws3LLvX7ikFnTDl5vo39sjWD6AaDPYodJp/NNHg==}
 
   concat-map@0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
 
   concat-stream@1.6.2:
     resolution: {integrity: sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==}
@@ -5839,10 +5854,6 @@ snapshots:
     dependencies:
       '@types/chai': 4.3.3
 
-  '@types/chai-as-promised@8.0.1':
-    dependencies:
-      '@types/chai': 4.3.3
-
   '@types/chai@4.3.3': {}
 
   '@types/concat-stream@1.6.1':
@@ -5942,7 +5953,7 @@ snapshots:
 
   '@typescript-eslint/eslint-plugin@8.11.0(@typescript-eslint/parser@8.8.0(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0)(typescript@5.6.2)':
     dependencies:
-      '@eslint-community/regexpp': 4.11.1
+      '@eslint-community/regexpp': 4.12.1
       '@typescript-eslint/parser': 8.8.0(eslint@9.14.0)(typescript@5.6.2)
       '@typescript-eslint/scope-manager': 8.11.0
       '@typescript-eslint/type-utils': 8.11.0(eslint@9.14.0)(typescript@5.6.2)
@@ -6065,7 +6076,7 @@ snapshots:
 
   '@typescript-eslint/utils@8.11.0(eslint@9.14.0)(typescript@5.6.2)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@9.14.0)
+      '@eslint-community/eslint-utils': 4.4.1(eslint@9.14.0)
       '@typescript-eslint/scope-manager': 8.11.0
       '@typescript-eslint/types': 8.11.0
       '@typescript-eslint/typescript-estree': 8.11.0(typescript@5.6.2)
@@ -6434,11 +6445,6 @@ snapshots:
       chai: 4.5.0
       check-error: 1.0.3
 
-  chai-as-promised@8.0.0(chai@4.5.0):
-    dependencies:
-      chai: 4.5.0
-      check-error: 2.1.1
-
   chai@4.5.0:
     dependencies:
       assertion-error: 1.1.0
@@ -6469,8 +6475,6 @@ snapshots:
   check-error@1.0.3:
     dependencies:
       get-func-name: 2.0.2
-
-  check-error@2.1.1: {}
 
   chokidar@3.6.0:
     dependencies:
