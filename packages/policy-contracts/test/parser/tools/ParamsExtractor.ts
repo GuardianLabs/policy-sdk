@@ -1,4 +1,5 @@
 import { getAddress } from 'ethers';
+import { extractInjection } from '../../../../policy-compiler/ir/notation/helpers';
 import {
   ArtifactData,
   GetDescriptors,
@@ -61,6 +62,10 @@ export class ParamsExtractor implements IParamsExtractor {
     const execRuntimeVariablesIndices: Array<number> =
       this.getRuntimeVariablesIndices(execParamsList);
 
+    // note: index here is a position of an injection in an array of variables, NOT in an array of execParams
+    const variablesInjectionsWithIndices: Array<Parameter> =
+      this.getInjectionsWithIndices(execParamsList);
+
     // note: if artifact is statefull, then it may require init-params
     const initDataParams = this.getAllArguments(initClause);
     const initDataParamsSolidityPacked =
@@ -74,6 +79,7 @@ export class ParamsExtractor implements IParamsExtractor {
       execKnownParamsList,
       execSubstitutionParamsList,
       execRuntimeVariablesIndices,
+      variablesInjectionsWithIndices,
       needsInitialization: initDataParams.length > 0,
       argsCount: execParamsList.length,
       initDataParamsSolidityPacked,
@@ -151,6 +157,23 @@ export class ParamsExtractor implements IParamsExtractor {
       ({ index }) => index,
     );
     return variableIndices;
+  };
+
+  private getInjectionsWithIndices = (paramsList: Array<Parameter>) => {
+    const injections = this.getRuntimeVariables(paramsList)
+      .map((el, index) => {
+        const injection = extractInjection(el.value);
+
+        if (injection && injection != '') {
+          return {
+            value: el.value,
+            index,
+          };
+        }
+      })
+      .filter((el) => !!el);
+
+    return injections;
   };
 
   private getSubstitutionsWithIndices = (

@@ -42,7 +42,13 @@ export const policy = {
   },
   complex: {
     injection: {
-      dummy: (equalUint: string, equalBytes: string, equalAddress: string, hashString: string, xor: string) => `
+      dummy: (
+        equalUint: string,
+        equalBytes: string,
+        equalAddress: string,
+        hashString: string,
+        xor: string,
+      ) => `
       var string username;
       var number timestamp_login;
       var bool isAdmin;
@@ -59,7 +65,7 @@ export const policy = {
       instance bool eqAddress of ${equalAddress} takes (injection4, injection4);
 
       evaluate eqAddress;
-      `
-    }
-  }
+      `,
+    },
+  },
 };

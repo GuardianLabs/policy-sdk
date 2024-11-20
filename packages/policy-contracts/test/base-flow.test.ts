@@ -43,8 +43,8 @@ describe('Artifacts Graph: Base-usage flow', () => {
         xor: xorArtifact,
       } = await deployGraphAndArtifacts(adminSigner));
 
-      const XOR_NODE = `{${await xorArtifact.getAddress()}} (true,var0) <>`;
-      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeId(XOR_NODE, 1)}|,var1) <>`;
+      const XOR_NODE = `{${await xorArtifact.getAddress()}} (true,var0$"") <>`;
+      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeId(XOR_NODE, 1)}|,var1$"") <>`;
 
       // condition: (variable1 ^ true) && variable2
       // tree presentation:
@@ -133,11 +133,11 @@ describe('Artifacts Graph: Base-usage flow', () => {
         isDividiableUint: isDividableUintArtifact,
       } = await deployGraphAndArtifacts(adminSigner));
 
-      const EQUAL_ADDRESS_NODE = `{${await equalAddressArtifact.getAddress()}} (varAddress,${ZeroAddress}) <>`;
-      const IS_DIVIDABLE_NODE = `{${await isDividableUintArtifact.getAddress()}} (varNumber,${2}) <>`;
+      const EQUAL_ADDRESS_NODE = `{${await equalAddressArtifact.getAddress()}} (varAddress$"",${ZeroAddress}) <>`;
+      const IS_DIVIDABLE_NODE = `{${await isDividableUintArtifact.getAddress()}} (varNumber$"",${2}) <>`;
       // const HASH_STRING_NODE = `{${await hashStringArtifact.getAddress()}} (varString) <>`;
-      const EQUAL_STRING_NODE = `{${await equalStringArtifact.getAddress()}} (varString,${'"reference"'}) <>`;
-      const EQUAL_BYTES_NODE = `{${await equalBytesArtifact.getAddress()}} (varBytes,${ZeroHash}) <>`;
+      const EQUAL_STRING_NODE = `{${await equalStringArtifact.getAddress()}} (varString$"",${'"reference"'}) <>`;
+      const EQUAL_BYTES_NODE = `{${await equalBytesArtifact.getAddress()}} (varBytes$"",${ZeroHash}) <>`;
       const NOT_NODE = `{${await notArtifact.getAddress()}} (|${nodeId(
         EQUAL_BYTES_NODE,
         4,
