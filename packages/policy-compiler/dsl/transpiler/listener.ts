@@ -27,6 +27,7 @@ import {
   extractAndLookupExecArguments,
   extractAndLookupInitArguments,
 } from './helpers';
+import { InstanceConfig } from './state';
 import { LatentState } from './state/LatentState';
 
 export class LacLangTranspiler implements LacLangListener {
@@ -62,10 +63,7 @@ export class LacLangTranspiler implements LacLangListener {
       (declared) => new ArtifactAlreadyDefinedError(name, ctx, declared.ctx),
     );
 
-    this.latentState.artifacts.set(name, {
-      address: ctx.ADDRESS_LITERAL().text,
-      ctx,
-    });
+    this.latentState.setArtifacts(ctx);
   }
 
   enterInstanceDeclaration(ctx: InstanceDeclarationContext) {
@@ -84,7 +82,7 @@ export class LacLangTranspiler implements LacLangListener {
       this.latentState.artifacts,
     );
 
-    const instanceConfig = {
+    const instanceConfig: InstanceConfig = {
       artifactAddress: artifactDereferenced,
       execArguments,
       initArguments,
@@ -96,21 +94,19 @@ export class LacLangTranspiler implements LacLangListener {
     // note: may be redundant cause in this case instance will not be even defined yet
     findSelfReferenceAndThrow(name, nodeId, execArguments, ctx);
 
-    this.latentState.instancesByName.set(name, {
+    this.latentState.setInstancesByName(
       ctx,
-      id: nodeId,
-      config: instanceConfig,
-      type: ctx.dataType().text,
-      index: instancesCount,
-    });
+      nodeId,
+      instanceConfig,
+      instancesCount,
+    );
 
-    this.latentState.instancesById.set(nodeId, {
+    this.latentState.setInstancesById(
       ctx,
-      name,
-      config: instanceConfig,
-      type: ctx.dataType().text,
-      index: instancesCount,
-    });
+      nodeId,
+      instanceConfig,
+      instancesCount,
+    );
 
     findCycleAndThrow(
       this.latentState.instancesByName,
@@ -120,9 +116,9 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterEvaluateStatement(ctx: EvaluateStatementContext) {
     const previouslyDeclared = this.latentState.evaluateRelativeTo;
-    if (previouslyDeclared)
+    if (!!previouslyDeclared) {
       throw new EvaluateAlreadyDeclaredError(ctx, previouslyDeclared.ctx);
-
+    }
     const instName = ctx.IDENTIFIER().text;
     const refInst = lookupOrThrow(
       instName,

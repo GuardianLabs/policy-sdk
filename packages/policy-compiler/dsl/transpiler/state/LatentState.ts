@@ -1,8 +1,14 @@
-import { ConstantDeclarationContext, VarDeclarationContext } from '../../antlr';
+import {
+  ArtifactDeclarationContext,
+  ConstantDeclarationContext,
+  InstanceDeclarationContext,
+  VarDeclarationContext,
+} from '../../antlr';
 import {
   Artifacts,
   Constants,
   Evaluating,
+  InstanceConfig,
   InstancesById,
   InstancesByName,
   Variables,
@@ -75,6 +81,52 @@ export class LatentState {
     this.constantsMap.set(name, {
       value,
       type,
+      ctx,
+    });
+  }
+
+  setArtifacts(ctx: ArtifactDeclarationContext) {
+    const { text: name } = ctx.IDENTIFIER();
+    const { text: address } = ctx.ADDRESS_LITERAL();
+
+    this.artifactsMap.set(name, {
+      address,
+      ctx,
+    });
+  }
+
+  setInstancesByName(
+    ctx: InstanceDeclarationContext,
+    nodeId: string,
+    instanceConfig: InstanceConfig,
+    instancesCount: number,
+  ) {
+    const { text: name } = ctx.IDENTIFIER();
+    const { text: type } = ctx.dataType();
+
+    this.instancesByNameMap.set(name, {
+      id: nodeId,
+      config: instanceConfig,
+      type,
+      index: instancesCount,
+      ctx,
+    });
+  }
+
+  setInstancesById(
+    ctx: InstanceDeclarationContext,
+    nodeId: string,
+    instanceConfig: InstanceConfig,
+    instancesCount: number,
+  ) {
+    const { text: name } = ctx.IDENTIFIER();
+    const { text: type } = ctx.dataType();
+
+    this.instancesByIdMap.set(nodeId, {
+      name,
+      config: instanceConfig,
+      type,
+      index: instancesCount,
       ctx,
     });
   }
