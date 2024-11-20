@@ -15,7 +15,7 @@
     "format:all:fix": "pnpm format:ts:fix",
     "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\"",
     "remove:dist": "npx rimraf dist",
-    "test": "mocha -r ts-node/register test/**/*.test.ts"
+    "test": "mocha"
   },
   "keywords": [],
   "dependencies": {
