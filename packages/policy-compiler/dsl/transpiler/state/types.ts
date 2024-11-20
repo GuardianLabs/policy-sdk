@@ -40,7 +40,10 @@ type ContextWrapped = { ctx: ParserRuleContext };
 
 export type Constants = Map<KeyType, ValueType & DataType & ContextWrapped>;
 
-export type Variables = Map<KeyType, DataType & ContextWrapped & { injection: string }>;
+export type Variables = Map<
+  KeyType,
+  DataType & ContextWrapped & { injection: string }
+>;
 
 export type Artifacts = Map<KeyType, AddressType & ContextWrapped>;
 
