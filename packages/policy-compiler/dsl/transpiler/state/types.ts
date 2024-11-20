@@ -5,7 +5,7 @@ type KeyType = string;
 type IdKeyType = string;
 type NameKeyType = string;
 
-type InstanceConfigArgumentsOnly = {
+export type InstanceConfigArgumentsOnly = {
   execArguments: TypedValue[];
   initArguments: TypedValue[];
 };
