@@ -1,4 +1,10 @@
 import { VariablesStruct } from '../../../policy-contracts/src/typechain/contracts/ArtifactNodes';
+import { solidityEncodeSingleParam } from '../../../policy-contracts/test/utils';
+import {
+  VariableNotFilledError,
+  VariableNotFoundError,
+  VariableTypeNotMetError,
+} from '../errors';
 import { VariablesInjector } from '../injection';
 import { VariablesInserter } from '../insertion';
 import {
@@ -14,12 +20,6 @@ import {
   TypedRawOnchainVariablesDescription,
   valueCompliesExpectedType,
 } from '../utils';
-import { solidityEncodeSingleParam } from '../../../policy-contracts/test/utils';
-import {
-  VariableNotFilledError,
-  VariableNotFoundError,
-  VariableTypeNotMetError,
-} from '../errors';
 
 export class VariablesPopulator {
   public formattedVariablesConfiguration: VariablesFormattedDescription[] = [];
