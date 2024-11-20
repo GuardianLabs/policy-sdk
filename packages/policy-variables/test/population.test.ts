@@ -7,7 +7,7 @@ import { default as onchainVariables } from './snapshots/dummy.json';
 describe('Variables population minimal flow', () => {
   let rawOnchainVariables: TypedRawOnchainVariablesDescription[];
   let intermediateFillingResult: FilledVariables[];
-  let internalAttributes: Map<string, AllowedVariablesType>;
+  let internalAttributes: Map<string, AllowedVariablesType | Promise<AllowedVariablesType>>;
 
   before(async () => {
     rawOnchainVariables = <TypedRawOnchainVariablesDescription[]>(
@@ -16,7 +16,7 @@ describe('Variables population minimal flow', () => {
 
     internalAttributes = new Map();
 
-    internalAttributes.set('allowance', 13_000);
+    internalAttributes.set('allowance', new Promise((resolve) => resolve(13_000)));
     internalAttributes.set('magic_hash', '0xdeadbeef');
     internalAttributes.set(
       'admin-address',
