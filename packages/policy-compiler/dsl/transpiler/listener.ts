@@ -7,7 +7,7 @@ import {
   ProgramContext,
   VarDeclarationContext,
 } from '../antlr';
-import { nodeId } from '../transformer/helpers';
+import { nodeId as calculateNodeId } from '../transformer/helpers';
 import {
   ArtifactAlreadyDefinedError,
   ConstantAlreadyDefinedError,
@@ -72,7 +72,7 @@ export class LacLangTranspiler implements LacLangListener {
     const name = ctx.IDENTIFIER().text;
     lookupAndThrow(
       name,
-      this.latentState.instances,
+      this.latentState.instancesByName,
       (declared) => new InstanceAlreadyDefinedError(name, ctx, declared.ctx),
     );
 
@@ -90,29 +90,30 @@ export class LacLangTranspiler implements LacLangListener {
       initArguments,
     };
 
-    const instancesCount = this.latentState.instances.size;
-    const id = nodeId(instanceConfig, instancesCount);
+    const instancesCount = this.latentState.instancesByName.size;
+    const nodeId = calculateNodeId(instanceConfig, instancesCount);
 
-    findSelfReferenceAndThrow(name, id, execArguments, ctx); // note: may be redundant cause in this case instance will not be even defined yet
+    // note: may be redundant cause in this case instance will not be even defined yet
+    findSelfReferenceAndThrow(name, nodeId, execArguments, ctx);
 
-    this.latentState.instances.set(name, {
+    this.latentState.instancesByName.set(name, {
       ctx,
+      id: nodeId,
       config: instanceConfig,
       type: ctx.dataType().text,
       index: instancesCount,
-      id,
     });
 
-    this.latentState.instancesById.set(id, {
+    this.latentState.instancesById.set(nodeId, {
       ctx,
+      name,
       config: instanceConfig,
       type: ctx.dataType().text,
       index: instancesCount,
-      name,
     });
 
     findCycleAndThrow(
-      this.latentState.instances,
+      this.latentState.instancesByName,
       this.latentState.instancesById,
     ); // note: may be redundant due to linear declaration by design
   }
@@ -125,7 +126,7 @@ export class LacLangTranspiler implements LacLangListener {
     const instName = ctx.IDENTIFIER().text;
     const refInst = lookupOrThrow(
       instName,
-      this.latentState.instances,
+      this.latentState.instancesByName,
       new InstanceNotDefinedError(instName, ctx),
     );
 

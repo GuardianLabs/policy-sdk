@@ -9,16 +9,7 @@ import {
 } from '../errors';
 import { LatentState } from '../state/LatentState';
 import { Artifacts, InstanceConfig } from '../state/types';
-
-export type MinTypedValue = {
-  type: string;
-  value: string;
-};
-
-export type TypedValue = MinTypedValue & {
-  substitution?: boolean;
-  constant?: boolean;
-};
+import { TypedValue } from './types';
 
 export const extractAndLookupExecArguments = (
   ctx: InstanceDeclarationContext,
@@ -42,7 +33,7 @@ export const extractAndLookupExecArguments = (
         if (!refVar) {
           const refInst = lookupOrThrow(
             name,
-            latentState.instances,
+            latentState.instancesByName,
             new VariableNotDefinedError(name, el.ruleContext),
           );
 
@@ -83,7 +74,7 @@ export const extractAndLookupInitArguments = (
     .argumentsList()
     .identifier_or_literal()
     .map((el) => {
-      if (el.literal()) {
+      if (!!el.literal()) {
         return inferTypedValue(el.literal()!);
       }
 
@@ -116,31 +107,37 @@ export const extractAndLookupInitArguments = (
     });
 };
 
-export const extractReferenceNodeIds = (config: InstanceConfig) =>
-  config.execArguments
-    .filter((arg) => arg.substitution)
-    .map((arg) => arg.value.replaceAll('|', ''));
-export const mapToArray = (map: Map<string, any>) => Array.from(map.values());
+export const extractReferenceNodeIds = (config: InstanceConfig) => {
+  const substitutions = config.execArguments.filter((arg) => arg.substitution);
+
+  const referencesNodeIdList = substitutions.map(({ value }) =>
+    value.replaceAll('|', ''),
+  );
+  return referencesNodeIdList;
+};
+
+export const mapToArray = <T>(map: Map<string, T>) => {
+  const list = Array.from(map.values());
+  return list;
+};
 
 export const dereferenceArtifact = (
   ctx: InstanceDeclarationContext,
   artifactsMap: Artifacts,
 ) => {
-  let artifactDereferenced: string;
-
   if (ctx.identifier_or_literal().literal()) {
-    artifactDereferenced = ctx.identifier_or_literal().literal()!.text;
-  } else {
-    const artifactName = ctx.identifier_or_literal().IDENTIFIER()!.text;
-    const refArtifact = lookupOrThrow(
-      artifactName,
-      artifactsMap,
-      new ArtifactNotDefinedError(artifactName, ctx),
-    );
-
-    artifactDereferenced = refArtifact.address;
+    const artifactDereferenced = ctx.identifier_or_literal().literal()!.text;
+    return artifactDereferenced;
   }
 
+  const artifactName = ctx.identifier_or_literal().IDENTIFIER()!.text;
+  const { address } = lookupOrThrow(
+    artifactName,
+    artifactsMap,
+    new ArtifactNotDefinedError(artifactName, ctx),
+  );
+
+  const artifactDereferenced = address;
   return artifactDereferenced;
 };
 
@@ -176,5 +173,10 @@ const inferTypedValue = (ctx: LiteralContext): TypedValue => {
   };
 };
 
-const formatBytesLiteral = (value: string) => value.replace(/^'|'$/g, '');
-export const formatInstanceReference = (nodeId: string) => `|${nodeId}|`;
+const formatBytesLiteral = (value: string) => {
+  return value.replace(/^'|'$/g, '');
+};
+
+export const formatInstanceReference = (nodeId: string) => {
+  return `|${nodeId}|`;
+};
