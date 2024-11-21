@@ -1,4 +1,5 @@
 var inject("is_dev") bool boolVar;
+var bytes spare;
 
 constant number init1 = 0;
 constant bool bool1 = true; 

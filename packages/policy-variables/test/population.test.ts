@@ -27,6 +27,8 @@ describe('Variables population minimal flow', () => {
   it('initial frontend variables insertion', async () => {
     const vars = new VariablesPopulator(rawOnchainVariables);
 
+    // console.log(vars.getVariablesDescription());
+
     vars.insert(
       'argA_uint256_0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3_0',
       11111111111,
@@ -93,6 +95,7 @@ describe('Variables population minimal flow', () => {
       vars.validateFilledAllExceptInjectionsOrThrow(),
     ).to.not.throw();
 
+    // console.log(vars.getVariablesValues());
     // console.log(vars.getVariablesEncoded());
   });
 });
