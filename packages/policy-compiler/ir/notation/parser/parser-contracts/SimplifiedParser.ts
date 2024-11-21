@@ -4,24 +4,24 @@ import { ParserBase } from './base/ParserBase';
 import { createOrInferTypesSource, toUnprocessedArtifactsList } from './tools';
 import { GetTypesValues, IArgsTypesSource } from './types';
 
-export class Parser {
+export class SimplifiedParser {
   static build = (
     intermediatePresentation: string,
     providerOrSource: ContractRunner | IArgsTypesSource,
-  ): Parser => {
+  ): SimplifiedParser => {
     const getTypesSource = createOrInferTypesSource(providerOrSource);
 
-    return new Parser(getTypesSource, intermediatePresentation);
+    return new SimplifiedParser(getTypesSource, intermediatePresentation);
   };
 
   // note: This expects String of intermediate-representation of artifacts and their relations.
   // The string value is validated in ParserBase, Extractor
   constructor(
-    private getTypesSource: GetTypesValues,
-    private intermediatePresentation: string,
+    protected getTypesSource: GetTypesValues,
+    protected intermediatePresentation: string,
   ) {}
 
-  private get unprocessedArtifacts(): Array<string> {
+  protected get unprocessedArtifacts(): Array<string> {
     return toUnprocessedArtifactsList(this.intermediatePresentation);
   }
 

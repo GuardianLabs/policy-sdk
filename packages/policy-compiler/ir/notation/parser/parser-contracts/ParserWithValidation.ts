@@ -1,16 +1,12 @@
 import { ContractRunner } from 'ethers';
 import { InstanceConfig } from '../../../../dsl/transpiler/state/types';
 import { TypingsValidator } from '../parser.validated';
-import { ParsingResult, ValidationMiddlware } from '../types';
-import { ParserBase } from './base/ParserBase';
-import {
-  DSLConfigArgsTypesSource,
-  createOrInferTypesSource,
-  toUnprocessedArtifactsList,
-} from './tools';
+import { ValidationMiddlware } from '../types';
+import { SimplifiedParser } from './SimplifiedParser';
+import { DSLConfigArgsTypesSource, createOrInferTypesSource } from './tools';
 import { GetTypesValues } from './types';
 
-export class ParserWithValidation {
+export class ParserWithValidation extends SimplifiedParser {
   static fromOnchainSource = (
     intermediatePresentation: string,
     provider: ContractRunner,
@@ -22,7 +18,7 @@ export class ParserWithValidation {
 
     const getTypesSource = createOrInferTypesSource(provider);
 
-    return this.build(intermediatePresentation, getTypesSource, middleware);
+    return this.create(intermediatePresentation, getTypesSource, middleware);
   };
 
   static fromDSLBasedConfig = (
@@ -39,14 +35,14 @@ export class ParserWithValidation {
       ipArtifactInstanceConfig,
     );
 
-    return this.build(
+    return this.create(
       intermediatePresentation,
       getTypesSource.getTypes,
       middleware,
     );
   };
 
-  static build = (
+  static create = (
     intermediatePresentation: string,
     getTypesSource: GetTypesValues,
     middleware?: ValidationMiddlware,
@@ -61,26 +57,10 @@ export class ParserWithValidation {
   // note: This expects String of intermediate-representation of artifacts and their relations.
   // The string value is validated in ParserBase, Extractor
   constructor(
-    private getTypesSource: GetTypesValues,
-    private intermediatePresentation: string,
+    getTypesSource: GetTypesValues,
+    intermediatePresentation: string,
     private middleware?: ValidationMiddlware,
-  ) {}
-
-  private get unprocessedArtifacts(): Array<string> {
-    return toUnprocessedArtifactsList(this.intermediatePresentation);
+  ) {
+    super(getTypesSource, intermediatePresentation);
   }
-
-  // note:
-  // a. When processed it basically returns a List of 'TreeNodeInitParamsStruct' matching
-  // the interface requirements of onchain artifacts declaration
-  // b. Each List entry includes the values of [constants-data], [substitutions-data], [init-data], [runtime-supplied-params-indices]
-  // and other related data of Artifact.
-  process = async (): Promise<Array<ParsingResult>> => {
-    const processPromises = this.unprocessedArtifacts.map((v, i) =>
-      ParserBase.processSingleWithId(v, i, this.getTypesSource),
-    );
-
-    const processedArtifacts = await Promise.all(processPromises);
-    return processedArtifacts;
-  };
 }
