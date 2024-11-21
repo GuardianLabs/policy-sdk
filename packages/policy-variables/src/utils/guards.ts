@@ -1,4 +1,3 @@
-import { AllowedVariablesType } from '../types';
 import { Type } from '../../../policy-compiler/ir/notation/parser/types';
 import {
   verifyAddress,
@@ -8,6 +7,7 @@ import {
   VariableTypeNotMatchedError,
   VariableTypeNotMetError,
 } from '../errors';
+import { AllowedVariablesType } from '../types';
 
 export const valueCompliesExpectedType = (
   value: AllowedVariablesType,

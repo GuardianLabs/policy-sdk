@@ -46,8 +46,10 @@ export function extractArguments(input: string): string[] {
 }
 
 export function extractInjection(inputString: string): string {
-  const match = inputString.match(/\$"([^"]*)"$/);
-  return match ? match[1] : "";
+  const matcher = /\$"([^"]*)"$/;
+  const matched = inputString.match(matcher);
+
+  return matched ? matched[1] : '';
 }
 
 export const DSLTypesToIRTypes = (el: string) => {

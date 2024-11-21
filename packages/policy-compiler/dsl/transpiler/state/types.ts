@@ -2,8 +2,8 @@ import { ParserRuleContext } from 'antlr4ts';
 import { TypedValue } from '../helpers';
 
 type KeyType = string;
-type IdKeyType = string;
-type NameKeyType = string;
+type IdKeyType = KeyType;
+type NameKeyType = KeyType;
 
 export type InstanceConfigArgumentsOnly = {
   execArguments: TypedValue[];
@@ -34,13 +34,14 @@ type IndexType = {
 type ConfigType = {
   config: InstanceConfig;
 };
+type InjectionType = { injection: string };
 type ValueType = { value: string };
 
 type ContextWrapped = { ctx: ParserRuleContext };
 
 export type Constants = Map<KeyType, ValueType & DataType & ContextWrapped>;
 
-export type Variables = Map<KeyType, DataType & ContextWrapped & { injection: string }>;
+export type Variables = Map<KeyType, DataType & ContextWrapped & InjectionType>;
 
 export type Artifacts = Map<KeyType, AddressType & ContextWrapped>;
 

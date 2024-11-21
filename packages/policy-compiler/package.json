@@ -13,9 +13,9 @@
     "clean": "pnpm remove:dist",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
+    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"dsl/**/*.ts\" \"ir/**/*.ts\" \"compiler/**/*.ts\"",
     "lint:ts": "eslint",
     "lint:ts:fix": "eslint --fix",
-    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"dsl/**/*.ts\" \"ir/**/*.ts\" \"compiler/**/*.ts\"",
     "remove:dist": "npx rimraf dist",
     "antlr": "antlr4ts ./dsl/grammar/LacLang.g4 -o ./dsl/antlr/generated",
     "test": "pnpm exec hardhat test --bail"
@@ -45,6 +45,7 @@
     "globals": "^15.11.0",
     "hardhat": "^2.22.15",
     "hardhat-deploy": "^0.12.4",
+    "mocha": "^10.8.2",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "rimraf": "^6.0.1"
@@ -55,7 +56,6 @@
     "dotenv": "^16.4.5",
     "ethers": "^6.13.3",
     "generator-code": "^1.11.4",
-    "mocha": "^10.8.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
     "utils": "link:ethers/lib/utils"

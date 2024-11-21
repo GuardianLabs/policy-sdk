@@ -14,26 +14,37 @@
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
     "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint:ts": "eslint",
+    "lint:ts:fix": "eslint --fix",
     "remove:dist": "npx rimraf dist",
-    "test": "mocha -r ts-node/register test/**/*.test.ts"
+    "test": "mocha"
   },
   "keywords": [],
   "dependencies": {
-    "chai-as-promised": "^8.0.0",
-    "copyfiles": "^2.4.1",
-    "ethers": "^6.13.3",
-    "mocha": "^10.8.2",
-    "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.13.0",
     "@types/chai": "4.3.3",
-    "@types/chai-as-promised": "^8.0.1",
     "@types/mocha": "^10.0.9",
     "@types/node": "^22.8.0",
     "chai": "^4.5.0",
-    "dotenv": "^16.4.5",
-    "tsx": "^4.19.2"
+    "copyfiles": "^2.4.1",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "eslint-plugin-n": "^17.10.3",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^15.11.0",
+    "mocha": "^10.8.2",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "rimraf": "^6.0.1"
   }
 }

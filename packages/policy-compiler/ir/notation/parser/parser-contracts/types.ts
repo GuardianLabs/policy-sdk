@@ -23,7 +23,7 @@ export type ArtifactData = {
   artifactAddress: string;
   argsCount: number;
   execRuntimeVariablesIndices: number[];
-  variablesInjectionsWithIndices: Parameter[];
+  execRuntimeVariablesInjectionsWithIndices: Parameter[];
   execSubstitutionParamsList: SubstitutingParameter[];
   execKnownParamsList: Parameter[];
   initDataParamsSolidityPacked: string;

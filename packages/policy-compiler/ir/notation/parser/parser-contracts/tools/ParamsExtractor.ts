@@ -1,5 +1,4 @@
 import { getAddress } from 'ethers';
-import { extractInjection } from '../../../helpers';
 import {
   ArtifactData,
   GetTypesValues,
@@ -63,7 +62,7 @@ export class ParamsExtractor implements IParamsExtractor {
       this.getRuntimeVariablesIndices(execParamsList);
 
     // note: index here is a position of an injection in an array of variables, NOT in an array of execParams
-    const variablesInjectionsWithIndices: Array<Parameter> =
+    const execRuntimeVariablesInjectionsWithIndices: Array<Parameter> =
       this.getInjectionsWithIndices(execParamsList);
 
     // note: if artifact is statefull, then it may require init-params
@@ -79,7 +78,7 @@ export class ParamsExtractor implements IParamsExtractor {
       execKnownParamsList,
       execSubstitutionParamsList,
       execRuntimeVariablesIndices,
-      variablesInjectionsWithIndices,
+      execRuntimeVariablesInjectionsWithIndices,
       needsInitialization: initDataParams.length > 0,
       argsCount: execParamsList.length,
       initDataParamsSolidityPacked,
@@ -159,21 +158,37 @@ export class ParamsExtractor implements IParamsExtractor {
     return variableIndices;
   };
 
-  private getInjectionsWithIndices = (paramsList: Array<Parameter>) => {
-    const injections = this.getRuntimeVariables(paramsList)
-      .map((el, index) => {
-        const injection = extractInjection(el.value);
+  // note: this keeps original indeces from general list of params
+  private getInjectionsWithIndices = (
+    paramsList: Array<Parameter>,
+  ): Array<Parameter> => {
+    const extractInjection = (input: string): string => {
+      const matched = input.match(/\$"([^"]*)"$/);
+      if (!!matched) return matched[1];
 
-        if (injection && injection != '') {
-          return {
-            value: el.value,
-            index,
-          };
-        }
-      })
-      .filter((el) => !!el);
+      return '';
+    };
 
-    return injections;
+    const injectionMapper = (
+      v: Parameter,
+      indexOfValueInVariablesList: number,
+    ) => {
+      const extracted = extractInjection(v.value);
+      if (!!extracted && extracted !== '') {
+        return {
+          value: v.value,
+          index: indexOfValueInVariablesList,
+        };
+      }
+
+      return undefined;
+    };
+
+    const injectionsListUnsafe =
+      this.getRuntimeVariables(paramsList).map(injectionMapper);
+
+    const injectionsList = injectionsListUnsafe.filter((v) => !!v);
+    return injectionsList;
   };
 
   private getSubstitutionsWithIndices = (

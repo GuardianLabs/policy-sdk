@@ -1,5 +1,5 @@
-import chai, { expect } from 'chai';
-import { VariablesPopulator, AllowedVariablesType } from '../src';
+import { expect } from 'chai';
+import { AllowedVariablesType, VariablesPopulator } from '../src';
 import { FilledVariables } from '../src/types';
 import { TypedRawOnchainVariablesDescription } from '../src/utils';
 import { default as onchainVariables } from './snapshots/dummy.json';
@@ -7,7 +7,10 @@ import { default as onchainVariables } from './snapshots/dummy.json';
 describe('Variables population minimal flow', () => {
   let rawOnchainVariables: TypedRawOnchainVariablesDescription[];
   let intermediateFillingResult: FilledVariables[];
-  let internalAttributes: Map<string, AllowedVariablesType | Promise<AllowedVariablesType>>;
+  let internalAttributes: Map<
+    string,
+    AllowedVariablesType | Promise<AllowedVariablesType>
+  >;
 
   before(async () => {
     rawOnchainVariables = <TypedRawOnchainVariablesDescription[]>(
@@ -16,7 +19,10 @@ describe('Variables population minimal flow', () => {
 
     internalAttributes = new Map();
 
-    internalAttributes.set('allowance', new Promise((resolve) => resolve(13_000)));
+    internalAttributes.set(
+      'allowance',
+      new Promise((resolve) => resolve(13_000)),
+    );
     internalAttributes.set('magic_hash', '0xdeadbeef');
     internalAttributes.set(
       'admin-address',

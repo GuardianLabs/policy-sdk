@@ -3,42 +3,25 @@ import { ethers } from 'hardhat';
 import { LacLangCompiler } from '../../policy-compiler/compiler';
 import { rawOnchainVariablesDescriptionToOffchainView } from '../../policy-variables/src/utils';
 import {
-  AND,
   ArtifactsGraph,
-  ArtifactsGraph__factory,
   EqualAddress,
   EqualBytes,
   EqualString,
   EqualUint,
-  GteUint,
-  GtUint,
   Keccak256String,
-  Keccak256Uint,
-  LteUint,
-  LtUint,
-  NOT,
-  OR,
   XOR,
 } from '../src';
 import { policy } from './templates';
-import { deployArtifacts } from './utils';
+import { deployGraphAndArtifacts } from './utils';
 
 describe('Deploying and querying mocks for subsequent tests', () => {
   let adminSigner: SignerWithAddress;
 
   // logical
-  let andArtifact: AND;
-  let orArtifact: OR;
-  let notArtifact: NOT;
   let xorArtifact: XOR;
   // hashing
   let keccakStringArtifact: Keccak256String;
-  let keccakUintArtifact: Keccak256Uint;
   // comparison
-  let gteUintArtifact: GteUint;
-  let lteUintArtifact: LteUint;
-  let gtUintArtifact: GtUint;
-  let ltUintArtifact: LtUint;
   let equalUintsArtifact: EqualUint;
   let equalStringsArtifact: EqualString;
   let equalBytesArtifact: EqualBytes;
@@ -50,44 +33,15 @@ describe('Deploying and querying mocks for subsequent tests', () => {
   before(async () => {
     [adminSigner] = await ethers.getSigners();
 
-    const {
-      and,
-      or,
-      not,
-      xor,
-      keccak256String,
-      keccak256Uint,
-      gteUint,
-      isDividiableUint,
-      equalAddresses,
-      lteUint,
-      gtUint,
-      ltUint,
-      equalUint,
-      equalBytes,
-      equalString,
-      currentTimestamp,
-    } = await deployArtifacts(adminSigner);
-
-    andArtifact = and;
-    orArtifact = or;
-    notArtifact = not;
-    xorArtifact = xor;
-    gteUintArtifact = gteUint;
-    lteUintArtifact = lteUint;
-    gtUintArtifact = gtUint;
-    ltUintArtifact = ltUint;
-    equalAddressesArtifact = equalAddresses;
-    equalUintsArtifact = equalUint;
-    equalBytesArtifact = equalBytes;
-    equalStringsArtifact = equalString;
-    keccakStringArtifact = keccak256String;
-    keccakUintArtifact = keccak256Uint;
-
-    const gatewayDeployer = new ArtifactsGraph__factory(adminSigner);
-
-    gateway = await gatewayDeployer.deploy(adminSigner.address);
-    gateway.waitForDeployment();
+    ({
+      artifactsGraphInstance: gateway,
+      equalAddresses: equalAddressesArtifact,
+      equalUint: equalUintsArtifact,
+      equalBytes: equalBytesArtifact,
+      equalString: equalStringsArtifact,
+      keccak256String: keccakStringArtifact,
+      xor: xorArtifact,
+    } = await deployGraphAndArtifacts(adminSigner));
   });
 
   describe('Variables testing', () => {
