@@ -1,2 +1,2 @@
-export { Compiler as LacLangCompiler } from './compiler';
+export { LacLangCompiler } from './LacLangCompiler';
 export { CompilerOptions as LacLangCompilerOptions } from './types';

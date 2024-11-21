@@ -1,7 +1,7 @@
 import { ContractRunner } from 'ethers';
 
 export interface CompilerOptions {
-  checkTypesAgainstOnchain?: boolean;
-  checkTypesAgainstDeclaration?: boolean;
+  checkTypesAgainstOnchainDescriptors?: boolean;
+  checkTypesAgainstDslDeclarations?: boolean;
   provider?: ContractRunner;
 }

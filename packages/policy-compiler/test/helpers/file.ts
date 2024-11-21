@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { Stub } from '../sources';
 
 export const toLac = (path: string) => `${path}.lac`;

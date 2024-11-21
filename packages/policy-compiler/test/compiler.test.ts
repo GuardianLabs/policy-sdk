@@ -26,7 +26,7 @@ describe('.lac code compilation', () => {
       const [signer] = await ethers.getSigners();
 
       const compiler = new LacLangCompiler({
-        checkTypesAgainstOnchain: true,
+        checkTypesAgainstOnchainDescriptors: true,
         provider: signer,
       });
 

@@ -1,4 +1,6 @@
 import { ContractRunner } from 'ethers';
+import { LacLangCompilerOptions as CompilerConfiguration } from '../../../../compiler';
+import { TranspilerOutput } from '../../../../dsl';
 import { InstanceConfig } from '../../../../dsl/transpiler/state/types';
 import { TypingsValidator } from '../parser.validated';
 import { ValidationMiddlware } from '../types';
@@ -11,10 +13,7 @@ export class ParserWithValidation extends SimplifiedParser {
     intermediatePresentation: string,
     provider: ContractRunner,
   ): ParserWithValidation => {
-    let middleware: ValidationMiddlware | undefined;
-    if (!!provider) {
-      middleware = TypingsValidator(provider);
-    }
+    const middleware = TypingsValidator(provider);
 
     const getTypesSource = createOrInferTypesSource(provider);
 
@@ -23,7 +22,7 @@ export class ParserWithValidation extends SimplifiedParser {
 
   static fromDSLBasedConfig = (
     intermediatePresentation: string,
-    ipArtifactInstanceConfig: Array<InstanceConfig>,
+    artifactConfigsList: Array<InstanceConfig>,
     provider?: ContractRunner,
   ) => {
     let middleware: ValidationMiddlware | undefined;
@@ -31,14 +30,46 @@ export class ParserWithValidation extends SimplifiedParser {
       middleware = TypingsValidator(provider);
     }
 
-    const getTypesSource = DSLConfigArgsTypesSource.build(
-      ipArtifactInstanceConfig,
-    );
+    const getTypesSource = DSLConfigArgsTypesSource.build(artifactConfigsList);
 
     return this.create(
       intermediatePresentation,
       getTypesSource.getTypes,
       middleware,
+    );
+  };
+
+  static fromCompilerConfiguration = (
+    config: CompilerConfiguration,
+    {
+      ir: intermediatePresentation,
+      typings: artifactConfigsList,
+    }: Pick<TranspilerOutput, 'ir' | 'typings'>,
+  ): ParserWithValidation => {
+    const {
+      checkTypesAgainstDslDeclarations,
+      checkTypesAgainstOnchainDescriptors,
+      provider,
+    } = config;
+    const isProvider = !!provider;
+
+    if (!!checkTypesAgainstDslDeclarations) {
+      return this.fromDSLBasedConfig(
+        intermediatePresentation,
+        artifactConfigsList,
+        provider,
+      );
+    }
+
+    if (!!checkTypesAgainstOnchainDescriptors) {
+      if (!isProvider) throw new Error(`Parser: provider not supplied`);
+
+      return this.fromOnchainSource(intermediatePresentation, provider);
+    }
+
+    return this.fromDSLBasedConfig(
+      intermediatePresentation,
+      artifactConfigsList,
     );
   };
 
