@@ -3,7 +3,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ZeroAddress, ZeroHash } from 'ethers';
 import { ethers } from 'hardhat';
-import { IntermediateRepresentationParser, nodeId } from './parser';
+import { ParserWithValidation } from '../../policy-compiler/ir/notation/parser/parser-contracts';
 import { SolidityAddressType, SolidityBytesType } from './solidity-types';
 import {
   AND,
@@ -16,7 +16,7 @@ import {
   OR,
   XOR,
 } from './types';
-import { deployGraphAndArtifacts } from './utils';
+import { deployGraphAndArtifacts, nodeId } from './utils';
 import { MockedExecParams } from './utils/init-exec-arguments';
 
 const xor = (argA: boolean, argB: boolean) => {
@@ -64,7 +64,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
     });
 
     it('should succefully evaluate "(variable1 ^ true) && variable2"', async () => {
-      const parser = IntermediateRepresentationParser.build(
+      const parser = ParserWithValidation.fromOnchainSource(
         intermediateRepresentation,
         adminSigner,
       );
@@ -179,7 +179,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
     });
 
     it('should evaluate successfully', async () => {
-      const paser = IntermediateRepresentationParser.build(
+      const paser = ParserWithValidation.fromOnchainSource(
         intermediateRepresentation,
         adminSigner,
       );
