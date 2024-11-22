@@ -10,36 +10,41 @@ import {
 } from './validations.helper';
 
 export class LacLangCompiler {
-  private sources!: string;
-  private transpilerOutput?: TranspilerOutput;
-  private parserOutput?: ParsingResult[];
+  static create = async (
+    sourcesPath: string,
+    options: LacLangCompilerOptions = {},
+  ) => {
+    const sources = await readFromFile(sourcesPath);
+    return new LacLangCompiler(sources, options);
+  };
 
-  constructor(private readonly options: LacLangCompilerOptions = {}) {
+  constructor(
+    private sources: string,
+    private readonly options: LacLangCompilerOptions,
+  ) {
     validateProviderIsSupplied(this.options);
   }
 
-  compileFile = async (sourcesPath: string): Promise<GraphInitParamsStruct> => {
-    this.sources = await readFromFile(sourcesPath);
-
+  compile = async (): Promise<GraphInitParamsStruct> => {
     return this.compileSources();
   };
 
   private compileSources = async (): Promise<GraphInitParamsStruct> => {
-    this.transpileDSL();
-
-    await this.parseIntermediateRepresentation();
+    const transpilerOutput = this.transpileDSL();
+    const parserOutput =
+      await this.parseIntermediateRepresentation(transpilerOutput);
 
     // note: actually is onchain representation
     const finalRepresentation: GraphInitParamsStruct = {
-      rootNode: this.transpilerOutput!.rootNode,
-      nodes: this.parserOutput!,
+      rootNode: transpilerOutput.rootNode,
+      nodes: parserOutput,
     };
 
     try {
       validateFinalRepresentation(finalRepresentation);
-    } catch (finalRepresentationValidationError: unknown) {
+    } catch (finalRepresentationValidationError) {
       console.error(
-        'Finar representation validation error during compilation:',
+        'Final-representation validation error during the compilation:',
       );
       throw finalRepresentationValidationError;
     }
@@ -47,26 +52,29 @@ export class LacLangCompiler {
     return finalRepresentation;
   };
 
-  private transpileDSL = (): void => {
+  private transpileDSL = (): TranspilerOutput => {
     try {
-      const transpiler = new Transpiler(this.sources!);
-      transpiler.transpile();
-
-      this.transpilerOutput = transpiler.getFullIR();
+      const transpilerOutput = Transpiler.create(this.sources)
+        .transpile()
+        .getFullIR();
+      return transpilerOutput;
     } catch (transpilerError: unknown) {
       console.error('DSL transpiler error during compilation:');
       throw transpilerError;
     }
   };
 
-  private parseIntermediateRepresentation = async (): Promise<void> => {
+  private parseIntermediateRepresentation = async (
+    transpilerOutput: TranspilerOutput,
+  ): Promise<Array<ParsingResult>> => {
     try {
       const parser = ParserWithValidation.fromCompilerConfiguration(
         this.options,
-        this.transpilerOutput!,
+        transpilerOutput,
       );
 
-      this.parserOutput = await parser.process();
+      const parserOutput = await parser.process();
+      return parserOutput;
     } catch (parserError: unknown) {
       console.error('IR parser error during compilation:');
       throw parserError;

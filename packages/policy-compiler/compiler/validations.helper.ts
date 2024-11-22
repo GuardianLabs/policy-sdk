@@ -27,12 +27,11 @@ export const validateFinalRepresentation = (fr: GraphInitParamsStruct) => {
   validateSelfReference(nodes);
 };
 
-export const validateCyclicity = (nodes: Node[]) => {
+const validateCyclicity = (nodes: Node[]) => {
   const cycleFound = findCycle(nodes);
 
-  if (cycleFound) {
-    const { nodeId, parentNodeId } = cycleFound;
-    throw new CyclicReferenceError(nodeId, parentNodeId);
+  if (!!cycleFound) {
+    throw new CyclicReferenceError(cycleFound.nodeId, cycleFound.parentNodeId);
   }
 };
 
