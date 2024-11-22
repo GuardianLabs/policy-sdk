@@ -4,7 +4,7 @@ import {
   LacLangCompilerOptions,
 } from '../../../policy-compiler/src';
 import { JsonRpcProvider } from 'ethers';
-import fs from 'fs';
+import { writeFileSync } from 'node:fs';
 import { NoRpcUrlError } from '../errors';
 
 export const compileHandler = async (program: Command) => {
@@ -13,7 +13,7 @@ export const compileHandler = async (program: Command) => {
 
   let config: LacLangCompilerOptions = {};
 
-  if (options.typeOnchain || options.typeDsl) {
+  if (!!options.typeOnchain || !!options.typeDsl) {
     const rpc: string = options.rpc ?? process.env.RPC;
     if (!rpc) throw new NoRpcUrlError();
 
@@ -26,10 +26,10 @@ export const compileHandler = async (program: Command) => {
     };
   }
 
-  const compiler = new LacLangCompiler(sourcePath, config);
+  const compiler = await LacLangCompiler.fromFile(sourcePath, config);
   const compilationOutput = await compiler.compile();
 
-  if (options.write) {
+  if (!!options.write) {
     writeJsonToFile(options.write, compilationOutput);
     return;
   }
@@ -37,9 +37,9 @@ export const compileHandler = async (program: Command) => {
   console.log(JSON.stringify(compilationOutput, null, 2));
 };
 
-function writeJsonToFile(filePath: string, data: object): void {
+const writeJsonToFile = (filePath: string, data: object): void => {
   const jsonData = JSON.stringify(data, null, 2);
 
-  fs.writeFileSync(filePath, jsonData, { flag: 'w' });
+  writeFileSync(filePath, jsonData, { flag: 'w' });
   console.log(`Compilation result successfully written to ${filePath}`);
 }
