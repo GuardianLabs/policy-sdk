@@ -54,11 +54,11 @@ describe('Policy: compilation with predefined artifacts', () => {
     });
 
     it('simple policy with one artifcat: validated dsl', async () => {
-      const compiler = new LacLangCompiler({
+      const compiler = LacLangCompiler.fromSources(dsl, {
         provider: adminSigner.provider,
-        checkTypesAgainstDeclaration: true,
+        checkTypesAgainstDslDeclarations: true,
       });
-      const compilerOutput = await compiler.compileSources(dsl);
+      const compilerOutput = await compiler.compile();
       await gateway.initGraph(compilerOutput);
 
       const execTrue = MockedExecParams.withNormalizedArgs().add(true);
@@ -89,12 +89,12 @@ describe('Policy: compilation with predefined artifacts', () => {
     });
 
     it('simple policy with one artifcat: validated onchain', async () => {
-      const compiler = new LacLangCompiler({
+      const compiler = LacLangCompiler.fromSources(dsl, {
         provider: adminSigner.provider,
-        checkTypesAgainstOnchain: true,
+        checkTypesAgainstOnchainDescriptors: true,
       });
 
-      const compilerOutput = await compiler.compileSources(dsl);
+      const compilerOutput = await compiler.compile();
       await gateway.initGraph(compilerOutput);
 
       const execTrue = MockedExecParams.withNormalizedArgs().add(true);
@@ -125,9 +125,9 @@ describe('Policy: compilation with predefined artifacts', () => {
     });
 
     it('simple policy with one artifcat: unvalidated', async () => {
-      const compiler = new LacLangCompiler();
+      const compiler = LacLangCompiler.fromSources(dsl);
 
-      const compilerOutput = await compiler.compileSources(dsl);
+      const compilerOutput = await compiler.compile();
       await gateway.initGraph(compilerOutput);
 
       const execTrue = MockedExecParams.withNormalizedArgs().add(true);
@@ -170,12 +170,12 @@ describe('Policy: compilation with predefined artifacts', () => {
     });
 
     it('simple policy with two artifcats: validated dsl', async () => {
-      const compiler = new LacLangCompiler({
+      const compiler = LacLangCompiler.fromSources(dsl, {
         provider: adminSigner.provider,
-        checkTypesAgainstDeclaration: true,
+        checkTypesAgainstDslDeclarations: true,
       });
 
-      const compilerOutput = await compiler.compileSources(dsl);
+      const compilerOutput = await compiler.compile();
       await gateway.initGraph(compilerOutput);
 
       let tx = await gateway.evaluateGraph([
@@ -212,12 +212,12 @@ describe('Policy: compilation with predefined artifacts', () => {
     });
 
     it('simple policy with two artifcats: validated onchain', async () => {
-      const compiler = new LacLangCompiler({
+      const compiler = LacLangCompiler.fromSources(dsl, {
         provider: adminSigner.provider,
-        checkTypesAgainstOnchain: true,
+        checkTypesAgainstOnchainDescriptors: true,
       });
 
-      const compilerOutput = await compiler.compileSources(dsl);
+      const compilerOutput = await compiler.compile();
       await gateway.initGraph(compilerOutput);
 
       let tx = await gateway.evaluateGraph([
@@ -254,9 +254,9 @@ describe('Policy: compilation with predefined artifacts', () => {
     });
 
     it('simple policy with two artifcats: unvalidated', async () => {
-      const compiler = new LacLangCompiler();
+      const compiler = LacLangCompiler.fromSources(dsl);
 
-      const compilerOutput = await compiler.compileSources(dsl);
+      const compilerOutput = await compiler.compile();
       await gateway.initGraph(compilerOutput);
 
       let tx = await gateway.evaluateGraph([

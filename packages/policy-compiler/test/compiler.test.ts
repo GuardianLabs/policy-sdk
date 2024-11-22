@@ -11,7 +11,7 @@ describe('.lac code compilation', () => {
   describe('Dummy valid code', () => {
     it('success when compiled and types are checked from declaration', async () => {
       const lacSourcePath = toLacSourcePath(stubCode, SOURCES_PATH);
-      const compiler = await LacLangCompiler.create(lacSourcePath);
+      const compiler = await LacLangCompiler.fromFile(lacSourcePath);
 
       const compilationResult = await compiler.compile();
       const expectedResult = await importJson(
@@ -24,13 +24,11 @@ describe('.lac code compilation', () => {
     it.skip('success when compiled and types are checked from onchain descriptor', async () => {
       const [signer] = await ethers.getSigners();
 
-      const compiler = await LacLangCompiler.create(
-        toLacSourcePath(stubCode, SOURCES_PATH),
-        {
-          checkTypesAgainstOnchainDescriptors: true,
-          provider: signer,
-        },
-      );
+      const lacSourcePath = toLacSourcePath(stubCode, SOURCES_PATH);
+      const compiler = await LacLangCompiler.fromFile(lacSourcePath, {
+        checkTypesAgainstOnchainDescriptors: true,
+        provider: signer,
+      });
 
       const compilationResult = await compiler.compile();
       const expectedResult = await importJson(

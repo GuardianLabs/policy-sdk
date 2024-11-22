@@ -10,11 +10,18 @@ import {
 } from './validations.helper';
 
 export class LacLangCompiler {
-  static create = async (
+  static fromFile = async (
     sourcesPath: string,
     options: LacLangCompilerOptions = {},
   ) => {
     const sources = await readFromFile(sourcesPath);
+    return new LacLangCompiler(sources, options);
+  };
+
+  static fromSources = (
+    sources: string,
+    options: LacLangCompilerOptions = {},
+  ) => {
     return new LacLangCompiler(sources, options);
   };
 
@@ -56,7 +63,7 @@ export class LacLangCompiler {
     try {
       const transpilerOutput = Transpiler.create(this.sources)
         .transpile()
-        .getFullIR();
+        .getFullIntermediateRepresentation();
       return transpilerOutput;
     } catch (transpilerError: unknown) {
       console.error('DSL transpiler error during compilation:');

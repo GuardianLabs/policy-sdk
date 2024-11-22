@@ -58,12 +58,12 @@ describe('Deploying and querying mocks for subsequent tests', () => {
     });
 
     it('querying policy with injection for policy-variables package testing', async () => {
-      const compiler = new LacLangCompiler({
-        checkTypesAgainstDeclaration: true,
+      const compiler = LacLangCompiler.fromSources(dsl, {
+        checkTypesAgainstDslDeclarations: true,
         provider: adminSigner.provider,
       });
 
-      const compilerOutput = await compiler.compileSources(dsl);
+      const compilerOutput = await compiler.compile();
       await gateway.initGraph(compilerOutput);
 
       const variables = await gateway.getVariablesList();
