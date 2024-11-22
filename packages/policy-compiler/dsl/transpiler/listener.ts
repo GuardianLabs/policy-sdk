@@ -7,7 +7,7 @@ import {
   ProgramContext,
   VarDeclarationContext,
 } from '../antlr';
-import { nodeId as calculateNodeId } from '../transformer/helpers';
+import { nodeId as calculateNodeId } from '../ir-generation';
 import {
   ArtifactAlreadyDefinedError,
   ConstantAlreadyDefinedError,

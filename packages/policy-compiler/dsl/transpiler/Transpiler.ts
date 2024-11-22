@@ -2,7 +2,7 @@ import { CharStreams, CodePointCharStream, CommonTokenStream } from 'antlr4ts';
 import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener';
 import { ParseTreeWalker } from 'antlr4ts/tree/ParseTreeWalker';
 import { LacLangLexer, LacLangParser, ProgramContext } from '../antlr';
-import { IRTransformer } from '../transformer';
+import { IRTransformer } from '../ir-generation';
 import { LacLangTranspiler } from './listener';
 import { TranspilerOutput } from './types';
 
@@ -37,7 +37,7 @@ export class Transpiler {
     return this;
   }
 
-  getFullIntermediateRepresentation(): TranspilerOutput {
+  toIntermediateRepresentation(): TranspilerOutput {
     const { definitions, rootNode, typings } = IRTransformer.buildFullIR(
       this.listener.latentState,
     );
