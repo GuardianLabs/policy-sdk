@@ -35,12 +35,12 @@ const validateCyclicity = (nodes: Node[]) => {
   }
 };
 
-export const validateSelfReference = (nodes: Node[]) => {
-  let selfReferenceNode;
+const validateSelfReference = (nodes: Node[]) => {
+  for (let [, node] of nodes.entries()) {
+    const isSelfReference = node.references.includes(node.id);
 
-  nodes.forEach((node) => {
-    selfReferenceNode = node.references.find((el) => el == node.id);
-  });
-
-  if (selfReferenceNode) throw new SelfReferenceError(selfReferenceNode);
+    if (isSelfReference) {
+      throw new SelfReferenceError(node.id);
+    }
+  }
 };
