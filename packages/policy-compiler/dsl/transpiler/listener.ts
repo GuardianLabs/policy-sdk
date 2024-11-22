@@ -108,10 +108,11 @@ export class LacLangTranspiler implements LacLangListener {
       instancesCount,
     );
 
+    // note: may be redundant due to linear declaration by design
     findCycleAndThrow(
       this.latentState.instancesByName,
       this.latentState.instancesById,
-    ); // note: may be redundant due to linear declaration by design
+    );
   }
 
   enterEvaluateStatement(ctx: EvaluateStatementContext) {
