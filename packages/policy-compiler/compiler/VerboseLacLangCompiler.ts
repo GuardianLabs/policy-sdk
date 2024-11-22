@@ -10,7 +10,7 @@ import { LacLangCompiler } from './LacLangCompiler';
 import { CompilerOptions as LacLangCompilerOptions } from './types';
 import { validateFinalRepresentation } from './validations.helper';
 
-export class SaferLacLangCompiler extends LacLangCompiler {
+export class VerboseLacLangCompiler extends LacLangCompiler {
   constructor(
     sources: string,
     readonly options: LacLangCompilerOptions,
