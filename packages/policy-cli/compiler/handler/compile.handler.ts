@@ -20,14 +20,14 @@ export const compileHandler = async (program: Command) => {
     const provider = new JsonRpcProvider(rpc);
 
     config = {
+      checkTypesAgainstDslDeclarations: options.typeDsl,
+      checkTypesAgainstOnchainDescriptors: options.typeOnchain,
       provider,
-      checkTypesAgainstDeclaration: options.typeDsl,
-      checkTypesAgainstOnchain: options.typeOnchain,
     };
   }
 
-  const compiler = new LacLangCompiler(config);
-  const compilationOutput = await compiler.compileFile(sourcePath);
+  const compiler = new LacLangCompiler(sourcePath, config);
+  const compilationOutput = await compiler.compile();
 
   if (options.write) {
     writeJsonToFile(options.write, compilationOutput);
