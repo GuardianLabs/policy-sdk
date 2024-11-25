@@ -1,4 +1,4 @@
-import { ParsingResult } from '../../../ir';
+import { ParsingResult } from '../../../intermediate-representation';
 import { InstanceConfigArgumentsOnly } from '../state';
 
 export type MinTypedValue = {
