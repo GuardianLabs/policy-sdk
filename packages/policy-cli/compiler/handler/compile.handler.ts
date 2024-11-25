@@ -42,4 +42,4 @@ const writeJsonToFile = (filePath: string, data: object): void => {
 
   writeFileSync(filePath, jsonData, { flag: 'w' });
   console.log(`Compilation result successfully written to ${filePath}`);
-}
+};

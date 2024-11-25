@@ -3,9 +3,6 @@
   "include": [
     "./src/**/*",
     "./test/**/*",
-    "./config/**/*",
-    "./dsl/**/*",
-    "./ir/**/*",
     "./compiler/**/*"
   ],
   "compilerOptions": {

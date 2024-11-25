@@ -7,18 +7,30 @@
   "engines": {
     "node": ">=18.20.4"
   },
+  "bin": {
+    "compile": "./dist/compiler/compile.js"
+  },
   "scripts": {
     "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
     "build:dev": "tsc -p tsconfig.json && pnpm format:all:fix && pnpm copy-dts",
     "clean": "pnpm remove:dist",
-    "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
+    "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" \"compiler/**/*.d.ts\" ./dist",
     "format:all:fix": "pnpm format:ts:fix",
     "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"compiler/**/*.ts\"",
     "remove:dist": "npx rimraf dist",
     "test": "mocha",
     "compile": "tsx ./compiler/compile.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "cli",
+    "policy",
+    "laclang",
+    "sdk",
+    "blockchain"
+  ],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "chai": "^4.5.0",
     "commander": "^12.1.0",
