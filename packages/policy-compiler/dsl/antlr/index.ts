@@ -1,3 +1,3 @@
-export * from './generated/dsl/grammar/LacLangLexer';
-export * from './generated/dsl/grammar/LacLangListener';
-export * from './generated/dsl/grammar/LacLangParser';
+export * from './generated/grammar/LacLangLexer';
+export * from './generated/grammar/LacLangListener';
+export * from './generated/grammar/LacLangParser';
