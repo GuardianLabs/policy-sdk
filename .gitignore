@@ -20,3 +20,7 @@ output.txt
 packages/**/constants/contract-error-messages.ts
 packages/**/typechain/
 !packages/**/wrappers-prev/typechain
+*.interp
+*.tokens
+.antlr
+*.java
