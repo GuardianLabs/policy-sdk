@@ -1,23 +1,33 @@
-export class CyclicReferenceError extends Error {
-  constructor(selfNode: string, referencedNode: string) {
-    const msg = `Node ${selfNode} cyclically references ${referencedNode}`;
+export class BaseError extends Error {
+  protected static build<R>(
+    this: new (message: string) => R,
+    message: string,
+  ): R {
+    return new this(message);
+  }
 
-    super(msg);
+  constructor(erroMessage: string) {
+    super(erroMessage);
   }
 }
 
-export class SelfReferenceError extends Error {
-  constructor(selfNode: string) {
-    const msg = `Node ${selfNode} cyclically references itself`;
-
-    super(msg);
-  }
+export class CyclicReferenceError extends BaseError {
+  static create = (referencedNode: string, selfNode: string) => {
+    const errorMessage = `Node ${selfNode} cyclically references ${referencedNode}`;
+    return this.build(errorMessage);
+  };
 }
 
-export class NoProviderError extends Error {
-  constructor() {
-    const msg = `Provider needed if typing checks enabled`;
+export class SelfReferenceError extends BaseError {
+  static create = (selfNode: string) => {
+    const errorMessage = `Node ${selfNode} cyclically references itself`;
+    return this.build(errorMessage);
+  };
+}
 
-    super(msg);
-  }
+export class NoProviderError extends BaseError {
+  static create = () => {
+    const errorMessage = 'Provider needed if typing checks enabled';
+    return this.build(errorMessage);
+  };
 }

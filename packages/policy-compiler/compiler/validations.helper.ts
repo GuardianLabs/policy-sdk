@@ -1,11 +1,7 @@
 import { LacLangCompilerOptions } from '.';
 import { GraphInitParamsStruct } from '../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
 import { findCycle, Node } from '../dsl/transpiler/validations';
-import {
-  CyclicReferenceError,
-  NoProviderError,
-  SelfReferenceError,
-} from './errors';
+import { ErrorFactory } from './errors';
 
 export const validateProviderIsSupplied = (options: LacLangCompilerOptions) => {
   const isProviderSupplied = !!options.provider;
@@ -13,7 +9,7 @@ export const validateProviderIsSupplied = (options: LacLangCompilerOptions) => {
   const needsOnchainTypesCheck = !!options.checkTypesAgainstOnchainDescriptors;
 
   if ((needsDslTypesCheck || needsOnchainTypesCheck) && !isProviderSupplied) {
-    throw new NoProviderError();
+    throw ErrorFactory.noProvider();
   }
 };
 
@@ -31,7 +27,10 @@ const validateCyclicity = (nodes: Node[]) => {
   const cycleFound = findCycle(nodes);
 
   if (!!cycleFound) {
-    throw new CyclicReferenceError(cycleFound.nodeId, cycleFound.parentNodeId);
+    throw ErrorFactory.cyclicfReference(
+      cycleFound.nodeId,
+      cycleFound.parentNodeId,
+    );
   }
 };
 
@@ -40,7 +39,7 @@ const validateSelfReference = (nodes: Node[]) => {
     const isSelfReference = node.references.includes(node.id);
 
     if (isSelfReference) {
-      throw new SelfReferenceError(node.id);
+      throw ErrorFactory.selfReference(node.id);
     }
   }
 };
