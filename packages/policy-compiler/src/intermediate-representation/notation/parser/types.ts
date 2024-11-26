@@ -1,5 +1,5 @@
 import { TreeNodeInitParamsStruct } from '../../../../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
-import { InstanceConfig } from '../../../../dsl/transpiler/state';
+import { InstanceConfig } from '../../../dsl/transpiler/state';
 
 export enum Type {
   Uint256 = 'uint256',

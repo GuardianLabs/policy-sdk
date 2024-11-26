@@ -1,5 +1,5 @@
 import { ContractRunner } from 'ethers';
-import { TranspilerOutput } from '../../../../dsl';
+import { TranspilerOutput } from '../../../dsl';
 import {
   dslTypesToOnchainTypesParamsValidation,
   onchainSubstitutionToReturnTypesValidation,

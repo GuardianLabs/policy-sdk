@@ -1,4 +1,4 @@
-import { InstanceConfig } from '../../../../../../../dsl/transpiler/state/types';
+import { InstanceConfig } from '../../../../../../dsl/transpiler/state/types';
 import { DSLTypesToIRTypes } from '../../../../helpers';
 import { ExecInitArtifactTypes, IArgsTypesSource } from '../../types';
 

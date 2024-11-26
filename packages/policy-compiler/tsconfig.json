@@ -4,8 +4,6 @@
     "./src/**/*",
     "./test/**/*",
     "./config/**/*",
-    "./dsl/**/*",
-    "intermediate-representation/**/*",
   ],
   "files": ["./hardhat.config.ts"],
   "compilerOptions": {
