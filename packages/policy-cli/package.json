@@ -8,7 +8,7 @@
     "node": ">=18.20.4"
   },
   "bin": {
-    "compile": "./dist/policy-cli/compiler/compile.js"
+    "compile": "./dist/policy-cli/src/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
