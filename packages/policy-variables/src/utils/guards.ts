@@ -1,12 +1,9 @@
-import { Type } from '../../../policy-compiler/intermediate-representation/notation/parser/types';
+import { Type } from '../../../policy-compiler/src/intermediate-representation/notation/parser/types';
 import {
   verifyAddress,
   verifyBytes,
 } from '../../../policy-contracts/test/solidity-types';
-import {
-  VariableTypeNotMatchedError,
-  VariableTypeNotMetError,
-} from '../errors';
+import { ErrorFactory } from '../errors';
 import { AllowedVariablesType } from '../types';
 
 export const valueCompliesExpectedType = (
@@ -28,7 +25,7 @@ export const valueCompliesExpectedType = (
         verified ||= true;
       } catch (e: unknown) {
         console.error((<Error>e).message);
-        throw new VariableTypeNotMetError(value.toString(), expectedType);
+        throw ErrorFactory.variableTypeNotMet(value.toString(), expectedType);
       }
       break;
     case Type.Bytes:
@@ -37,14 +34,14 @@ export const valueCompliesExpectedType = (
         verified ||= true;
       } catch (e: unknown) {
         console.error((<Error>e).message);
-        throw new VariableTypeNotMetError(value.toString(), expectedType);
+        throw ErrorFactory.variableTypeNotMet(value.toString(), expectedType);
       }
       break;
     case Type.String:
       verified ||= typeof value == 'string';
       break;
     default:
-      throw new VariableTypeNotMatchedError(value.toString(), expectedType);
+      throw ErrorFactory.variableTypeNotMatched(value.toString(), expectedType);
   }
 
   return verified;

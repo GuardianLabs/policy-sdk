@@ -1,7 +1,4 @@
-import {
-  CannotLookupVariableValueError,
-  VariableTypeNotMetError,
-} from '../errors';
+import { ErrorFactory } from '../errors';
 import {
   AllowedVariablesType,
   FilledVariables,
@@ -44,7 +41,7 @@ export class VariablesInjector<ValueType extends AllowedVariablesType> {
 
             if (attribute !== undefined) {
               if (!valueCompliesExpectedType(attribute, expectedType))
-                throw VariableTypeNotMetError.create(
+                throw ErrorFactory.variableTypeNotMet(
                   attribute.toString(),
                   expectedType,
                 );
@@ -52,14 +49,14 @@ export class VariablesInjector<ValueType extends AllowedVariablesType> {
               variablePotentiallyFilled.values[index] = attribute;
             } else if (defaultValue !== undefined) {
               if (!valueCompliesExpectedType(defaultValue, expectedType))
-                throw VariableTypeNotMetError.create(
+                throw ErrorFactory.variableTypeNotMet(
                   defaultValue.toString(),
                   expectedType,
                 );
 
               variablePotentiallyFilled.values[index] = defaultValue;
             } else
-              throw CannotLookupVariableValueError.create(
+              throw ErrorFactory.cannotLookupVariableValue(
                 onchainVariableDefinition.uniqueName,
                 onchainVariableDefinition.injection,
               );

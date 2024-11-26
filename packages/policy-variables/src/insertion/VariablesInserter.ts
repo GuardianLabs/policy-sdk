@@ -1,4 +1,4 @@
-import { VariableNodeNotFoundError } from '../errors';
+import { ErrorFactory } from '../errors';
 import {
   AllowedVariablesType,
   FilledVariables,
@@ -38,9 +38,9 @@ export class VariablesInserter
   public insert(variableUniqueName: string, value: AllowedVariablesType) {
     const targetNodeId = this.nameToNodeId.get(variableUniqueName);
     if (!targetNodeId)
-      throw VariableNodeNotFoundError.create(variableUniqueName);
+      throw ErrorFactory.variableNodeNotFound(variableUniqueName);
     if (!this.variablesValues.get(targetNodeId))
-      throw VariableNodeNotFoundError.create(variableUniqueName);
+      throw ErrorFactory.variableNodeNotFound(variableUniqueName);
 
     this.variablesValues.get(targetNodeId)!.push({
       index: this.nameToVariableIndex.get(variableUniqueName)!,

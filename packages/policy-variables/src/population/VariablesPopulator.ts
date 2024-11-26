@@ -1,10 +1,6 @@
 import { VariablesStruct } from '../../../policy-contracts/src/typechain/contracts/ArtifactNodes';
 import { solidityEncodeSingleParam } from '../../../policy-contracts/test/utils';
-import {
-  VariableNotFilledError,
-  VariableNotFoundError,
-  VariableTypeNotMetError,
-} from '../errors';
+import { ErrorFactory } from '../errors';
 import { VariablesInjector } from '../injection';
 import { VariablesInserter } from '../insertion';
 import {
@@ -100,10 +96,11 @@ export class VariablesPopulator {
     uniqueVariableName: string,
   ) {
     const varDescription = this.getVariableDescription(uniqueVariableName);
-    if (!varDescription) throw VariableNotFoundError.create(uniqueVariableName);
+    if (!varDescription)
+      throw ErrorFactory.variableNotFound(uniqueVariableName);
 
     if (!valueCompliesExpectedType(filledValue, varDescription.type))
-      throw VariableTypeNotMetError.create(
+      throw ErrorFactory.variableTypeNotMet(
         filledValue.toString(),
         varDescription.type,
       );
@@ -120,7 +117,7 @@ export class VariablesPopulator {
         const expectedVariable = expectedVariables.variables[j];
 
         if (filledValues.values[j] == undefined && nuance(expectedVariable)) {
-          throw VariableNotFilledError.create(
+          throw ErrorFactory.variableNotFilled(
             expectedVariable.uniqueName,
             expectedVariable.injection,
           );

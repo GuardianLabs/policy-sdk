@@ -1,5 +1,5 @@
 import { NamedTypedVariablesStructOutput } from '../../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
-import { InjectionFormattingError } from '../errors';
+import { ErrorFactory } from '../errors';
 import { VariablesFormattedDescription } from '../types';
 
 export const formatOnchainVariables = (
@@ -37,7 +37,11 @@ export const formatOnchainVariables = (
       ].variables.find((el) => el.index == Number(injection.index));
       if (varToInject) {
         varToInject.injection = injection.value;
-      } else throw new InjectionFormattingError(injection);
+      } else
+        throw ErrorFactory.injectionFormatting(
+          injection.value,
+          injection.index,
+        );
     }
   }
 
