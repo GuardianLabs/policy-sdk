@@ -1,6 +1,6 @@
 import { LacLangCompilerOptions } from '.';
-import { GraphInitParamsStruct } from '../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
-import { findCycle, Node } from '../dsl/transpiler/validations';
+import { GraphInitParamsStruct } from '../../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
+import { findCycle, Node } from '../../dsl/transpiler/validations';
 import { ErrorFactory } from './errors';
 
 export const validateProviderIsSupplied = (options: LacLangCompilerOptions) => {

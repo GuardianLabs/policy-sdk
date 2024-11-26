@@ -1,7 +1,7 @@
 import { ContractRunner } from 'ethers';
-import { LacLangCompilerOptions as CompilerConfiguration } from '../../../../../compiler';
 import { TranspilerOutput } from '../../../../../dsl';
 import { InstanceConfig } from '../../../../../dsl/transpiler/state/types';
+import { LacLangCompilerOptions as CompilerConfiguration } from '../../../../compiler';
 import { TypingsValidator } from '../parser.validated';
 import { ValidationMiddlware } from '../types';
 import { SimplifiedParser } from './SimplifiedParser';

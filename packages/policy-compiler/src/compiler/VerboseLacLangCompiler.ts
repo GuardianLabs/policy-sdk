@@ -1,5 +1,5 @@
-import { GraphInitParamsStruct } from '../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
-import { TranspilerOutput } from '../dsl';
+import { GraphInitParamsStruct } from '../../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
+import { TranspilerOutput } from '../../dsl';
 import {
   COMPILE_ANNOTATION,
   PropageteWithAnnotationHandler as Handler,
