@@ -5,6 +5,7 @@
     "./test/**/*"
   ],
   "compilerOptions": {
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmit": true,
   }
 }
