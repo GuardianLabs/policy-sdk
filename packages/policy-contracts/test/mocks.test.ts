@@ -1,6 +1,6 @@
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { ethers } from 'hardhat';
-import { LacLangCompiler } from '../../policy-compiler/compiler';
+import { LacLangCompiler } from '../../policy-compiler/src/compiler';
 import { rawOnchainVariablesDescriptionToOffchainView } from '../../policy-variables/src/utils';
 import {
   ArtifactsGraph,
