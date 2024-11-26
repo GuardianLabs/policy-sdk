@@ -1,10 +1,10 @@
 import { Command } from 'commander';
+import { JsonRpcProvider } from 'ethers';
+import { writeFileSync } from 'node:fs';
 import {
   LacLangCompiler,
   LacLangCompilerOptions,
 } from '../../../policy-compiler/src';
-import { JsonRpcProvider } from 'ethers';
-import { writeFileSync } from 'node:fs';
 import { NoRpcUrlError } from '../errors';
 
 export const compileHandler = async (program: Command) => {
@@ -42,4 +42,4 @@ const writeJsonToFile = (filePath: string, data: object): void => {
 
   writeFileSync(filePath, jsonData, { flag: 'w' });
   console.log(`Compilation result successfully written to ${filePath}`);
-}
+};
