@@ -1,1 +1,1 @@
-export { VariablesPopulator } from './populator.class';
+export { VariablesPopulator } from './VariablesPopulator';

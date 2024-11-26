@@ -44,7 +44,7 @@ export class VariablesInjector<ValueType extends AllowedVariablesType> {
 
             if (attribute !== undefined) {
               if (!valueCompliesExpectedType(attribute, expectedType))
-                throw new VariableTypeNotMetError(
+                throw VariableTypeNotMetError.create(
                   attribute.toString(),
                   expectedType,
                 );
@@ -52,14 +52,14 @@ export class VariablesInjector<ValueType extends AllowedVariablesType> {
               variablePotentiallyFilled.values[index] = attribute;
             } else if (defaultValue !== undefined) {
               if (!valueCompliesExpectedType(defaultValue, expectedType))
-                throw new VariableTypeNotMetError(
+                throw VariableTypeNotMetError.create(
                   defaultValue.toString(),
                   expectedType,
                 );
 
               variablePotentiallyFilled.values[index] = defaultValue;
             } else
-              throw new CannotLookupVariableValueError(
+              throw CannotLookupVariableValueError.create(
                 onchainVariableDefinition.uniqueName,
                 onchainVariableDefinition.injection,
               );

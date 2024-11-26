@@ -6,6 +6,7 @@ export type VariablesFormattedDescription = {
   nodeId: string;
   variables: FormattedVariableDescription[];
 };
+
 export type FormattedVariableDescription = {
   name: string;
   type: string;
@@ -13,6 +14,7 @@ export type FormattedVariableDescription = {
   index: number;
   injection?: string;
 };
+
 export type FilledVariables = {
   nodeId: string;
   values: AllowedVariablesType[];

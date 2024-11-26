@@ -100,10 +100,10 @@ export class VariablesPopulator {
     uniqueVariableName: string,
   ) {
     const varDescription = this.getVariableDescription(uniqueVariableName);
-    if (!varDescription) throw new VariableNotFoundError(uniqueVariableName);
+    if (!varDescription) throw VariableNotFoundError.create(uniqueVariableName);
 
     if (!valueCompliesExpectedType(filledValue, varDescription.type))
-      throw new VariableTypeNotMetError(
+      throw VariableTypeNotMetError.create(
         filledValue.toString(),
         varDescription.type,
       );
@@ -120,7 +120,7 @@ export class VariablesPopulator {
         const expectedVariable = expectedVariables.variables[j];
 
         if (filledValues.values[j] == undefined && nuance(expectedVariable)) {
-          throw new VariableNotFilledError(
+          throw VariableNotFilledError.create(
             expectedVariable.uniqueName,
             expectedVariable.injection,
           );

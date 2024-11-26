@@ -37,9 +37,10 @@ export class VariablesInserter
 
   public insert(variableUniqueName: string, value: AllowedVariablesType) {
     const targetNodeId = this.nameToNodeId.get(variableUniqueName);
-    if (!targetNodeId) throw new VariableNodeNotFoundError(variableUniqueName);
+    if (!targetNodeId)
+      throw VariableNodeNotFoundError.create(variableUniqueName);
     if (!this.variablesValues.get(targetNodeId))
-      throw new VariableNodeNotFoundError(variableUniqueName);
+      throw VariableNodeNotFoundError.create(variableUniqueName);
 
     this.variablesValues.get(targetNodeId)!.push({
       index: this.nameToVariableIndex.get(variableUniqueName)!,
