@@ -1,4 +1,4 @@
-import { Type } from '../../../policy-compiler/ir/notation/parser/types';
+import { Type } from '../../../policy-compiler/intermediate-representation/notation/parser/types';
 import {
   verifyAddress,
   verifyBytes,

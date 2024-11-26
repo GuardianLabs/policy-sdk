@@ -3,7 +3,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ZeroAddress, ZeroHash } from 'ethers';
 import { ethers } from 'hardhat';
-import { ParserWithValidation } from '../../policy-compiler/ir/notation/parser/parser-contracts';
+import { ParserWithValidation } from '../../policy-compiler/intermediate-representation/notation/parser/parser-contracts';
 import { SolidityAddressType, SolidityBytesType } from './solidity-types';
 import {
   AND,

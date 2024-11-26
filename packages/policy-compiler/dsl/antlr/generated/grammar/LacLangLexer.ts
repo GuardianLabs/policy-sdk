@@ -1,4 +1,4 @@
-// Generated from ./dsl/grammar/LacLang.g4 by ANTLR 4.9.0-SNAPSHOT
+// Generated from ./grammar/LacLang.g4 by ANTLR 4.9.0-SNAPSHOT
 
 import { ATN } from 'antlr4ts/atn/ATN';
 import { ATNDeserializer } from 'antlr4ts/atn/ATNDeserializer';

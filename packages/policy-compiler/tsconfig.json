@@ -5,7 +5,7 @@
     "./test/**/*",
     "./config/**/*",
     "./dsl/**/*",
-    "./ir/**/*",
+    "intermediate-representation/**/*",
     "./compiler/**/*"
   ],
   "files": ["./hardhat.config.ts"],
