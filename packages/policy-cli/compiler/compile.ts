@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
+import { config } from 'dotenv';
 import { version } from '../package.json';
 import { compileHandler } from './handler/compile.handler';
-import { config } from 'dotenv';
 
 config();
 

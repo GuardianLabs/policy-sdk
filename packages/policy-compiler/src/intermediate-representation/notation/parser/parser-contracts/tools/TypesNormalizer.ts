@@ -1,5 +1,5 @@
 import { getAddress, getBytes } from 'ethers';
-import { solidityEncode } from '../../../../../../policy-contracts/test/utils/solidity-encode-decode';
+import { solidityEncode } from '../../../../../../../policy-contracts/test/utils/solidity-encode-decode';
 import { isSupportedSolidityType } from '../guards';
 import {
   KnownTSType,

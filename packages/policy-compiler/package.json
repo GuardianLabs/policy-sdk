@@ -17,7 +17,7 @@
     "clean": "pnpm remove:dist",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
-    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"dsl/**/*.ts\" \"intermediate-representation/**/*.ts\" \"compiler/**/*.ts\"",
+    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"dsl/**/*.ts\" \"compiler/**/*.ts\"",
     "lint:ts": "eslint",
     "lint:ts:fix": "eslint --fix",
     "remove:dist": "npx rimraf dist",

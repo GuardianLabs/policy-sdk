@@ -1,8 +1,8 @@
 import { LacLangCompilerOptions } from '.';
 import { GraphInitParamsStruct } from '../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
 import { Transpiler, TranspilerOutput } from '../dsl';
-import { ParsingResult } from '../intermediate-representation';
-import { ParserWithValidation } from '../intermediate-representation/notation/parser/parser-contracts';
+import { ParsingResult } from '../src';
+import { ParserWithValidation } from '../src/intermediate-representation/notation/parser/parser-contracts';
 import { readFromFile } from './utils.helper';
 import {
   validateFinalRepresentation,
