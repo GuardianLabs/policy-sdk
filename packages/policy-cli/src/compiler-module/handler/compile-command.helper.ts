@@ -4,7 +4,7 @@ import {
   LacLangCompiler,
   LacLangCompilerOptions,
 } from '../../../../policy-compiler/src';
-import { NoRpcUrlError } from '../errors';
+import { NoRpcUrlError } from '../../errors';
 import { writeJsonToFile } from './utils.helper';
 
 export const compileCommand = async (program: Command) => {
