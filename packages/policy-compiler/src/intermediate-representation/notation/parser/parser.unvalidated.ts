@@ -1,7 +1,7 @@
 import { ContractRunner } from 'ethers';
-import { TranspilerOutput } from '../../../dsl';
-import { nodeIdByNotation } from '../../../dsl/ir-generation';
-import { InstanceConfig } from '../../../dsl/transpiler/state/types';
+import { TranspilerOutput } from '../../../../dsl';
+import { nodeIdByNotation } from '../../../../dsl/ir-generation';
+import { InstanceConfig } from '../../../../dsl/transpiler/state/types';
 import {
   bytesEncodeArgs,
   DSLTypesToIRTypes,

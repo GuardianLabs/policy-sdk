@@ -1,7 +1,7 @@
 import { ContractRunner } from 'ethers';
 import { ParsingResult } from '../../..';
-import { IArbitraryDataArtifact__factory } from '../../../../../policy-contracts/src/typechain';
-import { MinTypedValue } from '../../../../dsl/transpiler/helpers';
+import { IArbitraryDataArtifact__factory } from '../../../../../../policy-contracts/src/typechain';
+import { MinTypedValue } from '../../../../../dsl/transpiler/helpers';
 import {
   ExecTypesDoNotMatchError,
   InitTypesDoNotMatchError,
