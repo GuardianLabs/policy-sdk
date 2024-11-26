@@ -10,13 +10,17 @@
   "scripts": {
     "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
     "build:dev": "tsc -p tsconfig.json && pnpm format:all:fix && pnpm copy-dts",
+    "check:ts": "tsc -p tsconfig-prod.json --noEmit",
+    "check:ts:dev": "tsc -p tsconfig.json --noEmit",
     "clean": "pnpm remove:dist",
+    "compile": "tsx ./compiler/compile.ts",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
     "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"compiler/**/*.ts\"",
+    "lint:ts": "eslint",
+    "lint:ts:fix": "eslint --fix",
     "remove:dist": "npx rimraf dist",
-    "test": "mocha",
-    "compile": "tsx ./compiler/compile.ts"
+    "test": "mocha"
   },
   "keywords": [],
   "devDependencies": {
