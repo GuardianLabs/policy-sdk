@@ -8,7 +8,7 @@
     "node": ">=18.20.4"
   },
   "scripts": {
-    "antlr": "antlr4ts ./grammar/LacLang.g4 -o ./dsl/antlr/generated",
+    "antlr": "antlr4ts ./grammar/LacLang.g4 -o ./src/dsl/antlr/generated",
     "antlr:make": "pnpm antlr && pnpm format:ts:fix",
     "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
     "build:dev": "tsc -p tsconfig.json && pnpm format:all:fix && pnpm copy-dts",
