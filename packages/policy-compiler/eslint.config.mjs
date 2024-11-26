@@ -18,7 +18,13 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ["node_modules/", "**/node_modules", "**/dist", "eslint.config.*"],
+    ignores: [
+      "node_modules/",
+      "**/node_modules",
+      "**/dist",
+      "eslint.config.*",
+      "**/antlr/generated",
+    ],
   },
   ...compat.extends(
     "plugin:prettier/recommended",
