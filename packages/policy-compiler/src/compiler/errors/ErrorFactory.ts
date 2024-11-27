@@ -5,15 +5,21 @@ import {
 } from './validation-errors';
 
 export class ErrorFactory {
-  static selfReference = (arg: string) => {
-    return SelfReferenceError.create(arg);
+  static selfReference = (
+    ...params: Parameters<typeof SelfReferenceError.create>
+  ) => {
+    return SelfReferenceError.create(...params);
   };
 
-  static cyclicfReference = (argA: string, argB: string) => {
-    return CyclicReferenceError.create(argA, argB);
+  static cyclicfReference = (
+    ...params: Parameters<typeof CyclicReferenceError.create>
+  ) => {
+    return CyclicReferenceError.create(...params);
   };
 
-  static noProvider = () => {
-    return NoProviderError.create();
+  static noProvider = (
+    ...params: Parameters<typeof NoProviderError.create>
+  ) => {
+    return NoProviderError.create(...params);
   };
 }
