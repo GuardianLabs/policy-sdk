@@ -1,4 +1,10 @@
 export {
+  ParserWithValidation,
+  SimplifiedParser,
+  StaticParser,
+  nodeId,
+} from './parser-contracts';
+export {
   parseIRByDSLTypesWithInterceptor,
   parseIRByOnchainTypesWithInterceptor,
 } from './parser.unvalidated';

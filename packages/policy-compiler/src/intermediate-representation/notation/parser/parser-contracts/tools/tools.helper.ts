@@ -1,5 +1,5 @@
+import { keccak256Hash } from '@guardian-network/policy-contracts/src/solidity-encode-decode';
 import { ContractRunner } from 'ethers';
-import { keccak256Hash } from '../../../../../../../policy-contracts/test/utils/solidity-encode-decode';
 import { isContractProviderType } from '../guards';
 import { GetTypesValues, IArgsTypesSource } from '../types';
 import { OnchainDescriptorArgsTypesSource } from './types-source/OnchainDescriptorArgsTypesSource';

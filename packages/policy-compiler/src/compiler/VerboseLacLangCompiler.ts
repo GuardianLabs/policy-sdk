@@ -1,4 +1,3 @@
-import { GraphInitParamsStruct } from '../../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
 import { TranspilerOutput } from '../dsl';
 import {
   COMPILE_ANNOTATION,
@@ -7,7 +6,10 @@ import {
   TRANSPILE_ANNOTATION,
 } from './errors';
 import { LacLangCompiler } from './LacLangCompiler';
-import { CompilerOptions as LacLangCompilerOptions } from './types';
+import {
+  GraphInitParamsStruct,
+  CompilerOptions as LacLangCompilerOptions,
+} from './types';
 import { validateFinalRepresentation } from './validations.helper';
 
 export class VerboseLacLangCompiler extends LacLangCompiler {

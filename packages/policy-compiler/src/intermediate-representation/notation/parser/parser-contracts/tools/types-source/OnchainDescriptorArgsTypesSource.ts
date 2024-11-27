@@ -2,7 +2,7 @@ import { ContractRunner } from 'ethers';
 import {
   IArbitraryDataArtifact,
   IArbitraryDataArtifact__factory,
-} from '../../../../../../../../policy-contracts/src/typechain';
+} from '../../../../types';
 import {
   ExecInitArtifactTypes,
   ExecInitArtifactTypesAndNames,

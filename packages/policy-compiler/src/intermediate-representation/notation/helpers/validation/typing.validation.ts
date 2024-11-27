@@ -1,12 +1,12 @@
 import { ContractRunner } from 'ethers';
 import { ParsingResult } from '../../..';
-import { IArbitraryDataArtifact__factory } from '../../../../../../policy-contracts/src/typechain';
 import { MinTypedValue } from '../../../../dsl/transpiler/helpers';
 import {
   ExecTypesDoNotMatchError,
   InitTypesDoNotMatchError,
   SubstitutionTypesDoNotMatchError,
 } from '../../errors';
+import { IArbitraryDataArtifact__factory } from '../../types';
 import { DSLTypesToIRTypes } from '../formatters';
 
 type InitExecArgumentsConfig = {
