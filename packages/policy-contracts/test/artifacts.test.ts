@@ -4,16 +4,16 @@ import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 import {
+  SolidityAddressType,
+  SolidityBytesType,
+  SolidityUint24ListType,
+} from '../src/solidity-types';
+import {
   pickNextClosedTime,
   pickNextOpenTime,
   TimezoneOffset,
   toSeconds,
 } from './business-hours';
-import {
-  SolidityAddressType,
-  SolidityBytesType,
-  SolidityUint24ListType,
-} from './solidity-types';
 import { check } from './test-helpers';
 import {
   AND,

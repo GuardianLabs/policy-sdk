@@ -1,4 +1,5 @@
-export { nodeId } from '../../../policy-compiler/src/intermediate-representation/notation/parser/parser-contracts';
+export { nodeId } from '@guardian-network/policy-compiler/src';
+export { rawOnchainVariablesDescriptionToOffchainView } from '@guardian-network/policy-variables/src';
+export * from '../../src/solidity-encode-decode';
 export * from './deploy/deployment.helper';
 export * from './random.helper';
-export * from './solidity-encode-decode';

@@ -2,7 +2,10 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-import { SolidityAddressType, SolidityUint24ListType } from '../solidity-types';
+import {
+  SolidityAddressType,
+  SolidityUint24ListType,
+} from '../../src/solidity-types';
 import { check } from '../test-helpers';
 import {
   deployBusinessHoursContracts,

@@ -1,7 +1,6 @@
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-import { LacLangCompiler } from '../../policy-compiler/src';
 import { policy } from './templates';
 import { check } from './test-helpers';
 import {
@@ -9,6 +8,7 @@ import {
   ArtifactsGraph,
   ArtifactsGraph__factory,
   EqualString,
+  LacLangCompiler,
   XOR,
 } from './types';
 import { deployArtifacts } from './utils';

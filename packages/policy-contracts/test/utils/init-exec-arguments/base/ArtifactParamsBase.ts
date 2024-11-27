@@ -4,8 +4,8 @@ import {
   InitParamsDescriptorValueType,
   ParamsDescriptorValueType,
 } from '../../../types';
-import { EncodedParamType as NormalizedParamType } from '../../solidity-encode-decode';
 import {
+  NormalizedParamType,
   ParamsConfig,
   UnnormalizedOrNormalizedParamType,
   UnnormalizedParamType,

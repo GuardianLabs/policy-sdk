@@ -3,7 +3,7 @@ import { getAddress } from 'ethers';
 import {
   EncodedParamType,
   PrimitiveEncodeParamTypes,
-} from './solidity-encode-decode';
+} from '../../src/solidity-encode-decode';
 
 export const randomEthAddress = (): string => {
   return getAddress(faker.finance.ethereumAddress());

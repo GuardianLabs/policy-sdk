@@ -1,7 +1,5 @@
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { ethers } from 'hardhat';
-import { LacLangCompiler } from '../../policy-compiler/src/compiler';
-import { rawOnchainVariablesDescriptionToOffchainView } from '../../policy-variables/src/utils';
 import {
   ArtifactsGraph,
   EqualAddress,
@@ -12,7 +10,11 @@ import {
   XOR,
 } from '../src';
 import { policy } from './templates';
-import { deployGraphAndArtifacts } from './utils';
+import { LacLangCompiler } from './types';
+import {
+  deployGraphAndArtifacts,
+  rawOnchainVariablesDescriptionToOffchainView,
+} from './utils';
 
 describe('Deploying and querying mocks for subsequent tests', () => {
   let adminSigner: SignerWithAddress;

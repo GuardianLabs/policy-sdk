@@ -3,8 +3,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ZeroAddress, ZeroHash } from 'ethers';
 import { ethers } from 'hardhat';
-import { ParserWithValidation } from '../../policy-compiler/src/intermediate-representation/notation/parser/parser-contracts';
-import { SolidityAddressType, SolidityBytesType } from './solidity-types';
+import { SolidityAddressType, SolidityBytesType } from '../src/solidity-types';
 import {
   AND,
   ArtifactsGraph,
@@ -14,6 +13,7 @@ import {
   IsDividableUint,
   NOT,
   OR,
+  ParserWithValidation,
   XOR,
 } from './types';
 import { deployGraphAndArtifacts, nodeId } from './utils';

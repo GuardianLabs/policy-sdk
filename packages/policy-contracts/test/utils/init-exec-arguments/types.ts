@@ -1,5 +1,5 @@
-import { EncodedParamType as NormalizedParamType } from '../solidity-encode-decode';
-export { EncodedParamType as NormalizedParamType } from '../solidity-encode-decode';
+import { EncodedParamType as NormalizedParamType } from '../../../src/solidity-encode-decode';
+export { EncodedParamType as NormalizedParamType } from '../../../src/solidity-encode-decode';
 
 export type ParamsConfig<T, K> = {
   paramsDescriptorValue?: T;

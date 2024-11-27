@@ -1,15 +1,15 @@
 import { BytesLike } from 'ethers';
 import {
+  EncodedParamType as NormalizedParamType,
+  solidityEncodeMultipleParams,
+  solidityEncodeSingleParam,
+} from '../../../src/solidity-encode-decode';
+import {
   ExecParamsDescriptorType,
   ExecParamsDescriptorValueType,
   InitParamsDescriptorType,
   InitParamsDescriptorValueType,
 } from '../../types';
-import {
-  EncodedParamType as NormalizedParamType,
-  solidityEncodeMultipleParams,
-  solidityEncodeSingleParam,
-} from '../solidity-encode-decode';
 import {
   ExecParamsBase,
   InitParamsBase,

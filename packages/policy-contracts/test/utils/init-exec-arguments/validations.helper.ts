@@ -1,4 +1,8 @@
 import {
+  EncodedParamType,
+  inferSolidityType,
+} from '../../../src/solidity-encode-decode';
+import {
   ALLOWED_SOLIDITY_REFERENCE_TYPES,
   ALLOWED_SOLIDITY_VALUE_TYPES,
   SOLIDITY_ADDRESS,
@@ -11,8 +15,7 @@ import {
   SolidityBytesType,
   SolidityUint24ListType,
   SOLIIDTY_UINT24_LIST,
-} from '../../solidity-types';
-import { EncodedParamType, inferSolidityType } from '../solidity-encode-decode';
+} from '../../../src/solidity-types';
 import {
   NormalizedParamType,
   Unnormalized,
