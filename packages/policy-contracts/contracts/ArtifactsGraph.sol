@@ -16,7 +16,6 @@ contract ArtifactsGraph is OwnerBase {
     // todo: design to support ArtifactNodes[] list;
     ArtifactNodes private graph;
     bytes32 private rootNodeId;
-    NamedTypedVariables[] public variablesDescription;
 
     event Evaluated(bool indexed result, bytes32 indexed rootNode);
 
