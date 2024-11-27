@@ -1,9 +1,9 @@
-import { Command } from 'commander';
-import { JsonRpcProvider } from 'ethers';
 import {
   LacLangCompiler,
   LacLangCompilerOptions,
-} from '../../../../policy-compiler/src';
+} from '@guardian-network/policy-compiler/src';
+import { Command } from 'commander';
+import { JsonRpcProvider } from 'ethers';
 import { NoRpcUrlError } from '../../errors';
 import { writeJsonToFile } from './utils.helper';
 
