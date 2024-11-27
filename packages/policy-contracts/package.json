@@ -38,6 +38,8 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.14.0",
     "@faker-js/faker": "^9.0.3",
+    "@guardian-network/policy-compiler": "workspace:*",
+    "@guardian-network/policy-variables": "workspace:*",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-ignition": "^0.15.7",
     "@nomicfoundation/hardhat-ignition-ethers": "^0.15.7",
