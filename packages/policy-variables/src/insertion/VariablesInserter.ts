@@ -4,6 +4,7 @@ import {
   FilledVariables,
   IAsyncMapGetter,
   VariablesFormattedDescription,
+  VariableValue,
 } from '../types';
 
 export class VariablesInserter
@@ -11,13 +12,7 @@ export class VariablesInserter
 {
   private nameToNodeId: Map<string, string> = new Map(); // variable unique name to its node id
   private nameToVariableIndex: Map<string, number> = new Map(); // variable unique name to its index in node's variables list
-  private variablesValues: Map<
-    string,
-    {
-      index: number;
-      value: AllowedVariablesType;
-    }[]
-  > = new Map(); // node id to its filled variables values
+  private variablesValues: Map<string, Array<VariableValue>> = new Map(); // node id to its filled variables values
   private spareNodes: VariablesFormattedDescription[] = []; // nodes without variables
 
   constructor(expectedVariablesConfig: VariablesFormattedDescription[]) {
@@ -50,11 +45,13 @@ export class VariablesInserter
 
   public get(variableUniqueName: string): AllowedVariablesType | undefined {
     const nodeId = this.nameToNodeId.get(variableUniqueName)!;
-    return this.variablesValues
+    const result = this.variablesValues
       .get(nodeId)!
       .find(
         (el) => el.index == this.nameToVariableIndex.get(variableUniqueName),
       )?.value;
+
+    return result;
   }
 
   public import(dump: FilledVariables[]) {

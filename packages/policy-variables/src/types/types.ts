@@ -1,4 +1,6 @@
 import { PrimitiveEncodeParamTypes } from '../../../policy-contracts/test/utils';
+import { TypedRawOnchainVariablesDescription } from '../utils';
+import { OnchainVariablesDescription } from './interfaces';
 
 export type AllowedVariablesType = PrimitiveEncodeParamTypes; // string | number | boolean;
 
@@ -19,3 +21,12 @@ export type FilledVariables = {
   nodeId: string;
   values: AllowedVariablesType[];
 };
+
+export type VariableValue = {
+  index: number;
+  value: AllowedVariablesType;
+};
+
+export type SupportedDescriptionType =
+  | OnchainVariablesDescription
+  | TypedRawOnchainVariablesDescription;

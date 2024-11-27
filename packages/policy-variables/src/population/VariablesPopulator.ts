@@ -8,14 +8,10 @@ import {
   FilledVariables,
   FormattedVariableDescription,
   IAsyncMapGetter,
-  OnchainVariablesDescription,
+  SupportedDescriptionType,
   VariablesFormattedDescription,
 } from '../types';
-import {
-  formatOnchainVariables,
-  TypedRawOnchainVariablesDescription,
-  valueCompliesExpectedType,
-} from '../utils';
+import { formatOnchainVariables, valueCompliesExpectedType } from '../utils';
 
 export class VariablesPopulator {
   public formattedVariablesConfiguration: VariablesFormattedDescription[] = [];
@@ -23,12 +19,7 @@ export class VariablesPopulator {
   private injector: VariablesInjector<AllowedVariablesType>;
   private filledVariables: FilledVariables[];
 
-  constructor(
-    rawVariablesDescription: (
-      | OnchainVariablesDescription
-      | TypedRawOnchainVariablesDescription
-    )[],
-  ) {
+  constructor(rawVariablesDescription: Array<SupportedDescriptionType>) {
     this.formattedVariablesConfiguration = formatOnchainVariables(
       rawVariablesDescription,
     );
