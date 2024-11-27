@@ -1,4 +1,4 @@
-import { NamedTypedVariablesStructOutput } from '../../../policy-contracts/src/typechain/contracts/ArtifactsGraph';
+import { NamedTypedVariablesStructOutput } from '@guardian-network/policy-contracts/src';
 import { ErrorFactory } from '../errors';
 import { VariablesFormattedDescription } from '../types';
 

@@ -1,4 +1,4 @@
-import { PrimitiveEncodeParamTypes } from '../../../policy-contracts/test/utils';
+import { PrimitiveEncodeParamTypes } from '@guardian-network/policy-contracts/src/solidity-encode-decode';
 import { TypedRawOnchainVariablesDescription } from '../utils';
 import { OnchainVariablesDescription } from './interfaces';
 

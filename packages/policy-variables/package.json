@@ -46,6 +46,8 @@
     "rimraf": "^6.0.1"
   },
   "dependencies": {
+    "@guardian-network/policy-compiler": "workspace:*",
+    "@guardian-network/policy-contracts": "workspace:*",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }

@@ -1,5 +1,5 @@
-import { VariablesStruct } from '../../../policy-contracts/src/typechain/contracts/ArtifactNodes';
-import { solidityEncodeSingleParam } from '../../../policy-contracts/test/utils';
+import { VariablesStruct } from '@guardian-network/policy-contracts/src';
+import { solidityEncodeSingleParam } from '@guardian-network/policy-contracts/src/solidity-encode-decode';
 import { ErrorFactory } from '../errors';
 import { VariablesInjector } from '../injection';
 import { VariablesInserter } from '../insertion';

@@ -1,8 +1,8 @@
-import { Type } from '../../../policy-compiler/src/intermediate-representation/notation/parser/types';
+import { Type } from '@guardian-network/policy-compiler/src/intermediate-representation/notation/parser/types';
 import {
   verifyAddress,
   verifyBytes,
-} from '../../../policy-contracts/test/solidity-types';
+} from '@guardian-network/policy-contracts/src/solidity-types';
 import { ErrorFactory } from '../errors';
 import { AllowedVariablesType } from '../types';
 
