@@ -1,9 +1,9 @@
-import { defaultAbiCoder } from '.';
 import {
   SolidityAddressType,
   SolidityBytesType,
   SolidityUint24ListType,
-} from '../../solidity-types';
+} from '../solidity-types';
+import { defaultAbiCoder } from './';
 
 type SolidityEncodeReturnType = ReturnType<typeof defaultAbiCoder.encode>;
 type SolidityEncodeInputParamsType = Parameters<typeof defaultAbiCoder.encode>;
