@@ -21,7 +21,8 @@
     "lint:ts": "eslint",
     "lint:ts:fix": "eslint --fix",
     "remove:dist": "npx rimraf dist",
-    "test": "pnpm exec hardhat test --bail"
+    "test": "mocha",
+    "test:onchain": "pnpm exec hardhat test --bail test/compiler-onchain-types.test.ts"
   },
   "keywords": [],
   "devDependencies": {
