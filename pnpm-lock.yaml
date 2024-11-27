@@ -14,6 +14,9 @@ importers:
 
   packages/policy-cli:
     dependencies:
+      '@guardian-network/policy-compiler':
+        specifier: workspace:*
+        version: link:../policy-compiler
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -102,6 +105,9 @@ importers:
 
   packages/policy-compiler:
     dependencies:
+      '@guardian-network/policy-contracts':
+        specifier: workspace:*
+        version: link:../policy-contracts
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -239,6 +245,12 @@ importers:
       '@faker-js/faker':
         specifier: ^9.0.3
         version: 9.0.3
+      '@guardian-network/policy-compiler':
+        specifier: workspace:*
+        version: link:../policy-compiler
+      '@guardian-network/policy-variables':
+        specifier: workspace:*
+        version: link:../policy-variables
       '@nomicfoundation/hardhat-ethers':
         specifier: ^3.0.8
         version: 3.0.8(ethers@6.13.3)(hardhat@2.22.15(ts-node@10.9.2(@types/node@22.8.0)(typescript@5.6.2))(typescript@5.6.2))
@@ -329,6 +341,12 @@ importers:
 
   packages/policy-variables:
     dependencies:
+      '@guardian-network/policy-compiler':
+        specifier: workspace:*
+        version: link:../policy-compiler
+      '@guardian-network/policy-contracts':
+        specifier: workspace:*
+        version: link:../policy-contracts
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.8.0)(typescript@5.6.2)
