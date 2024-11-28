@@ -1,0 +1,8 @@
+{
+  "extension": ["ts"],
+  "bail": true,
+  "ignore": ["test/compiler-onchain-types.test.ts"],
+  "spec": ["test/**/*.ts"],
+  "require": ["ts-node/register"],
+  "recursive": true
+}
