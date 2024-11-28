@@ -4,7 +4,7 @@
     "./src/**/*",
     "./test/**/*",
     "./deploy-configuration/**/*",
-    "./config/**/*"
+    "./config-hardhat/**/*"
   ],
   "files": ["./hardhat.config.ts"],
   "compilerOptions": {

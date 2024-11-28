@@ -19,7 +19,7 @@
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "deploy:artifacts": "pnpm exec hardhat ignition deploy ./ignition/modules/artifact-contracts/Artifacts.ts --network",
     "format:all:fix": "pnpm format:sol:fix && pnpm format:ts:fix",
-    "format:ts:fix": "pnpm exec prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config/**/*.ts\" \"ignition/**/*.ts\"",
+    "format:ts:fix": "pnpm exec prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config-hardhat/**/*.ts\" \"ignition/**/*.ts\"",
     "format:sol:fix": "pnpm exec prettier --plugin=prettier-plugin-solidity -w -c \"contracts/**/*.sol\"",
     "generate-errors": "pnpm exec ts-node src/constants/generate-errors-enum.ts",
     "lint:sol": "pnpm exec solhint -f table --max-warnings 0 'contracts/**/*.sol'",

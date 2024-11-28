@@ -14,8 +14,8 @@ import {
   miningInterval,
   NetworkName,
   REPORT_GAS,
-} from './config';
-import { Config } from './config/Config';
+} from './config-hardhat';
+import { Config } from './config-hardhat/Config';
 import "@nomicfoundation/hardhat-ignition-ethers";
 
 const MAX_ACCOUNT_NUMBER = 16;
