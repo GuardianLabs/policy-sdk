@@ -2,31 +2,43 @@ import {
   LacLangCompiler,
   LacLangCompilerOptions,
 } from '@guardian-network/policy-compiler/src';
-import { Command } from 'commander';
+import { Command, OptionValues } from 'commander';
 import { JsonRpcProvider } from 'ethers';
 import { NoRpcUrlError } from '../../errors';
+import {
+  rpcEndpointOption,
+  sourcePathOptions,
+  typeDslOption,
+  typeOnchainOption,
+  writeCompilationResultOption,
+} from '../options';
+import { CliCompileOptions } from '../options/types';
 import { writeJsonToFile } from './utils.helper';
 
-export const compileCommand = async (program: Command) => {
-  const sourcePath = program.args[0];
-  const options = program.opts();
-
+const retrieveCompilerOptions = (options: OptionValues) => {
   let config: LacLangCompilerOptions = {};
 
   if (!!options.typeOnchain || !!options.typeDsl) {
-    const rpc: string = options.rpc ?? process.env.RPC;
-    if (!rpc) throw new NoRpcUrlError();
-
-    const provider = new JsonRpcProvider(rpc);
+    const rpcEndpoint: string = options.rpc ?? process.env.RPC;
+    if (!rpcEndpoint) throw new NoRpcUrlError();
 
     config = {
       checkTypesAgainstDslDeclarations: options.typeDsl,
       checkTypesAgainstOnchainDescriptors: options.typeOnchain,
-      provider,
+      provider: new JsonRpcProvider(rpcEndpoint),
     };
   }
 
-  const compiler = await LacLangCompiler.fromFile(sourcePath, config);
+  return config;
+};
+
+const compile = async (options: CliCompileOptions) => {
+  console.log(options);
+  const compilerOptions = retrieveCompilerOptions(options);
+  const compiler = await LacLangCompiler.fromFile(
+    options.sourcePath,
+    compilerOptions,
+  );
   const compilationOutput = await compiler.compile();
 
   if (!!options.write) {
@@ -34,5 +46,18 @@ export const compileCommand = async (program: Command) => {
     return;
   }
 
-  console.log(JSON.stringify(compilationOutput, null, 2));
+  console.log(`Compile result ${JSON.stringify(compilationOutput, null, 2)}`);
+};
+
+export const compileCommand = (program: Command) => {
+  program
+    .command('compile')
+    .requiredOption(...sourcePathOptions)
+    .option(...typeOnchainOption)
+    .option(...typeDslOption)
+    .option(...rpcEndpointOption)
+    .option(...writeCompilationResultOption)
+    .action(compile);
+
+  return program;
 };

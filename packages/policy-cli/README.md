@@ -1,1 +1,1 @@
-pnpm compile ./sources/DummyValid.lac
+pnpm cli compile --sourcePath ./sources/DummyValid.lac
