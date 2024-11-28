@@ -1,0 +1,182 @@
+import { InstanceDeclarationContext, LiteralContext } from '../../antlr';
+import {
+  ArtifactNotDefinedError,
+  CannotInferValueTypeError,
+  ConstantNotDefinedError,
+  InitializationArgumentWrongMutabilityModeError,
+  lookupOrThrow,
+  VariableNotDefinedError,
+} from '../errors';
+import { LatentState } from '../state/LatentState';
+import { Artifacts, InstanceConfig } from '../state/types';
+import { TypedValue } from './types';
+
+export const extractAndLookupExecArguments = (
+  ctx: InstanceDeclarationContext,
+  latentState: LatentState,
+): TypedValue[] => {
+  if (!ctx.argumentsList()) return [];
+
+  return ctx
+    .argumentsList()!
+    .identifier_or_literal()
+    .map((el) => {
+      if (el.literal()) {
+        return inferTypedValue(el.literal()!);
+      }
+
+      const name = el.text;
+      const refConst = latentState.constants.get(name);
+
+      if (!refConst) {
+        const refVar = latentState.variables.get(name);
+        if (!refVar) {
+          const refInst = lookupOrThrow(
+            name,
+            latentState.instancesByName,
+            new VariableNotDefinedError(name, el.ruleContext),
+          );
+
+          return {
+            value: formatInstanceReference(refInst.id),
+            type: refInst.type,
+            substitution: true,
+          };
+        } else
+          return {
+            value: 'var' + name + `$${refVar.injection}`,
+            type: refVar.type,
+          };
+      } else {
+        if (refConst.type == 'bytes') {
+          return {
+            value: formatBytesLiteral(refConst.value),
+            type: refConst.type,
+            constant: true,
+          };
+        } else
+          return {
+            value: refConst.value,
+            type: refConst.type,
+            constant: true,
+          };
+      }
+    });
+};
+
+export const extractAndLookupInitArguments = (
+  ctx: InstanceDeclarationContext,
+  latentState: LatentState,
+): TypedValue[] => {
+  if (!ctx.constantsList()) return [];
+  return ctx
+    .constantsList()!
+    .argumentsList()
+    .identifier_or_literal()
+    .map((el) => {
+      if (!!el.literal()) {
+        return inferTypedValue(el.literal()!);
+      }
+
+      const name = el.text;
+      const refConst = latentState.constants.get(name);
+
+      if (refConst) {
+        if (refConst.type == 'bytes') {
+          return {
+            value: formatBytesLiteral(refConst.value),
+            type: refConst.type,
+          };
+        } else
+          return {
+            value: refConst.value,
+            type: refConst.type,
+          };
+      } else {
+        lookupOrThrow(
+          name,
+          latentState.variables,
+          new ConstantNotDefinedError(name, el.ruleContext),
+        );
+
+        throw new InitializationArgumentWrongMutabilityModeError(
+          name,
+          el.ruleContext,
+        );
+      }
+    });
+};
+
+export const extractReferenceNodeIds = (config: InstanceConfig) => {
+  const substitutions = config.execArguments.filter((arg) => arg.substitution);
+
+  const referencesNodeIdList = substitutions.map(({ value }) =>
+    value.replaceAll('|', ''),
+  );
+  return referencesNodeIdList;
+};
+
+export const mapToArray = <T>(map: Map<string, T>) => {
+  const list = Array.from(map.values());
+  return list;
+};
+
+export const dereferenceArtifact = (
+  ctx: InstanceDeclarationContext,
+  artifactsMap: Artifacts,
+) => {
+  if (ctx.identifier_or_literal().literal()) {
+    const artifactDereferenced = ctx.identifier_or_literal().literal()!.text;
+    return artifactDereferenced;
+  }
+
+  const artifactName = ctx.identifier_or_literal().IDENTIFIER()!.text;
+  const { address } = lookupOrThrow(
+    artifactName,
+    artifactsMap,
+    new ArtifactNotDefinedError(artifactName, ctx),
+  );
+
+  const artifactDereferenced = address;
+  return artifactDereferenced;
+};
+
+const inferTypedValue = (ctx: LiteralContext): TypedValue => {
+  let type: string;
+  let value = ctx.text;
+
+  switch (true) {
+    case !!ctx.ADDRESS_LITERAL():
+      type = 'address';
+      break;
+    case !!ctx.BOOL_LITERAL():
+      type = 'bool';
+      break;
+    case !!ctx.STRING_LITERAL():
+      type = 'string';
+      break;
+    case !!ctx.BYTES_LITERAL():
+      type = 'bytes';
+      value = formatBytesLiteral(value);
+      break;
+    case !!ctx.NUMBER_LITERAL():
+      type = 'number';
+      break;
+    default:
+      throw new CannotInferValueTypeError(ctx.text, ctx);
+  }
+
+  return {
+    type,
+    value,
+    constant: true,
+  };
+};
+
+const formatBytesLiteral = (value: string) => {
+  return value.replace(/^'|'$/g, '');
+};
+
+export const formatInstanceReference = (nodeId: string) => {
+  return `|${nodeId}|`;
+};
