@@ -17,14 +17,15 @@ import { writeJsonToFile } from './utils.helper';
 
 const retrieveCompilerOptions = (options: CliCompileOptions) => {
   let config: LacLangCompilerOptions = {};
+  const { typeDsl, typeOnchain, rpc } = options;
 
-  if (!!options.typeOnchain || !!options.typeDsl) {
-    const rpcEndpoint = options.rpc || process.env.RPC;
+  if (!!typeOnchain || !!typeDsl) {
+    const rpcEndpoint = rpc || process.env.RPC;
     if (!rpcEndpoint) throw new NoRpcUrlError();
 
     config = {
-      checkTypesAgainstDslDeclarations: !!!options.typeDsl,
-      checkTypesAgainstOnchainDescriptors: !!!options.typeOnchain,
+      checkTypesAgainstOnchainDescriptors: !!typeOnchain,
+      checkTypesAgainstDslDeclarations: !!typeDsl,
       provider: new JsonRpcProvider(rpcEndpoint),
     };
   }
@@ -33,7 +34,6 @@ const retrieveCompilerOptions = (options: CliCompileOptions) => {
 };
 
 const compile = async (options: CliCompileOptions) => {
-  console.log(options);
   const compilerOptions = retrieveCompilerOptions(options);
   const compiler = await LacLangCompiler.fromFile(
     options.sourcePath,
