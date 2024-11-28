@@ -1,4 +1,4 @@
-import { TranspilerOutput } from '../dsl';
+import { TranspilerOutput } from '@guardian-network/policy-dsl/src';
 import {
   COMPILE_ANNOTATION,
   PropageteWithAnnotationHandler as Handler,

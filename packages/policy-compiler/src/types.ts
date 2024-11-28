@@ -1,4 +1,4 @@
-import { ContractRunner } from 'ethers';
+import { ContractRunner } from 'ethers/providers';
 export {
   GraphInitParamsStruct,
   IArbitraryDataArtifact__factory,

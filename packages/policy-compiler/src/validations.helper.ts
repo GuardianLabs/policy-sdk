@@ -1,7 +1,7 @@
 import { findCycle, Node } from '@guardian-network/policy-dsl/src';
-import { LacLangCompilerOptions } from '../';
-import { ErrorFactory } from '../errors';
-import { GraphInitParamsStruct } from '../types';
+import { LacLangCompilerOptions } from './';
+import { ErrorFactory } from './errors';
+import { GraphInitParamsStruct } from './types';
 
 export const validateProviderIsSupplied = (options: LacLangCompilerOptions) => {
   const isProviderSupplied = !!options.provider;

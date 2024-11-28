@@ -1,13 +1,15 @@
-import { LacLangCompilerOptions } from '.';
-import { ParsingResult } from '..';
-import { Transpiler, TranspilerOutput } from '../dsl';
-import { ParserWithValidation } from '../intermediate-representation/notation/parser/parser-contracts';
-import { GraphInitParamsStruct } from './types';
-import { readFromFile } from './utils.helper';
+import { Transpiler, TranspilerOutput } from '@guardian-network/policy-dsl/src';
+import {
+  ParserWithValidation,
+  ParsingResult,
+} from '@guardian-network/policy-intermediate-representation/src';
+import { LacLangCompilerOptions } from './';
 import {
   validateFinalRepresentation,
   validateProviderIsSupplied,
-} from './validations.helper';
+} from './compiler/validations.helper';
+import { GraphInitParamsStruct } from './types';
+import { readFromFile } from './utils.helper';
 
 export class LacLangCompiler {
   protected static build<R>(
