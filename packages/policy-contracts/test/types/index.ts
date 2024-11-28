@@ -1,8 +1,6 @@
 import { ArtifactBase } from '../../src';
-export {
-  LacLangCompiler,
-  ParserWithValidation,
-} from '@guardian-network/policy-compiler/src';
+export { LacLangCompiler } from '@guardian-network/policy-compiler/src';
+export { ParserWithValidation } from '@guardian-network/policy-intermediate-representation/src';
 export * from '../../src';
 
 export type ExecParamsDescriptorValueType = Awaited<

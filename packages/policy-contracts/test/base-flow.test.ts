@@ -16,7 +16,7 @@ import {
   ParserWithValidation,
   XOR,
 } from './types';
-import { deployGraphAndArtifacts, nodeId } from './utils';
+import { deployGraphAndArtifacts, nodeIdByNotation } from './utils';
 import { MockedExecParams } from './utils/init-exec-arguments';
 
 const xor = (argA: boolean, argB: boolean) => {
@@ -44,7 +44,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
       } = await deployGraphAndArtifacts(adminSigner));
 
       const XOR_NODE = `{${await xorArtifact.getAddress()}} (true,var0$"") <>`;
-      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeId(XOR_NODE, 1)}|,var1$"") <>`;
+      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeIdByNotation(XOR_NODE, 1)}|,var1$"") <>`;
 
       // condition: (variable1 ^ true) && variable2
       // tree presentation:
@@ -59,8 +59,8 @@ describe('Artifacts Graph: Base-usage flow', () => {
       `;
       console.log(intermediateRepresentation);
 
-      andNode = nodeId(AND_NODE, 0);
-      xorNode = nodeId(XOR_NODE, 1);
+      andNode = nodeIdByNotation(AND_NODE, 0);
+      xorNode = nodeIdByNotation(XOR_NODE, 1);
     });
 
     it('should succefully evaluate "(variable1 ^ true) && variable2"', async () => {
@@ -138,19 +138,19 @@ describe('Artifacts Graph: Base-usage flow', () => {
       // const HASH_STRING_NODE = `{${await hashStringArtifact.getAddress()}} (varString) <>`;
       const EQUAL_STRING_NODE = `{${await equalStringArtifact.getAddress()}} (varString$"",${'"reference"'}) <>`;
       const EQUAL_BYTES_NODE = `{${await equalBytesArtifact.getAddress()}} (varBytes$"",${ZeroHash}) <>`;
-      const NOT_NODE = `{${await notArtifact.getAddress()}} (|${nodeId(
+      const NOT_NODE = `{${await notArtifact.getAddress()}} (|${nodeIdByNotation(
         EQUAL_BYTES_NODE,
         4,
       )}|) <>`;
-      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeId(
+      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeIdByNotation(
         EQUAL_ADDRESS_NODE,
         7,
-      )}|,|${nodeId(IS_DIVIDABLE_NODE, 6)}|) <>`;
-      const OR1_NODE = `{${await orArtifact.getAddress()}} (|${nodeId(AND_NODE, 2)}|,|${nodeId(
+      )}|,|${nodeIdByNotation(IS_DIVIDABLE_NODE, 6)}|) <>`;
+      const OR1_NODE = `{${await orArtifact.getAddress()}} (|${nodeIdByNotation(AND_NODE, 2)}|,|${nodeIdByNotation(
         EQUAL_STRING_NODE,
         5,
       )}|) <>`;
-      const OR2_NODE = `{${await orArtifact.getAddress()}} (|${nodeId(OR1_NODE, 1)}|,|${nodeId(
+      const OR2_NODE = `{${await orArtifact.getAddress()}} (|${nodeIdByNotation(OR1_NODE, 1)}|,|${nodeIdByNotation(
         NOT_NODE,
         3,
       )}|) <>`;
@@ -168,14 +168,14 @@ describe('Artifacts Graph: Base-usage flow', () => {
       `;
       console.log(intermediateRepresentation);
 
-      equalAddressNodeId = nodeId(EQUAL_ADDRESS_NODE, 7);
-      isDividableUintNodeId = nodeId(IS_DIVIDABLE_NODE, 6);
-      equalStringsNodeId = nodeId(EQUAL_STRING_NODE, 5);
-      equalBytesNodeId = nodeId(EQUAL_BYTES_NODE, 4);
-      notNodeId = nodeId(NOT_NODE, 3);
-      andNodeId = nodeId(AND_NODE, 2);
-      or1NodeId = nodeId(OR1_NODE, 1);
-      or2NodeId = nodeId(OR2_NODE, 0);
+      equalAddressNodeId = nodeIdByNotation(EQUAL_ADDRESS_NODE, 7);
+      isDividableUintNodeId = nodeIdByNotation(IS_DIVIDABLE_NODE, 6);
+      equalStringsNodeId = nodeIdByNotation(EQUAL_STRING_NODE, 5);
+      equalBytesNodeId = nodeIdByNotation(EQUAL_BYTES_NODE, 4);
+      notNodeId = nodeIdByNotation(NOT_NODE, 3);
+      andNodeId = nodeIdByNotation(AND_NODE, 2);
+      or1NodeId = nodeIdByNotation(OR1_NODE, 1);
+      or2NodeId = nodeIdByNotation(OR2_NODE, 0);
     });
 
     it('should evaluate successfully', async () => {
