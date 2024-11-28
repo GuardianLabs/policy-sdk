@@ -2,7 +2,7 @@ import '@nomicfoundation/hardhat-ethers';
 import '@nomicfoundation/hardhat-toolbox';
 import 'hardhat-deploy';
 import { HardhatUserConfig } from 'hardhat/config';
-import { Config } from './hardhat-config/Config';
+import { Config } from './env-config-reader/Config';
 
 const MAX_ACCOUNT_NUMBER = 16;
 const DEPLOY_SCRIPTS_PATH = 'deploy-configuration/';
