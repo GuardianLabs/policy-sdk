@@ -15,7 +15,7 @@ import {
   NetworkName,
   REPORT_GAS,
 } from './config-hardhat';
-import { Config } from './config-hardhat/Config';
+import { Config } from './config-hardhat/env-config-reader';
 import "@nomicfoundation/hardhat-ignition-ethers";
 
 const MAX_ACCOUNT_NUMBER = 16;

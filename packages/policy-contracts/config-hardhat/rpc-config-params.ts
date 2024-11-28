@@ -1,9 +1,9 @@
-import { Config } from './Config';
 import {
   ALCHEMY_KEY,
   DEVELOPMENT_RPC,
   INFURA_KEY,
 } from './config-key.constants';
+import { Config } from './env-config-reader';
 import { NetworkName } from './types';
 
 const getInfuraKey = () => {

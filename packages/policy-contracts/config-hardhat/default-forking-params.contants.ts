@@ -1,6 +1,6 @@
 import { HardhatNetworkForkingUserConfig } from 'hardhat/types';
-import { Config } from './Config';
 import { IS_NETWORK_FORKING_ENABLED } from './config-key.constants';
+import { Config } from './env-config-reader';
 import { getBlockchainNodeRpcUri } from './rpc-config-params';
 import { NetworkName } from './types';
 

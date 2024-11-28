@@ -7,11 +7,11 @@ import {
   NetworkName,
   POLYGONSCAN_API_KEY,
 } from '.';
-import { Config } from './Config';
 import {
   forkingParamsForNetwork,
   shouldFork,
 } from './default-forking-params.contants';
+import { Config } from './env-config-reader';
 
 export const developmentChainId = () =>
   Number(Config.getSafe(DEVELOPMENT_CHAIN_ID, '31337'));
