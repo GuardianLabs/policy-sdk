@@ -4,12 +4,12 @@ import {
   ParsingResult,
 } from '@guardian-network/policy-intermediate-representation/src';
 import { LacLangCompilerOptions } from './';
+import { GraphInitParamsStruct } from './types';
+import { readFromFile } from './utils.helper';
 import {
   validateFinalRepresentation,
   validateProviderIsSupplied,
-} from './compiler/validations.helper';
-import { GraphInitParamsStruct } from './types';
-import { readFromFile } from './utils.helper';
+} from './validations.helper';
 
 export class LacLangCompiler {
   protected static build<R>(
