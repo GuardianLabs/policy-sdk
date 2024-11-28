@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-nodejs-modules
 import { writeFileSync } from 'node:fs';
 
 export const writeJsonToFile = (filePath: string, data: object): void => {

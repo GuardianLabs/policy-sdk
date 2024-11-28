@@ -2,7 +2,7 @@ import {
   LacLangCompiler,
   LacLangCompilerOptions,
 } from '@guardian-network/policy-compiler/src';
-import { Command, OptionValues } from 'commander';
+import { Command } from 'commander';
 import { JsonRpcProvider } from 'ethers';
 import { NoRpcUrlError } from '../../errors';
 import {
@@ -15,16 +15,16 @@ import {
 import { CliCompileOptions } from '../options/types';
 import { writeJsonToFile } from './utils.helper';
 
-const retrieveCompilerOptions = (options: OptionValues) => {
+const retrieveCompilerOptions = (options: CliCompileOptions) => {
   let config: LacLangCompilerOptions = {};
 
   if (!!options.typeOnchain || !!options.typeDsl) {
-    const rpcEndpoint: string = options.rpc ?? process.env.RPC;
+    const rpcEndpoint = options.rpc || process.env.RPC;
     if (!rpcEndpoint) throw new NoRpcUrlError();
 
     config = {
-      checkTypesAgainstDslDeclarations: options.typeDsl,
-      checkTypesAgainstOnchainDescriptors: options.typeOnchain,
+      checkTypesAgainstDslDeclarations: !!!options.typeDsl,
+      checkTypesAgainstOnchainDescriptors: !!!options.typeOnchain,
       provider: new JsonRpcProvider(rpcEndpoint),
     };
   }

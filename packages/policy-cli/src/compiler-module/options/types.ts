@@ -1,6 +1,6 @@
 type CompileOptionsBase = {
   typeDsl: string;
-  typOnchain: string;
+  typeOnchain: string;
   rpc: string;
   write: string;
   sourcePath: string;
