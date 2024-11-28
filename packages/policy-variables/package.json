@@ -48,6 +48,7 @@
   "dependencies": {
     "@guardian-network/policy-compiler": "workspace:*",
     "@guardian-network/policy-contracts": "workspace:*",
+    "@guardian-network/policy-intermediate-representation": "workspace:*",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }
