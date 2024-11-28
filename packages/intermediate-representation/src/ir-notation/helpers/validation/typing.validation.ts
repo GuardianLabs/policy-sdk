@@ -1,10 +1,6 @@
 import { MinTypedValue } from '@guardian-network/policy-dsl/src';
 import { ContractRunner } from 'ethers';
-import {
-  ExecTypesDoNotMatchError,
-  InitTypesDoNotMatchError,
-  SubstitutionTypesDoNotMatchError,
-} from '../../errors';
+import { ErrorFactory } from '../../errors';
 import { ParsingResult } from '../../parser';
 import { IArbitraryDataArtifact__factory } from '../../types';
 import { DSLTypesToIRTypes } from '../formatters';
@@ -34,7 +30,7 @@ export const dslTypesToOnchainTypesParamsValidation =
       const mirroredDslParameter = initExecArgumentsConfig.initArguments[i];
       const parsedType = DSLTypesToIRTypes(mirroredDslParameter.type);
       if (initArgsTypes[i] !== parsedType) {
-        throw new InitTypesDoNotMatchError(
+        throw ErrorFactory.initTypesNotMacth(
           mirroredDslParameter.value,
           initArgsNames[i],
           initArgsTypes[i],
@@ -47,7 +43,7 @@ export const dslTypesToOnchainTypesParamsValidation =
       const mirroredDslParameter = initExecArgumentsConfig.execArguments[i];
       const parsedType = DSLTypesToIRTypes(mirroredDslParameter.type);
       if (argsTypes[i] !== parsedType) {
-        throw new ExecTypesDoNotMatchError(
+        throw ErrorFactory.execTypesNotMacth(
           mirroredDslParameter.value,
           argsNames[i],
           argsTypes[i],
@@ -77,7 +73,7 @@ export const onchainSubstitutionToReturnTypesValidation =
           await currentInstance.getExecDescriptor();
 
         if (!(argsTypes[Number(refNode.index)] == returnType))
-          throw new SubstitutionTypesDoNotMatchError(
+          throw ErrorFactory.substitutionTypesNotMatch(
             <string>instance.id,
             argsNames[Number(refNode.index)],
             argsTypes[Number(refNode.index)],
