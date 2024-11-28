@@ -1,4 +1,6 @@
-#!/usr/bin/env node
+// note: the hashbang is required when 'node --harmony' is applied (which is support for es6);
+// otherwise it is redundant
+/* #!/usr/bin/env node */
 
 import { Command } from 'commander';
 import { config } from 'dotenv';
