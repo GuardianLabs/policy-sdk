@@ -11,7 +11,6 @@
     "antlr": "antlr4ts ./grammar/LacLang.g4 -o ./src/dsl/antlr/generated",
     "antlr:make": "pnpm antlr && pnpm format:ts:fix",
     "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
-    "build:dev": "tsc -p tsconfig.json && pnpm format:all:fix && pnpm copy-dts",
     "check:ts": "tsc -p tsconfig-prod.json --noEmit",
     "check:ts:dev": "tsc -p tsconfig.json --noEmit",
     "clean": "pnpm remove:dist",
