@@ -1,14 +1,14 @@
 {
   "name": "@guardian-network/policy-cli",
   "author": "",
-  "description": "CLI for an SDK",
+  "description": "CLI for Policy SDK",
   "version": "0.1.0",
   "main": "index.ts",
   "engines": {
     "node": ">=18.20.4"
   },
   "bin": {
-    "policy-cli": "./dist/policy-cli/src/index.js"
+    "policy-cli": "./dist/src/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
