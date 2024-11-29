@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
+    "check": "pnpm lint:ts && pnpm check:ts",
     "check:ts": "tsc -p tsconfig-prod.json --noEmit",
     "check:ts:dev": "tsc -p tsconfig.json --noEmit",
     "clean": "pnpm remove:dist",

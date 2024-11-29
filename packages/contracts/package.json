@@ -12,6 +12,7 @@
     "build": "pnpm format:sol:fix && pnpm build:contracts && tsc -p tsconfig-prod.json && pnpm format:ts:fix && pnpm copy-dts",
     "build:contracts": "pnpm exec hardhat compile",
     "build:contracts:force": "pnpm build:contracts --force",
+    "check": "pnpm lint:ts && pnpm check:ts",
     "check:ts": "tsc -p tsconfig-prod.json --noEmit",
     "check:ts:dev": "tsc -p tsconfig.json --noEmit",
     "clean": "pnpm remove:dist && pnpm remove:contracts && pnpm remove:typechain",
