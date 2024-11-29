@@ -2,6 +2,7 @@
   "extends": "../../config/tsconfig/tsconfig.json",
   "include": ["./src/**/*"],
   "compilerOptions": {
+    "resolveJsonModule": true,
     "outDir": "dist",
   }
 }
