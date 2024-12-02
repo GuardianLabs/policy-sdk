@@ -10,13 +10,16 @@ import {
   UnnormalizedInitParamsBase,
 } from './base/ArtifactParamsBase';
 import {
-  ArtifactParamsConfig,
   ExecParamsDescriptorType,
   ExecParamsDescriptorValueType,
   InitParamsDescriptorType,
   InitParamsDescriptorValueType,
+  NormalizedParamsExecConfig,
+  NormalizedParamsInitConfig,
   NormalizedParamType,
   Unnormalized,
+  UnnormalizedParamsExecConfig,
+  UnnormalizedParamsInitConfig,
   UnnormalizedParamType,
 } from './types';
 import {
@@ -39,10 +42,7 @@ export class InitParams extends InitParamsBase {
     descriptorValue?: InitParamsDescriptorValueType,
     ...params: Array<NormalizedParamType>
   ) {
-    const config: ArtifactParamsConfig<
-      InitParamsDescriptorValueType,
-      NormalizedParamType
-    > = {
+    const config: NormalizedParamsInitConfig = {
       paramsDescriptorValue: descriptorValue,
       params,
     };
@@ -79,10 +79,7 @@ export class ExecParams extends ExecParamsBase {
     descriptorValue?: ExecParamsDescriptorValueType,
     ...params: Array<NormalizedParamType>
   ) {
-    const config: ArtifactParamsConfig<
-      ExecParamsDescriptorValueType,
-      NormalizedParamType
-    > = {
+    const config: NormalizedParamsExecConfig = {
       paramsDescriptorValue: descriptorValue,
       params,
     };
@@ -130,10 +127,7 @@ export class UnnormalizedExecParams extends UnnormalizedExecParamsBase {
     // this is needed just in case type guard facilitation
     const wrappedParams = wrapUnnormalized(params);
 
-    const config: ArtifactParamsConfig<
-      ExecParamsDescriptorValueType,
-      UnnormalizedParamType
-    > = {
+    const config: UnnormalizedParamsExecConfig = {
       paramsDescriptorValue: descriptorValue,
       params: wrappedParams,
     };
@@ -186,10 +180,7 @@ export class UnnormalizedInitParams extends UnnormalizedInitParamsBase {
     // this is needed just in case type guard facilitation
     const wrappedParams = wrapUnnormalized(params);
 
-    const config: ArtifactParamsConfig<
-      InitParamsDescriptorValueType,
-      UnnormalizedParamType
-    > = {
+    const config: UnnormalizedParamsInitConfig = {
       paramsDescriptorValue: descriptorValue,
       params: wrappedParams,
     };

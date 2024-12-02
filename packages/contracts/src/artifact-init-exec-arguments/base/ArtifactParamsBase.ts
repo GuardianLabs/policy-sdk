@@ -3,9 +3,13 @@ import {
   ArtifactParamsConfig,
   ExecParamsDescriptorValueType,
   InitParamsDescriptorValueType,
+  NormalizedParamsExecConfig,
+  NormalizedParamsInitConfig,
   NormalizedParamType,
   ParamsDescriptorValueType,
   UnnormalizedOrNormalizedParamType,
+  UnnormalizedParamsExecConfig,
+  UnnormalizedParamsInitConfig,
   UnnormalizedParamType,
 } from '../types';
 import { ParamsValidations } from './ParamsValidations';
@@ -83,12 +87,7 @@ export abstract class ExecParamsBase extends ArtifactParamsBase<
   ExecParamsDescriptorValueType,
   NormalizedParamType
 > {
-  constructor(
-    config: ArtifactParamsConfig<
-      ExecParamsDescriptorValueType,
-      NormalizedParamType
-    >,
-  ) {
+  constructor(config: NormalizedParamsExecConfig) {
     super(config);
   }
 }
@@ -97,12 +96,7 @@ export abstract class InitParamsBase extends ArtifactParamsBase<
   InitParamsDescriptorValueType,
   NormalizedParamType
 > {
-  constructor(
-    config: ArtifactParamsConfig<
-      InitParamsDescriptorValueType,
-      NormalizedParamType
-    >,
-  ) {
+  constructor(config: NormalizedParamsInitConfig) {
     super(config);
   }
 }
@@ -111,12 +105,7 @@ export abstract class UnnormalizedInitParamsBase extends ArtifactParamsBase<
   InitParamsDescriptorValueType,
   UnnormalizedParamType
 > {
-  constructor(
-    config: ArtifactParamsConfig<
-      InitParamsDescriptorValueType,
-      UnnormalizedParamType
-    >,
-  ) {
+  constructor(config: UnnormalizedParamsInitConfig) {
     super(config);
   }
 }
@@ -125,12 +114,7 @@ export abstract class UnnormalizedExecParamsBase extends ArtifactParamsBase<
   ExecParamsDescriptorValueType,
   UnnormalizedParamType
 > {
-  constructor(
-    config: ArtifactParamsConfig<
-      ExecParamsDescriptorValueType,
-      UnnormalizedParamType
-    >,
-  ) {
+  constructor(config: UnnormalizedParamsExecConfig) {
     super(config);
   }
 }

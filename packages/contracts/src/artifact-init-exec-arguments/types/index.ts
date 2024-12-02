@@ -1,11 +1,7 @@
-import { EncodedParamType as NormalizedParamType } from '../solidity-encode-decode';
-import { ArtifactBase } from '../typechain';
-export { EncodedParamType as NormalizedParamType } from '../solidity-encode-decode';
-
-export type ArtifactParamsConfig<T, K> = {
-  paramsDescriptorValue?: T;
-  params?: Array<K>;
-};
+import { ArtifactBase } from '../../typechain';
+import { EncodedParamType as NormalizedParamType } from '../../types';
+export { EncodedParamType as NormalizedParamType } from '../../solidity-encode-decode';
+export * from './config.types';
 
 export type Unnormalized = Array<number> | string | boolean | number;
 
