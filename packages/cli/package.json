@@ -1,0 +1,70 @@
+{
+  "name": "@guardian-network/policy-cli",
+  "author": "",
+  "description": "CLI for Policy SDK",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "engines": {
+    "node": ">=18.20.4"
+  },
+  "bin": {
+    "policy-cli": "./dist/src/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig-prod.json && pnpm format:all:fix && pnpm copy-dts",
+    "check:ts": "tsc -p tsconfig-prod.json --noEmit",
+    "check:ts:dev": "tsc -p tsconfig.json --noEmit",
+    "clean": "pnpm remove:dist",
+    "cli": "tsx ./src/index.ts",
+    "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
+    "format:all:fix": "pnpm format:ts:fix",
+    "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint:ts": "eslint",
+    "lint:ts:fix": "eslint --fix",
+    "remove:dist": "npx rimraf dist",
+    "test": "mocha"
+  },
+  "keywords": [
+    "cli",
+    "policy",
+    "laclang",
+    "sdk",
+    "blockchain"
+  ],
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.13.0",
+    "@types/chai": "4.3.3",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.8.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "chai": "^4.5.0",
+    "copyfiles": "^2.4.1",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "eslint-plugin-n": "^17.10.3",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^15.11.0",
+    "mocha": "^10.8.2",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "rimraf": "^6.0.1"
+  },
+  "dependencies": {
+    "@guardian-network/policy-compiler": "workspace:*",
+    "commander": "^12.1.0",
+    "ethers": "^6.13.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.2"
+  }
+}
