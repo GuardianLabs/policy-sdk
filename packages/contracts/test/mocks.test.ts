@@ -1,5 +1,6 @@
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { ethers } from 'hardhat';
+import { policy } from './templates';
 import {
   ArtifactsGraph,
   EqualAddress,
@@ -7,10 +8,9 @@ import {
   EqualString,
   EqualUint,
   Keccak256String,
+  LacLangCompiler,
   XOR,
-} from '../src';
-import { policy } from './templates';
-import { LacLangCompiler } from './types';
+} from './types';
 import {
   deployGraphAndArtifacts,
   rawOnchainVariablesDescriptionToOffchainView,

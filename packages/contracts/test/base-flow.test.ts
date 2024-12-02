@@ -3,7 +3,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ZeroAddress, ZeroHash } from 'ethers';
 import { ethers } from 'hardhat';
-import { SolidityAddressType, SolidityBytesType } from '../src/solidity-types';
+import { MockedExecParams } from './mocked-init-exec-arguments';
 import {
   AND,
   ArtifactsGraph,
@@ -14,10 +14,11 @@ import {
   NOT,
   OR,
   ParserWithValidation,
+  SolidityAddressType,
+  SolidityBytesType,
   XOR,
 } from './types';
 import { deployGraphAndArtifacts, nodeIdByNotation } from './utils';
-import { MockedExecParams } from './utils/init-exec-arguments';
 
 const xor = (argA: boolean, argB: boolean) => {
   return (argA || argB) && !(argA && argB);

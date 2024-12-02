@@ -1,6 +1,7 @@
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
+import { MockedExecParams } from './mocked-init-exec-arguments';
 import { policy } from './templates';
 import { check } from './test-helpers';
 import {
@@ -13,7 +14,6 @@ import {
 } from './types';
 import { deployArtifacts } from './utils';
 import { decodeEvaluationResult } from './utils/decode';
-import { MockedExecParams } from './utils/init-exec-arguments';
 
 describe('Policy: compilation with predefined artifacts', () => {
   let adminSigner: SignerWithAddress;

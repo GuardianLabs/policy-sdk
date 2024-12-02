@@ -1,7 +1,4 @@
-import {
-  EncodedParamType,
-  inferSolidityType,
-} from '../../../src/solidity-encode-decode';
+import { inferSolidityType } from '../solidity-encode-decode/encode.helper';
 import {
   ALLOWED_SOLIDITY_REFERENCE_TYPES,
   ALLOWED_SOLIDITY_VALUE_TYPES,
@@ -11,11 +8,13 @@ import {
   SOLIDITY_BYTES32,
   SOLIDITY_STRING,
   SOLIDITY_UINT256,
+  SOLIIDTY_UINT24_LIST,
+} from '../solidity-types/constants';
+import {
   SolidityAddressType,
   SolidityBytesType,
   SolidityUint24ListType,
-  SOLIIDTY_UINT24_LIST,
-} from '../../../src/solidity-types';
+} from '../types';
 import {
   NormalizedParamType,
   Unnormalized,
@@ -63,7 +62,7 @@ export const validateSupportedArgTypeValues = (argTypes: string[]): void => {
 export const validateParamTypes = (
   expectedTypesList: string[],
   existingParamsListLength: number,
-  params: Array<EncodedParamType>,
+  params: Array<NormalizedParamType>,
 ): void => {
   for (const [index, param] of params.entries()) {
     const newParamExpectedIndex = existingParamsListLength + index;

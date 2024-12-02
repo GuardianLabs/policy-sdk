@@ -4,16 +4,12 @@ import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 import {
-  SolidityAddressType,
-  SolidityBytesType,
-  SolidityUint24ListType,
-} from '../src/solidity-types';
-import {
   pickNextClosedTime,
   pickNextOpenTime,
   TimezoneOffset,
   toSeconds,
 } from './business-hours';
+import { MockedExecParams } from './mocked-init-exec-arguments';
 import { check } from './test-helpers';
 import {
   AND,
@@ -23,8 +19,10 @@ import {
   EqualBytes,
   EqualString,
   EqualUint,
+  ExecParams,
   GteUint,
   GtUint,
+  InitParams,
   IsDividableUint,
   Keccak256String,
   Keccak256Uint,
@@ -32,7 +30,11 @@ import {
   LtUint,
   NOT,
   OR,
+  SolidityAddressType,
+  SolidityBytesType,
+  SolidityUint24ListType,
   TrustedTimezoneOffsetSource,
+  UnnormalizedExecParams,
   XOR,
 } from './types';
 import {
@@ -46,12 +48,6 @@ import {
   randomUint,
   solidityDecodeSingleParam,
 } from './utils';
-import {
-  ExecParams,
-  InitParams,
-  MockedExecParams,
-  UnnormalizedExecParams,
-} from './utils/init-exec-arguments';
 
 describe('Artifacts: Pre defined', () => {
   let adminSigner: SignerWithAddress;

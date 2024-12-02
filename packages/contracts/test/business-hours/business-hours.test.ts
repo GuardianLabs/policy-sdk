@@ -2,16 +2,17 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
+import { MockedExecParams } from '../mocked-init-exec-arguments';
+import { check } from '../test-helpers';
 import {
+  InitParams,
   SolidityAddressType,
   SolidityUint24ListType,
-} from '../../src/solidity-types';
-import { check } from '../test-helpers';
+} from '../types';
 import {
   deployBusinessHoursContracts,
   solidityDecodeSingleParam,
 } from '../utils';
-import { InitParams, MockedExecParams } from '../utils/init-exec-arguments';
 import {
   BusinessHoursValidation,
   TimezoneOffset,

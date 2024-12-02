@@ -1,22 +1,24 @@
 import { BytesLike } from 'ethers';
 import {
-  EncodedParamType as NormalizedParamType,
   solidityEncodeMultipleParams,
   solidityEncodeSingleParam,
-} from '../../../src/solidity-encode-decode';
-import {
-  ExecParamsDescriptorType,
-  ExecParamsDescriptorValueType,
-  InitParamsDescriptorType,
-  InitParamsDescriptorValueType,
-} from '../../types';
+} from '../solidity-encode-decode/encode.helper';
 import {
   ExecParamsBase,
   InitParamsBase,
   UnnormalizedExecParamsBase,
   UnnormalizedInitParamsBase,
 } from './base/ArtifactParamsBase';
-import { ParamsConfig, Unnormalized, UnnormalizedParamType } from './types';
+import {
+  ArtifactParamsConfig,
+  ExecParamsDescriptorType,
+  ExecParamsDescriptorValueType,
+  InitParamsDescriptorType,
+  InitParamsDescriptorValueType,
+  NormalizedParamType,
+  Unnormalized,
+  UnnormalizedParamType,
+} from './types';
 import {
   normalizeParams,
   unwrapUnnormalized,
@@ -37,7 +39,7 @@ export class InitParams extends InitParamsBase {
     descriptorValue?: InitParamsDescriptorValueType,
     ...params: Array<NormalizedParamType>
   ) {
-    const config: ParamsConfig<
+    const config: ArtifactParamsConfig<
       InitParamsDescriptorValueType,
       NormalizedParamType
     > = {
@@ -77,7 +79,7 @@ export class ExecParams extends ExecParamsBase {
     descriptorValue?: ExecParamsDescriptorValueType,
     ...params: Array<NormalizedParamType>
   ) {
-    const config: ParamsConfig<
+    const config: ArtifactParamsConfig<
       ExecParamsDescriptorValueType,
       NormalizedParamType
     > = {
@@ -128,7 +130,7 @@ export class UnnormalizedExecParams extends UnnormalizedExecParamsBase {
     // this is needed just in case type guard facilitation
     const wrappedParams = wrapUnnormalized(params);
 
-    const config: ParamsConfig<
+    const config: ArtifactParamsConfig<
       ExecParamsDescriptorValueType,
       UnnormalizedParamType
     > = {
@@ -184,7 +186,7 @@ export class UnnormalizedInitParams extends UnnormalizedInitParamsBase {
     // this is needed just in case type guard facilitation
     const wrappedParams = wrapUnnormalized(params);
 
-    const config: ParamsConfig<
+    const config: ArtifactParamsConfig<
       InitParamsDescriptorValueType,
       UnnormalizedParamType
     > = {

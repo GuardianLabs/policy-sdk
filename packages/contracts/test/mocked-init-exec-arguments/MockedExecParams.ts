@@ -1,8 +1,18 @@
-import { ExecParamsDescriptorValueType } from '../../types';
-import { duplicatedValuesArray, randomBoolean } from '../random.helper';
-import { ExecParams } from './artifact-params';
+import {
+  ExecParams,
+  ExecParamsDescriptorValueType,
+  EncodedParamType as NormalizedParamType,
+} from '../types';
+import { duplicatedValuesArray, randomBoolean } from '../utils/random.helper';
 import { DEFAULT_MOCKED_DATA_LIST_LENGTH } from './constants';
-import { MockecExecArgumentsConfig, NormalizedParamType } from './types';
+
+type MockecExecArgumentsConfig = {
+  argsCount?: number;
+  // when supplied, the list is created with length 'argsCount' and filled with 'defaultValue'
+  defaultValue?: NormalizedParamType;
+  // when supplied, and 'defaultValue' is undefined, the list is created with length 'argsCount' and filled with random values
+  // type?: PrimitiveEncodeParamTypes;
+};
 
 export class MockedExecParams extends ExecParams {
   static make = (config?: MockecExecArgumentsConfig) => {
