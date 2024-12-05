@@ -1,9 +1,8 @@
+import { DecodedParamType } from '../types/solidity-decode.types';
 import { defaultAbiCoder } from './';
 
 type SolidityDecodeReturnType = ReturnType<typeof defaultAbiCoder.decode>;
 type SolidityDecodeInputParamsType = Parameters<typeof defaultAbiCoder.decode>;
-
-export type DecodedParamType = 'string' | 'bool' | 'uint256' | 'bytes32';
 
 type PreciseDecodedParamType<T> = T extends 'string'
   ? string
