@@ -1,15 +1,5 @@
-import { ParsingResult } from '@guardian-network/policy-intermediate-representation/src';
-import { InstanceConfigArgumentsOnly } from '../state';
-
-export type MinTypedValue = {
-  type: string;
-  value: string;
-};
-
-export type TypedValue = MinTypedValue & {
-  substitution?: boolean;
-  constant?: boolean;
-};
+import { NodeTreeInitData as ParsingResult } from '@guardian-network/shared/src/types/contracts.types';
+import { InstanceConfigArgumentsOnly } from '@guardian-network/shared/src/types/dsl.types';
 
 export type InnerValidationMiddleware = (
   artifactAddress: string,

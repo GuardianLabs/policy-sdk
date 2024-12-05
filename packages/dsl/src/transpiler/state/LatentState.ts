@@ -1,3 +1,4 @@
+import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
 import {
   ArtifactDeclarationContext,
   ConstantDeclarationContext,
@@ -8,7 +9,6 @@ import {
   Artifacts,
   Constants,
   Evaluating,
-  InstanceConfig,
   InstancesById,
   InstancesByName,
   Variables,

@@ -1,3 +1,4 @@
+import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
 import {
   ArtifactDeclarationContext,
   ConstantDeclarationContext,
@@ -7,7 +8,7 @@ import {
   ProgramContext,
   VarDeclarationContext,
 } from '../antlr';
-import { nodeId as calculateNodeId } from '../ir-generation';
+import { nodeIdFromDeclaration as calculateNodeId } from '../ir-generation';
 import {
   ArtifactAlreadyDefinedError,
   ConstantAlreadyDefinedError,
@@ -27,7 +28,6 @@ import {
   extractAndLookupExecArguments,
   extractAndLookupInitArguments,
 } from './helpers';
-import { InstanceConfig } from './state';
 import { LatentState } from './state/LatentState';
 
 export class LacLangTranspiler implements LacLangListener {
@@ -35,6 +35,7 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterVarDeclaration(ctx: VarDeclarationContext): void {
     const name = ctx.IDENTIFIER().text;
+
     lookupAndThrow(
       name,
       this.latentState.variables,
@@ -46,6 +47,7 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterConstantDeclaration(ctx: ConstantDeclarationContext) {
     const name = ctx.IDENTIFIER().text;
+
     lookupAndThrow(
       name,
       this.latentState.constants,
@@ -57,6 +59,7 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterArtifactDeclaration(ctx: ArtifactDeclarationContext) {
     const name = ctx.IDENTIFIER().text;
+
     lookupAndThrow(
       name,
       this.latentState.artifacts,
@@ -68,6 +71,7 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterInstanceDeclaration(ctx: InstanceDeclarationContext) {
     const name = ctx.IDENTIFIER().text;
+
     lookupAndThrow(
       name,
       this.latentState.instancesByName,
@@ -77,7 +81,7 @@ export class LacLangTranspiler implements LacLangListener {
     const execArguments = extractAndLookupExecArguments(ctx, this.latentState);
     const initArguments = extractAndLookupInitArguments(ctx, this.latentState);
 
-    let artifactDereferenced = dereferenceArtifact(
+    const artifactDereferenced = dereferenceArtifact(
       ctx,
       this.latentState.artifacts,
     );
@@ -120,15 +124,16 @@ export class LacLangTranspiler implements LacLangListener {
     if (!!previouslyDeclared) {
       throw new EvaluateAlreadyDeclaredError(ctx, previouslyDeclared.ctx);
     }
-    const instName = ctx.IDENTIFIER().text;
+
+    const instanceName = ctx.IDENTIFIER().text;
     const refInst = lookupOrThrow(
-      instName,
+      instanceName,
       this.latentState.instancesByName,
-      new InstanceNotDefinedError(instName, ctx),
+      new InstanceNotDefinedError(instanceName, ctx),
     );
 
     if (refInst.type != 'bool')
-      throw new EvaluateTypeNotBoolError(instName, ctx, refInst.ctx);
+      throw new EvaluateTypeNotBoolError(instanceName, ctx, refInst.ctx);
 
     this.latentState.setEvaluateRelativeTo = {
       nodeId: refInst.id,

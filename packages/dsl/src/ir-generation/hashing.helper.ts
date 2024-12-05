@@ -1,12 +1,15 @@
-import { solidityPackedKeccak256 } from 'ethers';
+import { NodeId } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
+import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
 import { IRTransformer } from '.';
-import { InstanceConfig } from '../transpiler/state/types';
 
-export const nodeId = (def: InstanceConfig, salt: number) =>
-  solidityPackedKeccak256(
-    ['string', 'uint256'],
-    [IRTransformer.buildIRFromInstanceDeclaration(def), salt],
-  );
+export const nodeIdFromDeclaration = (
+  def: InstanceConfig,
+  salt: number,
+): string => {
+  const artifactIntermediateForm =
+    IRTransformer.buildIRFromInstanceDeclaration(def);
 
-export const nodeIdByNotation = (def: string, salt: number) =>
-  solidityPackedKeccak256(['string', 'uint256'], [def, salt]);
+  const nodeId = NodeId.fromNotation(artifactIntermediateForm, salt);
+  console.log(`nodeId ${nodeId}`);
+  return nodeId;
+};

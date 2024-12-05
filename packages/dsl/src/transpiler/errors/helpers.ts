@@ -1,13 +1,10 @@
+import { mapToArray } from '@guardian-network/shared/src/misc-utils/data-structure-transformation.helper';
+import { findCycle } from '@guardian-network/shared/src/misc-utils/find-cycle-node.helper';
+import { TypedValue } from '@guardian-network/shared/src/types/dsl.types';
 import { ParserRuleContext } from 'antlr4ts';
 import { CyclicReferenceError, SelfReferenceError } from '.';
-import {
-  extractReferenceNodeIds,
-  formatInstanceReference,
-  mapToArray,
-  TypedValue,
-} from '../helpers';
+import { extractReferenceNodeIds, formatInstanceReference } from '../helpers';
 import { InstancesById, InstancesByName } from '../state/types';
-import { findCycle } from '../validations';
 
 export const lookupOrThrow = <T>(
   key: string,
@@ -42,11 +39,11 @@ export const findCycleAndThrow = (
     references: extractReferenceNodeIds(instance.config),
   }));
 
-  const cycle = findCycle(nodesList);
+  const cycleFound = findCycle(nodesList);
 
-  if (!!cycle) {
-    const invokingNode = instancesByIdMap.get(cycle.parentNodeId)!;
-    const referencedNode = instancesByIdMap.get(cycle.nodeId)!;
+  if (!!cycleFound) {
+    const invokingNode = instancesByIdMap.get(cycleFound.parentNodeId)!;
+    const referencedNode = instancesByIdMap.get(cycleFound.nodeId)!;
 
     throw new CyclicReferenceError(
       invokingNode.name,
@@ -63,8 +60,12 @@ export const findSelfReferenceAndThrow = (
   execArguments: TypedValue[],
   ctx: ParserRuleContext,
 ) => {
-  const selfReference = execArguments.find(
-    (el) => el.substitution && el.value == formatInstanceReference(instanceId),
+  const maybeSelfReference = execArguments.find(
+    ({ substitution, value }) =>
+      !!substitution && value == formatInstanceReference(instanceId),
   );
-  if (selfReference) throw new SelfReferenceError(instanceName, ctx);
+
+  if (!!maybeSelfReference) {
+    throw new SelfReferenceError(instanceName, ctx);
+  }
 };

@@ -1,3 +1,7 @@
+import {
+  InstanceConfig,
+  TypedValue,
+} from '@guardian-network/shared/src/types/dsl.types';
 import { InstanceDeclarationContext, LiteralContext } from '../../antlr';
 import {
   ArtifactNotDefinedError,
@@ -8,8 +12,7 @@ import {
   VariableNotDefinedError,
 } from '../errors';
 import { LatentState } from '../state/LatentState';
-import { Artifacts, InstanceConfig } from '../state/types';
-import { TypedValue } from './types';
+import { Artifacts } from '../state/types';
 
 export const extractAndLookupExecArguments = (
   ctx: InstanceDeclarationContext,
@@ -114,11 +117,6 @@ export const extractReferenceNodeIds = (config: InstanceConfig) => {
     value.replaceAll('|', ''),
   );
   return referencesNodeIdList;
-};
-
-export const mapToArray = <T>(map: Map<string, T>) => {
-  const list = Array.from(map.values());
-  return list;
 };
 
 export const dereferenceArtifact = (
