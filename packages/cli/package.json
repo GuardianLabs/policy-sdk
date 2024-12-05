@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "@guardian-network/policy-compiler": "workspace:*",
+    "@guardian-network/shared": "workspace:*",
     "commander": "^12.1.0",
     "ethers": "^6.13.3",
     "tsx": "^4.19.2",
