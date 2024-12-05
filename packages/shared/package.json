@@ -1,7 +1,7 @@
 {
-  "name": "@guardian-network/policy-compiler",
-  "author": "",
-  "description": "Artifcts high level declaration language",
+  "name": "@guardian-network/shared",
+  "author": "grabovski",
+  "description": "A shared tools, types, interfaces of Policy SDK",
   "version": "0.1.0",
   "main": "index.ts",
   "engines": {
