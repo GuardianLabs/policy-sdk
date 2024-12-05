@@ -55,9 +55,9 @@
     "rimraf": "^6.0.1"
   },
   "dependencies": {
-    "@guardian-network/policy-contracts": "workspace:*",
     "@guardian-network/policy-dsl": "workspace:*",
     "@guardian-network/policy-intermediate-representation": "workspace:*",
+    "@guardian-network/shared": "workspace:*",
     "dotenv": "^16.4.5",
     "ethers": "^6.13.3",
     "generator-code": "^1.11.4",
