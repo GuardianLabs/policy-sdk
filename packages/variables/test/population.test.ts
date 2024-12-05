@@ -1,7 +1,9 @@
 import { expect } from 'chai';
 import { AllowedVariablesType, VariablesPopulator } from '../src';
-import { FilledVariables } from '../src/types';
-import { TypedRawOnchainVariablesDescription } from '../src/utils';
+import {
+  FilledVariables,
+  TypedRawOnchainVariablesDescription,
+} from '../src/types';
 import { default as onchainVariables } from './snapshots/dummy.json';
 
 describe('Variables population minimal flow', () => {

@@ -1,5 +1,5 @@
-import { VariablesStruct } from '@guardian-network/policy-contracts/src';
-import { solidityEncodeSingleParam } from '@guardian-network/policy-contracts/src/solidity-encode-decode';
+import { solidityEncodeSingleParam } from '@guardian-network/shared/src/solidity-encode-decode';
+import { VariablesStruct } from '@guardian-network/shared/src/types/contracts.types';
 import { ErrorFactory } from '../errors';
 import { VariablesInjector } from '../injection';
 import { VariablesInserter } from '../insertion';
