@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 import type { BaseContract, BytesLike, ContractRunner } from 'ethers';
-import { TypedContractMethod } from './types';
+import { TypedContractMethod } from './typed-contract-method.interface';
 
 export interface IMinArbitraryDataArtifact extends BaseContract {
   connect(runner?: ContractRunner | null): IMinArbitraryDataArtifact;
