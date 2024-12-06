@@ -1,8 +1,8 @@
-import { BytesLike } from 'ethers';
 import {
   solidityEncodeMultipleParams,
   solidityEncodeSingleParam,
-} from '../solidity-encode-decode/encode.helper';
+} from '@guardian-network/shared/src/solidity-encode-decode';
+import { BytesLike } from 'ethers';
 import {
   ExecParamsBase,
   InitParamsBase,

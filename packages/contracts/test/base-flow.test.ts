@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { NodeId } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ZeroAddress, ZeroHash } from 'ethers';
@@ -18,7 +19,7 @@ import {
   SolidityBytesType,
   XOR,
 } from './types';
-import { deployGraphAndArtifacts, nodeIdByNotation } from './utils';
+import { deployGraphAndArtifacts } from './utils';
 
 const xor = (argA: boolean, argB: boolean) => {
   return (argA || argB) && !(argA && argB);
@@ -45,7 +46,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
       } = await deployGraphAndArtifacts(adminSigner));
 
       const XOR_NODE = `{${await xorArtifact.getAddress()}} (true,var0$"") <>`;
-      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeIdByNotation(XOR_NODE, 1)}|,var1$"") <>`;
+      const AND_NODE = `{${await andArtifact.getAddress()}} (|${NodeId.fromNotation(XOR_NODE, 1)}|,var1$"") <>`;
 
       // condition: (variable1 ^ true) && variable2
       // tree presentation:
@@ -60,8 +61,8 @@ describe('Artifacts Graph: Base-usage flow', () => {
       `;
       console.log(intermediateRepresentation);
 
-      andNode = nodeIdByNotation(AND_NODE, 0);
-      xorNode = nodeIdByNotation(XOR_NODE, 1);
+      andNode = NodeId.fromNotation(AND_NODE, 0);
+      xorNode = NodeId.fromNotation(XOR_NODE, 1);
     });
 
     it('should succefully evaluate "(variable1 ^ true) && variable2"', async () => {
@@ -139,19 +140,19 @@ describe('Artifacts Graph: Base-usage flow', () => {
       // const HASH_STRING_NODE = `{${await hashStringArtifact.getAddress()}} (varString) <>`;
       const EQUAL_STRING_NODE = `{${await equalStringArtifact.getAddress()}} (varString$"",${'"reference"'}) <>`;
       const EQUAL_BYTES_NODE = `{${await equalBytesArtifact.getAddress()}} (varBytes$"",${ZeroHash}) <>`;
-      const NOT_NODE = `{${await notArtifact.getAddress()}} (|${nodeIdByNotation(
+      const NOT_NODE = `{${await notArtifact.getAddress()}} (|${NodeId.fromNotation(
         EQUAL_BYTES_NODE,
         4,
       )}|) <>`;
-      const AND_NODE = `{${await andArtifact.getAddress()}} (|${nodeIdByNotation(
+      const AND_NODE = `{${await andArtifact.getAddress()}} (|${NodeId.fromNotation(
         EQUAL_ADDRESS_NODE,
         7,
-      )}|,|${nodeIdByNotation(IS_DIVIDABLE_NODE, 6)}|) <>`;
-      const OR1_NODE = `{${await orArtifact.getAddress()}} (|${nodeIdByNotation(AND_NODE, 2)}|,|${nodeIdByNotation(
+      )}|,|${NodeId.fromNotation(IS_DIVIDABLE_NODE, 6)}|) <>`;
+      const OR1_NODE = `{${await orArtifact.getAddress()}} (|${NodeId.fromNotation(AND_NODE, 2)}|,|${NodeId.fromNotation(
         EQUAL_STRING_NODE,
         5,
       )}|) <>`;
-      const OR2_NODE = `{${await orArtifact.getAddress()}} (|${nodeIdByNotation(OR1_NODE, 1)}|,|${nodeIdByNotation(
+      const OR2_NODE = `{${await orArtifact.getAddress()}} (|${NodeId.fromNotation(OR1_NODE, 1)}|,|${NodeId.fromNotation(
         NOT_NODE,
         3,
       )}|) <>`;
@@ -169,14 +170,14 @@ describe('Artifacts Graph: Base-usage flow', () => {
       `;
       console.log(intermediateRepresentation);
 
-      equalAddressNodeId = nodeIdByNotation(EQUAL_ADDRESS_NODE, 7);
-      isDividableUintNodeId = nodeIdByNotation(IS_DIVIDABLE_NODE, 6);
-      equalStringsNodeId = nodeIdByNotation(EQUAL_STRING_NODE, 5);
-      equalBytesNodeId = nodeIdByNotation(EQUAL_BYTES_NODE, 4);
-      notNodeId = nodeIdByNotation(NOT_NODE, 3);
-      andNodeId = nodeIdByNotation(AND_NODE, 2);
-      or1NodeId = nodeIdByNotation(OR1_NODE, 1);
-      or2NodeId = nodeIdByNotation(OR2_NODE, 0);
+      equalAddressNodeId = NodeId.fromNotation(EQUAL_ADDRESS_NODE, 7);
+      isDividableUintNodeId = NodeId.fromNotation(IS_DIVIDABLE_NODE, 6);
+      equalStringsNodeId = NodeId.fromNotation(EQUAL_STRING_NODE, 5);
+      equalBytesNodeId = NodeId.fromNotation(EQUAL_BYTES_NODE, 4);
+      notNodeId = NodeId.fromNotation(NOT_NODE, 3);
+      andNodeId = NodeId.fromNotation(AND_NODE, 2);
+      or1NodeId = NodeId.fromNotation(OR1_NODE, 1);
+      or2NodeId = NodeId.fromNotation(OR2_NODE, 0);
     });
 
     it('should evaluate successfully', async () => {
