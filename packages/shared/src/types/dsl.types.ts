@@ -31,3 +31,8 @@ export type TranspilerOutput = {
   rootNode: string;
   typings: InstanceConfig[];
 };
+
+export type NodeWithReference = {
+  nodeId: string;
+  parentNodeId: string;
+};
