@@ -1,28 +1,22 @@
-import { InstanceConfig } from '@guardian-network/policy-dsl/src';
-import { TreeNodeInitParamsStruct } from '../types';
+import { NodeTreeInitData } from '@guardian-network/shared/src/types/contracts.types';
+import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
+import {
+  DSLType,
+  SupportedSolidityType,
+} from '@guardian-network/shared/src/types/intermediate-representation.types';
 
-export enum SupportedSolidityType {
-  Uint256 = 'uint256',
-  String = 'string',
-  Bool = 'bool',
-  Bytes = 'bytes',
-  Address = 'address',
-}
+export type ParsingResult = NodeTreeInitData;
 
-export enum DSLType {
-  Number = 'number',
-  String = 'string',
-  Bool = 'bool',
-  Bytes = 'bytes',
-  Address = 'address',
-}
+export type DslTypeToSolidityType = Record<DSLType, SupportedSolidityType>;
 
-export const DSLTypesMapping = {
-  [DSLType.Number]: SupportedSolidityType.Uint256,
-  [DSLType.Address]: SupportedSolidityType.Address,
-  [DSLType.Bool]: SupportedSolidityType.Bool,
-  [DSLType.String]: SupportedSolidityType.String,
-  [DSLType.Bytes]: SupportedSolidityType.Bytes,
+export const DSLTypesMapping: DslTypeToSolidityType = {
+  // SAFE KEYS
+  // UNSAFE VALUES
+  number: 'uint256',
+  address: 'address',
+  bool: 'bool',
+  string: 'string',
+  bytes: 'bytes',
 };
 
 export type ValidationMiddlware = {
@@ -30,7 +24,5 @@ export type ValidationMiddlware = {
     artifactAddress: string,
     currentInstanceConfig: InstanceConfig,
   ) => Promise<void>;
-  outerValidations: (output: ParsingResult[]) => Promise<void>;
+  outerValidations: (output: NodeTreeInitData[]) => Promise<void>;
 };
-
-export type ParsingResult = TreeNodeInitParamsStruct;

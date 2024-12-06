@@ -1,1 +1,5 @@
-export * from './ir-notation/parser';
+export {
+  ParserWithValidation,
+  SimplifiedParser,
+  StaticParser,
+} from './ir-notation/parser';

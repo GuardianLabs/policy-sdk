@@ -1,5 +1,3 @@
-import { ParsingResult } from '../types';
-
 export type GetTypesValues = (
   artifactAddress: string,
   posAtConfigList?: number,
@@ -78,19 +76,3 @@ export type Parameter = {
   value: string;
   index: number;
 };
-
-// todo: replace with typechain type
-// export type BytesAndIndexStruct = { value: BytesLike; index: BigNumberish };
-// export type Bytes32AndIndexStruct = { value: BytesLike; index: BigNumberish };
-// export type TreeNodeInitParamsStruct = {
-//   id: BytesLike;
-//   artifactAddress: AddressLike;
-//   argsCount: BigNumberish;
-//   partialExecData: BytesAndIndexStruct[];
-//   variables: BigNumberish[];
-//   substitutions: Bytes32AndIndexStruct[];
-//   initData: BytesLike;
-//   needsInitialization: boolean;
-// }
-
-type TreeNodeInitParamsStruct = ParsingResult;

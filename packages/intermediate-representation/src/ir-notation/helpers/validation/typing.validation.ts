@@ -1,7 +1,7 @@
-import { MinTypedValue } from '@guardian-network/policy-dsl/src';
+import { NodeTreeInitData as ParsingResult } from '@guardian-network/shared/src/types/contracts.types';
+import { MinTypedValue } from '@guardian-network/shared/src/types/dsl.types';
 import { ContractRunner } from 'ethers';
 import { ErrorFactory } from '../../errors';
-import { ParsingResult } from '../../parser';
 import { IArbitraryDataArtifact__factory } from '../../types';
 import { DSLTypesToIRTypes } from '../formatters';
 

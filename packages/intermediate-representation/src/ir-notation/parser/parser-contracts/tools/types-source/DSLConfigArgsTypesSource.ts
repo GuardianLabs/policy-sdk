@@ -1,4 +1,4 @@
-import { InstanceConfig } from '@guardian-network/policy-dsl/src';
+import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
 import { DSLTypesToIRTypes } from '../../../../helpers';
 import { ExecInitArtifactTypes, IArgsTypesSource } from '../../types';
 

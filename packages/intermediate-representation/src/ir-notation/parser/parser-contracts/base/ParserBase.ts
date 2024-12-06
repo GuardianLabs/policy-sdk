@@ -1,5 +1,6 @@
+import { NodeId } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
 import { ParsingResult } from '../../types';
-import { ParamsExtractor, nodeId } from '../tools';
+import { ParamsExtractor } from '../tools';
 import {
   GetTypesValues,
   NormalizedExecParameter,
@@ -53,7 +54,7 @@ export class ParserBase {
     salt: number,
     getTypesSource: GetTypesValues,
   ): Promise<ParsingResult> => {
-    const id = nodeId(unprocessedArtifact, salt);
+    const nodeId = NodeId.fromNotation(unprocessedArtifact, salt);
     const processed = await this.processSingle(
       unprocessedArtifact,
       getTypesSource,
@@ -61,7 +62,7 @@ export class ParserBase {
     );
 
     return {
-      id,
+      id: nodeId,
       ...processed,
     };
   };
