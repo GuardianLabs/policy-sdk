@@ -21,7 +21,8 @@ export class DSLConfigArgsTypesSource implements IArgsTypesSource {
     }
 
     const config = this.configList.find(
-      (v, index) => v.artifactAddress === instanceAddress && index == pos,
+      (value, index) =>
+        value.artifactAddress === instanceAddress && index == pos,
     );
 
     if (!config) {
