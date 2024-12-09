@@ -10,6 +10,5 @@ export const nodeIdFromDeclaration = (
     IRTransformer.buildIRFromInstanceDeclaration(def);
 
   const nodeId = NodeId.fromNotation(artifactIntermediateForm, salt);
-  console.log(`nodeId ${nodeId}`);
   return nodeId;
 };
