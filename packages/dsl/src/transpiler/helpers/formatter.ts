@@ -3,16 +3,10 @@ import {
   TypedValue,
 } from '@guardian-network/shared/src/types/dsl.types';
 import { InstanceDeclarationContext, LiteralContext } from '../../antlr';
-import {
-  ArtifactNotDefinedError,
-  CannotInferValueTypeError,
-  ConstantNotDefinedError,
-  InitializationArgumentWrongMutabilityModeError,
-  lookupOrThrow,
-  VariableNotDefinedError,
-} from '../errors';
+import { ErrorFactory } from '../errors/ErrorFactory';
 import { LatentState } from '../state/LatentState';
 import { Artifacts } from '../state/types';
+import { lookupOrThrow } from './validations.helper';
 
 export const extractAndLookupExecArguments = (
   ctx: InstanceDeclarationContext,
@@ -37,7 +31,7 @@ export const extractAndLookupExecArguments = (
           const refInst = lookupOrThrow(
             name,
             latentState.instancesByName,
-            new VariableNotDefinedError(name, el.ruleContext),
+            ErrorFactory.variableNotDefined(name, el.ruleContext),
           );
 
           return {
@@ -99,10 +93,10 @@ export const extractAndLookupInitArguments = (
         lookupOrThrow(
           name,
           latentState.variables,
-          new ConstantNotDefinedError(name, el.ruleContext),
+          ErrorFactory.constantNotDefined(name, el.ruleContext),
         );
 
-        throw new InitializationArgumentWrongMutabilityModeError(
+        throw ErrorFactory.impropperInitArgsMutabilityMode(
           name,
           el.ruleContext,
         );
@@ -132,7 +126,7 @@ export const dereferenceArtifact = (
   const { address } = lookupOrThrow(
     artifactName,
     artifactsMap,
-    new ArtifactNotDefinedError(artifactName, ctx),
+    ErrorFactory.artifactNotDefined(artifactName, ctx),
   );
 
   const artifactDereferenced = address;
@@ -161,7 +155,7 @@ const inferTypedValue = (ctx: LiteralContext): TypedValue => {
       type = 'number';
       break;
     default:
-      throw new CannotInferValueTypeError(ctx.text, ctx);
+      throw ErrorFactory.cannotInferValueType(ctx.text, ctx);
   }
 
   return {
