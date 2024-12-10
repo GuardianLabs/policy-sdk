@@ -32,6 +32,7 @@
     "remove:typechain": "pnpm exec rimraf src/typechain",
     "test": "pnpm test:contracts",
     "test:contracts": "pnpm exec hardhat test --bail",
+    "tests:coverage:sol": "pnpm exec hardhat coverage --testfiles 'test/**/*.ts'",
     "tests:coverage:ts": "nyc pnpm test"
   },
   "keywords": [],
