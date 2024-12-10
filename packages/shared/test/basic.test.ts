@@ -1,0 +1,3 @@
+describe('shared', () => {
+  it('case', () => {});
+});

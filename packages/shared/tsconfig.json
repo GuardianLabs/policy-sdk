@@ -1,8 +1,10 @@
 {
-  "extends": "../../config/tsconfig/tsconfig.json",
-  "include": ["./src/**/*"],
+  "extends": "./tsconfig-prod.json",
+  "include": [
+    "./src/**/*",
+    "./test/**/*",
+  ],
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "outDir": "dist",
+    "resolveJsonModule": true
   }
 }
