@@ -1,7 +1,9 @@
 node_modules
 .env
 coverage
+coverage-ts
 coverage.json
+.nyc_output
 dist
 testMatrix.json
 mochaOutput.json

@@ -20,12 +20,14 @@
     "lint:ts:fix": "eslint --fix",
     "remove:dist": "npx rimraf dist",
     "test": "mocha",
+    "tests:coverage:ts": "nyc pnpm test",
     "test:onchain": "pnpm exec hardhat test --bail test/compiler-onchain-types.test.ts"
   },
   "keywords": [],
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@types/chai": "4.3.3",
@@ -50,6 +52,7 @@
     "hardhat": "^2.22.15",
     "hardhat-deploy": "^0.12.4",
     "mocha": "^10.8.2",
+    "nyc": "^17.1.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "rimraf": "^6.0.1"

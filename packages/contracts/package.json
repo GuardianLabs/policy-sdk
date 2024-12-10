@@ -31,7 +31,8 @@
     "remove:dist": "pnpm exec rimraf dist",
     "remove:typechain": "pnpm exec rimraf src/typechain",
     "test": "pnpm test:contracts",
-    "test:contracts": "pnpm exec hardhat test --bail"
+    "test:contracts": "pnpm exec hardhat test --bail",
+    "tests:coverage:ts": "nyc pnpm test"
   },
   "keywords": [],
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@guardian-network/policy-intermediate-representation": "workspace:*",
     "@guardian-network/policy-variables": "workspace:*",
     "@guardian-network/shared": "workspace:*",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-ignition": "^0.15.7",
     "@nomicfoundation/hardhat-ignition-ethers": "^0.15.7",
@@ -66,6 +68,7 @@
     "hardhat": "^2.22.15",
     "hardhat-contract-sizer": "^2.10.0",
     "hardhat-deploy": "^0.12.4",
+    "nyc": "^17.1.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-solidity": "^1.4.1",
