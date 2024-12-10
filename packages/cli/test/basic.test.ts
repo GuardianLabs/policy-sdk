@@ -1,1 +1,3 @@
-describe('basic', () => {});
+describe('basic', () => {
+  it('case', () => {});
+});
