@@ -44,7 +44,7 @@ contract DestinationBlacklist is ArtifactBase, DestinationBlacklistInternal {
         uint256 argsLength = 1;
 
         argsNames = new string[](argsLength);
-        argsNames[0] = "serializedWhitelist";
+        argsNames[0] = "serializedBlacklist";
 
         argsTypes = new string[](argsLength);
         argsTypes[0] = BYTES;
