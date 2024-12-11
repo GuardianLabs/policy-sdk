@@ -1,5 +1,5 @@
+import { SupportedSolidityType } from '@guardian-network/shared/src/types/intermediate-representation.types';
 import { getAddress, getBytes } from 'ethers';
-import { SupportedSolidityType } from '../parser/types';
 
 export const strToBool = (str: string): boolean => {
   return str == 'true' ? true : false;
@@ -10,15 +10,15 @@ export const toTypedWithKnownType = (
   type: SupportedSolidityType,
 ) => {
   switch (type) {
-    case SupportedSolidityType.Address:
+    case 'address':
       return getAddress(arg);
-    case SupportedSolidityType.Bool:
+    case 'bool':
       return strToBool(arg);
-    case SupportedSolidityType.String:
+    case 'string':
       return arg.replace(/^"(.*)"$/, '$1');
-    case SupportedSolidityType.Bytes:
+    case 'bytes':
       return getBytes(arg);
-    case SupportedSolidityType.Uint256:
+    case 'uint256':
       return BigInt(arg);
     default:
       throw new Error(`Unsupported constant value type: ${arg}: ${type}`);

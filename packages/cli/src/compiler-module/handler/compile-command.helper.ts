@@ -1,7 +1,8 @@
+import { LacLangCompiler } from '@guardian-network/policy-compiler/src';
 import {
-  LacLangCompiler,
+  ICompiler,
   LacLangCompilerOptions,
-} from '@guardian-network/policy-compiler/src';
+} from '@guardian-network/shared/src/types/compiler.types';
 import { Command } from 'commander';
 import { JsonRpcProvider } from 'ethers';
 import { NoRpcUrlError } from '../../errors';
@@ -35,7 +36,7 @@ const retrieveCompilerOptions = (options: CliCompileOptions) => {
 
 const compile = async (options: CliCompileOptions) => {
   const compilerOptions = retrieveCompilerOptions(options);
-  const compiler = await LacLangCompiler.fromFile(
+  const compiler: ICompiler = await LacLangCompiler.fromFile(
     options.sourcePath,
     compilerOptions,
   );

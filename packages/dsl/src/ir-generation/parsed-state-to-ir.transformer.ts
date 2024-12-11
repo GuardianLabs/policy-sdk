@@ -1,10 +1,13 @@
-import { mapToArray, TypedValue } from '../transpiler/helpers';
+import { mapToArray } from '@guardian-network/shared/src/misc-utils/data-structure-transformation.helper';
+import {
+  InstanceConfig,
+  TypedValue,
+} from '@guardian-network/shared/src/types/dsl.types';
 import { LatentState } from '../transpiler/state/LatentState';
-import { InstanceConfig } from '../transpiler/state/types';
 
 export class IRTransformer {
   public static buildIRFromInstanceDeclaration(config: InstanceConfig): string {
-    return formatDelcaration(config);
+    return formatDeclaration(config);
   }
 
   public static buildFullIR(state: LatentState): {
@@ -35,7 +38,7 @@ const formatExecArgumentsClause = (args: TypedValue[]) =>
 const formatInitArgumentsClause = (args: TypedValue[]) =>
   `<${args.map((el) => el.value).join(',')}>`;
 
-const formatDelcaration = (config: InstanceConfig) => {
+const formatDeclaration = (config: InstanceConfig) => {
   const { artifactAddress, initArguments, execArguments } = config;
 
   const formatted = `${formatArtifactClause(artifactAddress)} ${formatExecArgumentsClause(execArguments)} ${formatInitArgumentsClause(initArguments)}`;

@@ -1,8 +1,8 @@
-import { LacLangCompilerOptions as CompilerConfiguration } from '@guardian-network/policy-compiler/src';
+import { LacLangCompilerOptions as CompilerConfiguration } from '@guardian-network/shared/src/types/compiler.types';
 import {
   InstanceConfig,
   TranspilerOutput,
-} from '@guardian-network/policy-dsl/src';
+} from '@guardian-network/shared/src/types/dsl.types';
 import { ContractRunner } from 'ethers';
 import { TypingsValidator } from '../parser.validated';
 import { ValidationMiddlware } from '../types';

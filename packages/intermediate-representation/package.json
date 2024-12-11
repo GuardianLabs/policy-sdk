@@ -18,12 +18,14 @@
     "lint:ts": "eslint",
     "lint:ts:fix": "eslint --fix",
     "remove:dist": "npx rimraf dist",
-    "test": "mocha"
+    "test": "mocha",
+    "tests:coverage:ts": "nyc pnpm test"
   },
   "keywords": [],
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/chai": "4.3.3",
     "@types/mocha": "^10.0.9",
     "@types/node": "^22.8.0",
@@ -44,14 +46,13 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.11.0",
     "mocha": "^10.8.2",
+    "nyc": "^17.1.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "rimraf": "^6.0.1"
   },
   "dependencies": {
-    "@guardian-network/policy-compiler": "workspace:*",
-    "@guardian-network/policy-contracts": "workspace:*",
-    "@guardian-network/policy-dsl": "workspace:*",
+    "@guardian-network/shared": "workspace:*",
     "dotenv": "^16.4.5",
     "ethers": "^6.13.3",
     "generator-code": "^1.11.4",

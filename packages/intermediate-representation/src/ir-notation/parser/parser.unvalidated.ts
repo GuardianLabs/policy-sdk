@@ -1,8 +1,9 @@
+import { NodeId } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
 import {
   InstanceConfig,
-  nodeIdByNotation,
   TranspilerOutput,
-} from '@guardian-network/policy-dsl/src';
+} from '@guardian-network/shared/src/types/dsl.types';
+import { SupportedSolidityType } from '@guardian-network/shared/src/types/intermediate-representation.types';
 import { ContractRunner } from 'ethers/providers';
 import {
   bytesEncodeArgs,
@@ -16,11 +17,7 @@ import {
   strIsVar,
 } from '../helpers';
 import { OnchainDescriptorArgsTypesSource } from './parser-contracts/tools';
-import {
-  ParsingResult,
-  SupportedSolidityType,
-  ValidationMiddlware,
-} from './types';
+import { ParsingResult, ValidationMiddlware } from './types';
 
 type Parameter = {
   value: string;
@@ -183,7 +180,7 @@ const parse = async (
       .filter((el) => !!el);
 
     res.push({
-      id: nodeIdByNotation(artifact, index),
+      id: NodeId.fromNotation(artifact, index),
       artifactAddress,
       partialExecData,
       variables,

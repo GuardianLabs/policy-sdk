@@ -1,10 +1,10 @@
+import { TranspilerOutput } from '@guardian-network/shared/src/types/dsl.types';
 import { CharStreams, CodePointCharStream, CommonTokenStream } from 'antlr4ts';
 import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener';
 import { ParseTreeWalker } from 'antlr4ts/tree/ParseTreeWalker';
 import { LacLangLexer, LacLangParser, ProgramContext } from '../antlr';
 import { IRTransformer } from '../ir-generation';
 import { LacLangTranspiler } from './listener';
-import { TranspilerOutput } from './types';
 
 export class Transpiler {
   protected tree: ProgramContext;

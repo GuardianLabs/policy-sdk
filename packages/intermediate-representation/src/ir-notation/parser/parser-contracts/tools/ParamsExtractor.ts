@@ -79,6 +79,7 @@ export class ParamsExtractor implements IParamsExtractor {
       execSubstitutionParamsList,
       execRuntimeVariablesIndices,
       execRuntimeVariablesInjectionsWithIndices,
+      // todo: implement in DSL whether it is statefull or stateless
       needsInitialization: initDataParams.length > 0,
       argsCount: execParamsList.length,
       initDataParamsSolidityPacked,

@@ -1,22 +1,9 @@
+import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
 import { ParserRuleContext } from 'antlr4ts';
-import { TypedValue } from '../helpers';
 
 type KeyType = string;
 type IdKeyType = KeyType;
 type NameKeyType = KeyType;
-
-export type InstanceConfigArgumentsOnly = {
-  execArguments: TypedValue[];
-  initArguments: TypedValue[];
-};
-
-type InstanceConfigNameAndAddressOnly = {
-  name?: string;
-  artifactAddress: string;
-};
-
-export type InstanceConfig = InstanceConfigArgumentsOnly &
-  InstanceConfigNameAndAddressOnly;
 
 type DataType = { type: string };
 type AddressType = {

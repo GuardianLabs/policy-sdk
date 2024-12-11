@@ -1,13 +1,7 @@
-import { keccak256Hash } from '@guardian-network/policy-contracts/src/solidity-encode-decode';
 import { ContractRunner } from 'ethers';
 import { isContractProviderType } from '../guards';
 import { GetTypesValues, IArgsTypesSource } from '../types';
 import { OnchainDescriptorArgsTypesSource } from './types-source/OnchainDescriptorArgsTypesSource';
-
-// note: this takes intermeditate presentation of artifact.
-// regex validations should be applied at different abstraction layer
-export const nodeId = (intermediatePresentation: string, salt: number) =>
-  keccak256Hash(['string', 'uint256'], [intermediatePresentation, salt]);
 
 // note: this extracts raw artifacts (list: Array<string>) – as they declared in intermeditate presentation
 export const toUnprocessedArtifactsList = (

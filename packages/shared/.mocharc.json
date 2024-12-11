@@ -1,0 +1,7 @@
+{
+  "extension": ["ts"],
+  "bail": true,
+  "spec": ["test/**/*.ts"],
+  "require": ["ts-node/register"],
+  "recursive": true
+}

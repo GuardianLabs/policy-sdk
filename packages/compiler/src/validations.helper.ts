@@ -1,7 +1,8 @@
-import { findCycle, Node } from '@guardian-network/policy-dsl/src';
-import { LacLangCompilerOptions } from './';
+import { DslNode } from '@guardian-network//shared/src/types/dsl.types';
+import { findCycle } from '@guardian-network/shared/src/misc-utils/find-cycle-node.helper';
+import { LacLangCompilerOptions } from '@guardian-network/shared/src/types/compiler.types';
+import { OnchainPresentation } from '@guardian-network/shared/src/types/contracts.types';
 import { ErrorFactory } from './errors';
-import { GraphInitParamsStruct } from './types';
 
 export const validateProviderIsSupplied = (options: LacLangCompilerOptions) => {
   const isProviderSupplied = !!options.provider;
@@ -13,17 +14,21 @@ export const validateProviderIsSupplied = (options: LacLangCompilerOptions) => {
   }
 };
 
-export const validateFinalRepresentation = (fr: GraphInitParamsStruct) => {
-  const nodes: Node[] = fr.nodes.map(({ id, substitutions }) => ({
-    id: id.toString(),
-    references: substitutions.map((subst) => subst.value.toString()),
-  }));
+export const validateFinalRepresentation = (
+  representation: OnchainPresentation,
+) => {
+  const nodes: DslNode[] = representation.nodes.map(
+    ({ id, substitutions }) => ({
+      id: id.toString(),
+      references: substitutions.map((subst) => subst.value.toString()),
+    }),
+  );
 
   validateCyclicity(nodes);
   validateSelfReference(nodes);
 };
 
-const validateCyclicity = (nodes: Node[]) => {
+const validateCyclicity = (nodes: DslNode[]) => {
   const cycleFound = findCycle(nodes);
 
   if (!!cycleFound) {
@@ -34,7 +39,7 @@ const validateCyclicity = (nodes: Node[]) => {
   }
 };
 
-const validateSelfReference = (nodes: Node[]) => {
+const validateSelfReference = (nodes: DslNode[]) => {
   for (let [, node] of nodes.entries()) {
     const isSelfReference = node.references.includes(node.id);
 

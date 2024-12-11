@@ -1,8 +1,8 @@
-import { ContractRunner } from 'ethers';
 import {
-  IArbitraryDataArtifact,
-  IArbitraryDataArtifact__factory,
-} from '../../../../types';
+  IMinArbitraryDataArtifact,
+  MinArbitraryDataArtifactFactory,
+} from '@guardian-network/shared/src/arbitrary-data-artifact';
+import { ContractRunner } from 'ethers';
 import {
   ExecInitArtifactTypes,
   ExecInitArtifactTypesAndNames,
@@ -13,12 +13,12 @@ import {
 export class OnchainDescriptorArgsTypesSource
   implements IArgsTypesAndNamesSource, IArgsTypesSource
 {
-  private artifactInstance!: IArbitraryDataArtifact;
+  private artifactInstance!: IMinArbitraryDataArtifact;
 
   constructor(private provider: ContractRunner) {}
 
   protected connectInstance = (artifactAddress: string) => {
-    this.artifactInstance = IArbitraryDataArtifact__factory.connect(
+    this.artifactInstance = MinArbitraryDataArtifactFactory.connect(
       artifactAddress,
       this.provider,
     );

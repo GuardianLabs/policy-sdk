@@ -1,6 +1,5 @@
-import { PrimitiveEncodeParamTypes } from '@guardian-network/policy-contracts/src/solidity-encode-decode';
-import { TypedRawOnchainVariablesDescription } from '../utils';
-import { OnchainVariablesDescription } from './interfaces';
+import { OnchainVariablesDescription } from '@guardian-network/shared/src/types/contracts.types';
+import { PrimitiveEncodeParamTypes } from '@guardian-network/shared/src/types/solidity-encode.types';
 
 export type AllowedVariablesType = PrimitiveEncodeParamTypes; // string | number | boolean;
 
@@ -23,8 +22,26 @@ export type FilledVariables = {
 };
 
 export type VariableValue = {
-  index: number;
   value: AllowedVariablesType;
+  index: number;
+};
+
+type Variable = {
+  typename: string;
+  name: string;
+};
+
+type Injection = {
+  value: string;
+  index: number;
+};
+
+export type TypedRawOnchainVariablesDescription = {
+  nodeId: string;
+  nodeIndex: number;
+  artifactAddress: string;
+  variables: Array<Variable>;
+  injections: Array<Injection>;
 };
 
 export type SupportedDescriptionType =

@@ -1,4 +1,6 @@
-import { TranspilerOutput } from '@guardian-network/policy-dsl/src';
+import { TranspilerOutput } from '@guardian-network//shared/src/types/dsl.types';
+import { LacLangCompilerOptions } from '@guardian-network/shared/src/types/compiler.types';
+import { OnchainPresentation } from '@guardian-network/shared/src/types/contracts.types';
 import {
   COMPILE_ANNOTATION,
   PropageteWithAnnotationHandler as Handler,
@@ -6,10 +8,6 @@ import {
   TRANSPILE_ANNOTATION,
 } from './errors';
 import { LacLangCompiler } from './LacLangCompiler';
-import {
-  GraphInitParamsStruct,
-  CompilerOptions as LacLangCompilerOptions,
-} from './types';
 import { validateFinalRepresentation } from './validations.helper';
 
 export class VerboseLacLangCompiler extends LacLangCompiler {
@@ -20,11 +18,11 @@ export class VerboseLacLangCompiler extends LacLangCompiler {
     super(sources, options);
   }
 
-  compile = async (): Promise<GraphInitParamsStruct> => {
+  compile = async (): Promise<OnchainPresentation> => {
     return this.compileSourcesWithPropagation();
   };
 
-  compileSources = async (): Promise<GraphInitParamsStruct> => {
+  protected compileSources = async (): Promise<OnchainPresentation> => {
     const transpilerOutput = await this.transpileDSLWithPropagation();
     const parserOutput =
       await this.parseIntermediateRepresentationWithPropagation(
@@ -32,7 +30,7 @@ export class VerboseLacLangCompiler extends LacLangCompiler {
       );
 
     // note: actually is onchain representation
-    const finalRepresentation: GraphInitParamsStruct = {
+    const finalRepresentation: OnchainPresentation = {
       rootNode: transpilerOutput.rootNode,
       nodes: parserOutput,
     };

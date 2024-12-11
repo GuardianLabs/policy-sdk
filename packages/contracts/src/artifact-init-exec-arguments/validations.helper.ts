@@ -1,4 +1,4 @@
-import { inferSolidityType } from '../solidity-encode-decode/encode.helper';
+import { inferSolidityType } from '@guardian-network/shared/src/solidity-encode-decode';
 import {
   ALLOWED_SOLIDITY_REFERENCE_TYPES,
   ALLOWED_SOLIDITY_VALUE_TYPES,
@@ -9,12 +9,12 @@ import {
   SOLIDITY_STRING,
   SOLIDITY_UINT256,
   SOLIIDTY_UINT24_LIST,
-} from '../solidity-types/constants';
+} from '@guardian-network/shared/src/solidity-types/constants';
 import {
   SolidityAddressType,
   SolidityBytesType,
   SolidityUint24ListType,
-} from '../types';
+} from '@guardian-network/shared/src/solidity-types/wrapped-types';
 import {
   NormalizedParamType,
   Unnormalized,

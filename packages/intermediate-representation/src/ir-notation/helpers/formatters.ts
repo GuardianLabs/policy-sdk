@@ -1,13 +1,10 @@
-import { toTypedWithKnownType } from '.';
+import { defaultAbiCoder } from '@guardian-network/shared/src/solidity-encode-decode';
 import {
   DSLType,
-  DSLTypesMapping,
   SupportedSolidityType,
-} from '../parser/types';
-
-import { AbiCoder } from 'ethers/abi';
-
-const defaultAbiCoder = AbiCoder.defaultAbiCoder();
+} from '@guardian-network/shared/src/types/intermediate-representation.types';
+import { toTypedWithKnownType } from '.';
+import { DSLTypesMapping } from '../parser/types';
 
 export const bytesEncodeArgs = (
   args: string[],
@@ -60,7 +57,7 @@ export function extractInjection(inputString: string): string {
 }
 
 export const DSLTypesToIRTypes = (el: string) => {
-  // un safw
+  // significantly un safe assertion
   const typed = DSLTypesMapping[el as DSLType];
   return typed;
 };

@@ -1,17 +1,21 @@
-import { Transpiler, TranspilerOutput } from '@guardian-network/policy-dsl/src';
+import { Transpiler } from '@guardian-network/policy-dsl/src';
+import { ParserWithValidation } from '@guardian-network/policy-intermediate-representation/src';
 import {
-  ParserWithValidation,
-  ParsingResult,
-} from '@guardian-network/policy-intermediate-representation/src';
-import { LacLangCompilerOptions } from './';
-import { GraphInitParamsStruct } from './types';
+  ICompiler,
+  LacLangCompilerOptions,
+} from '@guardian-network/shared/src/types/compiler.types';
+import {
+  OnchainPresentation,
+  NodeTreeInitData as ParsingResult,
+} from '@guardian-network/shared/src/types/contracts.types';
+import { TranspilerOutput } from '@guardian-network/shared/src/types/dsl.types';
 import { readFromFile } from './utils.helper';
 import {
   validateFinalRepresentation,
   validateProviderIsSupplied,
 } from './validations.helper';
 
-export class LacLangCompiler {
+export class LacLangCompiler implements ICompiler {
   protected static build<R>(
     this: new (sources: string, options: LacLangCompilerOptions) => R,
     sources: string,
@@ -44,17 +48,17 @@ export class LacLangCompiler {
     validateProviderIsSupplied(this.options);
   }
 
-  compile = async (): Promise<GraphInitParamsStruct> => {
+  compile = async (): Promise<OnchainPresentation> => {
     return this.compileSources();
   };
 
-  protected compileSources = async (): Promise<GraphInitParamsStruct> => {
+  protected compileSources = async (): Promise<OnchainPresentation> => {
     const transpilerOutput = this.transpileDSL();
     const parserOutput =
       await this.parseIntermediateRepresentation(transpilerOutput);
 
     // note: actually is onchain representation
-    const finalRepresentation: GraphInitParamsStruct = {
+    const finalRepresentation: OnchainPresentation = {
       rootNode: transpilerOutput.rootNode,
       nodes: parserOutput,
     };

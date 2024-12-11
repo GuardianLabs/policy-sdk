@@ -1,25 +1,26 @@
 import {
   verifyAddress,
   verifyBytes,
-} from '@guardian-network/policy-contracts/src/solidity-types';
-import { SupportedSolidityType } from '@guardian-network/policy-intermediate-representation/src';
+} from '@guardian-network/shared/src/solidity-types/solidity-types-verification.helper';
+import { SupportedSolidityType } from '@guardian-network/shared/src/types/intermediate-representation.types';
 import { ErrorFactory } from '../errors';
 import { AllowedVariablesType } from '../types';
 
 export const valueCompliesExpectedType = (
   value: AllowedVariablesType,
-  expectedType: string,
+  expectedTypeString: string,
 ): boolean => {
   let verified = false;
+  const expectedType = expectedTypeString as SupportedSolidityType;
 
   switch (expectedType) {
-    case SupportedSolidityType.Uint256:
+    case 'uint256':
       verified ||= typeof value == 'number';
       break;
-    case SupportedSolidityType.Bool:
+    case 'bool':
       verified ||= typeof value == 'boolean';
       break;
-    case SupportedSolidityType.Address:
+    case 'address':
       try {
         verifyAddress(<string>value);
         verified ||= true;
@@ -28,7 +29,7 @@ export const valueCompliesExpectedType = (
         throw ErrorFactory.variableTypeNotMet(value.toString(), expectedType);
       }
       break;
-    case SupportedSolidityType.Bytes:
+    case 'bytes':
       try {
         verifyBytes(<string>value);
         verified ||= true;
@@ -37,7 +38,7 @@ export const valueCompliesExpectedType = (
         throw ErrorFactory.variableTypeNotMet(value.toString(), expectedType);
       }
       break;
-    case SupportedSolidityType.String:
+    case 'string':
       verified ||= typeof value == 'string';
       break;
     default:

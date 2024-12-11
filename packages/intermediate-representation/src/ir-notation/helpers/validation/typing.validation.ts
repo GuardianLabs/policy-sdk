@@ -1,8 +1,8 @@
-import { MinTypedValue } from '@guardian-network/policy-dsl/src';
+import { MinArbitraryDataArtifactFactory } from '@guardian-network/shared/src/arbitrary-data-artifact';
+import { NodeTreeInitData as ParsingResult } from '@guardian-network/shared/src/types/contracts.types';
+import { MinTypedValue } from '@guardian-network/shared/src/types/dsl.types';
 import { ContractRunner } from 'ethers';
 import { ErrorFactory } from '../../errors';
-import { ParsingResult } from '../../parser';
-import { IArbitraryDataArtifact__factory } from '../../types';
 import { DSLTypesToIRTypes } from '../formatters';
 
 type InitExecArgumentsConfig = {
@@ -16,7 +16,7 @@ export const dslTypesToOnchainTypesParamsValidation =
     artifactAddress: string,
     initExecArgumentsConfig: InitExecArgumentsConfig,
   ) => {
-    const instance = IArbitraryDataArtifact__factory.connect(
+    const instance = MinArbitraryDataArtifactFactory.connect(
       artifactAddress,
       provider,
     );
@@ -56,14 +56,14 @@ export const dslTypesToOnchainTypesParamsValidation =
 export const onchainSubstitutionToReturnTypesValidation =
   (provider: ContractRunner) => async (output: ParsingResult[]) => {
     for (const instance of output) {
-      const currentInstance = IArbitraryDataArtifact__factory.connect(
+      const currentInstance = MinArbitraryDataArtifactFactory.connect(
         <string>instance.artifactAddress,
         provider,
       );
 
       for (const refNode of instance.substitutions) {
         const refDeclaration = output.find((el) => el.id == refNode.value)!;
-        const refArtifactInstance = IArbitraryDataArtifact__factory.connect(
+        const refArtifactInstance = MinArbitraryDataArtifactFactory.connect(
           <string>refDeclaration?.artifactAddress,
           provider,
         );

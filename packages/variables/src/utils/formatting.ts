@@ -1,10 +1,13 @@
-import { NamedTypedVariablesStructOutput } from '@guardian-network/policy-contracts/src';
+import { OnchainVariablesDescription } from '@guardian-network/shared/src/types/contracts.types';
 import { ErrorFactory } from '../errors';
-import { VariablesFormattedDescription } from '../types';
+import {
+  TypedRawOnchainVariablesDescription,
+  VariablesFormattedDescription,
+} from '../types';
 
 export const formatOnchainVariables = (
   rawVariables: (
-    | NamedTypedVariablesStructOutput
+    | OnchainVariablesDescription
     | TypedRawOnchainVariablesDescription
   )[],
 ) => {
@@ -64,7 +67,7 @@ export const rawOnchainVariablesDescriptionToOffchainView = ({
   variables,
   injections,
 }:
-  | NamedTypedVariablesStructOutput
+  | OnchainVariablesDescription
   | TypedRawOnchainVariablesDescription): TypedRawOnchainVariablesDescription => ({
   nodeId,
   nodeIndex: Number(nodeIndex),
@@ -75,17 +78,3 @@ export const rawOnchainVariablesDescriptionToOffchainView = ({
     index: Number(index),
   })),
 });
-
-export type TypedRawOnchainVariablesDescription = {
-  nodeId: string;
-  nodeIndex: number;
-  artifactAddress: string;
-  variables: {
-    typename: string;
-    name: string;
-  }[];
-  injections: {
-    value: string;
-    index: number;
-  }[];
-};

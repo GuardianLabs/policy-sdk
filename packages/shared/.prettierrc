@@ -1,0 +1,16 @@
+{
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "singleQuote": true,
+        "trailingComma": "all",
+        "plugins": ["prettier-plugin-organize-imports"]
+      }
+    },
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
+    }
+  ]
+}

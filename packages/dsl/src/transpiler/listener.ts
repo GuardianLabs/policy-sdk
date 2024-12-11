@@ -1,3 +1,4 @@
+import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
 import {
   ArtifactDeclarationContext,
   ConstantDeclarationContext,
@@ -7,27 +8,19 @@ import {
   ProgramContext,
   VarDeclarationContext,
 } from '../antlr';
-import { nodeId as calculateNodeId } from '../ir-generation';
-import {
-  ArtifactAlreadyDefinedError,
-  ConstantAlreadyDefinedError,
-  EvaluateAlreadyDeclaredError,
-  EvaluateTypeNotBoolError,
-  findCycleAndThrow,
-  findSelfReferenceAndThrow,
-  InstanceAlreadyDefinedError,
-  InstanceNotDefinedError,
-  lookupAndThrow,
-  lookupOrThrow,
-  NoEvaluateStatementError,
-  VariableAlreadyDefinedError,
-} from './errors';
+import { nodeIdFromDeclaration as calculateNodeId } from '../ir-generation';
+import { ErrorFactory } from './errors/ErrorFactory';
 import {
   dereferenceArtifact,
   extractAndLookupExecArguments,
   extractAndLookupInitArguments,
 } from './helpers';
-import { InstanceConfig } from './state';
+import {
+  findCycleAndThrow,
+  findSelfReferenceAndThrow,
+  lookupAndThrow,
+  lookupOrThrow,
+} from './helpers/validations.helper';
 import { LatentState } from './state/LatentState';
 
 export class LacLangTranspiler implements LacLangListener {
@@ -35,10 +28,9 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterVarDeclaration(ctx: VarDeclarationContext): void {
     const name = ctx.IDENTIFIER().text;
-    lookupAndThrow(
-      name,
-      this.latentState.variables,
-      (declared) => new VariableAlreadyDefinedError(name, ctx, declared.ctx),
+
+    lookupAndThrow(name, this.latentState.variables, (declared) =>
+      ErrorFactory.variableAlreadyDefined(name, ctx, declared.ctx),
     );
 
     this.latentState.setVariables(ctx);
@@ -46,10 +38,9 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterConstantDeclaration(ctx: ConstantDeclarationContext) {
     const name = ctx.IDENTIFIER().text;
-    lookupAndThrow(
-      name,
-      this.latentState.constants,
-      (declared) => new ConstantAlreadyDefinedError(name, ctx, declared.ctx),
+
+    lookupAndThrow(name, this.latentState.constants, (declared) =>
+      ErrorFactory.constantIsAlreadyDefined(name, ctx, declared.ctx),
     );
 
     this.latentState.setConstants(ctx);
@@ -57,10 +48,9 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterArtifactDeclaration(ctx: ArtifactDeclarationContext) {
     const name = ctx.IDENTIFIER().text;
-    lookupAndThrow(
-      name,
-      this.latentState.artifacts,
-      (declared) => new ArtifactAlreadyDefinedError(name, ctx, declared.ctx),
+
+    lookupAndThrow(name, this.latentState.artifacts, (declared) =>
+      ErrorFactory.artifactAlreadyDefined(name, ctx, declared.ctx),
     );
 
     this.latentState.setArtifacts(ctx);
@@ -68,16 +58,15 @@ export class LacLangTranspiler implements LacLangListener {
 
   enterInstanceDeclaration(ctx: InstanceDeclarationContext) {
     const name = ctx.IDENTIFIER().text;
-    lookupAndThrow(
-      name,
-      this.latentState.instancesByName,
-      (declared) => new InstanceAlreadyDefinedError(name, ctx, declared.ctx),
+
+    lookupAndThrow(name, this.latentState.instancesByName, (declared) =>
+      ErrorFactory.instanceAlreadyDefined(name, ctx, declared.ctx),
     );
 
     const execArguments = extractAndLookupExecArguments(ctx, this.latentState);
     const initArguments = extractAndLookupInitArguments(ctx, this.latentState);
 
-    let artifactDereferenced = dereferenceArtifact(
+    const artifactDereferenced = dereferenceArtifact(
       ctx,
       this.latentState.artifacts,
     );
@@ -118,17 +107,18 @@ export class LacLangTranspiler implements LacLangListener {
   enterEvaluateStatement(ctx: EvaluateStatementContext) {
     const previouslyDeclared = this.latentState.evaluateRelativeTo;
     if (!!previouslyDeclared) {
-      throw new EvaluateAlreadyDeclaredError(ctx, previouslyDeclared.ctx);
+      throw ErrorFactory.evaluateAlreadyDeclared(ctx, previouslyDeclared.ctx);
     }
-    const instName = ctx.IDENTIFIER().text;
+
+    const instanceName = ctx.IDENTIFIER().text;
     const refInst = lookupOrThrow(
-      instName,
+      instanceName,
       this.latentState.instancesByName,
-      new InstanceNotDefinedError(instName, ctx),
+      ErrorFactory.instanceNotDefined(instanceName, ctx),
     );
 
     if (refInst.type != 'bool')
-      throw new EvaluateTypeNotBoolError(instName, ctx, refInst.ctx);
+      throw ErrorFactory.evaluateTypeNotBool(instanceName, ctx, refInst.ctx);
 
     this.latentState.setEvaluateRelativeTo = {
       nodeId: refInst.id,
@@ -138,6 +128,6 @@ export class LacLangTranspiler implements LacLangListener {
 
   exitProgram(ctx: ProgramContext) {
     if (!this.latentState.evaluateRelativeTo)
-      throw new NoEvaluateStatementError();
+      throw ErrorFactory.noEvaluateStatement();
   }
 }

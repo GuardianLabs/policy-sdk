@@ -1,10 +1,3 @@
 export * from './antlr';
-export { nodeId, nodeIdByNotation } from './ir-generation';
-export {
-  InstanceConfig,
-  MinTypedValue,
-  Node,
-  Transpiler,
-  TranspilerOutput,
-  findCycle,
-} from './transpiler';
+export { nodeIdFromDeclaration } from './ir-generation';
+export { Transpiler } from './transpiler';

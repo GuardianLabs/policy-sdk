@@ -1,4 +1,4 @@
-import { InstanceConfig } from '@guardian-network/policy-dsl/src';
+import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
 import { DSLTypesToIRTypes } from '../../../../helpers';
 import { ExecInitArtifactTypes, IArgsTypesSource } from '../../types';
 
@@ -21,7 +21,8 @@ export class DSLConfigArgsTypesSource implements IArgsTypesSource {
     }
 
     const config = this.configList.find(
-      (v, index) => v.artifactAddress === instanceAddress && index == pos,
+      (value, index) =>
+        value.artifactAddress === instanceAddress && index == pos,
     );
 
     if (!config) {

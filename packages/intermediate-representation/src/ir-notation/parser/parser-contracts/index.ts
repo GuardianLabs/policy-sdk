@@ -4,5 +4,4 @@ export { StaticParser } from './StaticParser';
 export {
   DSLConfigArgsTypesSource,
   OnchainDescriptorArgsTypesSource,
-  nodeId,
 } from './tools';

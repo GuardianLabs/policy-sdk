@@ -6,6 +6,7 @@ import {
   BusinessHoursValidation,
   BusinessHoursValidation__factory,
   CurrentTimestamp__factory,
+  DestinationWhitelist__factory,
   EqualAddress__factory,
   EqualBytes__factory,
   EqualString__factory,
@@ -42,7 +43,8 @@ type SupportedDeployments =
   | GtUint__factory
   | EqualUint__factory
   | CurrentTimestamp__factory
-  | BusinessHoursValidation__factory;
+  | BusinessHoursValidation__factory
+  | DestinationWhitelist__factory;
 
 export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
   const and = await deployWithFactory(new AND__factory(deploySigner));
@@ -80,6 +82,9 @@ export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
   const businessHours = await deployWithFactory(
     new BusinessHoursValidation__factory(deploySigner),
   );
+  const destinationWhitelist = await deployWithFactory(
+    new DestinationWhitelist__factory(deploySigner),
+  );
 
   return {
     and,
@@ -98,6 +103,7 @@ export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
     equalString,
     equalBytes,
     currentTimestamp,
+    destinationWhitelist,
     businessHours,
   };
 };

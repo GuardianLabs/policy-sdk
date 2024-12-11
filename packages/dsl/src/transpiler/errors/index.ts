@@ -1,2 +1,1 @@
-export * from './errors.index';
-export * from './helpers';
+export * from './ErrorFactory';
