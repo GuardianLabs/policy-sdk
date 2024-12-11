@@ -125,6 +125,21 @@ const deployWithFactory = async <
   return instance as R;
 };
 
+export const deployDestinationArtifacts = async (
+  deploySigner: SignerWithAddress,
+) => {
+  const destinationWhitelist = await deployWithFactory(
+    new DestinationWhitelist__factory(deploySigner),
+  );
+  const destinationBlacklist = await deployWithFactory(
+    new DestinationBlacklist__factory(deploySigner),
+  );
+  return {
+    destinationWhitelist,
+    destinationBlacklist,
+  };
+};
+
 export const deployBusinessHoursContracts = async (
   deploySigner: SignerWithAddress,
   defaultOffsetParams?: TimezoneOffset,

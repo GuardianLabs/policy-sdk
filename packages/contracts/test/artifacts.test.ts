@@ -15,8 +15,6 @@ import {
   AND,
   BusinessHoursValidation,
   CurrentTimestamp,
-  DestinationBlacklist,
-  DestinationWhitelist,
   EqualAddress,
   EqualBytes,
   EqualString,
@@ -49,7 +47,6 @@ import {
   randomString,
   randomUint,
   solidityDecodeSingleParam,
-  solidityEncode,
 } from './utils';
 
 describe('Artifacts: Pre defined', () => {
@@ -74,8 +71,6 @@ describe('Artifacts: Pre defined', () => {
   let equalAddressesArtifact: EqualAddress;
   // utils
   let isDividableUintArtifact: IsDividableUint;
-  let destinationWhitelistArtifact: DestinationWhitelist;
-  let destinationBlacklistArtifact: DestinationBlacklist;
   let currentTimestampArtifact: CurrentTimestamp;
 
   before(async () => {
@@ -98,8 +93,6 @@ describe('Artifacts: Pre defined', () => {
       equalBytes,
       equalString,
       currentTimestamp,
-      destinationWhitelist,
-      destinationBlacklist,
     } = await deployArtifacts(adminSigner);
 
     andArtifact = and;
@@ -117,8 +110,6 @@ describe('Artifacts: Pre defined', () => {
     keccakStringArtifact = keccak256String;
     keccakUintArtifact = keccak256Uint;
     isDividableUintArtifact = isDividiableUint;
-    destinationWhitelistArtifact = destinationWhitelist;
-    destinationBlacklistArtifact = destinationBlacklist;
     currentTimestampArtifact = currentTimestamp;
   });
 
@@ -615,139 +606,6 @@ describe('Artifacts: Pre defined', () => {
         );
         decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, false);
-      });
-    });
-
-    describe('Whtelist', () => {
-      let whitelistedDestinations: string[] = [];
-      let prohibitedAddress: string;
-
-      before(async () => {
-        prohibitedAddress = randomEthAddress();
-        whitelistedDestinations.push(
-          randomEthAddress(),
-          randomEthAddress(),
-          randomEthAddress(),
-          randomEthAddress(),
-        );
-
-        const encodedList = solidityEncode(
-          ['address[]'],
-          [whitelistedDestinations],
-        );
-        const serializedList = SolidityBytesType.create(encodedList);
-
-        const init = InitParams.create(
-          await destinationWhitelistArtifact.getInitDescriptor(),
-          serializedList,
-        );
-        const tx = await destinationWhitelistArtifact.init(init.params);
-        await tx.wait();
-      });
-
-      it('successfull check', async () => {
-        const correctDestination = SolidityAddressType.create(
-          whitelistedDestinations[0],
-        );
-        let exec = ExecParams.create(
-          await destinationWhitelistArtifact.getExecDescriptor(),
-          correctDestination,
-        );
-
-        let encodedResult = await destinationWhitelistArtifact.exec(
-          exec.params,
-        );
-        let decodedResult = solidityDecodeSingleParam('bool', encodedResult);
-        check(decodedResult, true);
-
-        const incorrectDestination =
-          SolidityAddressType.create(prohibitedAddress);
-        exec = ExecParams.create(
-          await destinationWhitelistArtifact.getExecDescriptor(),
-          incorrectDestination,
-        );
-
-        encodedResult = await destinationWhitelistArtifact.exec(exec.params);
-        decodedResult = solidityDecodeSingleParam('bool', encodedResult);
-        check(decodedResult, false);
-      });
-
-      it('failure', async () => {
-        const exec = MockedExecParams.make({
-          argsCount: 2,
-          defaultValue: SolidityBytesType.create(randomHex()),
-        });
-
-        await expect(
-          destinationWhitelistArtifact.exec(exec.params),
-        ).to.be.revertedWith('PD-001');
-      });
-    });
-
-    describe('Blacklist', () => {
-      let blacklistedDestinations: string[] = [];
-      let notBlacklistedAddress: string;
-
-      before(async () => {
-        notBlacklistedAddress = randomEthAddress();
-        blacklistedDestinations.push(
-          randomEthAddress(),
-          randomEthAddress(),
-          randomEthAddress(),
-          randomEthAddress(),
-        );
-
-        const encodedList = solidityEncode(
-          ['address[]'],
-          [blacklistedDestinations],
-        );
-        const serializedList = SolidityBytesType.create(encodedList);
-
-        const init = InitParams.create(
-          await destinationBlacklistArtifact.getInitDescriptor(),
-          serializedList,
-        );
-        const tx = await destinationBlacklistArtifact.init(init.params);
-        await tx.wait();
-      });
-
-      it('successfull check', async () => {
-        const blacklistedDestination = SolidityAddressType.create(
-          blacklistedDestinations[0],
-        );
-        let exec = ExecParams.create(
-          await destinationBlacklistArtifact.getExecDescriptor(),
-          blacklistedDestination,
-        );
-
-        let encodedResult = await destinationBlacklistArtifact.exec(
-          exec.params,
-        );
-        let isBlacklisted = solidityDecodeSingleParam('bool', encodedResult);
-        check(isBlacklisted, true);
-
-        const allowedDestination = SolidityAddressType.create(
-          notBlacklistedAddress,
-        );
-        exec = ExecParams.create(
-          await destinationBlacklistArtifact.getExecDescriptor(),
-          allowedDestination,
-        );
-
-        encodedResult = await destinationBlacklistArtifact.exec(exec.params);
-        isBlacklisted = solidityDecodeSingleParam('bool', encodedResult);
-        check(isBlacklisted, false);
-      });
-
-      it('failure', async () => {
-        const exec = MockedExecParams.make({
-          argsCount: 2,
-          defaultValue: SolidityBytesType.create(randomHex()),
-        });
-
-        await expect(
-          destinationBlacklistArtifact.exec(exec.params),
-        ).to.be.revertedWith('PD-001');
       });
     });
   });
