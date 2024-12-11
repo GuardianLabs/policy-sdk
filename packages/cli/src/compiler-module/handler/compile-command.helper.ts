@@ -47,7 +47,9 @@ const compile = async (options: CliCompileOptions) => {
     return;
   }
 
-  console.log(`Compilation result: \r\n ${JSON.stringify(compilationOutput, null, 2)}`);
+  console.log(
+    `Compilation result: \r\n ${JSON.stringify(compilationOutput, null, 2)}`,
+  );
 };
 
 export const compileCommand = (program: Command) => {
