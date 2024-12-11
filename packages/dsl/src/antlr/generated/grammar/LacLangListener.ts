@@ -8,8 +8,12 @@ import {
   ConstantDeclarationContext,
   ConstantsListContext,
   DataTypeContext,
+  DirectiveContext,
+  DirectiveIndentifierContext,
   EvaluateStatementContext,
   Identifier_or_literalContext,
+  ImportStatementContext,
+  InjectedOnlyDirectiveContext,
   InjectionModifierContext,
   InstanceDeclarationContext,
   LiteralContext,
@@ -44,6 +48,50 @@ export interface LacLangListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   exitStatement?: (ctx: StatementContext) => void;
+
+  /**
+   * Enter a parse tree produced by `LacLangParser.importStatement`.
+   * @param ctx the parse tree
+   */
+  enterImportStatement?: (ctx: ImportStatementContext) => void;
+  /**
+   * Exit a parse tree produced by `LacLangParser.importStatement`.
+   * @param ctx the parse tree
+   */
+  exitImportStatement?: (ctx: ImportStatementContext) => void;
+
+  /**
+   * Enter a parse tree produced by `LacLangParser.directive`.
+   * @param ctx the parse tree
+   */
+  enterDirective?: (ctx: DirectiveContext) => void;
+  /**
+   * Exit a parse tree produced by `LacLangParser.directive`.
+   * @param ctx the parse tree
+   */
+  exitDirective?: (ctx: DirectiveContext) => void;
+
+  /**
+   * Enter a parse tree produced by `LacLangParser.directiveIndentifier`.
+   * @param ctx the parse tree
+   */
+  enterDirectiveIndentifier?: (ctx: DirectiveIndentifierContext) => void;
+  /**
+   * Exit a parse tree produced by `LacLangParser.directiveIndentifier`.
+   * @param ctx the parse tree
+   */
+  exitDirectiveIndentifier?: (ctx: DirectiveIndentifierContext) => void;
+
+  /**
+   * Enter a parse tree produced by `LacLangParser.injectedOnlyDirective`.
+   * @param ctx the parse tree
+   */
+  enterInjectedOnlyDirective?: (ctx: InjectedOnlyDirectiveContext) => void;
+  /**
+   * Exit a parse tree produced by `LacLangParser.injectedOnlyDirective`.
+   * @param ctx the parse tree
+   */
+  exitInjectedOnlyDirective?: (ctx: InjectedOnlyDirectiveContext) => void;
 
   /**
    * Enter a parse tree produced by `LacLangParser.varDeclaration`.

@@ -1,6 +1,6 @@
 grammar LacLang;
 
-program: statement* EOF;
+program: importStatement*? directive*? statement*? EOF;
 
 statement
     : varDeclaration
@@ -9,6 +9,14 @@ statement
     | instanceDeclaration
     | evaluateStatement
     ;
+
+importStatement : 'import' STRING_LITERAL ';';
+
+directive : 'pragma' directiveIndentifier ';' ;
+
+directiveIndentifier : injectedOnlyDirective;
+
+injectedOnlyDirective : 'injected-only';
 
 varDeclaration
     : 'var' injectionModifier? dataType IDENTIFIER ';'

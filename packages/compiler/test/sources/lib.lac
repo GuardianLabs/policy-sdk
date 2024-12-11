@@ -1,0 +1,5 @@
+constant bool bool1 = true; 
+constant number num1 = 1;
+constant address addr1 = 0xD9e88d1d18d8Cf3a17e97af9F017Ef8760dee583; // random
+constant string str1 = "lang";
+constant bytes bts1 = '0xdeadbeef';

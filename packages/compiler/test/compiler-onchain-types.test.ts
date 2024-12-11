@@ -9,7 +9,7 @@ describe('The "*.lac" code compilation with onchain types check', () => {
   const stubCode = Stub.DUMMY_VALID;
 
   describe("Valid 'dummy' code", () => {
-    it.skip('success when compiled and types are checked from onchain descriptor', async () => {
+    it('success when compiled and types are checked from onchain descriptor', async () => {
       const [signer] = await ethers.getSigners();
 
       const lacSourcePath = toLacSourcePath(stubCode, SOURCES_PATH);

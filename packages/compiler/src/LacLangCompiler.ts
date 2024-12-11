@@ -14,36 +14,39 @@ import {
   validateFinalRepresentation,
   validateProviderIsSupplied,
 } from './validations.helper';
+import { cwd } from 'process';
+import { dirname } from 'path';
 
 export class LacLangCompiler implements ICompiler {
   protected static build<R>(
-    this: new (sources: string, options: LacLangCompilerOptions) => R,
+    this: new (sources: string, options: LacLangCompilerOptions, _cwd: string) => R,
     sources: string,
     options: LacLangCompilerOptions = {},
   ): R {
-    return new this(sources, options);
+    return new this(sources, options, cwd());
   }
 
   static async fromFile<R>(
-    this: new (sources: string, options: LacLangCompilerOptions) => R,
+    this: new (sources: string, options: LacLangCompilerOptions, _cwd: string) => R,
     sourcesPath: string,
     options: LacLangCompilerOptions = {},
   ): Promise<R> {
     const sources = await readFromFile(sourcesPath);
-    return new this(sources, options);
+    return new this(sources, options, dirname(sourcesPath));
   }
 
   static fromSources<R>(
-    this: new (sources: string, options: LacLangCompilerOptions) => R,
+    this: new (sources: string, options: LacLangCompilerOptions, _cwd: string) => R,
     sources: string,
     options: LacLangCompilerOptions = {},
   ): R {
-    return new this(sources, options);
+    return new this(sources, options, cwd());
   }
 
   constructor(
     protected sources: string,
     protected readonly options: LacLangCompilerOptions,
+    protected readonly _cwd: string,
   ) {
     validateProviderIsSupplied(this.options);
   }
@@ -53,7 +56,7 @@ export class LacLangCompiler implements ICompiler {
   };
 
   protected compileSources = async (): Promise<OnchainPresentation> => {
-    const transpilerOutput = this.transpileDSL();
+    const transpilerOutput = this.transpileDSL(this._cwd);
     const parserOutput =
       await this.parseIntermediateRepresentation(transpilerOutput);
 
@@ -67,8 +70,8 @@ export class LacLangCompiler implements ICompiler {
     return finalRepresentation;
   };
 
-  protected transpileDSL = (): TranspilerOutput => {
-    const transpilerOutput = Transpiler.create(this.sources)
+  protected transpileDSL = (cwd: string): TranspilerOutput => {
+    const transpilerOutput = Transpiler.create(this.sources, { partialSources: false, sourcesDir: cwd })
       .transpile()
       .toIntermediateRepresentation();
     return transpilerOutput;

@@ -27,6 +27,9 @@ export class LatentState {
 
   private evaluateRelativeToInternal?: Evaluating;
 
+  private onlyInjectedVariables?: boolean;
+
+  // note: value properties (not Map) must not have defaults because :196 constraint
   constructor() {
     this.constantsMap = new Map();
 
@@ -71,6 +74,12 @@ export class LatentState {
     const { text: type } = ctx.dataType();
 
     let injection = ctx.injectionModifier()?.STRING_LITERAL().text;
+
+    if (!injection && this.onlyInjectedVariables)
+      throw new Error(
+        `Only injected variables allowed due to compiler directive; "${name}" violates`,
+      );
+
     injection = injection ?? '';
 
     this.variablesMap.set(name, { type, ctx, injection });
@@ -132,5 +141,64 @@ export class LatentState {
       index: instancesCount,
       ctx,
     });
+  }
+
+  setInjectionConstraint(allowNonInjectedVariables: boolean) {
+    this.onlyInjectedVariables = !allowNonInjectedVariables;
+  }
+
+  merge(subState: LatentState) {
+    for (const property of Object.keys(this)) {
+      const indexingProperty = <keyof LatentState>property;
+
+      try {
+        if (this[indexingProperty] instanceof Map) {
+          this.concatMaps(
+            <Map<string, any>>subState[indexingProperty],
+            this[indexingProperty],
+          );
+        } else {
+          this.moveValue(subState[indexingProperty], this[indexingProperty]);
+        }
+      } catch (e) {
+        console.error(`Dealing with latent property ${property}: `);
+        throw e;
+      }
+    }
+  }
+
+  private concatMaps<T>(
+    source: Map<string, T | T[]>,
+    target: Map<string, T | T[]>,
+  ) {
+    for (const originalKey of source.keys()) {
+      const originalValue = source.get(originalKey) as T;
+
+      if (target.get(originalKey) != undefined) {
+        if (Array.isArray(originalValue)) {
+          target.set(
+            originalKey,
+            originalValue.concat(target.get(originalKey)).sort(),
+          );
+          return;
+        }
+
+        throw new Error(
+          `Ambiguity while merging maps: target already has "${originalKey}" record`,
+        );
+      }
+
+      target.set(originalKey, originalValue);
+    }
+  }
+
+  private moveValue<T>(source: T, target: T) {
+    if (!!target) {
+      throw new Error(
+        `Ambiguity while merging values: target already set to "${target}"`,
+      );
+    }
+
+    target = source;
   }
 }

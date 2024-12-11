@@ -4,7 +4,9 @@ import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener';
 import { ParseTreeWalker } from 'antlr4ts/tree/ParseTreeWalker';
 import { LacLangLexer, LacLangParser, ProgramContext } from '../antlr';
 import { IRTransformer } from '../ir-generation';
+import { TranspilerConfig } from './helpers';
 import { LacLangTranspiler } from './listener';
+import { LatentState } from './state';
 
 export class Transpiler {
   protected tree: ProgramContext;
@@ -17,18 +19,18 @@ export class Transpiler {
   protected tokenStream: CommonTokenStream;
   protected parser: LacLangParser; */
 
-  static create = (sources: string) => {
-    return new Transpiler(sources);
+  static create = (sources: string, options: TranspilerConfig) => {
+    return new Transpiler(sources, options);
   };
 
-  constructor(sources: string) {
+  constructor(sources: string, options: TranspilerConfig) {
     const inputStream: CodePointCharStream = CharStreams.fromString(sources);
     const lexer = new LacLangLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new LacLangParser(tokenStream);
 
     this.tree = parser.program();
-    this.listener = new LacLangTranspiler();
+    this.listener = new LacLangTranspiler(options);
     this.walker = new ParseTreeWalker();
   }
 
@@ -48,5 +50,9 @@ export class Transpiler {
       rootNode,
       typings,
     };
+  }
+
+  getLatentState(): LatentState {
+    return this.listener.latentState;
   }
 }

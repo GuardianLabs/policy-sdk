@@ -1,8 +1,11 @@
 import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
+import { join, normalize } from 'node:path';
 import {
   ArtifactDeclarationContext,
   ConstantDeclarationContext,
+  DirectiveContext,
   EvaluateStatementContext,
+  ImportStatementContext,
   InstanceDeclarationContext,
   LacLangListener,
   ProgramContext,
@@ -14,6 +17,8 @@ import {
   dereferenceArtifact,
   extractAndLookupExecArguments,
   extractAndLookupInitArguments,
+  fetchContent,
+  TranspilerConfig,
 } from './helpers';
 import {
   findCycleAndThrow,
@@ -22,9 +27,43 @@ import {
   lookupOrThrow,
 } from './helpers/validations.helper';
 import { LatentState } from './state/LatentState';
+import { Transpiler } from './Transpiler';
 
 export class LacLangTranspiler implements LacLangListener {
-  constructor(public readonly latentState: LatentState = new LatentState()) {}
+  public latentState: LatentState = new LatentState();
+  private config: TranspilerConfig;
+
+  constructor(options: TranspilerConfig) {
+    this.config = options;
+  }
+
+  enterDirective(ctx: DirectiveContext) {
+    switch (true) {
+      case !!ctx.directiveIndentifier().injectedOnlyDirective():
+        this.latentState.setInjectionConstraint(false);
+        break;
+      default:
+        throw new Error(
+          `Directive not recognized: ${ctx.directiveIndentifier().text}`,
+        );
+    }
+  }
+
+  enterImportStatement(ctx: ImportStatementContext) {
+    const url = ctx.STRING_LITERAL().text;
+
+    const sources = fetchContent(
+      normalize(join(this.config.sourcesDir, url.replace(/^['"]|['"]$/g, ''))),
+    );
+    const subTranspiler = Transpiler.create(sources, {
+      partialSources: true,
+      sourcesDir: this.config.sourcesDir,
+    });
+    subTranspiler.transpile();
+
+    const subState = subTranspiler.getLatentState();
+    this.latentState.merge(subState);
+  }
 
   enterVarDeclaration(ctx: VarDeclarationContext): void {
     const name = ctx.IDENTIFIER().text;
@@ -127,7 +166,7 @@ export class LacLangTranspiler implements LacLangListener {
   }
 
   exitProgram(ctx: ProgramContext) {
-    if (!this.latentState.evaluateRelativeTo)
+    if (!this.latentState.evaluateRelativeTo && !this.config.partialSources)
       throw ErrorFactory.noEvaluateStatement();
   }
 }

@@ -14,3 +14,8 @@ export type ValidationMiddlware = {
   innerValidations: InnerValidationMiddleware;
   outerValidations: OuterValidationMiddlerware;
 };
+
+export type TranspilerConfig = {
+  partialSources?: boolean;
+  sourcesDir: string;
+};
