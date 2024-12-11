@@ -30,7 +30,7 @@ contract BusinessHoursValidationInternal {
     /// @param _timezone timezone for this contract, given as following example 'Europe/Berlin'; represents hours different from UTC.
     /// @param openingSecondsList an Array of opening Seconds for each day of the week starting from Sunday
     /// @param closingSecondsList an Array of closing Seconds, outside business functioning, for each day of the week starting from Sunday
-    function _init(
+    function _initBusinessHours(
         string memory _timezone,
         address timezoneOffsetAggregator,
         uint24[] memory openingSecondsList,

@@ -1,19 +1,11 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { ArtifactBase } from "../../basis/ArtifactBase.sol";
-import {
-    ARTIFACT_NOT_INITED_ERR,
-    ADDRESS,
-    BOOL,
-    BYTES,
-    ARTIFACT_IS_INITED_ERR
-} from "../../../constants/Export.sol";
+import { StatefulArtifactBase } from "../../basis/StatefulArtifactBase.sol";
+import { ADDRESS, BOOL, BYTES } from "../../../constants/Export.sol";
 import { DestinationBlacklistInternal } from "./DestinationBlacklistInternal.sol";
 
-contract DestinationBlacklist is ArtifactBase, DestinationBlacklistInternal {
-    bool private isInited;
-
+contract DestinationBlacklist is StatefulArtifactBase, DestinationBlacklistInternal {
     function init(bytes memory data) external override {
         bytes memory serializedWhitelist = abi.decode(data, (bytes));
 
@@ -21,13 +13,11 @@ contract DestinationBlacklist is ArtifactBase, DestinationBlacklistInternal {
 
         _initializeDestinationsMapping(_whitelist);
 
-        validateArtifactNotInitalized();
-        isInited = true;
+        _init();
     }
 
     function exec(bytes[] memory data) external view override returns (bytes memory encodedResult) {
-        validateExecArgumentsLength(data);
-        validateIsInitalized();
+        _exec(data);
 
         address receiverAddress = abi.decode(data[0], (address));
 
@@ -64,13 +54,5 @@ contract DestinationBlacklist is ArtifactBase, DestinationBlacklistInternal {
         argsTypes = new string[](argsLength);
         argsTypes[0] = ADDRESS;
         returnType = BOOL;
-    }
-
-    function validateIsInitalized() private view {
-        require(isInited, ARTIFACT_NOT_INITED_ERR);
-    }
-
-    function validateArtifactNotInitalized() private view {
-        require(isInited == false, ARTIFACT_IS_INITED_ERR);
     }
 }

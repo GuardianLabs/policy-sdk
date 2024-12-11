@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { ArtifactBase } from "../../basis/ArtifactBase.sol";
+import { StatefulArtifactBase } from "../../basis/StatefulArtifactBase.sol";
 import {
     ARTIFACT_NOT_INITED_ERR,
     BOOL,
@@ -12,9 +12,7 @@ import {
 } from "../../../constants/Export.sol";
 import { BusinessHoursValidationInternal } from "./BusinessHoursValidationInternal.sol";
 
-contract BusinessHoursValidation is ArtifactBase, BusinessHoursValidationInternal {
-    bool private isInited;
-
+contract BusinessHoursValidation is StatefulArtifactBase, BusinessHoursValidationInternal {
     function init(bytes memory data) external override {
         (string memory init1, address init2, uint24[] memory init3, uint24[] memory init4) = abi
             .decode(data, (string, address, uint24[], uint24[]));
@@ -24,14 +22,18 @@ contract BusinessHoursValidation is ArtifactBase, BusinessHoursValidationInterna
         uint24[] memory openingSecondsList = init3;
         uint24[] memory closingSecondsList = init4;
 
-        _init(timezone, timezoneOffsetAggregator, openingSecondsList, closingSecondsList);
-        validateArtifactNotInitalized();
-        isInited = true;
+        _initBusinessHours(
+            timezone,
+            timezoneOffsetAggregator,
+            openingSecondsList,
+            closingSecondsList
+        );
+
+        _init();
     }
 
     function exec(bytes[] memory data) external view override returns (bytes memory encodedResult) {
-        validateExecArgumentsLength(data);
-        validateIsInitalized();
+        _exec(data);
 
         bool result = checkBusinessHours();
         encodedResult = abi.encode(result);
@@ -67,13 +69,5 @@ contract BusinessHoursValidation is ArtifactBase, BusinessHoursValidationInterna
         (argsNames, argsTypes);
 
         returnType = BOOL;
-    }
-
-    function validateIsInitalized() private view {
-        require(isInited, ARTIFACT_NOT_INITED_ERR);
-    }
-
-    function validateArtifactNotInitalized() private view {
-        require(isInited == false, ARTIFACT_IS_INITED_ERR);
     }
 }
