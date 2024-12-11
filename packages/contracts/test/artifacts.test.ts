@@ -15,6 +15,7 @@ import {
   AND,
   BusinessHoursValidation,
   CurrentTimestamp,
+  DestinationBlacklist,
   DestinationWhitelist,
   EqualAddress,
   EqualBytes,
@@ -74,6 +75,7 @@ describe('Artifacts: Pre defined', () => {
   // utils
   let isDividableUintArtifact: IsDividableUint;
   let destinationWhitelistArtifact: DestinationWhitelist;
+  let destinationBlacklistArtifact: DestinationBlacklist;
   let currentTimestampArtifact: CurrentTimestamp;
 
   before(async () => {
@@ -97,6 +99,7 @@ describe('Artifacts: Pre defined', () => {
       equalString,
       currentTimestamp,
       destinationWhitelist,
+      destinationBlacklist,
     } = await deployArtifacts(adminSigner);
 
     andArtifact = and;
@@ -115,6 +118,7 @@ describe('Artifacts: Pre defined', () => {
     keccakUintArtifact = keccak256Uint;
     isDividableUintArtifact = isDividiableUint;
     destinationWhitelistArtifact = destinationWhitelist;
+    destinationBlacklistArtifact = destinationBlacklist;
     currentTimestampArtifact = currentTimestamp;
   });
 
@@ -676,6 +680,73 @@ describe('Artifacts: Pre defined', () => {
 
         await expect(
           destinationWhitelistArtifact.exec(exec.params),
+        ).to.be.revertedWith('PD-001');
+      });
+    });
+
+    describe('Blacklist', () => {
+      let blacklistedDestinations: string[] = [];
+      let notBlacklistedAddress: string;
+
+      before(async () => {
+        notBlacklistedAddress = randomEthAddress();
+        blacklistedDestinations.push(
+          randomEthAddress(),
+          randomEthAddress(),
+          randomEthAddress(),
+          randomEthAddress(),
+        );
+
+        const encodedList = solidityEncode(
+          ['address[]'],
+          [blacklistedDestinations],
+        );
+        const serializedList = SolidityBytesType.create(encodedList);
+
+        const init = InitParams.create(
+          await destinationBlacklistArtifact.getInitDescriptor(),
+          serializedList,
+        );
+        const tx = await destinationBlacklistArtifact.init(init.params);
+        await tx.wait();
+      });
+
+      it('successfull check', async () => {
+        const blacklistedDestination = SolidityAddressType.create(
+          blacklistedDestinations[0],
+        );
+        let exec = ExecParams.create(
+          await destinationBlacklistArtifact.getExecDescriptor(),
+          blacklistedDestination,
+        );
+
+        let encodedResult = await destinationBlacklistArtifact.exec(
+          exec.params,
+        );
+        let isBlacklisted = solidityDecodeSingleParam('bool', encodedResult);
+        check(isBlacklisted, true);
+
+        const allowedDestination = SolidityAddressType.create(
+          notBlacklistedAddress,
+        );
+        exec = ExecParams.create(
+          await destinationBlacklistArtifact.getExecDescriptor(),
+          allowedDestination,
+        );
+
+        encodedResult = await destinationBlacklistArtifact.exec(exec.params);
+        isBlacklisted = solidityDecodeSingleParam('bool', encodedResult);
+        check(isBlacklisted, false);
+      });
+
+      it('failure', async () => {
+        const exec = MockedExecParams.make({
+          argsCount: 2,
+          defaultValue: SolidityBytesType.create(randomHex()),
+        });
+
+        await expect(
+          destinationBlacklistArtifact.exec(exec.params),
         ).to.be.revertedWith('PD-001');
       });
     });

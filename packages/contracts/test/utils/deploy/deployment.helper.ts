@@ -6,6 +6,7 @@ import {
   BusinessHoursValidation,
   BusinessHoursValidation__factory,
   CurrentTimestamp__factory,
+  DestinationBlacklist__factory,
   DestinationWhitelist__factory,
   EqualAddress__factory,
   EqualBytes__factory,
@@ -85,6 +86,9 @@ export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
   const destinationWhitelist = await deployWithFactory(
     new DestinationWhitelist__factory(deploySigner),
   );
+  const destinationBlacklist = await deployWithFactory(
+    new DestinationBlacklist__factory(deploySigner),
+  );
 
   return {
     and,
@@ -104,6 +108,7 @@ export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
     equalBytes,
     currentTimestamp,
     destinationWhitelist,
+    destinationBlacklist,
     businessHours,
   };
 };

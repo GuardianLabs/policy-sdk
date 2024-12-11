@@ -7,10 +7,10 @@ import { AddressDestination } from "./types/Types.sol";
 contract DestinationWhitelistInternal {
     mapping(address receiver => AddressDestination destinationRule) internal destinations;
 
-    function configureDestination(address receiverAdress) internal virtual {
-        destinations[receiverAdress] = AddressDestination({
+    function configureDestination(address receiverAddress) internal virtual {
+        destinations[receiverAddress] = AddressDestination({
             isKnown: true,
-            destination: receiverAdress,
+            destination: receiverAddress,
             allowed: true
         });
     }
