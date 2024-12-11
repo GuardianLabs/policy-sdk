@@ -9,7 +9,6 @@ import {
 } from './errors';
 import { LacLangCompiler } from './LacLangCompiler';
 import { validateFinalRepresentation } from './validations.helper';
-import { cwd } from 'node:process';
 
 export class VerboseLacLangCompiler extends LacLangCompiler {
   constructor(
@@ -46,7 +45,10 @@ export class VerboseLacLangCompiler extends LacLangCompiler {
   };
 
   private transpileDSLWithPropagation = async () => {
-    return Handler.execOrPropagate(() => this.transpileDSL(this._cwd), TRANSPILE_ANNOTATION);
+    return Handler.execOrPropagate(
+      () => this.transpileDSL(this._cwd),
+      TRANSPILE_ANNOTATION,
+    );
   };
 
   private parseIntermediateRepresentationWithPropagation = async (

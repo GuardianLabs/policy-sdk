@@ -9,17 +9,21 @@ import {
   NodeTreeInitData as ParsingResult,
 } from '@guardian-network/shared/src/types/contracts.types';
 import { TranspilerOutput } from '@guardian-network/shared/src/types/dsl.types';
+import { dirname } from 'path';
+import { cwd } from 'process';
 import { readFromFile } from './utils.helper';
 import {
   validateFinalRepresentation,
   validateProviderIsSupplied,
 } from './validations.helper';
-import { cwd } from 'process';
-import { dirname } from 'path';
 
 export class LacLangCompiler implements ICompiler {
   protected static build<R>(
-    this: new (sources: string, options: LacLangCompilerOptions, _cwd: string) => R,
+    this: new (
+      sources: string,
+      options: LacLangCompilerOptions,
+      _cwd: string,
+    ) => R,
     sources: string,
     options: LacLangCompilerOptions = {},
   ): R {
@@ -27,7 +31,11 @@ export class LacLangCompiler implements ICompiler {
   }
 
   static async fromFile<R>(
-    this: new (sources: string, options: LacLangCompilerOptions, _cwd: string) => R,
+    this: new (
+      sources: string,
+      options: LacLangCompilerOptions,
+      _cwd: string,
+    ) => R,
     sourcesPath: string,
     options: LacLangCompilerOptions = {},
   ): Promise<R> {
@@ -36,7 +44,11 @@ export class LacLangCompiler implements ICompiler {
   }
 
   static fromSources<R>(
-    this: new (sources: string, options: LacLangCompilerOptions, _cwd: string) => R,
+    this: new (
+      sources: string,
+      options: LacLangCompilerOptions,
+      _cwd: string,
+    ) => R,
     sources: string,
     options: LacLangCompilerOptions = {},
   ): R {
@@ -71,7 +83,10 @@ export class LacLangCompiler implements ICompiler {
   };
 
   protected transpileDSL = (cwd: string): TranspilerOutput => {
-    const transpilerOutput = Transpiler.create(this.sources, { partialSources: false, sourcesDir: cwd })
+    const transpilerOutput = Transpiler.create(this.sources, {
+      partialSources: false,
+      sourcesDir: cwd,
+    })
       .transpile()
       .toIntermediateRepresentation();
     return transpilerOutput;
