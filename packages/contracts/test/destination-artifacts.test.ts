@@ -152,12 +152,12 @@ describe('Destination', () => {
       });
 
       it('when destination is not blacklisted', async () => {
-        const allowedDestination = SolidityAddressType.create(
+        const notBlacklistedDestination = SolidityAddressType.create(
           notBlacklistedAddress,
         );
         const exec = ExecParams.create(
           await destinationBlacklistArtifact.getExecDescriptor(),
-          allowedDestination,
+          notBlacklistedDestination,
         );
 
         const encodedResult = await destinationBlacklistArtifact.exec(
