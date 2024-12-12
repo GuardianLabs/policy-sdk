@@ -21,6 +21,7 @@ export type InstanceConfigArgumentsOnly = {
 export type InstanceConfigNameAndAddressOnly = {
   name?: string;
   artifactAddress: string;
+  needsInitialization: boolean;
 };
 
 export type InstanceConfig = InstanceConfigArgumentsOnly &

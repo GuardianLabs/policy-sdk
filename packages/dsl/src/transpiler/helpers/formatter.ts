@@ -64,8 +64,10 @@ export const extractAndLookupExecArguments = (
 export const extractAndLookupInitArguments = (
   ctx: InstanceDeclarationContext,
   latentState: LatentState,
-): TypedValue[] => {
+): TypedValue[] | null => {
+  if (!ctx.WITH_KEYWORD()) return null;
   if (!ctx.constantsList()) return [];
+
   return ctx
     .constantsList()!
     .argumentsList()

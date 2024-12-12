@@ -41,7 +41,7 @@ export class LacLangParser extends Parser {
   public static readonly T__18 = 19;
   public static readonly T__19 = 20;
   public static readonly T__20 = 21;
-  public static readonly T__21 = 22;
+  public static readonly WITH_KEYWORD = 22;
   public static readonly ADDRESS_LITERAL = 23;
   public static readonly BOOL_LITERAL = 24;
   public static readonly NUMBER_LITERAL = 25;
@@ -104,7 +104,6 @@ export class LacLangParser extends Parser {
     "'instance'",
     "'of'",
     "'takes'",
-    "'with'",
     "'evaluate'",
     "'bool'",
     "'number'",
@@ -112,6 +111,7 @@ export class LacLangParser extends Parser {
     "'bytes'",
     "'address'",
     "','",
+    "'with'",
   ];
   private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
     undefined,
@@ -136,7 +136,7 @@ export class LacLangParser extends Parser {
     undefined,
     undefined,
     undefined,
-    undefined,
+    'WITH_KEYWORD',
     'ADDRESS_LITERAL',
     'BOOL_LITERAL',
     'NUMBER_LITERAL',
@@ -296,7 +296,7 @@ export class LacLangParser extends Parser {
             this.instanceDeclaration();
           }
           break;
-        case LacLangParser.T__15:
+        case LacLangParser.T__14:
           this.enterOuterAlt(_localctx, 5);
           {
             this.state = 58;
@@ -622,10 +622,10 @@ export class LacLangParser extends Parser {
         this.state = 116;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
-        if (_la === LacLangParser.T__14) {
+        if (_la === LacLangParser.WITH_KEYWORD) {
           {
             this.state = 110;
-            this.match(LacLangParser.T__14);
+            this.match(LacLangParser.WITH_KEYWORD);
             this.state = 111;
             this.match(LacLangParser.T__6);
             this.state = 113;
@@ -680,7 +680,7 @@ export class LacLangParser extends Parser {
       this.enterOuterAlt(_localctx, 1);
       {
         this.state = 120;
-        this.match(LacLangParser.T__15);
+        this.match(LacLangParser.T__14);
         this.state = 121;
         this.match(LacLangParser.IDENTIFIER);
         this.state = 122;
@@ -713,11 +713,11 @@ export class LacLangParser extends Parser {
           !(
             (_la & ~0x1f) === 0 &&
             ((1 << _la) &
-              ((1 << LacLangParser.T__16) |
+              ((1 << LacLangParser.T__15) |
+                (1 << LacLangParser.T__16) |
                 (1 << LacLangParser.T__17) |
                 (1 << LacLangParser.T__18) |
-                (1 << LacLangParser.T__19) |
-                (1 << LacLangParser.T__20))) !==
+                (1 << LacLangParser.T__19))) !==
               0
           )
         ) {
@@ -786,11 +786,11 @@ export class LacLangParser extends Parser {
         this.state = 133;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
-        while (_la === LacLangParser.T__21) {
+        while (_la === LacLangParser.T__20) {
           {
             {
               this.state = 129;
-              this.match(LacLangParser.T__21);
+              this.match(LacLangParser.T__20);
               this.state = 130;
               this.identifier_or_literal();
             }
@@ -919,8 +919,8 @@ export class LacLangParser extends Parser {
     '\x03\x10\x03\x10\x07\x10\x86\n\x10\f\x10\x0E\x10\x89\v\x10\x03\x11\x03' +
     "\x11\x05\x11\x8D\n\x11\x03\x12\x03\x12\x03\x12\x05'-3\x02\x02\x13\x02" +
     '\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02' +
-    '\x16\x02\x18\x02\x1A\x02\x1C\x02\x1E\x02 \x02"\x02\x02\x04\x03\x02\x13' +
-    "\x17\x03\x02\x19\x1D\x02\x8C\x02'\x03\x02\x02\x02\x04=\x03\x02\x02\x02" +
+    '\x16\x02\x18\x02\x1A\x02\x1C\x02\x1E\x02 \x02"\x02\x02\x04\x03\x02\x12' +
+    "\x16\x03\x02\x19\x1D\x02\x8C\x02'\x03\x02\x02\x02\x04=\x03\x02\x02\x02" +
     '\x06?\x03\x02\x02\x02\bC\x03\x02\x02\x02\nG\x03\x02\x02\x02\fI\x03\x02' +
     '\x02\x02\x0EK\x03\x02\x02\x02\x10S\x03\x02\x02\x02\x12X\x03\x02\x02\x02' +
     '\x14_\x03\x02\x02\x02\x16e\x03\x02\x02\x02\x18z\x03\x02\x02\x02\x1A~\x03' +
@@ -947,12 +947,12 @@ export class LacLangParser extends Parser {
     '\x07\x0E\x02\x02fg\x05\x1A\x0E\x02gh\x07\x1E\x02\x02hi\x07\x0F\x02\x02' +
     'ij\x05 \x11\x02jk\x07\x10\x02\x02km\x07\t\x02\x02ln\x05\x1E\x10\x02ml' +
     '\x03\x02\x02\x02mn\x03\x02\x02\x02no\x03\x02\x02\x02ov\x07\n\x02\x02p' +
-    'q\x07\x11\x02\x02qs\x07\t\x02\x02rt\x05\x1C\x0F\x02sr\x03\x02\x02\x02' +
+    'q\x07\x18\x02\x02qs\x07\t\x02\x02rt\x05\x1C\x0F\x02sr\x03\x02\x02\x02' +
     'st\x03\x02\x02\x02tu\x03\x02\x02\x02uw\x07\n\x02\x02vp\x03\x02\x02\x02' +
     'vw\x03\x02\x02\x02wx\x03\x02\x02\x02xy\x07\x04\x02\x02y\x17\x03\x02\x02' +
-    '\x02z{\x07\x12\x02\x02{|\x07\x1E\x02\x02|}\x07\x04\x02\x02}\x19\x03\x02' +
+    '\x02z{\x07\x11\x02\x02{|\x07\x1E\x02\x02|}\x07\x04\x02\x02}\x19\x03\x02' +
     '\x02\x02~\x7F\t\x02\x02\x02\x7F\x1B\x03\x02\x02\x02\x80\x81\x05\x1E\x10' +
-    '\x02\x81\x1D\x03\x02\x02\x02\x82\x87\x05 \x11\x02\x83\x84\x07\x18\x02' +
+    '\x02\x81\x1D\x03\x02\x02\x02\x82\x87\x05 \x11\x02\x83\x84\x07\x17\x02' +
     '\x02\x84\x86\x05 \x11\x02\x85\x83\x03\x02\x02\x02\x86\x89\x03\x02\x02' +
     '\x02\x87\x85\x03\x02\x02\x02\x87\x88\x03\x02\x02\x02\x88\x1F\x03\x02\x02' +
     '\x02\x89\x87\x03\x02\x02\x02\x8A\x8D\x07\x1E\x02\x02\x8B\x8D\x05"\x12' +
@@ -1285,6 +1285,9 @@ export class InstanceDeclarationContext extends ParserRuleContext {
   }
   public argumentsList(): ArgumentsListContext | undefined {
     return this.tryGetRuleContext(0, ArgumentsListContext);
+  }
+  public WITH_KEYWORD(): TerminalNode | undefined {
+    return this.tryGetToken(LacLangParser.WITH_KEYWORD, 0);
   }
   public constantsList(): ConstantsListContext | undefined {
     return this.tryGetRuleContext(0, ConstantsListContext);

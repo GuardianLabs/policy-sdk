@@ -39,8 +39,12 @@ const formatInitArgumentsClause = (args: TypedValue[]) =>
   `<${args.map((el) => el.value).join(',')}>`;
 
 const formatDeclaration = (config: InstanceConfig) => {
-  const { artifactAddress, initArguments, execArguments } = config;
+  const { artifactAddress, initArguments, execArguments, needsInitialization } =
+    config;
+  const initializationClause = needsInitialization
+    ? formatInitArgumentsClause(initArguments)
+    : '';
 
-  const formatted = `${formatArtifactClause(artifactAddress)} ${formatExecArgumentsClause(execArguments)} ${formatInitArgumentsClause(initArguments)}`;
+  const formatted = `${formatArtifactClause(artifactAddress)} ${formatExecArgumentsClause(execArguments)} ${initializationClause}`;
   return formatted;
 };

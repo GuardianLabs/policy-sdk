@@ -55,7 +55,7 @@ type AddressComponent = {
 };
 
 type UnprocessedInitDataAndExecParams = {
-  initClause: string;
+  initClause: string | null;
   paramsClause: string;
 };
 

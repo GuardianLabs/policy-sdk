@@ -112,8 +112,9 @@ export class LacLangTranspiler implements LacLangListener {
 
     const instanceConfig: InstanceConfig = {
       artifactAddress: artifactDereferenced,
+      needsInitialization: !!initArguments,
       execArguments,
-      initArguments,
+      initArguments: initArguments ?? [],
     };
 
     const instancesCount = this.latentState.instancesByName.size;

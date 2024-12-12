@@ -36,7 +36,7 @@ artifactDeclaration
     ;
 
 instanceDeclaration
-    : 'instance' dataType IDENTIFIER 'of' identifier_or_literal 'takes' '(' argumentsList? ')' ( 'with' '(' constantsList? ')' )? ';'
+    : 'instance' dataType IDENTIFIER 'of' identifier_or_literal 'takes' '(' argumentsList? ')' ( WITH_KEYWORD '(' constantsList? ')' )? ';'
     ;
 
 evaluateStatement
@@ -66,6 +66,8 @@ literal
     | BYTES_LITERAL
     | ADDRESS_LITERAL
     ;
+
+WITH_KEYWORD: 'with';
 
 ADDRESS_LITERAL
     : '0x' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT

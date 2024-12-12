@@ -65,8 +65,12 @@ export class ParamsExtractor implements IParamsExtractor {
     const execRuntimeVariablesInjectionsWithIndices: Array<Parameter> =
       this.getInjectionsWithIndices(execParamsList);
 
-    // note: if artifact is statefull, then it may require init-params
-    const initDataParams = this.getAllArguments(initClause);
+    let initDataParams: string[] = [];
+    if (initClause) {
+      // note: if artifact is statefull, then it may require init-params
+      initDataParams = this.getAllArguments(initClause);
+    }
+
     const initDataParamsSolidityPacked =
       TypesNormalizer.toSolidityEncodedValueFromString(
         initParamsTypes,
@@ -79,8 +83,7 @@ export class ParamsExtractor implements IParamsExtractor {
       execSubstitutionParamsList,
       execRuntimeVariablesIndices,
       execRuntimeVariablesInjectionsWithIndices,
-      // todo: implement in DSL whether it is statefull or stateless
-      needsInitialization: initDataParams.length > 0,
+      needsInitialization: initClause !== null,
       argsCount: execParamsList.length,
       initDataParamsSolidityPacked,
     };
@@ -90,17 +93,17 @@ export class ParamsExtractor implements IParamsExtractor {
   private toComponents(
     artifact: string = this.artifact,
   ): RawArtifactComponents {
-    const artifactMatcher = /\{([^}]+)\}\s*\(([^)]*)\)\s*<([^>]*)>/;
+    const artifactMatcher = /\{([^}]+)\}\s*\(([^)]*)\)(?:\s*<([^>]*)>)?/;
     const matched = artifact.match(artifactMatcher);
 
-    if (!!matched && matched.length === 4) {
+    if (!!matched) {
       // todo: const [, instanceAddress, execParamsInfo, initDataParams] = match;
       const [, addressClause, paramsClause, initClause] = matched;
 
       // todo: add more validations
       return {
         addressClause: getAddress(addressClause),
-        initClause,
+        initClause: initClause ?? null,
         paramsClause,
       };
     }

@@ -8,7 +8,7 @@ export class NodeId {
     // todo: validate 'artifactIntermediateForm' relying on Regex
     const nodeId = keccak256Hash(
       ['string', 'uint256'],
-      [artifactIntermediateForm, salt],
+      [artifactIntermediateForm.trim(), salt],
     );
     return nodeId;
   }
