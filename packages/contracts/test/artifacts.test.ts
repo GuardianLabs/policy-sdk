@@ -121,12 +121,12 @@ describe('Artifacts: Pre defined', () => {
           false,
           true,
         );
-        let encodedResult = await andArtifact.exec(exec.params);
+        let encodedResult = await andArtifact.exec.staticCall(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, false);
 
         exec.clear().add(true, true);
-        encodedResult = await andArtifact.exec(exec.params);
+        encodedResult = await andArtifact.exec.staticCall(exec.params);
         const decoded2 = solidityDecodeSingleParam('bool', encodedResult);
         check(decoded2, true);
       });
@@ -137,9 +137,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: true,
         });
 
-        await expect(andArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          andArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -149,7 +149,7 @@ describe('Artifacts: Pre defined', () => {
           await notArtifact.getExecDescriptor(),
           false,
         );
-        const encodedResult = await notArtifact.exec(exec.params);
+        const encodedResult = await notArtifact.exec.staticCall(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -157,9 +157,9 @@ describe('Artifacts: Pre defined', () => {
       it('failure', async () => {
         const exec = MockedExecParams.make({ argsCount: 2 });
 
-        await expect(notArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          notArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -169,7 +169,7 @@ describe('Artifacts: Pre defined', () => {
           true,
           false,
         );
-        const encodedResult = await orArtifact.exec(exec.params);
+        const encodedResult = await orArtifact.exec.staticCall(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -177,7 +177,9 @@ describe('Artifacts: Pre defined', () => {
       it('failure', async () => {
         const exec = MockedExecParams.make({ argsCount: 3 });
 
-        await expect(orArtifact.exec(exec.params)).to.be.revertedWith('PD-001');
+        await expect(
+          orArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -187,7 +189,7 @@ describe('Artifacts: Pre defined', () => {
           true,
           true,
         );
-        const encodedResult = await xorArtifact.exec(exec.params);
+        const encodedResult = await xorArtifact.exec.staticCall(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, false);
       });
@@ -197,9 +199,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomBoolean(),
         });
 
-        await expect(xorArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          xorArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
   });
@@ -212,7 +214,9 @@ describe('Artifacts: Pre defined', () => {
           await keccakStringArtifact.getExecDescriptor(),
           toHash,
         );
-        const encodedResult = await keccakStringArtifact.exec(exec.params);
+        const encodedResult = await keccakStringArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam(
           'bytes32',
           encodedResult,
@@ -228,9 +232,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomString(),
         });
 
-        await expect(keccakStringArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          keccakStringArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -241,7 +245,9 @@ describe('Artifacts: Pre defined', () => {
           keccakUintArtifact,
           toHash,
         );
-        const encodedResult = await keccakUintArtifact.exec(exec.params);
+        const encodedResult = await keccakUintArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam(
           'bytes32',
           encodedResult,
@@ -257,9 +263,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomUint(),
         });
 
-        await expect(keccakUintArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          keccakUintArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
   });
@@ -270,7 +276,9 @@ describe('Artifacts: Pre defined', () => {
         const exec = ExecParams.create(
           await gteUintArtifact.getExecDescriptor(),
         ).add(10, 10);
-        const encodedResult = await gteUintArtifact.exec(exec.params);
+        const encodedResult = await gteUintArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -281,9 +289,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomUint(),
         });
 
-        await expect(gteUintArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          gteUintArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -292,7 +300,7 @@ describe('Artifacts: Pre defined', () => {
         const exec = ExecParams.create(
           await gtUintArtifact.getExecDescriptor(),
         ).add(15, 10);
-        const encodedResult = await gtUintArtifact.exec(exec.params);
+        const encodedResult = await gtUintArtifact.exec.staticCall(exec.params);
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -303,9 +311,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomUint(),
         });
 
-        await expect(gtUintArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          gtUintArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -314,7 +322,9 @@ describe('Artifacts: Pre defined', () => {
         const exec = ExecParams.create(
           await lteUintArtifact.getExecDescriptor(),
         ).add(10, 10);
-        const encodedResult = await lteUintArtifact.exec(exec.params);
+        const encodedResult = await lteUintArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -325,22 +335,22 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomUint(),
         });
 
-        await expect(lteUintArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          lteUintArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
     describe('Less than uint', () => {
       it('success', async () => {
-        let encodedResult = await ltUintArtifact.exec(
+        let encodedResult = await ltUintArtifact.exec.staticCall(
           ExecParams.create(await ltUintArtifact.getExecDescriptor(), 9, 10)
             .params,
         );
         let decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
 
-        encodedResult = await ltUintArtifact.exec(
+        encodedResult = await ltUintArtifact.exec.staticCall(
           ExecParams.create(await ltUintArtifact.getExecDescriptor(), 10, 10)
             .params,
         );
@@ -354,9 +364,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomUint(),
         });
 
-        await expect(ltUintArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          ltUintArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -370,7 +380,9 @@ describe('Artifacts: Pre defined', () => {
           paramB,
         );
 
-        const encodedResult = await equalUintsArtifact.exec(exec.params);
+        const encodedResult = await equalUintsArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -381,9 +393,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomUint(),
         });
 
-        await expect(equalUintsArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          equalUintsArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -398,7 +410,9 @@ describe('Artifacts: Pre defined', () => {
           paramB,
         );
 
-        const encodedResult = await equalAddressesArtifact.exec(exec.params);
+        const encodedResult = await equalAddressesArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -410,7 +424,7 @@ describe('Artifacts: Pre defined', () => {
         });
 
         await expect(
-          equalAddressesArtifact.exec(exec.params),
+          equalAddressesArtifact.exec.staticCall(exec.params),
         ).to.be.revertedWith('PD-001');
       });
     });
@@ -425,7 +439,9 @@ describe('Artifacts: Pre defined', () => {
           paramB,
         );
 
-        const encodedResult = await equalStringsArtifact.exec(exec.params);
+        const encodedResult = await equalStringsArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -436,9 +452,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: randomString(),
         });
 
-        await expect(equalStringsArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          equalStringsArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
 
@@ -453,7 +469,9 @@ describe('Artifacts: Pre defined', () => {
           paramB,
         );
 
-        const encodedResult = await equalBytesArtifact.exec(exec.params);
+        const encodedResult = await equalBytesArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, true);
       });
@@ -464,9 +482,9 @@ describe('Artifacts: Pre defined', () => {
           defaultValue: SolidityBytesType.create(randomHex()),
         });
 
-        await expect(equalBytesArtifact.exec(exec.params)).to.be.revertedWith(
-          'PD-001',
-        );
+        await expect(
+          equalBytesArtifact.exec.staticCall(exec.params),
+        ).to.be.revertedWith('PD-001');
       });
     });
   });
@@ -507,12 +525,16 @@ describe('Artifacts: Pre defined', () => {
         const exec = (
           await ExecParams.createWithDescriptor(isDividableUintArtifact)
         ).add(paramA, correctParamB);
-        let encodedResult = await isDividableUintArtifact.exec(exec.params);
+        let encodedResult = await isDividableUintArtifact.exec.staticCall(
+          exec.params,
+        );
         let decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, paramA % correctParamB === 0);
 
         exec.clear().add(paramA, incorrectParamB);
-        encodedResult = await isDividableUintArtifact.exec(exec.params);
+        encodedResult = await isDividableUintArtifact.exec.staticCall(
+          exec.params,
+        );
         decodedResult = solidityDecodeSingleParam('bool', encodedResult);
         check(decodedResult, paramA % incorrectParamB === 0);
       });
@@ -524,7 +546,7 @@ describe('Artifacts: Pre defined', () => {
         });
 
         await expect(
-          isDividableUintArtifact.exec(exec.params),
+          isDividableUintArtifact.exec.staticCall(exec.params),
         ).to.be.revertedWith('PD-001');
       });
     });
@@ -534,7 +556,9 @@ describe('Artifacts: Pre defined', () => {
         const exec = await ExecParams.createWithDescriptor(
           currentTimestampArtifact,
         );
-        const encodedResult = await currentTimestampArtifact.exec(exec.params);
+        const encodedResult = await currentTimestampArtifact.exec.staticCall(
+          exec.params,
+        );
         const decodedResult = solidityDecodeSingleParam(
           'uint256',
           encodedResult,
@@ -551,7 +575,7 @@ describe('Artifacts: Pre defined', () => {
         const exec = MockedExecParams.make({ argsCount: 0 });
 
         await expect(
-          businessHoursArtifact.exec(exec.params),
+          businessHoursArtifact.exec.staticCall(exec.params),
         ).to.be.revertedWith('PD-002');
       });
 
@@ -585,7 +609,7 @@ describe('Artifacts: Pre defined', () => {
         );
         await time.increaseTo(nextOpenTime);
 
-        let encodedResult = await businessHoursArtifact.exec(
+        let encodedResult = await businessHoursArtifact.exec.staticCall(
           (await ExecParams.createWithDescriptor(businessHoursArtifact)).params,
         );
         let decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -600,7 +624,7 @@ describe('Artifacts: Pre defined', () => {
         );
         await time.increaseTo(nextClosedTime);
 
-        encodedResult = await businessHoursArtifact.exec(
+        encodedResult = await businessHoursArtifact.exec.staticCall(
           ExecParams.create(await businessHoursArtifact.getExecDescriptor())
             .params,
         );

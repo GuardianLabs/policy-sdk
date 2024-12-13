@@ -70,9 +70,8 @@ describe('Destination', () => {
           whitelistedDestination,
         );
 
-        const encodedResult = await destinationWhitelistArtifact.exec(
-          exec.params,
-        );
+        const encodedResult =
+          await destinationWhitelistArtifact.exec.staticCall(exec.params);
         const isWhitelisted = solidityDecodeSingleParam('bool', encodedResult);
         check(isWhitelisted, true);
       });
@@ -85,9 +84,8 @@ describe('Destination', () => {
           notWhitelistedDestination,
         );
 
-        const encodedResult = await destinationWhitelistArtifact.exec(
-          exec.params,
-        );
+        const encodedResult =
+          await destinationWhitelistArtifact.exec.staticCall(exec.params);
         const isWhitelisted = solidityDecodeSingleParam('bool', encodedResult);
         check(isWhitelisted, false);
       });
@@ -101,7 +99,7 @@ describe('Destination', () => {
         });
 
         await expect(
-          destinationWhitelistArtifact.exec(exec.params),
+          destinationWhitelistArtifact.exec.staticCall(exec.params),
         ).to.be.revertedWith('PD-001');
       });
     });
@@ -144,9 +142,8 @@ describe('Destination', () => {
           blacklistedDestination,
         );
 
-        const encodedResult = await destinationBlacklistArtifact.exec(
-          exec.params,
-        );
+        const encodedResult =
+          await destinationBlacklistArtifact.exec.staticCall(exec.params);
         const isBlacklisted = solidityDecodeSingleParam('bool', encodedResult);
         check(isBlacklisted, true);
       });
@@ -160,9 +157,8 @@ describe('Destination', () => {
           notBlacklistedDestination,
         );
 
-        const encodedResult = await destinationBlacklistArtifact.exec(
-          exec.params,
-        );
+        const encodedResult =
+          await destinationBlacklistArtifact.exec.staticCall(exec.params);
         const isBlacklisted = solidityDecodeSingleParam('bool', encodedResult);
         check(isBlacklisted, false);
       });
@@ -176,7 +172,7 @@ describe('Destination', () => {
         });
 
         await expect(
-          destinationBlacklistArtifact.exec(exec.params),
+          destinationBlacklistArtifact.exec.staticCall(exec.params),
         ).to.be.revertedWith('PD-001');
       });
     });

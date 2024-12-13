@@ -196,7 +196,7 @@ describe('Business Hours artifact', () => {
         const nextTimeStamp = 2210968799;
         await time.increaseTo(nextTimeStamp);
 
-        const encodedResult = await businessHoursInstance.exec(
+        const encodedResult = await businessHoursInstance.exec.staticCall(
           MockedExecParams.make({ argsCount: 0 }).params,
         );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -209,7 +209,7 @@ describe('Business Hours artifact', () => {
         const nextTimeStamp = 2210968800;
         await time.increaseTo(nextTimeStamp);
 
-        const encodedResult = await businessHoursInstance.exec(
+        const encodedResult = await businessHoursInstance.exec.staticCall(
           MockedExecParams.make({ argsCount: 0 }).params,
         );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -221,7 +221,7 @@ describe('Business Hours artifact', () => {
         const nextTimeStamp = 2210997600;
         await time.increaseTo(nextTimeStamp);
 
-        const encodedResult = await businessHoursInstance.exec(
+        const encodedResult = await businessHoursInstance.exec.staticCall(
           MockedExecParams.make({ argsCount: 0 }).params,
         );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -233,7 +233,7 @@ describe('Business Hours artifact', () => {
         const nextTimeStamp = 2211012000;
         await time.increaseTo(nextTimeStamp);
 
-        const encodedResult = await businessHoursInstance.exec(
+        const encodedResult = await businessHoursInstance.exec.staticCall(
           MockedExecParams.make({ argsCount: 0 }).params,
         );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -245,7 +245,7 @@ describe('Business Hours artifact', () => {
         const nextTimeStamp = 2211033780;
         await time.increaseTo(nextTimeStamp);
 
-        const encodedResult = await businessHoursInstance.exec(
+        const encodedResult = await businessHoursInstance.exec.staticCall(
           MockedExecParams.make({ argsCount: 0 }).params,
         );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
@@ -257,7 +257,7 @@ describe('Business Hours artifact', () => {
         const nextTimeStamp = 2211364800;
         await time.increaseTo(nextTimeStamp);
 
-        const encodedResult = await businessHoursInstance.exec(
+        const encodedResult = await businessHoursInstance.exec.staticCall(
           MockedExecParams.make({ argsCount: 0 }).params,
         );
         const decodedResult = solidityDecodeSingleParam('bool', encodedResult);
