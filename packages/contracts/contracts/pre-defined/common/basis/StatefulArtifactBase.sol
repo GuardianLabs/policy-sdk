@@ -7,12 +7,16 @@ import { ARTIFACT_NOT_INITED_ERR, ARTIFACT_IS_INITED_ERR } from "../../constants
 abstract contract StatefulArtifactBase is ArtifactBase {
     bool internal isInited;
 
-    function _init() internal virtual {
+    function _init(bytes memory data) internal virtual override {
+        (data);
         validateArtifactNotInitalized();
         isInited = true;
     }
 
-    function _exec(bytes[] memory data) internal view {
+    function _exec(
+        bytes[] memory data
+    ) internal virtual override returns (bytes memory encodedResult) {
+        (encodedResult);
         validateExecArgumentsLength(data);
         validateIsInitalized();
     }
