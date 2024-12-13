@@ -1,22 +1,12 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { ArtifactBase } from "../basis/ArtifactBase.sol";
+import { StatelessArtifactBase } from "../basis/StatelessArtifactBase.sol";
 import { BOOL } from "../../constants/Export.sol";
 
-contract XOR is ArtifactBase {
-    function exec(bytes[] memory data) external pure override returns (bytes memory encodedResult) {
-        validateExecArgumentsLength(data);
-
-        bool argA = abi.decode(data[0], (bool));
-        bool argB = abi.decode(data[1], (bool));
-
-        bool result = xor(argA, argB);
-        encodedResult = abi.encode(result);
-    }
-
+contract XOR is StatelessArtifactBase {
     function getExecDescriptor()
-        public
+        external
         pure
         override
         returns (string[] memory argsNames, string[] memory argsTypes, string memory returnType)
@@ -32,6 +22,16 @@ contract XOR is ArtifactBase {
         argsTypes[1] = BOOL;
 
         returnType = BOOL;
+    }
+
+    function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
+        super._exec(data);
+
+        bool argA = abi.decode(data[0], (bool));
+        bool argB = abi.decode(data[1], (bool));
+
+        bool result = xor(argA, argB);
+        encodedResult = abi.encode(result);
     }
 
     function xor(bool argA, bool argB) internal pure returns (bool result) {

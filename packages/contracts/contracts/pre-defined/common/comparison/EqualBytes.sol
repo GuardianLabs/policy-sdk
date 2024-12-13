@@ -1,21 +1,12 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { ArtifactBase } from "../basis/ArtifactBase.sol";
+import { StatelessArtifactBase } from "../basis/StatelessArtifactBase.sol";
 import { BYTES, BOOL } from "../../constants/Export.sol";
 
-contract EqualBytes is ArtifactBase {
-    function exec(bytes[] memory data) external pure override returns (bytes memory encodedResult) {
-        validateExecArgumentsLength(data);
-
-        bytes memory argA = abi.decode(data[0], (bytes));
-        bytes memory argB = abi.decode(data[1], (bytes));
-
-        encodedResult = abi.encode(keccak256(argA) == keccak256(argB));
-    }
-
+contract EqualBytes is StatelessArtifactBase {
     function getExecDescriptor()
-        public
+        external
         pure
         override
         returns (string[] memory argsNames, string[] memory argsTypes, string memory returnType)
@@ -31,6 +22,15 @@ contract EqualBytes is ArtifactBase {
         argsTypes[1] = BYTES;
 
         returnType = BOOL;
+    }
+
+    function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
+        super._exec(data);
+
+        bytes memory argA = abi.decode(data[0], (bytes));
+        bytes memory argB = abi.decode(data[1], (bytes));
+
+        encodedResult = abi.encode(keccak256(argA) == keccak256(argB));
     }
 
     function compare(bytes memory argA, bytes memory argB) internal pure returns (bool result) {
