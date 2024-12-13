@@ -6,25 +6,6 @@ import { ADDRESS, BOOL, BYTES } from "../../../constants/Export.sol";
 import { DestinationBlacklistInternal } from "./DestinationBlacklistInternal.sol";
 
 contract DestinationBlacklist is StatefulArtifactBase, DestinationBlacklistInternal {
-    function init(bytes memory data) external override {
-        bytes memory serializedWhitelist = abi.decode(data, (bytes));
-
-        address[] memory _whitelist = abi.decode(serializedWhitelist, (address[]));
-
-        _initializeDestinationsMapping(_whitelist);
-
-        _init();
-    }
-
-    function exec(bytes[] memory data) external view override returns (bytes memory encodedResult) {
-        _exec(data);
-
-        address receiverAddress = abi.decode(data[0], (address));
-
-        bool isBlacklisted = checkDestination(receiverAddress);
-        encodedResult = abi.encode(isBlacklisted);
-    }
-
     function getInitDescriptor()
         external
         pure
@@ -41,7 +22,7 @@ contract DestinationBlacklist is StatefulArtifactBase, DestinationBlacklistInter
     }
 
     function getExecDescriptor()
-        public
+        external
         pure
         override
         returns (string[] memory argsNames, string[] memory argsTypes, string memory returnType)
@@ -54,5 +35,26 @@ contract DestinationBlacklist is StatefulArtifactBase, DestinationBlacklistInter
         argsTypes = new string[](argsLength);
         argsTypes[0] = ADDRESS;
         returnType = BOOL;
+    }
+
+    function _init(bytes memory data) internal override {
+        bytes memory serializedWhitelist = abi.decode(data, (bytes));
+
+        address[] memory _whitelist = abi.decode(serializedWhitelist, (address[]));
+
+        _initializeDestinationsMapping(_whitelist);
+
+        // note: trigger base configuration & validations
+        super._init(data);
+    }
+
+    function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
+        // note: trigger base validations
+        super._exec(data);
+
+        address receiverAddress = abi.decode(data[0], (address));
+
+        bool isBlacklisted = checkDestination(receiverAddress);
+        encodedResult = abi.encode(isBlacklisted);
     }
 }
