@@ -102,6 +102,27 @@ export class EvaluateTypeNotBoolError extends BaseError {
   };
 }
 
+export class UnkownDirectiveError extends BaseError {
+  static create = (name: string, selfContext: ParserRuleContext) => {
+    const errorMessage = `Unknown directive ${name} (dispatched ${formatLocation(selfContext)})`;
+    return this.build(errorMessage);
+  };
+}
+
+export class ImportAmbiguityError extends BaseError {
+  static create = (troublePropertyName: string, message: string) => {
+    const errorMessage = `Importing ${troublePropertyName} error: ${message}`;
+    return this.build(errorMessage);
+  };
+}
+
+export class NonInjectedVariablesNotAllowedError extends BaseError {
+  static create = (name: string, selfContext: ParserRuleContext) => {
+    const errorMessage = `Variable ${name} (declared ${formatLocation(selfContext)}) must be "injected" because of corresponding directive`;
+    return this.build(errorMessage);
+  };
+}
+
 export class NoEvaluateStatementError extends BaseError {
   static create = () => {
     const errorMessage = `The program must include evaluate statement to define graph root node`;

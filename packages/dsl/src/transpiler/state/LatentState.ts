@@ -5,6 +5,7 @@ import {
   InstanceDeclarationContext,
   VarDeclarationContext,
 } from '../../antlr';
+import { ErrorFactory } from '../errors';
 import {
   Artifacts,
   Constants,
@@ -76,9 +77,7 @@ export class LatentState {
     let injection = ctx.injectionModifier()?.STRING_LITERAL().text;
 
     if (!injection && this.onlyInjectedVariables)
-      throw new Error(
-        `Only injected variables allowed due to compiler directive; "${name}" violates`,
-      );
+      throw ErrorFactory.nonInjectedVariable(name, ctx);
 
     injection = injection ?? '';
 
@@ -161,8 +160,7 @@ export class LatentState {
           this.moveValue(subState[indexingProperty], this[indexingProperty]);
         }
       } catch (e) {
-        console.error(`Dealing with latent property ${property}: `);
-        throw e;
+        throw ErrorFactory.importAmbiguity(property, (<Error>e).message);
       }
     }
   }

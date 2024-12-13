@@ -7,16 +7,37 @@ import {
   CyclicReferenceDSLError,
   EvaluateAlreadyDeclaredError,
   EvaluateTypeNotBoolError,
+  ImportAmbiguityError,
   ImpropperInitArgsMutabilityError,
   InstanceAlreadyDefinedError,
   InstanceNotDefinedError,
   NoEvaluateStatementError,
+  NonInjectedVariablesNotAllowedError,
   SelfReferenceDSLError,
+  UnkownDirectiveError,
   VariableAlreadyDefinedError,
   VariableNotDefinedError,
 } from './validation-errors';
 
 export class ErrorFactory {
+  static importAmbiguity = (
+    ...params: Parameters<typeof ImportAmbiguityError.create>
+  ) => {
+    return ImportAmbiguityError.create(...params);
+  };
+
+  static nonInjectedVariable = (
+    ...params: Parameters<typeof NonInjectedVariablesNotAllowedError.create>
+  ) => {
+    return NonInjectedVariablesNotAllowedError.create(...params);
+  };
+
+  static unknownDirective = (
+    ...params: Parameters<typeof UnkownDirectiveError.create>
+  ) => {
+    return UnkownDirectiveError.create(...params);
+  };
+
   static constantIsAlreadyDefined = (
     ...params: Parameters<typeof ConstantIsAlreadyDefinedError.create>
   ) => {

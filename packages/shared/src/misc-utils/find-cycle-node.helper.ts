@@ -21,7 +21,9 @@ export const findCycle = (nodes: DslNode[]): NodeWithReference | null => {
 
     const node = nodeMap.get(nodeId);
     if (!node) {
-      throw new Error(`Node ${nodeId} not found in graph`);
+      throw new Error(
+        `Node ${nodeId} not found in graph. Probably nodeIds are hashed incorrectly.`,
+      );
     }
 
     visited.add(nodeId);

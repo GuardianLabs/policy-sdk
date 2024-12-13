@@ -43,8 +43,9 @@ export class LacLangTranspiler implements LacLangListener {
         this.latentState.setInjectionConstraint(false);
         break;
       default:
-        throw new Error(
-          `Directive not recognized: ${ctx.directiveIndentifier().text}`,
+        throw ErrorFactory.unknownDirective(
+          ctx.directiveIndentifier().text,
+          ctx,
         );
     }
   }
