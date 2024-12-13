@@ -17,11 +17,11 @@ abstract contract StatefulArtifactBase is ArtifactBase {
         bytes[] memory data
     ) internal virtual override returns (bytes memory encodedResult) {
         (encodedResult);
+        validateArtifactIsInitalized();
         validateExecArgumentsLength(data);
-        validateIsInitalized();
     }
 
-    function validateIsInitalized() internal view {
+    function validateArtifactIsInitalized() internal view {
         require(isInited, ARTIFACT_NOT_INITED_ERR);
     }
 
