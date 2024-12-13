@@ -1,34 +1,13 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { ArtifactBase } from "../common/basis/ArtifactBase.sol";
+import { StatelessArtifactBase } from "../common/basis/StatelessArtifactBase.sol";
 import { BOOL } from "../constants/Export.sol";
 
 /* solhint-disable var-name-mixedcase */
-contract Equal4Mock is ArtifactBase {
-    function exec(bytes[] memory data) external pure override returns (bytes memory) {
-        validateExecArgumentsLength(data);
-
-        bool numA_radix0 = abi.decode(data[0], (bool));
-        bool numA_radix1 = abi.decode(data[1], (bool));
-        bool numA_radix2 = abi.decode(data[2], (bool));
-        bool numA_radix3 = abi.decode(data[3], (bool));
-        bool numB_radix0 = abi.decode(data[4], (bool));
-        bool numB_radix1 = abi.decode(data[5], (bool));
-        bool numB_radix2 = abi.decode(data[6], (bool));
-        bool numB_radix3 = abi.decode(data[7], (bool));
-
-        return
-            abi.encode(
-                numA_radix0 == numB_radix0 &&
-                    numA_radix1 == numB_radix1 &&
-                    numA_radix2 == numB_radix2 &&
-                    numA_radix3 == numB_radix3
-            );
-    }
-
+contract Equal4Mock is StatelessArtifactBase {
     function getExecDescriptor()
-        public
+        external
         pure
         override
         returns (string[] memory argsNames, string[] memory argsTypes, string memory returnType)
@@ -56,5 +35,26 @@ contract Equal4Mock is ArtifactBase {
         argsTypes[7] = BOOL;
 
         returnType = BOOL;
+    }
+
+    function _exec(bytes[] memory data) internal override returns (bytes memory) {
+        super._exec(data);
+
+        bool numA_radix0 = abi.decode(data[0], (bool));
+        bool numA_radix1 = abi.decode(data[1], (bool));
+        bool numA_radix2 = abi.decode(data[2], (bool));
+        bool numA_radix3 = abi.decode(data[3], (bool));
+        bool numB_radix0 = abi.decode(data[4], (bool));
+        bool numB_radix1 = abi.decode(data[5], (bool));
+        bool numB_radix2 = abi.decode(data[6], (bool));
+        bool numB_radix3 = abi.decode(data[7], (bool));
+
+        return
+            abi.encode(
+                numA_radix0 == numB_radix0 &&
+                    numA_radix1 == numB_radix1 &&
+                    numA_radix2 == numB_radix2 &&
+                    numA_radix3 == numB_radix3
+            );
     }
 }
