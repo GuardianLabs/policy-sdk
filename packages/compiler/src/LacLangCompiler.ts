@@ -11,6 +11,12 @@ import {
 import { TranspilerOutput } from '@guardian-network/shared/src/types/dsl.types';
 import { dirname } from 'path';
 import { cwd } from 'process';
+import { propagateWithAnnotation } from './decorators';
+import {
+  COMPILE_ANNOTATION,
+  PARSING_ANNOTATION,
+  TRANSPILE_ANNOTATION,
+} from './errors';
 import { readFromFile } from './utils.helper';
 import {
   validateFinalRepresentation,
@@ -63,12 +69,13 @@ export class LacLangCompiler implements ICompiler {
     validateProviderIsSupplied(this.options);
   }
 
-  compile = async (): Promise<OnchainPresentation> => {
+  @propagateWithAnnotation(COMPILE_ANNOTATION)
+  async compile(): Promise<OnchainPresentation> {
     return this.compileSources();
-  };
+  }
 
   protected compileSources = async (): Promise<OnchainPresentation> => {
-    const transpilerOutput = this.transpileDSL(this._cwd);
+    const transpilerOutput = await this.transpileDSL(this._cwd);
     const parserOutput =
       await this.parseIntermediateRepresentation(transpilerOutput);
 
@@ -82,6 +89,7 @@ export class LacLangCompiler implements ICompiler {
     return finalRepresentation;
   };
 
+  @propagateWithAnnotation(TRANSPILE_ANNOTATION)
   protected async transpileDSL(cwd: string): Promise<TranspilerOutput> {
     const transpilerOutput = Transpiler.create(this.sources, {
       partialSources: false,
@@ -92,8 +100,11 @@ export class LacLangCompiler implements ICompiler {
 
     return Promise.resolve(transpilerOutput);
   }
+
+  @propagateWithAnnotation(PARSING_ANNOTATION)
+  protected async parseIntermediateRepresentation(
     transpilerOutput: TranspilerOutput,
-  ): Promise<Array<ParsingResult>> => {
+  ): Promise<Array<ParsingResult>> {
     const parser = ParserWithValidation.fromCompilerConfiguration(
       this.options,
       transpilerOutput,
@@ -101,5 +112,5 @@ export class LacLangCompiler implements ICompiler {
 
     const parserOutput = await parser.process();
     return parserOutput;
-  };
+  }
 }
