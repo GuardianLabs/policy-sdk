@@ -11,12 +11,12 @@ import {
 import { TranspilerOutput } from '@guardian-network/shared/src/types/dsl.types';
 import { dirname } from 'path';
 import { cwd } from 'process';
-import { propagateWithAnnotation } from './decorators';
 import {
   COMPILE_ANNOTATION,
   PARSING_ANNOTATION,
+  propagateWithAnnotation,
   TRANSPILE_ANNOTATION,
-} from './errors';
+} from './decorators';
 import { readFromFile } from './utils.helper';
 import {
   validateFinalRepresentation,

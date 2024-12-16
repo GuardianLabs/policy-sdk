@@ -1,4 +1,4 @@
-import { execOrPropagate } from '../errors';
+import { execOrPropagate } from './utils.helper';
 
 export const propagateWithAnnotation = (annotation: string) => {
   const decorator = (

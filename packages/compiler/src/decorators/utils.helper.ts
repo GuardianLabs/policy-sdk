@@ -10,7 +10,3 @@ export const execOrPropagate = async <K>(
     throw e;
   }
 };
-
-export class PropageteWithAnnotationHandler {
-  static execOrPropagate = execOrPropagate;
-}
