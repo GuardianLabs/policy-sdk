@@ -1,4 +1,4 @@
-import { execOrPropagate } from './errors';
+import { execOrPropagate } from '../errors';
 
 export const propagateWithAnnotation = (annotation: string) => {
   const decorator = (
@@ -6,10 +6,13 @@ export const propagateWithAnnotation = (annotation: string) => {
     methodName: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor => {
-    const originalValue = descriptor.value;
+    const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {
-      return execOrPropagate(() => originalValue.apply(this, args), annotation);
+      return execOrPropagate(
+        () => originalMethod.apply(this, args),
+        annotation,
+      );
     };
 
     return descriptor;
