@@ -82,17 +82,16 @@ export class LacLangCompiler implements ICompiler {
     return finalRepresentation;
   };
 
-  protected transpileDSL = (cwd: string): TranspilerOutput => {
+  protected async transpileDSL(cwd: string): Promise<TranspilerOutput> {
     const transpilerOutput = Transpiler.create(this.sources, {
       partialSources: false,
       sourcesDir: cwd,
     })
       .transpile()
       .toIntermediateRepresentation();
-    return transpilerOutput;
-  };
 
-  protected parseIntermediateRepresentation = async (
+    return Promise.resolve(transpilerOutput);
+  }
     transpilerOutput: TranspilerOutput,
   ): Promise<Array<ParsingResult>> => {
     const parser = ParserWithValidation.fromCompilerConfiguration(
