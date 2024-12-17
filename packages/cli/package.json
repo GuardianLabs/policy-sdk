@@ -15,7 +15,7 @@
     "check:ts": "tsc -p tsconfig-prod.json --noEmit",
     "check:ts:dev": "tsc -p tsconfig.json --noEmit",
     "clean": "pnpm remove:dist",
-    "cli": "tsx ./src/index.ts",
+    "cli": "ts-node ./src/index.ts",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
     "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -61,14 +61,14 @@
     "nyc": "^17.1.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@guardian-network/policy-compiler": "workspace:*",
     "@guardian-network/shared": "workspace:*",
     "commander": "^12.1.0",
     "ethers": "^6.13.3",
-    "tsx": "^4.19.2",
     "typescript": "^5.6.2"
   }
 }
