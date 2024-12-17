@@ -5,6 +5,7 @@ import {
 } from '@guardian-network/shared/src/types/compiler.types';
 import { Command } from 'commander';
 import { JsonRpcProvider } from 'ethers';
+import { COMPILE } from '../../constants';
 import { NoRpcUrlError } from '../../errors';
 import {
   rpcEndpointOption,
@@ -54,7 +55,7 @@ const compile = async (options: CliCompileOptions) => {
 
 export const compileCommand = (program: Command) => {
   program
-    .command('compile')
+    .command(COMPILE)
     .requiredOption(...sourcePathOptions)
     .option(...typeOnchainOption)
     .option(...typeDslOption)
