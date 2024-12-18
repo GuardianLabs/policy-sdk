@@ -42,22 +42,22 @@ Then the `inject("<name_of_the_attribute>")` syntax must be used (`var inject("I
 Valid example:
 
 ```
+import "./header.lac";
+import "./lib.lac";
+
+pragma injected-only;
+
 var inject("is_dev") bool boolVar;
-var bytes spare;
+// var bytes spare;
 
 constant number init1 = 0;
-constant bool bool1 = true; 
-constant number num1 = 1;
-constant address addr1 = 0xD9e88d1d18d8Cf3a17e97af9F017Ef8760dee583; // random
-constant string str1 = "lang";
-constant bytes bts1 = '0xdeadbeef';
 
-artifact art1 = 0x6768008f6c2Ac94F9D65533D13A974b376495c7b; // random
 artifact art2 = 0xB60B02062d1256A79C81A061a9277e84ffbB0Ff7; // random
 
 instance number inst1 of art1 takes (num1, str1, "here I am") with (init1, bts1, bool1);
-instance bool inst2 of art2 takes (inst1, addr1, boolVar, bts1, inst1, bool1);
-instance bool inst3 of art2 takes (inst1, inst2) with ("initialize me", '0xd00d', 0xB60B02062d1256A79C81A061a9277e84ffbB0Ff7);
+instance bool statefulInstance of art2 takes (inst1, addr1, boolVar, bts1, inst1, bool1) with ();
+instance string inst3 of art2 takes (inst1, statefulInstance) with ("initialize me", '0xd00d', 0xB60B02062d1256A79C81A061a9277e84ffbB0Ff7);
+instance bool statelessInstance of 0x4838B106FCe9647Bdf1E7877BF73cE8B0BAD5f97 takes (inst3);
 
-evaluate inst2;
+evaluate statelessInstance;
 ```
