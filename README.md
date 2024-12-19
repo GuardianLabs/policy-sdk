@@ -1,4 +1,11 @@
 # Policy SDK monorepository
+A set of instruments, implementations and references to ***Composable policies with arbitrary artifacts*** approach. \
+You may want to see the subpackages READMEs, but here is a brief digest:
+- Policies consist of atomic operations - artifacts (`./contracts`)
+- The policy can be created using special low-level notation (`./ir`)
+- Or using human-oriented high-level syntax (`./compiler`, described `./dsl`)
+- The high-level language has standalone interface (`./cli`)
+- To evaluate the created policy, you may need to provide some variables (`./variables`)
 
 ## Steps to build, run, test:
 
@@ -21,18 +28,18 @@ pnpm version [major|minor|patch]
 
 ### 2. Publish Contracts library
 ```bash
-cd packages/artifacts-contracts
+cd packages/contracts
 pnpm publish
 ```
 
 ### 3. Publish DSL library
 ```bash
-cd packages/artifacts-dsl
+cd packages/dsl
 pnpm publish
 ```
 
 ### 4. Publish CLI library
 ```bash
-cd packages/artifacts-cli
+cd packages/cli
 pnpm publish
 ```
