@@ -60,6 +60,8 @@ contract StatefulMock is StatefulArtifactBase {
     }
 
     function _init(bytes memory data) internal override {
+        super._init(data);
+
         (bool init1, address init2, bytes memory init3, uint256 init4, string memory init5) = abi
             .decode(data, (bool, address, bytes, uint256, string));
 
@@ -68,8 +70,6 @@ contract StatefulMock is StatefulArtifactBase {
         var3 = init3;
         var4 = init4;
         var5 = init5;
-
-        super._init(data);
     }
 
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
