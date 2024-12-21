@@ -39,6 +39,9 @@ contract BusinessHoursValidation is StatefulArtifactBase, BusinessHoursValidatio
     }
 
     function _init(bytes memory data) internal override {
+        // note: trigger base configuration & validations
+        super._init(data);
+
         (string memory init1, address init2, uint24[] memory init3, uint24[] memory init4) = abi
             .decode(data, (string, address, uint24[], uint24[]));
 
@@ -53,9 +56,6 @@ contract BusinessHoursValidation is StatefulArtifactBase, BusinessHoursValidatio
             openingSecondsList,
             closingSecondsList
         );
-
-        // note: trigger base configuration & validations
-        super._init(data);
     }
 
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
