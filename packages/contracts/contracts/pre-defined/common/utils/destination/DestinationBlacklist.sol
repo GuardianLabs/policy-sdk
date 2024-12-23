@@ -38,14 +38,14 @@ contract DestinationBlacklist is StatefulArtifactBase, DestinationBlacklistInter
     }
 
     function _init(bytes memory data) internal override {
+        // note: trigger base configuration & validations
+        super._init(data);
+
         bytes memory serializedWhitelist = abi.decode(data, (bytes));
 
         address[] memory _whitelist = abi.decode(serializedWhitelist, (address[]));
 
         _initializeDestinationsMapping(_whitelist);
-
-        // note: trigger base configuration & validations
-        super._init(data);
     }
 
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
