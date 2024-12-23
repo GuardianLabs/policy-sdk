@@ -1,3 +1,0 @@
-describe('basic', () => {
-  it('case', () => {});
-});

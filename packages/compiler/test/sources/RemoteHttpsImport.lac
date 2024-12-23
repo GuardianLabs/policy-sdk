@@ -1,0 +1,5 @@
+import "https://raw.githubusercontent.com/VladPryad/remote-import-test/master/BaseLibrary.lac";
+
+instance bool inst of DestinationBlacklist_31337 takes ();
+
+evaluate inst;
