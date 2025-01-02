@@ -12,6 +12,12 @@ export const verifyAddressesList = (list: Array<string>) => {
   return verifiedList;
 };
 
+export const verifyBytesList = (list: Array<string>) => {
+  const verifiedList = list.map((v) => verifyBytes(v));
+
+  return verifiedList;
+};
+
 export const verifyBytes = (value: string) => {
   // just a validation; no need to return as Uint8Array
   getBytes(value);
