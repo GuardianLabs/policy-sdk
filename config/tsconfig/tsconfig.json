@@ -5,7 +5,6 @@
     "moduleResolution": "NodeNext",
     "noImplicitAny": true,
     "strict": true,
-    "types": ["node"],
     "removeComments": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
