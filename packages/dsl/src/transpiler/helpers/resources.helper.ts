@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import fetch from 'sync-fetch';
+import fetchSycn from 'sync-fetch';
 
 const DEFAULT_ENCODING = 'utf-8';
 
@@ -7,8 +7,9 @@ export const isLocalUrl = (url: string) =>
   /^([a-zA-Z]:)?(\\|\/)([^\\\/]+(\\|\/)?)+$/.test(url);
 export const isLocalRelativeUrl = (url: string) =>
   /^(\.\.\/|\.\/)?([^\\\/]+(\\|\/)?)+$/.test(url);
-export const isHttpsUrl = (url: string) => /^https?:\/\//.test(url);
-export const isSshUrl = (url: string) => /^git@[^:]+:[^/]+\/.+\.git$/.test(url);
+
+const isHttpsUrl = (url: string) => /^https?:\/\//.test(url);
+const isSshUrl = (url: string) => /^git@[^:]+:[^/]+\/.+\.git$/.test(url);
 
 /*
 The note about sync
@@ -36,15 +37,15 @@ Not the best solution, but for sync fetching of remote imports - it's OK.
 */
 
 export const fetchContent = (url: string): string => {
-  let content;
+  let content: string;
 
   switch (true) {
-    case isHttpsUrl(url):
-      content = fetchFileContentViaHttps(url);
-      break;
-
     case isSshUrl(url):
       throw new Error('Not implemented import resource type: SSH');
+
+    case isHttpsUrl(url):
+      content = readFromHttp(url);
+      break;
 
     case isLocalUrl(url):
     case isLocalRelativeUrl(url):
@@ -58,7 +59,7 @@ export const fetchContent = (url: string): string => {
   return content;
 };
 
-export const readFromFile = (filePath: string): string => {
+const readFromFile = (filePath: string): string => {
   try {
     const content = readFileSync(filePath, DEFAULT_ENCODING);
     return content;
@@ -69,8 +70,8 @@ export const readFromFile = (filePath: string): string => {
   }
 };
 
-export const fetchFileContentViaHttps = (url: string): string => {
-  const response = fetch(url);
+const readFromHttp = (url: string): string => {
+  const response = fetchSycn(url);
 
   if (!response.ok) {
     throw new Error(
