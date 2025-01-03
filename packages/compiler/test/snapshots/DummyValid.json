@@ -42,9 +42,7 @@
           "index": 5
         }
       ],
-      "variables": [
-        2
-      ],
+      "variables": [2],
       "injections": [
         {
           "value": "varboolVar$\"is_dev\"",
