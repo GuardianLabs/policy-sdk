@@ -75,7 +75,7 @@ const readFromHttp = (url: string): string => {
 
   if (!response.ok) {
     throw new Error(
-      `Failed to https fetch imported file: ${response.status} ${response.statusText}`,
+      `Failed to fetch file from remote URL: ${url}, status: ${response.status} ${response.statusText}`,
     );
   }
 
