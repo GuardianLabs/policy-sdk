@@ -8,6 +8,10 @@
   "engines": {
     "node": ">=18.20.4"
   },
+  "files": [
+    "/contracts/**/*.sol",
+    "/predefined-artifacts-exports/**/*.lac"
+  ],
   "scripts": {
     "artifacts-library:update": "ts-node ./ignition/scripts/update-artifacts-library.ts",
     "build": "pnpm format:sol:fix && pnpm build:contracts && tsc -p tsconfig-prod.json && pnpm format:ts:fix && pnpm copy-dts",
