@@ -1,35 +1,37 @@
+import { IGNORED_NETWORKS } from '../constants';
 import { Deployment } from '../types';
+
+const dirNameMatcher = /chain-(\w+)$/; // chain-<any word>
+// const dirNameMatcher = /^chain-(\d+)$/; // chain-<any unsigned integer>
 
 const template = (name: string, chainId: string, address: string) => {
   return `artifact ${name}_${chainId} = ${address};`;
 };
 
 export const buildExportsLibrary = (deploymentsList: Deployment[]): string => {
-  const dslDeclarations = deploymentsList
-    .flatMap((deployment) => {
-      // exctracting chain id from deployments-path
-      const chainId = deployment.subdirName.match(/-(\w+)$/)![1];
+  const deploymentsAtCorrectPath = deploymentsList.filter(({ subdirName }) => {
+    const chainId = subdirName.match(dirNameMatcher)![1];
 
-      if (!chainId)
-        throw new Error(`Cannot extract chainId from ${deployment.subdirName}`);
+    const isNetworkAllowed = !!chainId && !IGNORED_NETWORKS.includes(chainId);
+    return isNetworkAllowed;
+  });
+
+  const dslDeclarations = deploymentsAtCorrectPath
+    .flatMap(({ deploymentData, subdirName }) => {
+      // extracting chain id from deployments-path
+      const chainId = subdirName.match(dirNameMatcher)![1];
 
       const artifactsDeclarations: string[] = [];
 
-      for (const [deploymentDescriptor, deploymentAddress] of Object.entries(
-        deployment.deploymentData,
-      )) {
-        const artifactName = deploymentDescriptor.match(/#(\w+)$/)![1];
+      for (const [descriptor, address] of Object.entries(deploymentData)) {
+        const artifactName = descriptor.match(/#(\w+)$/)![1];
         if (!artifactName)
-          throw new Error(
-            `Cannot extract artifact name from ${deploymentDescriptor}`,
-          );
+          throw new Error(`Cannot extract artifact name from ${descriptor}`);
 
         // note: mock deployment is skipped for a while
         // if (!isNonMockedArtifact(artifactName)) continue;
 
-        artifactsDeclarations.push(
-          template(artifactName, chainId, deploymentAddress),
-        );
+        artifactsDeclarations.push(template(artifactName, chainId, address));
       }
 
       return artifactsDeclarations;
