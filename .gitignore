@@ -26,3 +26,5 @@ packages/**/typechain/
 *.tokens
 .antlr
 *.java
+
+deployments/chain-31337/**
