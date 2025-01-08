@@ -4,6 +4,8 @@ import { Config } from './env-config-reader';
 import { getBlockchainNodeRpcUri } from './rpc-config-params';
 import { NetworkName } from './types';
 
+export const DEFAULT_LOCAL_NETWORK_ID = '31337';
+
 type ForkingConfig = {
   networkName: NetworkName;
   blockNumber?: number;

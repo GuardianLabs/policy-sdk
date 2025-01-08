@@ -8,13 +8,14 @@ import {
   POLYGONSCAN_API_KEY,
 } from '.';
 import {
+  DEFAULT_LOCAL_NETWORK_ID,
   forkingParamsForNetwork,
   shouldFork,
 } from './default-forking-params.contants';
 import { Config } from './env-config-reader';
 
 export const developmentChainId = () =>
-  Number(Config.getSafe(DEVELOPMENT_CHAIN_ID, '31337'));
+  Number(Config.getSafe(DEVELOPMENT_CHAIN_ID, DEFAULT_LOCAL_NETWORK_ID));
 
 export const forkingConfig = (networkName: NetworkName) => {
   let config: {
