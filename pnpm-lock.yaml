@@ -353,9 +353,6 @@ importers:
       hardhat-contract-sizer:
         specifier: ^2.10.0
         version: 2.10.0(hardhat@2.22.17(ts-node@10.9.2(@types/node@22.8.0)(typescript@5.6.2))(typescript@5.6.2))
-      hardhat-deploy:
-        specifier: ^0.14.0
-        version: 0.14.0
       nyc:
         specifier: ^17.1.0
         version: 17.1.0
@@ -3160,9 +3157,6 @@ packages:
 
   hardhat-deploy@0.12.4:
     resolution: {integrity: sha512-bYO8DIyeGxZWlhnMoCBon9HNZb6ji0jQn7ngP1t5UmGhC8rQYhji7B73qETMOFhzt5ECZPr+U52duj3nubsqdQ==}
-
-  hardhat-deploy@0.14.0:
-    resolution: {integrity: sha512-jZm0bJGHeH7dEyCzz69hsS8HlNNLJLjXDQVlStczulf54vYJUfRvZ+t3x20QsdXQoXUe6Qujlp8cKbx6JjFpZw==}
 
   hardhat-gas-reporter@1.0.10:
     resolution: {integrity: sha512-02N4+So/fZrzJ88ci54GqwVA3Zrf0C9duuTyGt0CFRIh/CdNwbnTgkXkRfojOMLBQ+6t+lBIkgbsOtqMvNwikA==}
@@ -8455,37 +8449,6 @@ snapshots:
       strip-ansi: 6.0.1
 
   hardhat-deploy@0.12.4:
-    dependencies:
-      '@ethersproject/abi': 5.7.0
-      '@ethersproject/abstract-signer': 5.7.0
-      '@ethersproject/address': 5.7.0
-      '@ethersproject/bignumber': 5.7.0
-      '@ethersproject/bytes': 5.7.0
-      '@ethersproject/constants': 5.7.0
-      '@ethersproject/contracts': 5.7.0
-      '@ethersproject/providers': 5.7.2
-      '@ethersproject/solidity': 5.7.0
-      '@ethersproject/transactions': 5.7.0
-      '@ethersproject/wallet': 5.7.0
-      '@types/qs': 6.9.16
-      axios: 0.21.4(debug@4.3.7)
-      chalk: 4.1.2
-      chokidar: 3.6.0
-      debug: 4.3.7(supports-color@8.1.1)
-      enquirer: 2.4.1
-      ethers: 5.7.2
-      form-data: 4.0.0
-      fs-extra: 10.1.0
-      match-all: 1.2.6
-      murmur-128: 0.2.1
-      qs: 6.13.0
-      zksync-ethers: 5.9.2(ethers@5.7.2)
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  hardhat-deploy@0.14.0:
     dependencies:
       '@ethersproject/abi': 5.7.0
       '@ethersproject/abstract-signer': 5.7.0

@@ -74,7 +74,6 @@
     "globals": "^15.11.0",
     "hardhat": "^2.22.17",
     "hardhat-contract-sizer": "^2.10.0",
-    "hardhat-deploy": "^0.12.4",
     "nyc": "^17.1.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
