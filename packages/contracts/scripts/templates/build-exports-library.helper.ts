@@ -7,7 +7,7 @@ const template = (name: string, chainId: string, address: string) => {
 export const buildExportsLibrary = (deploymentsList: Deployment[]): string => {
   const dslDeclarations = deploymentsList
     .flatMap((deployment) => {
-      // exctracting chain id from path
+      // exctracting chain id from deployments-path
       const chainId = deployment.subdirName.match(/-(\w+)$/)![1];
 
       if (!chainId)
