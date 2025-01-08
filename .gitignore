@@ -27,4 +27,5 @@ packages/**/typechain/
 .antlr
 *.java
 
-deployments/chain-31337/**
+packages/**/deployments/chain-31337/**
+packages/**/deployments/chain-31337
