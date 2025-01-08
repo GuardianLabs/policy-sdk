@@ -31,7 +31,7 @@
     "lint:sol:fix": "pnpm exec solhint --noPrompt -f table 'contracts/**/*.sol' --fix",
     "lint:ts": "eslint",
     "lint:ts:fix": "eslint --fix",
-    "local:development:node": "pnpm exec hardhat node --network hardhat --no-deploy",
+    "local:development:node": "pnpm exec hardhat node --network hardhat",
     "remove:contracts": "pnpm exec hardhat clean",
     "remove:dist": "pnpm exec rimraf dist",
     "remove:typechain": "pnpm exec rimraf src/typechain",
