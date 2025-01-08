@@ -73,7 +73,7 @@
     "eslint-plugin-promise": "^7.1.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.11.0",
-    "hardhat": "^2.22.15",
+    "hardhat": "^2.22.17",
     "hardhat-contract-sizer": "^2.10.0",
     "hardhat-deploy": "^0.12.4",
     "nyc": "^17.1.0",
