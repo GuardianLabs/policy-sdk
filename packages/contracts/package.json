@@ -8,6 +8,10 @@
   "engines": {
     "node": ">=18.20.4"
   },
+  "files": [
+    "/contracts/**/*.sol",
+    "/predefined-artifacts-exports/**/*.lac"
+  ],
   "scripts": {
     "build": "pnpm format:sol:fix && pnpm build:contracts && tsc -p tsconfig-prod.json && pnpm format:ts:fix && pnpm copy-dts",
     "build:contracts": "pnpm exec hardhat compile",
@@ -17,9 +21,10 @@
     "check:ts:dev": "tsc -p tsconfig.json --noEmit",
     "clean": "pnpm remove:dist && pnpm remove:contracts && pnpm remove:typechain",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
-    "deploy:artifacts": "pnpm exec hardhat ignition deploy ./ignition/modules/artifact-contracts/Artifacts.ts --network",
+    "deployAndExport:amoy": "pnpm deployAndExport:noNetwork amoy",
+    "deployAndExport:noNetwork": "pnpm exec hardhat run hardhat-scripts/deployAndExport.ts --network",
     "format:all:fix": "pnpm format:sol:fix && pnpm format:ts:fix",
-    "format:ts:fix": "pnpm exec prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config-hardhat/**/*.ts\" \"ignition/**/*.ts\"",
+    "format:ts:fix": "pnpm exec prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config-hardhat/**/*.ts\" \"ignition/**/*.ts\" \"hardhat-scripts/**/*.ts\"",
     "format:sol:fix": "pnpm exec prettier --plugin=prettier-plugin-solidity -w -c \"contracts/**/*.sol\"",
     "generate-errors": "pnpm exec ts-node src/constants/generate-errors-enum.ts",
     "lint:sol": "pnpm exec solhint -f table --max-warnings 0 'contracts/**/*.sol'",
@@ -46,9 +51,10 @@
     "@guardian-network/shared": "workspace:*",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
-    "@nomicfoundation/hardhat-ignition": "^0.15.7",
-    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.7",
+    "@nomicfoundation/hardhat-ignition": "^0.15.9",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.9",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/ignition-core": "^0.15.9",
     "@types/chai": "4.3.3",
     "@types/mocha": "^10.0.9",
     "@types/node": "^22.8.0",
@@ -66,9 +72,8 @@
     "eslint-plugin-promise": "^7.1.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.11.0",
-    "hardhat": "^2.22.15",
+    "hardhat": "^2.22.17",
     "hardhat-contract-sizer": "^2.10.0",
-    "hardhat-deploy": "^0.12.4",
     "nyc": "^17.1.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",

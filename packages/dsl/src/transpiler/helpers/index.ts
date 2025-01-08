@@ -1,4 +1,4 @@
 export * from './formatter';
-export * from './resources';
+export * from './resources.helper';
 export * from './types';
 export * from './validations.helper';

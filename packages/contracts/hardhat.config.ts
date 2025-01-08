@@ -1,7 +1,7 @@
 import '@nomicfoundation/hardhat-ethers';
+import '@nomicfoundation/hardhat-ignition-ethers';
 import '@nomicfoundation/hardhat-toolbox';
 import 'hardhat-contract-sizer';
-import 'hardhat-deploy';
 import { HardhatUserConfig } from 'hardhat/config';
 import {
   developmentChainId,
@@ -16,12 +16,9 @@ import {
   REPORT_GAS,
 } from './config-hardhat';
 import { Config } from './config-hardhat/env-config-reader';
-import "@nomicfoundation/hardhat-ignition-ethers";
 
 const MAX_ACCOUNT_NUMBER = 16;
-const DEPLOY_SCRIPTS_PATH = 'deploy-configuration/';
 const DEFAULT_BALANCE_PER_ADDRESS = '161000000000000000000';
-const DEFAULT_DEPLOY_SCRIPTS_PATH = 'deploy';
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -43,8 +40,6 @@ const config: HardhatUserConfig = {
         count: MAX_ACCOUNT_NUMBER,
         accountsBalance: DEFAULT_BALANCE_PER_ADDRESS,
       },
-      deploy: [DEPLOY_SCRIPTS_PATH], // overriding default-deploy-scripts path
-      saveDeployments: false,
       chainId: forkingConfig(NetworkName.amoy).chainId,
       mining: {
         auto: isAutoMiningEnabled(),
@@ -53,9 +48,6 @@ const config: HardhatUserConfig = {
     },
     development: {
       url: getDevelopmentNodeRpcUri(),
-      live: false,
-      saveDeployments: true,
-      deploy: [DEPLOY_SCRIPTS_PATH],
       chainId: developmentChainId(),
     },
     [NetworkName.amoy]: {
@@ -65,9 +57,6 @@ const config: HardhatUserConfig = {
         count: MAX_ACCOUNT_NUMBER, // 0xc59701e997346f7316cf95eeff5cb0848a41c356
       },
       url: getBlockchainNodeRpcUri(NetworkName.amoy),
-      live: true,
-      deploy: [DEPLOY_SCRIPTS_PATH],
-      saveDeployments: true,
     },
     [NetworkName.polygon]: {
       chainId: 137,
@@ -76,15 +65,9 @@ const config: HardhatUserConfig = {
         count: MAX_ACCOUNT_NUMBER,
       },
       url: getBlockchainNodeRpcUri(NetworkName.polygon),
-      live: true,
-      deploy: [DEPLOY_SCRIPTS_PATH],
-      saveDeployments: true,
     },
   },
   paths: {
-    deploy: DEFAULT_DEPLOY_SCRIPTS_PATH,
-    deployments: 'deployed_contracts',
-    imports: 'imports',
     tests: 'test',
   },
   etherscan: {

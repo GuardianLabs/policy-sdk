@@ -3,6 +3,8 @@
   "include": [
     "./src/**/*",
     "./test/**/*",
+    "./ignition/**/*",
+    "./hardhat-scripts/**/*",
     "./deploy-configuration/**/*",
     "./config-hardhat/**/*"
   ],

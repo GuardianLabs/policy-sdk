@@ -18,6 +18,8 @@ import {
   extractAndLookupExecArguments,
   extractAndLookupInitArguments,
   fetchContent,
+  isLocalRelativeUrl,
+  isLocalUrl,
   TranspilerConfig,
 } from './helpers';
 import {
@@ -51,11 +53,14 @@ export class LacLangTranspiler implements LacLangListener {
   }
 
   enterImportStatement(ctx: ImportStatementContext) {
-    const url = ctx.STRING_LITERAL().text;
+    const url = ctx.STRING_LITERAL().text.replace(/^['"]|['"]$/g, '');
+    const normalizedUrl =
+      isLocalUrl(url) || isLocalRelativeUrl(url)
+        ? normalize(join(this.config.sourcesDir, url))
+        : url;
 
-    const sources = fetchContent(
-      normalize(join(this.config.sourcesDir, url.replace(/^['"]|['"]$/g, ''))),
-    );
+    const sources = fetchContent(normalizedUrl);
+
     const subTranspiler = Transpiler.create(sources, {
       partialSources: true,
       sourcesDir: this.config.sourcesDir,

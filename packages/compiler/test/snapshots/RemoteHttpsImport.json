@@ -1,0 +1,16 @@
+{
+  "rootNode": "0x15d11eaf7400a734c5e048c5ce64a71bf83d7bb4b5dc051e1d227c2fd0a22516",
+  "nodes": [
+    {
+      "id": "0x15d11eaf7400a734c5e048c5ce64a71bf83d7bb4b5dc051e1d227c2fd0a22516",
+      "artifactAddress": "0x3699e40728AF9ECB12abBCb78aAB34B3C461c9cA",
+      "partialExecData": [],
+      "variables": [],
+      "injections": [],
+      "argsCount": 0,
+      "substitutions": [],
+      "initData": "0x",
+      "needsInitialization": false
+    }
+  ]
+}
