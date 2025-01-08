@@ -3,7 +3,11 @@ import PredefinedArtifactsModule from '../ignition/modules/predefined/deploy-art
 import { exportAllAtAnyNetwork } from './tools';
 
 const deployIgnitionModule = async () => {
-  const deployments = await hre.ignition.deploy(PredefinedArtifactsModule);
+  const [{ address: defaultSender }] = await hre.ethers.getSigners();
+
+  const deployments = await hre.ignition.deploy(PredefinedArtifactsModule, {
+    defaultSender,
+  });
 
   const deploymentsStringified: string[] = [];
 

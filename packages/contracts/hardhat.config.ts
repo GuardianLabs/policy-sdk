@@ -1,4 +1,5 @@
 import '@nomicfoundation/hardhat-ethers';
+import '@nomicfoundation/hardhat-ignition-ethers';
 import '@nomicfoundation/hardhat-toolbox';
 import 'hardhat-contract-sizer';
 import { HardhatUserConfig } from 'hardhat/config';
@@ -15,7 +16,6 @@ import {
   REPORT_GAS,
 } from './config-hardhat';
 import { Config } from './config-hardhat/env-config-reader';
-import "@nomicfoundation/hardhat-ignition-ethers";
 
 const MAX_ACCOUNT_NUMBER = 16;
 const DEFAULT_BALANCE_PER_ADDRESS = '161000000000000000000';
