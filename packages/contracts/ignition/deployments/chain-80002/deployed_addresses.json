@@ -1,0 +1,21 @@
+{
+  "ArtifactsPredefined#AND": "0x4d0BB6915d83141d8624974843A213665AbDaA5D",
+  "ArtifactsPredefined#BusinessHoursValidation": "0x79168167A8AE44fA52f0432add140E52Eee31d1e",
+  "ArtifactsPredefined#CurrentTimestamp": "0x212Fc13D0270aCDF6504b35C570F00f2C1EE73aC",
+  "ArtifactsPredefined#DestinationBlacklist": "0x2096Dee1B1185AF3C73009d341f4f346203F1cCC",
+  "ArtifactsPredefined#DestinationWhitelist": "0xF6f8210E45A46c09bAcbb5e78d3121C8D398e9Eb",
+  "ArtifactsPredefined#EqualAddress": "0x2D83972b6024425C77837aDB8689919ED573FCE5",
+  "ArtifactsPredefined#EqualBytes": "0x458d7e191c460999922523b0De292dF735916C48",
+  "ArtifactsPredefined#EqualString": "0x39Ef3c6329166Ce23bFFbBe871c4eAA20b87810F",
+  "ArtifactsPredefined#EqualUint": "0x6Ae0BAe9E83fFaE14DdC7a609baFF2f67c463928",
+  "ArtifactsPredefined#GtUint": "0xF078E7a3Bf047EDA0C1d3d12d9bb6278e5e20289",
+  "ArtifactsPredefined#GteUint": "0xc16E1A9Ca5be3b7C189E4b360cc502AC370196bE",
+  "ArtifactsPredefined#IsDividableUint": "0x051229B864523cCD39a16928Ad926079c3dB24Ad",
+  "ArtifactsPredefined#Keccak256String": "0xF61Ba5b3693c38Ad8904070CBD7276980740596B",
+  "ArtifactsPredefined#Keccak256Uint": "0xaE88165eCA6C95ef3FaE9Ef4EcdEF8C44F1D51f6",
+  "ArtifactsPredefined#LtUint": "0x995F047053419bB7832168C28AD50DA960F3Cee5",
+  "ArtifactsPredefined#LteUint": "0x86691da2af6Ea69E861e4c599DbFb1FD3E967c45",
+  "ArtifactsPredefined#NOT": "0xa29e90a820e10D603206FC95DA4C2F0debB6ee49",
+  "ArtifactsPredefined#OR": "0x3799571433c1eaa2b6b13be68824A757E4f68429",
+  "ArtifactsPredefined#XOR": "0x9B4E14E6C47Dd1298221c8a7F3dFa0681Cb67ceb"
+}
