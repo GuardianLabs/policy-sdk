@@ -2,6 +2,7 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { TimezoneOffset } from '../../business-hours';
 import {
   AND__factory,
+  ApprovalFlow__factory,
   ArtifactsGraph__factory,
   BusinessHoursValidation,
   BusinessHoursValidation__factory,
@@ -21,6 +22,7 @@ import {
   LtUint__factory,
   NOT__factory,
   OR__factory,
+  PayloadHasher__factory,
   TrustedTimezoneOffsetSource,
   TrustedTimezoneOffsetSource__factory,
   XOR__factory,
@@ -45,7 +47,10 @@ type SupportedDeployments =
   | EqualUint__factory
   | CurrentTimestamp__factory
   | BusinessHoursValidation__factory
-  | DestinationWhitelist__factory;
+  | DestinationWhitelist__factory
+  | DestinationBlacklist__factory
+  | ApprovalFlow__factory
+  | PayloadHasher__factory;
 
 export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
   const and = await deployWithFactory(new AND__factory(deploySigner));
@@ -89,6 +94,12 @@ export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
   const destinationBlacklist = await deployWithFactory(
     new DestinationBlacklist__factory(deploySigner),
   );
+  const approvalFlow = await deployWithFactory(
+    new ApprovalFlow__factory(deploySigner),
+  );
+  const payloadHasher = await deployWithFactory(
+    new PayloadHasher__factory(deploySigner),
+  );
 
   return {
     and,
@@ -110,6 +121,8 @@ export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
     destinationWhitelist,
     destinationBlacklist,
     businessHours,
+    approvalFlow,
+    payloadHasher,
   };
 };
 
@@ -123,6 +136,27 @@ const deployWithFactory = async <
   await instance.waitForDeployment();
 
   return instance as R;
+};
+
+export const deployPayloadHasher = async (deploySigner: SignerWithAddress) => {
+  const payloadHasher = await deployWithFactory(
+    new PayloadHasher__factory(deploySigner),
+  );
+  return {
+    payloadHasher,
+  };
+};
+
+// an explicit deploy-helper (just in case)
+export const deployApprovalFlowInstance = async (
+  deploySigner: SignerWithAddress,
+) => {
+  const approvalFlow = await deployWithFactory(
+    new ApprovalFlow__factory(deploySigner),
+  );
+  return {
+    approvalFlow,
+  };
 };
 
 export const deployDestinationArtifacts = async (
