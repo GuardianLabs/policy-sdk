@@ -1,9 +1,15 @@
 import { faker } from '@faker-js/faker';
-import { getAddress } from 'ethers';
+import { getAddress, Wallet } from 'ethers';
 import { EncodedParamType, PrimitiveEncodeParamTypes } from '../types';
 
 export const randomEthAddress = (): string => {
   return getAddress(faker.finance.ethereumAddress());
+};
+
+export const getRandomSigBytes = () => {
+  const signer = Wallet.createRandom();
+  const bytes = signer.signMessageSync(randomString());
+  return bytes;
 };
 
 export const randomBoolean = (probability: number = 0.51): boolean => {
@@ -14,6 +20,14 @@ export const randomBoolean = (probability: number = 0.51): boolean => {
 export const randomHex = (length: number = 70): string => {
   const value = faker.string.hexadecimal({ length });
   return value;
+};
+
+export const randomBytes = (length: number = 30): string => {
+  return randomHex(length);
+};
+
+export const randomBytes32 = (): string => {
+  return randomBytes(64);
 };
 
 export const randomString = (): string => {

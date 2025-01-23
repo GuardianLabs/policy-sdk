@@ -1,0 +1,14 @@
+//SPDX-License-Identifier: Unlicensed
+pragma solidity ^0.8.27;
+
+string constant INCORRECT_SIGNATORY_ADDRESS = "AF-001";
+string constant CONSENSUS_IS_ZERO_ERR = "AF-002";
+string constant PROVIDED_APPROVER_ADDRESS_IS_DUPLICATE_ERR = "AF-003";
+string constant APPROVER_ADDRESS_IS_ZERO = "AF-004";
+string constant CONSENSUS_IS_LARGER_THAN_MAX_CONSENSUS_ERR = "AF-005";
+string constant CONSENSUS_IS_LOWER_THAN_MIN_CONSENSUS_ERR = "AF-006";
+string constant SUPPLIED_TOO_MANY_SIGNATURES_ERR = "AF-007";
+string constant SUPPLIED_TOO_FEW_SIGNATURES_ERR = "AF-008";
+string constant INCORRECT_SIGNATURE_LENGTH_ERR = "AF-009";
+string constant SUPPLIED_TOO_FEW_APPROVERS_ERR = "AF-010";
+string constant SIGNATURE_IS_CONSUMED_ERR = "AF-011";
