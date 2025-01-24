@@ -41,7 +41,7 @@ function getVariablesListInternal(
 }
 
 function toArtifactInstance(Node memory node) pure returns (IArbitraryDataArtifact instance) {
-    instance = toArtifactInstance(node.artifactContractAddress);
+    instance = toArtifactInstance(node.implementationContractAddress);
 }
 
 function toArtifactInstance(address artifact) pure returns (IArbitraryDataArtifact instance) {
