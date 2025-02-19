@@ -11,6 +11,7 @@
     "build": "tsc -p tsconfig.json && pnpm format:all:fix && pnpm copy-dts",
     "check": "pnpm lint:ts && pnpm check:ts",
     "check:ts": "tsc -p tsconfig.json --noEmit",
+    "check:ts:dev": "pnpm check:ts",
     "clean": "pnpm remove:dist",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "format:all:fix": "pnpm format:ts:fix",
