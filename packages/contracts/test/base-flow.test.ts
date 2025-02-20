@@ -59,7 +59,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
       ${AND_NODE}
       ${XOR_NODE}
       `;
-      console.log(intermediateRepresentation);
+      // console.log(intermediateRepresentation);
 
       andNode = NodeId.fromNotation(AND_NODE, 0);
       xorNode = NodeId.fromNotation(XOR_NODE, 1);
@@ -121,6 +121,17 @@ describe('Artifacts Graph: Base-usage flow', () => {
     let or1NodeId: string;
     let or2NodeId: string;
 
+    let intermediateRepresentationEdited: string;
+    let equalAddressNodeIdAlternative: string;
+    let isDividableUintNodeIdAlternative: string;
+    let equalStringsNodeIdAlternative: string;
+    let equalBytesNodeIdAlternative: string;
+    let not1NodeIdAlternative: string;
+    let andNodeIdAlternative: string;
+    let or1NodeIdAlternative: string;
+    let or2NodeIdAlternative: string;
+    let not2NodeIdAlternative: string;
+
     before(async () => {
       [adminSigner] = await ethers.getSigners();
 
@@ -168,7 +179,47 @@ describe('Artifacts Graph: Base-usage flow', () => {
       ${IS_DIVIDABLE_NODE}
       ${EQUAL_ADDRESS_NODE}
       `;
-      console.log(intermediateRepresentation);
+      // console.log(intermediateRepresentation);
+
+      //#region Alternative policy := !(previous policy)
+      const EQUAL_ADDRESS_NODE_ALTERNATIVE = `{${await equalAddressArtifact.getAddress()}} (varAddress$"",${ZeroAddress}) <>`;
+      const IS_DIVIDABLE_NODE_ALTERNATIVE = `{${await isDividableUintArtifact.getAddress()}} (varNumber$"",${2}) <>`;
+      // const HASH_STRING_NODE = `{${await hashStringArtifact.getAddress()}} (varString) <>`;
+      const EQUAL_STRING_NODE_ALTERNATIVE = `{${await equalStringArtifact.getAddress()}} (varString$"",${'"reference"'}) <>`;
+      const EQUAL_BYTES_NODE_ALTERNATIVE = `{${await equalBytesArtifact.getAddress()}} (varBytes$"",${ZeroHash}) <>`;
+      const NOT1_NODE_ALTERNATIVE = `{${await notArtifact.getAddress()}} (|${NodeId.fromNotation(
+        EQUAL_BYTES_NODE_ALTERNATIVE,
+        5,
+      )}|) <>`;
+      const AND_NODE_ALTERNATIVE = `{${await andArtifact.getAddress()}} (|${NodeId.fromNotation(
+        EQUAL_ADDRESS_NODE_ALTERNATIVE,
+        8,
+      )}|,|${NodeId.fromNotation(IS_DIVIDABLE_NODE_ALTERNATIVE, 7)}|) <>`;
+      const OR1_NODE_ALTERNATIVE = `{${await orArtifact.getAddress()}} (|${NodeId.fromNotation(AND_NODE_ALTERNATIVE, 3)}|,|${NodeId.fromNotation(
+        EQUAL_STRING_NODE_ALTERNATIVE,
+        6,
+      )}|) <>`;
+      const OR2_NODE_ALTERNATIVE = `{${await orArtifact.getAddress()}} (|${NodeId.fromNotation(OR1_NODE_ALTERNATIVE, 2)}|,|${NodeId.fromNotation(
+        NOT1_NODE_ALTERNATIVE,
+        4,
+      )}|) <>`;
+      const NOT2_NODE_ALTERNATIVE = `{${await notArtifact.getAddress()}} (|${NodeId.fromNotation(
+        OR2_NODE_ALTERNATIVE,
+        1,
+      )}|) <>`;
+
+      intermediateRepresentationEdited = `
+      ${NOT2_NODE_ALTERNATIVE}
+      ${OR2_NODE_ALTERNATIVE}
+      ${OR1_NODE_ALTERNATIVE}
+      ${AND_NODE_ALTERNATIVE}
+      ${NOT1_NODE_ALTERNATIVE}
+      ${EQUAL_BYTES_NODE_ALTERNATIVE}
+      ${EQUAL_STRING_NODE_ALTERNATIVE}
+      ${IS_DIVIDABLE_NODE_ALTERNATIVE}
+      ${EQUAL_ADDRESS_NODE_ALTERNATIVE}
+      `;
+      //#endregion
 
       equalAddressNodeId = NodeId.fromNotation(EQUAL_ADDRESS_NODE, 7);
       isDividableUintNodeId = NodeId.fromNotation(IS_DIVIDABLE_NODE, 6);
@@ -178,6 +229,28 @@ describe('Artifacts Graph: Base-usage flow', () => {
       andNodeId = NodeId.fromNotation(AND_NODE, 2);
       or1NodeId = NodeId.fromNotation(OR1_NODE, 1);
       or2NodeId = NodeId.fromNotation(OR2_NODE, 0);
+
+      equalAddressNodeIdAlternative = NodeId.fromNotation(
+        EQUAL_ADDRESS_NODE_ALTERNATIVE,
+        8,
+      );
+      isDividableUintNodeIdAlternative = NodeId.fromNotation(
+        IS_DIVIDABLE_NODE_ALTERNATIVE,
+        7,
+      );
+      equalStringsNodeIdAlternative = NodeId.fromNotation(
+        EQUAL_STRING_NODE_ALTERNATIVE,
+        6,
+      );
+      equalBytesNodeIdAlternative = NodeId.fromNotation(
+        EQUAL_BYTES_NODE_ALTERNATIVE,
+        5,
+      );
+      not1NodeIdAlternative = NodeId.fromNotation(NOT1_NODE_ALTERNATIVE, 4);
+      andNodeIdAlternative = NodeId.fromNotation(AND_NODE_ALTERNATIVE, 3);
+      or1NodeIdAlternative = NodeId.fromNotation(OR1_NODE_ALTERNATIVE, 2);
+      or2NodeIdAlternative = NodeId.fromNotation(OR2_NODE_ALTERNATIVE, 1);
+      not2NodeIdAlternative = NodeId.fromNotation(NOT2_NODE_ALTERNATIVE, 0);
     });
 
     it('should evaluate successfully', async () => {
@@ -186,6 +259,14 @@ describe('Artifacts Graph: Base-usage flow', () => {
         adminSigner,
       );
       const rootNode = or2NodeId;
+
+      await expect(
+        graph.resetGraph({
+          rootNode,
+          nodes: await paser.process(),
+        }),
+      ).to.be.revertedWith('T-005');
+
       await graph.initGraph({
         rootNode,
         nodes: await paser.process(),
@@ -234,6 +315,77 @@ describe('Artifacts Graph: Base-usage flow', () => {
       const tx = graph.evaluateGraph(variables);
 
       const expectedResult = true;
+      await expect(tx)
+        .to.emit(graph, 'Evaluated')
+        .withArgs(expectedResult, rootNode);
+    });
+
+    it('should reset policy rules and evaluate properly', async () => {
+      const paser = ParserWithValidation.fromOnchainSource(
+        intermediateRepresentationEdited,
+        adminSigner,
+      );
+
+      const rootNode = not2NodeIdAlternative;
+
+      await expect(
+        graph.initGraph({
+          rootNode,
+          nodes: await paser.process(),
+        }),
+      ).to.be.revertedWith('T-004');
+
+      await graph.resetGraph({
+        rootNode,
+        nodes: await paser.process(),
+      });
+
+      const variables = [
+        {
+          nodeId: equalAddressNodeIdAlternative,
+          values: MockedExecParams.withNormalizedArgs(
+            SolidityAddressType.create(faker.finance.ethereumAddress()),
+          ).params,
+        },
+        {
+          nodeId: isDividableUintNodeIdAlternative,
+          values: MockedExecParams.withNormalizedArgs(4).params,
+        },
+        {
+          nodeId: equalStringsNodeIdAlternative,
+          values: MockedExecParams.withNormalizedArgs('ref').params,
+        },
+        {
+          nodeId: equalBytesNodeIdAlternative,
+          values: MockedExecParams.withNormalizedArgs(
+            SolidityBytesType.create('0xdead'),
+          ).params,
+        },
+        {
+          nodeId: not1NodeIdAlternative,
+          values: [],
+        },
+        {
+          nodeId: andNodeIdAlternative,
+          values: [],
+        },
+        {
+          nodeId: or1NodeIdAlternative,
+          values: [],
+        },
+        {
+          nodeId: or2NodeIdAlternative,
+          values: [],
+        },
+        {
+          nodeId: not2NodeIdAlternative,
+          values: [],
+        },
+      ];
+
+      const tx = graph.evaluateGraph(variables);
+
+      const expectedResult = false;
       await expect(tx)
         .to.emit(graph, 'Evaluated')
         .withArgs(expectedResult, rootNode);

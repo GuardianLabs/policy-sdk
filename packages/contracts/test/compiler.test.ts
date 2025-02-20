@@ -95,7 +95,7 @@ describe('Policy: compilation with predefined artifacts', () => {
       });
 
       const compilerOutput = await compiler.compile();
-      await gateway.initGraph(compilerOutput);
+      await gateway.resetGraph(compilerOutput);
 
       const execTrue = MockedExecParams.withNormalizedArgs().add(true);
 
@@ -128,7 +128,7 @@ describe('Policy: compilation with predefined artifacts', () => {
       const compiler = LacLangCompiler.fromSources(dsl);
 
       const compilerOutput = await compiler.compile();
-      await gateway.initGraph(compilerOutput);
+      await gateway.resetGraph(compilerOutput);
 
       const execTrue = MockedExecParams.withNormalizedArgs().add(true);
 
@@ -176,7 +176,7 @@ describe('Policy: compilation with predefined artifacts', () => {
       });
 
       const compilerOutput = await compiler.compile();
-      await gateway.initGraph(compilerOutput);
+      await gateway.resetGraph(compilerOutput);
 
       let tx = await gateway.evaluateGraph([
         {
@@ -218,7 +218,7 @@ describe('Policy: compilation with predefined artifacts', () => {
       });
 
       const compilerOutput = await compiler.compile();
-      await gateway.initGraph(compilerOutput);
+      await gateway.resetGraph(compilerOutput);
 
       let tx = await gateway.evaluateGraph([
         {
@@ -257,7 +257,7 @@ describe('Policy: compilation with predefined artifacts', () => {
       const compiler = LacLangCompiler.fromSources(dsl);
 
       const compilerOutput = await compiler.compile();
-      await gateway.initGraph(compilerOutput);
+      await gateway.resetGraph(compilerOutput);
 
       let tx = await gateway.evaluateGraph([
         {

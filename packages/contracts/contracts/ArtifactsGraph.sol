@@ -4,7 +4,9 @@ pragma solidity ^0.8.27;
 import {
     DUPLICATED_ROOT_NODE_ERR,
     MISSING_ROOT_NODE_ERR,
-    INIT_NODES_LIST_IS_LARGER_THAN_MAX_LENGTH_ERR
+    INIT_NODES_LIST_IS_LARGER_THAN_MAX_LENGTH_ERR,
+    GRAPH_ALREADY_INITIALIZED_ERR,
+    GRAPH_NOT_INITIALIZED_ERR
 } from "./Errors.sol";
 import { Node, Variables, GraphInitParams, CacheRecord, NamedTypedVariables } from "./Types.sol";
 import { ArtifactNodes } from "./ArtifactNodes.sol";
@@ -16,6 +18,7 @@ contract ArtifactsGraph is OwnerBase {
     // todo: design to support ArtifactNodes[] list;
     ArtifactNodes private graph;
     bytes32 private rootNodeId;
+    bool private isInitialized = false;
 
     event Evaluated(bool indexed result, bytes32 indexed rootNode);
 
@@ -29,23 +32,16 @@ contract ArtifactsGraph is OwnerBase {
     //     isInited = true;
     // }
 
-    // todo: verify the following:
-    // initGraph' is a way to add more than one graph??
     function initGraph(GraphInitParams memory params) public onlyOwner returns (address) {
-        // note: solves https://ethereum.stackexchange.com/questions/142102/solidity-1024-call-stack-depth as ad-hoc
-        // todo: bring instead sophisticated check
-        require(
-            params.nodes.length <= MAX_NODES_LENGTH,
-            INIT_NODES_LIST_IS_LARGER_THAN_MAX_LENGTH_ERR
-        );
-        graph = new ArtifactNodes(address(this));
+        require(!isInitialized, GRAPH_ALREADY_INITIALIZED_ERR);
 
-        _addNodes(params);
+        return _initGraph(params);
+    }
 
-        // todo: add the way to validate graph.node[params.rootNode] evaluates as bool
-        rootNodeId = params.rootNode;
+    function resetGraph(GraphInitParams memory params) public onlyOwner returns (address) {
+        require(isInitialized, GRAPH_NOT_INITIALIZED_ERR);
 
-        return address(graph);
+        return _initGraph(params);
     }
 
     function evaluateGraph(Variables[] memory variables) public onlyOwner returns (bool result) {
@@ -88,5 +84,24 @@ contract ArtifactsGraph is OwnerBase {
 
         require(rootNodeIncludeCount != 0, MISSING_ROOT_NODE_ERR);
         require(rootNodeIncludeCount == 1, DUPLICATED_ROOT_NODE_ERR);
+    }
+
+    function _initGraph(GraphInitParams memory params) internal onlyOwner returns (address) {
+        // note: solves https://ethereum.stackexchange.com/questions/142102/solidity-1024-call-stack-depth as ad-hoc
+        // todo: bring instead sophisticated check
+        require(
+            params.nodes.length <= MAX_NODES_LENGTH,
+            INIT_NODES_LIST_IS_LARGER_THAN_MAX_LENGTH_ERR
+        );
+        graph = new ArtifactNodes(address(this));
+
+        _addNodes(params);
+
+        // todo: add the way to validate graph.node[params.rootNode] evaluates as bool
+        rootNodeId = params.rootNode;
+
+        isInitialized = true;
+
+        return address(graph);
     }
 }
