@@ -7,7 +7,6 @@ import { ethers } from 'hardhat';
 import { MockedExecParams } from './mocked-init-exec-arguments';
 import {
   AND,
-  ArtifactsGraph,
   EqualAddress,
   EqualBytes,
   EqualString,
@@ -15,20 +14,21 @@ import {
   NOT,
   OR,
   ParserWithValidation,
+  PolicyHandler,
   SolidityAddressType,
   SolidityBytesType,
   XOR,
 } from './types';
-import { deployGraphAndArtifacts } from './utils';
+import { deployPolicyHandlerAndArtifacts } from './utils';
 
 const xor = (argA: boolean, argB: boolean) => {
   return (argA || argB) && !(argA && argB);
 };
 
-describe('Artifacts Graph: Base-usage flow', () => {
+describe('Policy: Base-usage flow', () => {
   describe('Evaluate simple condition', () => {
     let adminSigner: SignerWithAddress;
-    let graph: ArtifactsGraph;
+    let policy: PolicyHandler;
     let andArtifact: AND;
     let xorArtifact: XOR;
 
@@ -40,10 +40,10 @@ describe('Artifacts Graph: Base-usage flow', () => {
       [adminSigner] = await ethers.getSigners();
 
       ({
-        artifactsGraphInstance: graph,
+        PolicyHandlerInstance: policy,
         and: andArtifact,
         xor: xorArtifact,
-      } = await deployGraphAndArtifacts(adminSigner));
+      } = await deployPolicyHandlerAndArtifacts(adminSigner));
 
       const XOR_NODE = `{${await xorArtifact.getAddress()}} (true,var0$"") <>`;
       const AND_NODE = `{${await andArtifact.getAddress()}} (|${NodeId.fromNotation(XOR_NODE, 1)}|,var1$"") <>`;
@@ -73,7 +73,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
 
       const rootNode = andNode;
 
-      await graph.initGraph({
+      await policy.set({
         rootNode,
         nodes: await parser.process(),
       });
@@ -92,17 +92,17 @@ describe('Artifacts Graph: Base-usage flow', () => {
       ];
 
       // TestSuite(adminSigner, gatewayInstance, intermedatePresentation).pushArgs(...args).evaluate(assertionHelpers)
-      const tx = graph.evaluateGraph(variables);
+      const tx = policy.evaluate(variables);
 
       await expect(tx)
-        .to.emit(graph, 'Evaluated')
+        .to.emit(policy, 'Evaluated')
         .withArgs(expectedResult, rootNode);
     });
   });
 
   describe('Evaluate complicated condition', () => {
     let adminSigner: SignerWithAddress;
-    let graph: ArtifactsGraph;
+    let policy: PolicyHandler;
     let andArtifact: AND;
     let orArtifact: OR;
     let notArtifact: NOT;
@@ -136,7 +136,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
       [adminSigner] = await ethers.getSigners();
 
       ({
-        artifactsGraphInstance: graph,
+        PolicyHandlerInstance: policy,
         and: andArtifact,
         or: orArtifact,
         not: notArtifact,
@@ -144,7 +144,7 @@ describe('Artifacts Graph: Base-usage flow', () => {
         equalString: equalStringArtifact,
         equalBytes: equalBytesArtifact,
         isDividiableUint: isDividableUintArtifact,
-      } = await deployGraphAndArtifacts(adminSigner));
+      } = await deployPolicyHandlerAndArtifacts(adminSigner));
 
       const EQUAL_ADDRESS_NODE = `{${await equalAddressArtifact.getAddress()}} (varAddress$"",${ZeroAddress}) <>`;
       const IS_DIVIDABLE_NODE = `{${await isDividableUintArtifact.getAddress()}} (varNumber$"",${2}) <>`;
@@ -261,13 +261,13 @@ describe('Artifacts Graph: Base-usage flow', () => {
       const rootNode = or2NodeId;
 
       await expect(
-        graph.resetGraph({
+        policy.reset({
           rootNode,
           nodes: await paser.process(),
         }),
       ).to.be.revertedWith('T-005');
 
-      await graph.initGraph({
+      await policy.set({
         rootNode,
         nodes: await paser.process(),
       });
@@ -312,11 +312,11 @@ describe('Artifacts Graph: Base-usage flow', () => {
         },
       ];
 
-      const tx = graph.evaluateGraph(variables);
+      const tx = policy.evaluate(variables);
 
       const expectedResult = true;
       await expect(tx)
-        .to.emit(graph, 'Evaluated')
+        .to.emit(policy, 'Evaluated')
         .withArgs(expectedResult, rootNode);
     });
 
@@ -329,13 +329,13 @@ describe('Artifacts Graph: Base-usage flow', () => {
       const rootNode = not2NodeIdAlternative;
 
       await expect(
-        graph.initGraph({
+        policy.set({
           rootNode,
           nodes: await paser.process(),
         }),
       ).to.be.revertedWith('T-004');
 
-      await graph.resetGraph({
+      await policy.reset({
         rootNode,
         nodes: await paser.process(),
       });
@@ -383,11 +383,11 @@ describe('Artifacts Graph: Base-usage flow', () => {
         },
       ];
 
-      const tx = graph.evaluateGraph(variables);
+      const tx = policy.evaluate(variables);
 
       const expectedResult = false;
       await expect(tx)
-        .to.emit(graph, 'Evaluated')
+        .to.emit(policy, 'Evaluated')
         .withArgs(expectedResult, rootNode);
     });
   });

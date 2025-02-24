@@ -14,7 +14,7 @@ import { OwnerBase } from "./OwnerBase.sol";
 import { MAX_NODES_LENGTH } from "./Constants.sol";
 import "./Utilities.sol" as Utils;
 
-contract ArtifactsGraph is OwnerBase {
+contract PolicyHandler is OwnerBase {
     // todo: design to support ArtifactNodes[] list;
     ArtifactNodes private graph;
     bytes32 private rootNodeId;
@@ -32,19 +32,19 @@ contract ArtifactsGraph is OwnerBase {
     //     isInited = true;
     // }
 
-    function initGraph(GraphInitParams memory params) public onlyOwner returns (address) {
+    function set(GraphInitParams memory params) public onlyOwner returns (address) {
         require(!isInitialized, GRAPH_ALREADY_INITIALIZED_ERR);
 
-        return _initGraph(params);
+        return _set(params);
     }
 
-    function resetGraph(GraphInitParams memory params) public onlyOwner returns (address) {
+    function reset(GraphInitParams memory params) public onlyOwner returns (address) {
         require(isInitialized, GRAPH_NOT_INITIALIZED_ERR);
 
-        return _initGraph(params);
+        return _set(params);
     }
 
-    function evaluateGraph(Variables[] memory variables) public onlyOwner returns (bool result) {
+    function evaluate(Variables[] memory variables) public onlyOwner returns (bool result) {
         Node memory rootNode = graph.getNodeById(rootNodeId);
 
         uint256 lastCacheRecord = 0;
@@ -86,7 +86,7 @@ contract ArtifactsGraph is OwnerBase {
         require(rootNodeIncludeCount == 1, DUPLICATED_ROOT_NODE_ERR);
     }
 
-    function _initGraph(GraphInitParams memory params) internal onlyOwner returns (address) {
+    function _set(GraphInitParams memory params) internal onlyOwner returns (address) {
         // note: solves https://ethereum.stackexchange.com/questions/142102/solidity-1024-call-stack-depth as ad-hoc
         // todo: bring instead sophisticated check
         require(

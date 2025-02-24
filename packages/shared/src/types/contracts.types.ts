@@ -30,7 +30,7 @@ export type OnchainPresentation = GraphInitParamsStruct;
 
 export type NodeTreeInitData = TreeNodeInitParamsStruct;
 
-// taken from 'packages/contracts/src/typechain/contracts/ArtifactsGraph.ts
+// taken from 'packages/contracts/src/typechain/contracts/PolicyHandler.ts
 type NamedTypedVariablesStructOutputBase = {
   nodeId: string;
   nodeIndex: bigint;

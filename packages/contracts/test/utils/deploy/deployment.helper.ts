@@ -3,7 +3,6 @@ import { TimezoneOffset } from '../../business-hours';
 import {
   AND__factory,
   ApprovalFlow__factory,
-  ArtifactsGraph__factory,
   BusinessHoursValidation,
   BusinessHoursValidation__factory,
   CurrentTimestamp__factory,
@@ -23,6 +22,7 @@ import {
   NOT__factory,
   OR__factory,
   PayloadHasher__factory,
+  PolicyHandler__factory,
   TrustedTimezoneOffsetSource,
   TrustedTimezoneOffsetSource__factory,
   XOR__factory,
@@ -213,18 +213,18 @@ export const deployBusinessHoursInstance = async (
   return deployWithFactory(new BusinessHoursValidation__factory(deploySigner));
 };
 
-export const deployGraphAndArtifacts = async (
+export const deployPolicyHandlerAndArtifacts = async (
   deploySigner: SignerWithAddress,
 ) => {
   const artifacts = await deployArtifacts(deploySigner);
 
-  const artifactsGraphFactory = new ArtifactsGraph__factory(deploySigner);
+  const PolicyHandlerFactory = new PolicyHandler__factory(deploySigner);
   const adminUser = deploySigner.address;
-  const artifactsGraphInstance = await artifactsGraphFactory.deploy(adminUser);
-  await artifactsGraphInstance.waitForDeployment();
+  const PolicyHandlerInstance = await PolicyHandlerFactory.deploy(adminUser);
+  await PolicyHandlerInstance.waitForDeployment();
 
   return {
-    artifactsGraphInstance,
+    PolicyHandlerInstance,
     ...artifacts,
   };
 };
