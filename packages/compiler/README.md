@@ -28,7 +28,7 @@ const compilationResult = await compiler.compile();
 ```
 The resulting object can be immediately passed directely to the onchain policy handler.
 ```javascript
-await policyHandler.initGraph(compilationResult);
+await policyHandler.set(compilationResult);
 ```
 
 The compiler sequentially translates the DSL into IR, and then IR into final representation. FR is natively compatible with onchain policy handler.

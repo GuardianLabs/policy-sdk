@@ -2,17 +2,16 @@ import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { ethers } from 'hardhat';
 import { policy } from './templates';
 import {
-  ArtifactsGraph,
   EqualAddress,
   EqualBytes,
-  EqualString,
   EqualUint,
   Keccak256String,
   LacLangCompiler,
+  PolicyHandler,
   XOR,
 } from './types';
 import {
-  deployGraphAndArtifacts,
+  deployPolicyHandlerAndArtifacts,
   rawOnchainVariablesDescriptionToOffchainView,
 } from './utils';
 
@@ -25,25 +24,23 @@ describe('Deploying and querying mocks for subsequent tests', () => {
   let keccakStringArtifact: Keccak256String;
   // comparison
   let equalUintsArtifact: EqualUint;
-  let equalStringsArtifact: EqualString;
   let equalBytesArtifact: EqualBytes;
   let equalAddressesArtifact: EqualAddress;
 
   // entrypoint
-  let gateway: ArtifactsGraph;
+  let policyHandler: PolicyHandler;
 
   before(async () => {
     [adminSigner] = await ethers.getSigners();
 
     ({
-      artifactsGraphInstance: gateway,
+      PolicyHandlerInstance: policyHandler,
       equalAddresses: equalAddressesArtifact,
       equalUint: equalUintsArtifact,
       equalBytes: equalBytesArtifact,
-      equalString: equalStringsArtifact,
       keccak256String: keccakStringArtifact,
       xor: xorArtifact,
-    } = await deployGraphAndArtifacts(adminSigner));
+    } = await deployPolicyHandlerAndArtifacts(adminSigner));
   });
 
   describe('Variables testing', () => {
@@ -66,9 +63,9 @@ describe('Deploying and querying mocks for subsequent tests', () => {
       });
 
       const compilerOutput = await compiler.compile();
-      await gateway.initGraph(compilerOutput);
+      await policyHandler.set(compilerOutput);
 
-      const variables = await gateway.getVariablesList();
+      const variables = await policyHandler.getVariablesList();
       const variablesFormatted = variables.map(
         rawOnchainVariablesDescriptionToOffchainView,
       );

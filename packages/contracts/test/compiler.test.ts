@@ -6,10 +6,10 @@ import { policy } from './templates';
 import { check } from './test-helpers';
 import {
   AND,
-  ArtifactsGraph,
-  ArtifactsGraph__factory,
   EqualString,
   LacLangCompiler,
+  PolicyHandler,
+  PolicyHandler__factory,
   XOR,
 } from './types';
 import { deployArtifacts } from './utils';
@@ -25,7 +25,7 @@ describe('Policy: compilation with predefined artifacts', () => {
   let equalStringsArtifact: EqualString;
 
   // entrypoint
-  let gateway: ArtifactsGraph;
+  let policyHandler: PolicyHandler;
 
   before(async () => {
     [adminSigner] = await ethers.getSigners();
@@ -37,10 +37,10 @@ describe('Policy: compilation with predefined artifacts', () => {
     xorArtifact = xor;
     equalStringsArtifact = equalString;
 
-    const gatewayDeployer = new ArtifactsGraph__factory(adminSigner);
+    const gatewayDeployer = new PolicyHandler__factory(adminSigner);
 
-    gateway = await gatewayDeployer.deploy(adminSigner.address);
-    gateway.waitForDeployment();
+    policyHandler = await gatewayDeployer.deploy(adminSigner.address);
+    policyHandler.waitForDeployment();
   });
 
   describe('One artifact', () => {
@@ -59,11 +59,11 @@ describe('Policy: compilation with predefined artifacts', () => {
         checkTypesAgainstDslDeclarations: true,
       });
       const compilerOutput = await compiler.compile();
-      await gateway.initGraph(compilerOutput);
+      await policyHandler.set(compilerOutput);
 
       const execTrue = MockedExecParams.withNormalizedArgs().add(true);
 
-      let tx = gateway.evaluateGraph([
+      let tx = policyHandler.evaluate([
         {
           nodeId: compilerOutput.rootNode,
           values: execTrue.params,
@@ -71,12 +71,12 @@ describe('Policy: compilation with predefined artifacts', () => {
       ]);
 
       await expect(tx)
-        .to.emit(gateway, 'Evaluated')
+        .to.emit(policyHandler, 'Evaluated')
         .withArgs(true, compilerOutput.rootNode);
 
       const execFalse = MockedExecParams.withNormalizedArgs().add(false);
 
-      tx = gateway.evaluateGraph([
+      tx = policyHandler.evaluate([
         {
           nodeId: compilerOutput.rootNode,
           values: execFalse.params,
@@ -84,7 +84,7 @@ describe('Policy: compilation with predefined artifacts', () => {
       ]);
 
       await expect(tx)
-        .to.emit(gateway, 'Evaluated')
+        .to.emit(policyHandler, 'Evaluated')
         .withArgs(false, compilerOutput.rootNode);
     });
 
@@ -95,11 +95,11 @@ describe('Policy: compilation with predefined artifacts', () => {
       });
 
       const compilerOutput = await compiler.compile();
-      await gateway.resetGraph(compilerOutput);
+      await policyHandler.reset(compilerOutput);
 
       const execTrue = MockedExecParams.withNormalizedArgs().add(true);
 
-      let tx = await gateway.evaluateGraph([
+      let tx = await policyHandler.evaluate([
         {
           nodeId: compilerOutput.rootNode,
           values: execTrue.params,
@@ -112,7 +112,7 @@ describe('Policy: compilation with predefined artifacts', () => {
 
       const execFalse = MockedExecParams.withNormalizedArgs().add(false);
 
-      tx = await gateway.evaluateGraph([
+      tx = await policyHandler.evaluate([
         {
           nodeId: compilerOutput.rootNode,
           values: execFalse.params,
@@ -128,11 +128,11 @@ describe('Policy: compilation with predefined artifacts', () => {
       const compiler = LacLangCompiler.fromSources(dsl);
 
       const compilerOutput = await compiler.compile();
-      await gateway.resetGraph(compilerOutput);
+      await policyHandler.reset(compilerOutput);
 
       const execTrue = MockedExecParams.withNormalizedArgs().add(true);
 
-      let tx = gateway.evaluateGraph([
+      let tx = policyHandler.evaluate([
         {
           nodeId: compilerOutput.rootNode,
           values: execTrue.params,
@@ -140,12 +140,12 @@ describe('Policy: compilation with predefined artifacts', () => {
       ]);
 
       await expect(tx)
-        .to.emit(gateway, 'Evaluated')
+        .to.emit(policyHandler, 'Evaluated')
         .withArgs(true, compilerOutput.rootNode);
 
       const execFalse = MockedExecParams.withNormalizedArgs().add(false);
 
-      tx = gateway.evaluateGraph([
+      tx = policyHandler.evaluate([
         {
           nodeId: compilerOutput.rootNode,
           values: execFalse.params,
@@ -153,7 +153,7 @@ describe('Policy: compilation with predefined artifacts', () => {
       ]);
 
       await expect(tx)
-        .to.emit(gateway, 'Evaluated')
+        .to.emit(policyHandler, 'Evaluated')
         .withArgs(false, compilerOutput.rootNode);
     });
   });
@@ -176,9 +176,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       });
 
       const compilerOutput = await compiler.compile();
-      await gateway.resetGraph(compilerOutput);
+      await policyHandler.reset(compilerOutput);
 
-      let tx = await gateway.evaluateGraph([
+      let tx = await policyHandler.evaluate([
         {
           nodeId: compilerOutput.nodes[0].id,
           values:
@@ -194,7 +194,7 @@ describe('Policy: compilation with predefined artifacts', () => {
 
       check(evaluationResult, true);
 
-      tx = await gateway.evaluateGraph([
+      tx = await policyHandler.evaluate([
         {
           nodeId: compilerOutput.nodes[0].id,
           values:
@@ -218,9 +218,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       });
 
       const compilerOutput = await compiler.compile();
-      await gateway.resetGraph(compilerOutput);
+      await policyHandler.reset(compilerOutput);
 
-      let tx = await gateway.evaluateGraph([
+      let tx = await policyHandler.evaluate([
         {
           nodeId: compilerOutput.nodes[0].id,
           values:
@@ -236,7 +236,7 @@ describe('Policy: compilation with predefined artifacts', () => {
 
       check(evaluationResult, true);
 
-      tx = await gateway.evaluateGraph([
+      tx = await policyHandler.evaluate([
         {
           nodeId: compilerOutput.nodes[0].id,
           values:
@@ -257,9 +257,9 @@ describe('Policy: compilation with predefined artifacts', () => {
       const compiler = LacLangCompiler.fromSources(dsl);
 
       const compilerOutput = await compiler.compile();
-      await gateway.resetGraph(compilerOutput);
+      await policyHandler.reset(compilerOutput);
 
-      let tx = await gateway.evaluateGraph([
+      let tx = await policyHandler.evaluate([
         {
           nodeId: compilerOutput.nodes[0].id,
           values:
@@ -275,7 +275,7 @@ describe('Policy: compilation with predefined artifacts', () => {
 
       check(evaluationResult, true);
 
-      tx = await gateway.evaluateGraph([
+      tx = await policyHandler.evaluate([
         {
           nodeId: compilerOutput.nodes[0].id,
           values:

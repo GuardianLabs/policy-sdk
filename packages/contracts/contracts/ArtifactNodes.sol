@@ -35,7 +35,7 @@ contract ArtifactNodes is ArtifactNodesBase {
     }
 
     // note: policy tree can not be too broad or
-    // cyclic cause of stack depth (see: ArtifactsGraph.initGraph)
+    // cyclic cause of stack depth (see: PolicyHandler.set)
     function evaluateRecursively(
         Node memory node,
         Variables[] memory variables,

@@ -31,7 +31,7 @@ The final encoded values can be obtained with the help of `getVariablesEncoded` 
 ```javascript
 const vars = populator.getVariablesEncoded();
 ```
-And then provided directely into `evaluateGraph` onchain PolicyHandler method.
+And then provided directely into `evaluate` onchain PolicyHandler method.
 > To list variables, use `getVariablesDescription` method.
 
 ### Validation
