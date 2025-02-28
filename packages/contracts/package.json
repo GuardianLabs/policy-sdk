@@ -1,6 +1,6 @@
 {
   "name": "@guardian-network/policy-contracts",
-  "author": "Vlad Priadko, Vitali Grabovski",
+  "author": "v.grabovski@lacero.io, vpriadko@lacero.io",
   "description": "Policy with dynamic conditions defined onchain",
   "version": "0.1.0",
   "license": "MIT",

@@ -1,1 +1,1 @@
-export { VariablesInserter } from './VariablesInserter';
+export { Inserter } from './Inserter';

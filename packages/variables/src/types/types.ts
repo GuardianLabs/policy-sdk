@@ -1,10 +1,18 @@
 import { OnchainVariablesDescription } from '@guardian-network/shared/src/types/contracts.types';
 import { PrimitiveEncodeParamTypes } from '@guardian-network/shared/src/types/solidity-encode.types';
 
+/* type OnchainVariablesDescription = {
+  nodeId: string;
+  nodeIndex: bigint;
+  artifactAddress: string;
+  variables: ArgumentStructOutput[];
+  injections: StringAndIndexStructOutput[];
+}; */
+
 export type AllowedVariablesType = PrimitiveEncodeParamTypes; // string | number | boolean;
 
-export type VariablesFormattedDescription = {
-  nodeId: string;
+export type NodeVariablesConfig = {
+  nodeId: NodeId;
   variables: FormattedVariableDescription[];
 };
 
@@ -16,17 +24,17 @@ export type FormattedVariableDescription = {
   injection?: string;
 };
 
-export type FilledVariables = {
-  nodeId: string;
+export type VarValue = {
+  index: number;
+  value: AllowedVariablesType;
+};
+
+export type SuppliedVariables = {
+  nodeId: NodeId;
   values: AllowedVariablesType[];
 };
 
-export type VariableValue = {
-  value: AllowedVariablesType;
-  index: number;
-};
-
-type Variable = {
+export type Variable = {
   typename: string;
   name: string;
 };
@@ -37,8 +45,8 @@ type Injection = {
 };
 
 export type TypedRawOnchainVariablesDescription = {
-  nodeId: string;
-  nodeIndex: number;
+  nodeId: NodeId;
+  nodeIndex: number; // parent node
   artifactAddress: string;
   variables: Array<Variable>;
   injections: Array<Injection>;
@@ -47,3 +55,7 @@ export type TypedRawOnchainVariablesDescription = {
 export type SupportedDescriptionType =
   | OnchainVariablesDescription
   | TypedRawOnchainVariablesDescription;
+
+export type VarName = string;
+export type VarIndex = number;
+export type NodeId = string;

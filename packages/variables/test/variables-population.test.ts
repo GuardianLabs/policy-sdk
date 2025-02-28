@@ -1,14 +1,15 @@
 import { expect } from 'chai';
-import { AllowedVariablesType, VariablesPopulator } from '../src';
 import {
-  FilledVariables,
+  AllowedVariablesType,
+  SuppliedVariables,
   TypedRawOnchainVariablesDescription,
-} from '../src/types';
-import { default as onchainVariables } from './snapshots/dummy.json';
+  VariablesPopulator,
+} from '../src';
+import { default as onchainVariables } from './snapshots/dummy-onchain-variables-data.json';
 
-describe('Variables population minimal flow', () => {
+describe('Populate variables: basic flow', () => {
   let rawOnchainVariables: TypedRawOnchainVariablesDescription[];
-  let intermediateFillingResult: FilledVariables[];
+  let intermediateFillingResult: SuppliedVariables[];
   let internalAttributes: Map<
     string,
     AllowedVariablesType | Promise<AllowedVariablesType>

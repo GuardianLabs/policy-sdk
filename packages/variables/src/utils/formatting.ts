@@ -1,43 +1,38 @@
-import { OnchainVariablesDescription } from '@guardian-network/shared/src/types/contracts.types';
 import { ErrorFactory } from '../errors';
 import {
+  NodeVariablesConfig,
+  SupportedDescriptionType,
   TypedRawOnchainVariablesDescription,
-  VariablesFormattedDescription,
+  Variable,
 } from '../types';
 
 export const formatOnchainVariables = (
-  rawVariables: (
-    | OnchainVariablesDescription
-    | TypedRawOnchainVariablesDescription
-  )[],
-) => {
-  let formattedVariables: VariablesFormattedDescription[] = [];
+  rawVariables: SupportedDescriptionType[],
+): NodeVariablesConfig[] => {
+  const nodesVarsConfig: NodeVariablesConfig[] = [];
 
   for (let rawVariablesByNode of rawVariables.map(
     rawOnchainVariablesDescriptionToOffchainView,
   )) {
-    formattedVariables.push({
+    nodesVarsConfig.push({
       nodeId: rawVariablesByNode.nodeId,
       variables: [],
     });
+
     for (const [index, variable] of rawVariablesByNode.variables.entries()) {
-      formattedVariables[formattedVariables.length - 1].variables.push({
+      nodesVarsConfig[nodesVarsConfig.length - 1].variables.push({
         name: variable.name,
         type: variable.typename,
-        uniqueName: buildUniqueVariablesName(
-          variable.name,
-          variable.typename,
-          rawVariablesByNode.artifactAddress,
-          Number(rawVariablesByNode.nodeIndex),
-        ),
+        uniqueName: buildUniqueVariablesName(variable, rawVariablesByNode),
         index,
       });
     }
 
     for (const injection of rawVariablesByNode.injections) {
-      const varToInject = formattedVariables[
-        formattedVariables.length - 1
+      const varToInject = nodesVarsConfig[
+        nodesVarsConfig.length - 1
       ].variables.find((el) => el.index == Number(injection.index));
+
       if (varToInject) {
         varToInject.injection = injection.value;
       } else
@@ -48,33 +43,31 @@ export const formatOnchainVariables = (
     }
   }
 
-  return formattedVariables;
+  return [...nodesVarsConfig];
 };
 
-export const buildUniqueVariablesName = (
-  name: string,
-  type: string,
-  artifactAddress: string,
-  parentNodeIndex: number,
+export const rawOnchainVariablesDescriptionToOffchainView = (
+  rawVariable: SupportedDescriptionType,
+): TypedRawOnchainVariablesDescription => {
+  const { nodeId, variables, injections, artifactAddress, nodeIndex } =
+    rawVariable;
+
+  const result = {
+    nodeId,
+    nodeIndex: Number(nodeIndex),
+    artifactAddress,
+    variables: variables.map(({ typename, name }) => ({ typename, name })),
+    injections: injections.map(({ value, index }) => ({
+      value,
+      index: Number(index),
+    })),
+  };
+  return result;
+};
+
+const buildUniqueVariablesName = (
+  variable: Variable,
+  description: TypedRawOnchainVariablesDescription,
 ) => {
-  return `${name}_${type}_${artifactAddress}_${parentNodeIndex}`;
+  return `${variable.name}_${variable.typename}_${description.artifactAddress}_${description.nodeIndex}`;
 };
-
-export const rawOnchainVariablesDescriptionToOffchainView = ({
-  nodeId,
-  nodeIndex,
-  artifactAddress,
-  variables,
-  injections,
-}:
-  | OnchainVariablesDescription
-  | TypedRawOnchainVariablesDescription): TypedRawOnchainVariablesDescription => ({
-  nodeId,
-  nodeIndex: Number(nodeIndex),
-  artifactAddress,
-  variables: variables.map(({ typename, name }) => ({ typename, name })),
-  injections: injections.map(({ value, index }) => ({
-    value,
-    index: Number(index),
-  })),
-});

@@ -1,31 +1,29 @@
 import { ErrorFactory } from '../errors';
 import {
   AllowedVariablesType,
-  FilledVariables,
   IAsyncMapGetter,
-  VariablesFormattedDescription,
+  NodeVariablesConfig,
+  SuppliedVariables,
 } from '../types';
 import { valueCompliesExpectedType } from '../utils';
 
-export class VariablesInjector<ValueType extends AllowedVariablesType> {
+// note: inject variable value
+export class Injector<T extends AllowedVariablesType> {
   constructor(
-    private readonly formattedVariablesConfiguration: VariablesFormattedDescription[],
-    public previouslyFilledVariables: FilledVariables[] = [],
+    protected readonly varsConfig: NodeVariablesConfig[],
+    public knownVariables: SuppliedVariables[] = [], // already filled variables; could be injected or inserted
   ) {}
 
-  public async injectValues(valuesSource: IAsyncMapGetter<ValueType>) {
-    const injectedOnPlaceVariables = structuredClone(
-      this.previouslyFilledVariables,
-    );
+  injectValues = async (valuesSource: IAsyncMapGetter<T>) => {
+    const injectedOnPlaceVariables = structuredClone(this.knownVariables);
 
     for (let variablePotentiallyFilled of injectedOnPlaceVariables) {
-      const onchainVariableDefinitionByNode =
-        this.formattedVariablesConfiguration.find(
-          (el) => el.nodeId == variablePotentiallyFilled.nodeId,
-        );
+      const onchainVariableDefinitionByNode = this.varsConfig.find(
+        (el) => el.nodeId == variablePotentiallyFilled.nodeId,
+      );
 
       if (
-        onchainVariableDefinitionByNode &&
+        !!onchainVariableDefinitionByNode &&
         onchainVariableDefinitionByNode.variables
       ) {
         for (let [
@@ -66,5 +64,5 @@ export class VariablesInjector<ValueType extends AllowedVariablesType> {
     }
 
     return injectedOnPlaceVariables;
-  }
+  };
 }

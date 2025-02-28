@@ -1,6 +1,6 @@
 {
   "name": "@guardian-network/policy-variables",
-  "author": "",
+  "author": "vpriadko@lacero.io",
   "description": "Variables scrapping and encoding for policies infrastructure",
   "version": "0.1.0",
   "main": "index.ts",

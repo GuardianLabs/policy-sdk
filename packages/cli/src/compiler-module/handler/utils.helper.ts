@@ -5,5 +5,5 @@ export const writeJsonToFile = (filePath: string, data: object): void => {
   const jsonData = JSON.stringify(data, null, 2);
 
   writeFileSync(filePath, jsonData, { flag: 'w' });
-  console.log(`Compilation result successfully written to ${filePath}`);
+  console.log(`Compilation result is successfully written to "${filePath}"`);
 };

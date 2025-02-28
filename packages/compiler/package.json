@@ -1,6 +1,6 @@
 {
   "name": "@guardian-network/policy-compiler",
-  "author": "",
+  "author": "vpriadko@lacero.io, v.grabovski@lacero.io",
   "description": "Artifcts high level declaration language",
   "version": "0.1.0",
   "main": "index.ts",

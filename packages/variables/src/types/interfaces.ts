@@ -1,3 +1,6 @@
-export interface IAsyncMapGetter<ValueType> {
-  get(key: string): Promise<ValueType> | ValueType | undefined;
+// export interface IAsyncMapGetter<ValueType> {
+type SupportedTypes<T> = Promise<T> | T | undefined;
+
+export interface IAsyncMapGetter<T> {
+  get(key: string): SupportedTypes<T>;
 }

@@ -1,1 +1,1 @@
-export { VariablesInjector } from './VariablesInjector';
+export { Injector } from './Injector';

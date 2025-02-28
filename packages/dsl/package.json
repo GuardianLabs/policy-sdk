@@ -1,6 +1,6 @@
 {
   "name": "@guardian-network/policy-dsl",
-  "author": "",
+  "author": "vpriadko@lacero.io",
   "description": "Artifcts high level declaration language",
   "version": "0.1.0",
   "main": "index.ts",

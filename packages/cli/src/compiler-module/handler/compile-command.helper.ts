@@ -6,7 +6,7 @@ import {
 import { Command } from 'commander';
 import { JsonRpcProvider } from 'ethers';
 import { COMPILE } from '../../constants';
-import { NoRpcUrlError } from '../../errors';
+import { NoRpcUrlConfiguredError } from '../../errors';
 import {
   rpcEndpointOption,
   sourcePathOptions,
@@ -23,7 +23,7 @@ const retrieveCompilerOptions = (options: CliCompileOptions) => {
 
   if (!!typeOnchain || !!typeDsl) {
     const rpcEndpoint = rpc || process.env.RPC;
-    if (!rpcEndpoint) throw new NoRpcUrlError();
+    if (!rpcEndpoint) throw new NoRpcUrlConfiguredError();
 
     config = {
       checkTypesAgainstOnchainDescriptors: !!typeOnchain,
