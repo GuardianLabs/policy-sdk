@@ -94,6 +94,7 @@ export const validateAllVariablesSupplied = (
       const isInjection = isVariableInjectable(variable);
       const isVariableSupplied = suppliedVars.values[j] != undefined;
 
+      // todo: double validate value type against expected type
       // when not supplied and not injection
       if (!isVariableSupplied && !isInjection) {
         throw ErrorFactory.variableNotFilled(

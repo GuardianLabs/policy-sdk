@@ -61,6 +61,7 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
 
     if (!targetNodeId) throw ErrorFactory.variableNodeNotFound(name);
 
+    // todo: a dedicated error
     if (!this.nodeToVars.get(targetNodeId))
       throw ErrorFactory.variableNodeNotFound(name);
 
