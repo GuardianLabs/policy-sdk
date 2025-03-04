@@ -102,6 +102,16 @@ export const validateAllVariablesSupplied = (
           variable.injection,
         );
       }
+      if (isVariableSupplied) {
+        const value = suppliedVars.values[j];
+        const expectedType = variable.type;
+        if (!validateVarValueType(value, expectedType)) {
+          throw ErrorFactory.variableTypeNotMet(
+            value.toString(),
+            expectedType,
+          );
+        }
+      }
     }
   }
 };
