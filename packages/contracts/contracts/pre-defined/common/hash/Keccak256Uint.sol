@@ -27,6 +27,7 @@ contract Keccak256Uint is StatelessArtifactBase {
 
         uint256 argA = abi.decode(data[0], (uint256));
 
-        return abi.encode(keccak256(abi.encodePacked(argA)));
+        bytes32 hashedValue = keccak256(abi.encodePacked(argA));
+        return abi.encode(abi.encode(hashedValue));
     }
 }

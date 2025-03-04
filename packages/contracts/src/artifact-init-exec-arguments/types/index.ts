@@ -3,7 +3,7 @@ import { ArtifactBase } from '../../typechain';
 export { EncodedParamType as NormalizedParamType } from '@guardian-network/shared/src/types/solidity-encode.types';
 export * from './config.types';
 
-export type Unnormalized = Array<number> | string | boolean | number;
+export type Unnormalized = /* Array<number> | */ string | boolean | number;
 
 export type UnnormalizedParamType = {
   param: Unnormalized;

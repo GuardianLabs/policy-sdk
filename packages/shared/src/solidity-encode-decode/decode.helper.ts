@@ -10,7 +10,7 @@ type PreciseDecodedParamType<T> = T extends 'string'
     ? boolean
     : T extends 'uint256'
       ? bigint
-      : T extends 'bytes32'
+      : T extends 'bytes' // todo: add support of 'bytes32'
         ? string
         : any;
 
@@ -49,7 +49,7 @@ const inferAndPopulateWithTypescriptType = <T extends DecodedParamType>(
     return value as PreciseDecodedParamType<T>;
   } else if (type === 'uint256') {
     return BigInt(value) as PreciseDecodedParamType<T>;
-  } else if (type === 'bytes32') {
+  } else if (type === 'bytes') {
     return value as PreciseDecodedParamType<T>;
   }
 

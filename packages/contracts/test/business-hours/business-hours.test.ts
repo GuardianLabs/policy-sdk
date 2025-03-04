@@ -4,11 +4,7 @@ import { expect } from 'chai';
 import { ethers } from 'hardhat';
 import { MockedExecParams } from '../mocked-init-exec-arguments';
 import { check } from '../test-helpers';
-import {
-  InitParams,
-  SolidityAddressType,
-  SolidityUint24ListType,
-} from '../types';
+import { InitParams, SolidityAddressType, SolidityBytesType } from '../types';
 import {
   deployBusinessHoursContracts,
   solidityDecodeSingleParam,
@@ -20,7 +16,7 @@ import {
   TrustedTimezoneOffsetSource,
 } from './';
 
-describe('Business Hours artifact', () => {
+describe.only('Business Hours artifact', () => {
   const TIMEZONE_ID: string = 'Europe/Kyiv';
   const timezoneOffset: number = 2 * 60;
   const timezoneOffsetIsNegative = false;
@@ -82,9 +78,9 @@ describe('Business Hours artifact', () => {
   describe('Business Hours Artifact: Initialization', () => {
     it('should init Business hours artifact', async () => {
       const openingSecondsUint24List =
-        SolidityUint24ListType.create(openingSeconds);
+        SolidityBytesType.createUint24List(openingSeconds);
       const closingSecondsUint24List =
-        SolidityUint24ListType.create(closingSeconds);
+        SolidityBytesType.createUint24List(closingSeconds);
       const trustedTimezoneSourceAddress = SolidityAddressType.create(
         await trustedTimezoneOffsetSourceInstance.getAddress(),
       );
@@ -112,8 +108,8 @@ describe('Business Hours artifact', () => {
   describe('Business Hours Artifact: Check if business is open', () => {
     describe('failure', () => {
       let businessHoursInstance: BusinessHoursValidation;
-      let openingSecondsUint24List: SolidityUint24ListType;
-      let closingSecondsUint24List: SolidityUint24ListType;
+      let openingSecondsUint24List: SolidityBytesType;
+      let closingSecondsUint24List: SolidityBytesType;
       let trustedTimezoneSourceAddress: SolidityAddressType;
 
       before(async () => {
@@ -130,17 +126,17 @@ describe('Business Hours artifact', () => {
         } = await deployBusinessHoursContracts(adminSigner, offsetParams));
 
         openingSecondsUint24List =
-          SolidityUint24ListType.create(openingSeconds);
+          SolidityBytesType.createUint24List(openingSeconds);
         closingSecondsUint24List =
-          SolidityUint24ListType.create(closingSeconds);
+          SolidityBytesType.createUint24List(closingSeconds);
         trustedTimezoneSourceAddress = SolidityAddressType.create(
           await trustedTimezoneOffsetSourceInstance.getAddress(),
         );
       });
 
       it('when closing time is earlier than opening time', async () => {
-        openingSecondsUint24List.uintArray[0] = 5;
-        closingSecondsUint24List.uintArray[0] = 4;
+        openingSeconds[0] = 5;
+        closingSeconds[0] = 4;
 
         const init = InitParams.create(
           await businessHoursInstance.getInitDescriptor(),
@@ -156,8 +152,8 @@ describe('Business Hours artifact', () => {
       });
 
       it('when opening period during single day last less than 60 seconds', async () => {
-        openingSecondsUint24List.uintArray[0] = 40;
-        closingSecondsUint24List.uintArray[0] = 50;
+        openingSeconds[0] = 40;
+        closingSeconds[0] = 50;
 
         const init = InitParams.create(
           await businessHoursInstance.getInitDescriptor(),
@@ -173,8 +169,8 @@ describe('Business Hours artifact', () => {
       });
 
       it('when closing time passed as seconds is higher than 24 * 3600 (one day in seconds)', async () => {
-        openingSecondsUint24List.uintArray[0] = 40;
-        closingSecondsUint24List.uintArray[0] = 86401;
+        openingSeconds[0] = 40;
+        closingSeconds[0] = 86401;
 
         const init = InitParams.create(
           await businessHoursInstance.getInitDescriptor(),

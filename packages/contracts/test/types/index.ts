@@ -6,7 +6,6 @@ export {
   SolidityBytes32Type,
   SolidityBytesListPacked,
   SolidityBytesType,
-  SolidityUint24ListType,
 } from '@guardian-network/shared/src/solidity-types';
 export {
   EncodedParamType,

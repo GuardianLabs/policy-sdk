@@ -32,7 +32,6 @@ import {
   OR,
   SolidityAddressType,
   SolidityBytesType,
-  SolidityUint24ListType,
   TrustedTimezoneOffsetSource,
   UnnormalizedExecParams,
   XOR,
@@ -217,13 +216,12 @@ describe('Artifacts: Pre defined', () => {
         const encodedResult = await keccakStringArtifact.exec.staticCall(
           exec.params,
         );
-        const decodedResult = solidityDecodeSingleParam(
-          'bytes32',
-          encodedResult,
-        );
+        const decodedResult = solidityDecodeSingleParam('bytes', encodedResult);
 
-        const expectedResult = keccak256Hash(['string'], [toHash]);
-        check(decodedResult, expectedResult);
+        const hashed = keccak256Hash(['string'], [toHash]);
+        const expecedResult = SolidityBytesType.create(hashed);
+
+        check(decodedResult, expecedResult.bytes);
       });
 
       it('failure', async () => {
@@ -248,13 +246,12 @@ describe('Artifacts: Pre defined', () => {
         const encodedResult = await keccakUintArtifact.exec.staticCall(
           exec.params,
         );
-        const decodedResult = solidityDecodeSingleParam(
-          'bytes32',
-          encodedResult,
-        );
+        const decodedResult = solidityDecodeSingleParam('bytes', encodedResult);
 
-        const expectedResult = keccak256Hash(['uint256'], [toHash]);
-        check(decodedResult, expectedResult);
+        const hashed = keccak256Hash(['uint256'], [toHash]);
+        const expecedResult = SolidityBytesType.create(hashed);
+        // console.log(decodedResult, expecedResult.bytes);
+        check(decodedResult, expecedResult.bytes);
       });
 
       it('failure', async () => {
@@ -580,30 +577,33 @@ describe('Artifacts: Pre defined', () => {
       });
 
       it('successful check', async () => {
-        const openingSeconds = SolidityUint24ListType.create(
-          new Array<number>(7).fill(toSeconds(10)), // every day open from 10 am
-        );
-        const closingSeconds = SolidityUint24ListType.create(
-          new Array<number>(7).fill(toSeconds(18)), // closed at 6 pm daily
-        );
+        // const openingSeconds = SolidityUint24ListType.create(
+        //   new Array<number>(7).fill(toSeconds(10)), // every day open from 10 am
+        // );
+        // const closingSeconds = SolidityUint24ListType.create(
+        //   new Array<number>(7).fill(toSeconds(18)), // closed at 6 pm daily
+        // );
         const trustedTimezoneSourceAddress = SolidityAddressType.create(
           await trustedTimezoneSourceOracle.getAddress(),
         );
+
+        const opening = new Array<number>(7).fill(toSeconds(10));
+        const closing = new Array<number>(7).fill(toSeconds(18));
 
         const init = InitParams.create(
           await businessHoursArtifact.getInitDescriptor(),
           TIMEZONE_ID,
           trustedTimezoneSourceAddress,
-          openingSeconds,
-          closingSeconds,
+          SolidityBytesType.createUint24List(opening),
+          SolidityBytesType.createUint24List(closing),
         );
         const tx = await businessHoursArtifact.init(init.params);
         await tx.wait();
 
         // note: check if open
         const nextOpenTime = pickNextOpenTime(
-          openingSeconds.value,
-          closingSeconds.value,
+          opening,
+          closing,
           DEFAULT_OFFSET_PARAMS,
           await time.latest(),
         );
@@ -617,8 +617,8 @@ describe('Artifacts: Pre defined', () => {
 
         // note: check if closed
         const nextClosedTime = pickNextClosedTime(
-          openingSeconds.value,
-          closingSeconds.value,
+          opening,
+          closing,
           DEFAULT_OFFSET_PARAMS,
           await time.latest(),
         );

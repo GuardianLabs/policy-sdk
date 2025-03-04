@@ -42,13 +42,15 @@ contract BusinessHoursValidation is StatefulArtifactBase, BusinessHoursValidatio
         // note: trigger base configuration & validations
         super._init(data);
 
-        (string memory init1, address init2, uint24[] memory init3, uint24[] memory init4) = abi
-            .decode(data, (string, address, uint24[], uint24[]));
+        (string memory init1, address init2, bytes memory init3, bytes memory init4) = abi.decode(
+            data,
+            (string, address, bytes, bytes)
+        );
 
         string memory timezone = init1;
         address timezoneOffsetAggregator = init2;
-        uint24[] memory openingSecondsList = init3;
-        uint24[] memory closingSecondsList = init4;
+        uint24[] memory openingSecondsList = abi.decode(init3, (uint24[])); // openingSecondsList packed as bytes
+        uint24[] memory closingSecondsList = abi.decode(init4, (uint24[])); // closingSecondsList packed as bytes
 
         _initBusinessHours(
             timezone,

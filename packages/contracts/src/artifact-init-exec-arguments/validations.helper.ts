@@ -5,15 +5,13 @@ import {
   SOLIDITY_ADDRESS,
   SOLIDITY_BOOL,
   SOLIDITY_BYTES,
-  SOLIDITY_BYTES32,
+  // SOLIDITY_BYTES32,
   SOLIDITY_STRING,
   SOLIDITY_UINT256,
-  SOLIIDTY_UINT24_LIST,
 } from '@guardian-network/shared/src/solidity-types/constants';
 import {
   SolidityAddressType,
   SolidityBytesType,
-  SolidityUint24ListType,
 } from '@guardian-network/shared/src/solidity-types/wrapped-types';
 import {
   NormalizedParamType,
@@ -96,9 +94,9 @@ const tryNormalizeType = (
   value: Unnormalized,
 ): NormalizedParamType => {
   const typename = solidityTypename;
-  if (typename === SOLIIDTY_UINT24_LIST && Array.isArray(value)) {
-    return SolidityUint24ListType.create(value);
-  }
+  // if (typename === SOLIIDTY_UINT24_LIST && Array.isArray(value)) {
+  //   return SolidityUint24ListType.create(value);
+  // }
 
   if (typename === SOLIDITY_ADDRESS && typeof value === 'string') {
     return SolidityAddressType.create(value);
@@ -112,9 +110,9 @@ const tryNormalizeType = (
     return value;
   }
 
-  if (typename === SOLIDITY_BYTES32 && typeof value === 'string') {
-    return value;
-  }
+  // if (typename === SOLIDITY_BYTES32 && typeof value === 'string') {
+  //   return value;
+  // }
 
   if (typename === SOLIDITY_UINT256 && typeof value === 'number') {
     return value;

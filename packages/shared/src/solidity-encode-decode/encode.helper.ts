@@ -1,7 +1,6 @@
 import {
   SolidityAddressType,
   SolidityBytesType,
-  SolidityUint24ListType,
 } from '../solidity-types/wrapped-types';
 import {
   EncodedParamType,
@@ -23,9 +22,9 @@ type PreciseEncodedParamType<T extends EncodedParamType> = T extends string
         ? 'address'
         : T extends SolidityBytesType
           ? 'bytes'
-          : T extends SolidityUint24ListType
-            ? 'uint24[]'
-            : any;
+          : /* : T extends SolidityUint24ListType
+            ? 'uint24[]' */
+            any;
 
 export const solidityEncode = (
   ...params: SolidityEncodeInputParamsType
@@ -104,9 +103,9 @@ const inferObjectType = <T extends ObjectEncodeParamTypes>(
     typename = 'address' as PreciseEncodedParamType<T>;
   } else if (primitiveTypeOrObject instanceof SolidityBytesType) {
     typename = 'bytes' as PreciseEncodedParamType<T>;
-  } else if (primitiveTypeOrObject instanceof SolidityUint24ListType) {
+  } /* else if (primitiveTypeOrObject instanceof SolidityUint24ListType) {
     typename = 'uint24[]' as PreciseEncodedParamType<T>;
-  } else
+  } */ else
     throw new Error(
       `Encode: Not supported encoding type for object: ${primitiveTypeOrObject}`,
     );
@@ -128,7 +127,7 @@ const isObjectType = (
   return (
     type === 'object' &&
     (value instanceof SolidityAddressType ||
-      value instanceof SolidityBytesType ||
-      value instanceof SolidityUint24ListType)
+      value instanceof SolidityBytesType) /* ||
+      value instanceof SolidityUint24ListType */
   );
 };

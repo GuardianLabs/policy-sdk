@@ -27,6 +27,7 @@ contract Keccak256String is StatelessArtifactBase {
 
         string memory argA = abi.decode(data[0], (string));
 
-        return abi.encode(keccak256(abi.encodePacked(argA)));
+        bytes32 hashedValue = keccak256(abi.encodePacked(argA));
+        return abi.encode(abi.encode(hashedValue));
     }
 }

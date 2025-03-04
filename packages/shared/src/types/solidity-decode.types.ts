@@ -1,1 +1,5 @@
-export type DecodedParamType = 'string' | 'bool' | 'uint256' | 'bytes32';
+export type DecodedParamType =
+  | 'string'
+  | 'bool'
+  | 'uint256'
+  | 'bytes' /* | 'bytes32' */;
