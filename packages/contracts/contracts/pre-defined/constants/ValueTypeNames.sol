@@ -5,4 +5,4 @@ pragma solidity ^0.8.27;
 string constant UINT = "uint256";
 string constant BOOL = "bool";
 string constant ADDRESS = "address";
-string constant BYTES32 = "bytes32";
+// string constant BYTES32 = "bytes32"; // NOT SUPPORTED YET

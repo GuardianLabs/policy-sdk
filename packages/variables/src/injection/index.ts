@@ -1,1 +1,1 @@
-export { Injector } from './Injector';
+export { StaticInjector } from './StaticInjector';

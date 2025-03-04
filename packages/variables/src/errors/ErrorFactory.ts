@@ -4,7 +4,7 @@ import {
   VariableNodeNotFoundError,
   VariableNotFilledError,
   VariableNotFoundError,
-  VariableTypeNotMatchedError,
+  VariableTypeNotKnownError,
   VariableTypeNotMetError,
 } from './validation-errors';
 
@@ -39,10 +39,10 @@ export class ErrorFactory {
     return VariableNodeNotFoundError.create(...params);
   };
 
-  static variableTypeNotMatched = (
-    ...params: Parameters<typeof VariableTypeNotMatchedError.create>
+  static providedVariableWithNotKnownType = (
+    ...params: Parameters<typeof VariableTypeNotKnownError.create>
   ) => {
-    return VariableTypeNotMatchedError.create(...params);
+    return VariableTypeNotKnownError.create(...params);
   };
 
   static variableNotFilled = (

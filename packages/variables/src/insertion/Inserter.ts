@@ -13,24 +13,24 @@ import {
 // note: insert variable value
 export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
   // static fromDump = (
-  //   varsConfig: VariablesFormattedDescription[],
-  //   dump: FilledVariables[],
+  //   varsConfig: NodeVariablesConfig[],
+  //   dump: SuppliedVariables[],
   // ): Inserter => {
   //   const inserter = new Inserter(varsConfig);
-  //   inserter.importDump(dump);
+  //   inserter.import(dump);
   //   return inserter;
   // };
 
   // the node-with-no-variables list
-  private spareNodes: NodeVariablesConfig[] = [];
+  private spareNodesConfig: NodeVariablesConfig[] = [];
 
   // variable-unique-name => its-node-id
   private varNameToNodeId: Map<VarName, NodeId> = new Map();
 
-  // variable-unique-name => its-index-in-node-vars-list
+  // variable-unique-name => its-index-in-node-vars-list (defined in "this.nodeToVars")
   private varNameToVarIndex: Map<VarName, VarIndex> = new Map();
 
-  // node-id => its-filled-variables
+  // node-id => its-known-variables; known = filled
   private nodeToVars: Map<NodeId, Array<VarValue>> = new Map();
 
   constructor(
@@ -43,14 +43,14 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
     for (const nodeVars of varsConfig) {
       this.nodeToVars.set(nodeVars.nodeId, []);
 
-      // if (varsByNode.variables) { // ERROR in legacy code
+      // if (varsByNode.variables) { // note: legacy code has and ERROR at this point
 
       if (nodeVars.variables.length === 0) {
-        this.spareNodes.push(nodeVars);
+        this.spareNodesConfig.push(nodeVars);
       } else {
-        for (const variable of nodeVars.variables) {
-          this.varNameToNodeId.set(variable.uniqueName, nodeVars.nodeId);
-          this.varNameToVarIndex.set(variable.uniqueName, variable.index);
+        for (const { index, uniqueName } of nodeVars.variables) {
+          this.varNameToNodeId.set(uniqueName, nodeVars.nodeId);
+          this.varNameToVarIndex.set(uniqueName, index);
         }
       }
     }
@@ -64,6 +64,7 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
     if (!this.nodeToVars.get(targetNodeId))
       throw ErrorFactory.variableNodeNotFound(name);
 
+    // todo: safer approach
     this.nodeToVars.get(targetNodeId)!.push({
       index: this.varNameToVarIndex.get(name)!,
       value,
@@ -73,6 +74,7 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
   get = (varName: string): AllowedVariablesType | undefined => {
     const nodeId = this.varNameToNodeId.get(varName)!;
 
+    // todo: safer approach
     const result = this.nodeToVars
       .get(nodeId)!
       .find((el) => el.index == this.varNameToVarIndex.get(varName))?.value;
@@ -80,7 +82,7 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
     return result;
   };
 
-  importDump = (dump: Array<SuppliedVariables>) => {
+  import = (dump: Array<SuppliedVariables>) => {
     for (const { nodeId, values } of dump) {
       this.nodeToVars.set(
         nodeId,
@@ -90,34 +92,34 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
   };
 
   get filledVars(): SuppliedVariables[] {
-    const alreadyFilledVars: SuppliedVariables[] = [];
+    const suppliedVars: SuppliedVariables[] = [];
 
-    for (let [targetNodeId, filledVariablesByNode] of this.nodeToVars) {
+    for (let [targetNodeId, nodeVars] of this.nodeToVars) {
       let filledVariable: SuppliedVariables = {} as SuppliedVariables;
-      filledVariable.nodeId = targetNodeId;
 
-      const filledVariableValues = new Array<AllowedVariablesType>(
-        filledVariablesByNode.length,
+      const variableValuesTmp = new Array<AllowedVariablesType>(
+        nodeVars.length,
       );
 
-      for (let variableValueConfig of filledVariablesByNode) {
-        filledVariableValues[variableValueConfig.index] =
-          variableValueConfig.value;
+      for (let { index, value } of nodeVars) {
+        // important: preserve index??; otherwise use nodeVars.map
+        variableValuesTmp[index] = value;
       }
 
-      filledVariable.values = filledVariableValues;
-      alreadyFilledVars.push(filledVariable);
+      filledVariable.values = variableValuesTmp;
+      filledVariable.nodeId = targetNodeId;
+      suppliedVars.push(filledVariable);
     }
 
-    const emptyVars: SuppliedVariables[] = this.spareNodes.map(
+    const emptyVars: SuppliedVariables[] = this.spareNodesConfig.map(
       ({ nodeId }) => ({
         nodeId,
         values: [],
       }),
     );
 
-    // also push nodes without variables so they are processed anyways
-    const result = [...alreadyFilledVars, ...emptyVars];
+    // note: also push nodes without variables so they are processed anyways
+    const result = [...suppliedVars, ...emptyVars];
     return result;
   }
 }

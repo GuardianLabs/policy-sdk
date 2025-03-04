@@ -1,120 +1,117 @@
 import { solidityEncodeSingleParam } from '@guardian-network/shared/src/solidity-encode-decode';
 import { VariablesStruct } from '@guardian-network/shared/src/types/contracts.types';
 import { ErrorFactory } from './errors';
-import { Injector } from './injection';
+import { StaticInjector } from './injection';
 import { Inserter } from './insertion';
 import {
   AllowedVariablesType,
-  FormattedVariableDescription,
   IAsyncMapGetter,
   NodeVariablesConfig,
+  NodeVariablesDescription,
   SuppliedVariables,
-  SupportedDescriptionType,
+  VarDescription,
 } from './types';
-import { formatOnchainVariables, valueCompliesExpectedType } from './utils';
+import {
+  translateVarsDescriptionToConfig,
+  validateAllVariablesSupplied,
+  validateVarValueTypeWithErr,
+} from './utils';
 
-// note: fill all required variables with respecrtive values
+// note: fill each variable with respective data
 export class VariablesPopulator {
-  protected formattedVariablesConfiguration: NodeVariablesConfig[];
-  private inserter: Inserter;
-  private injector: Injector<AllowedVariablesType>;
-  private filledVariables: SuppliedVariables[];
+  protected varsConfig: NodeVariablesConfig[];
+  public inserter: Inserter;
+  private suppliedVars: SuppliedVariables[];
 
-  constructor(rawVariablesDescription: Array<SupportedDescriptionType>) {
-    this.formattedVariablesConfiguration = formatOnchainVariables(
-      rawVariablesDescription,
-    );
+  constructor(varsDescriptions: Array<NodeVariablesDescription>) {
+    this.varsConfig = translateVarsDescriptionToConfig(varsDescriptions);
 
-    this.inserter = new Inserter(this.formattedVariablesConfiguration);
-    this.injector = new Injector(this.formattedVariablesConfiguration);
+    this.inserter = new Inserter(this.varsConfig);
 
-    this.filledVariables = this.inserter.filledVars;
+    this.suppliedVars = this.inserter.filledVars;
+    // console.log(this.filledVariables[0].values);
   }
 
-  public import(filledValues: SuppliedVariables[]) {
-    this.inserter.importDump(filledValues);
+  // note: varName has to be unique in comparison to other vars
+  insert = (varName: string, varValue: AllowedVariablesType) => {
+    const varDescription = this.getVarDescription(varName);
+    validateVarValueTypeWithErr(varValue, varDescription.type);
 
-    this.filledVariables = this.inserter.filledVars;
-  }
+    this.inserter.insert(varName, varValue);
 
-  insert = (variableUniqueName: string, value: AllowedVariablesType) => {
-    this._validateVariableValueType(value, variableUniqueName);
-
-    this.inserter.insert(variableUniqueName, value);
-
-    this.filledVariables = this.inserter.filledVars;
+    this.suppliedVars = this.inserter.filledVars;
   };
 
   inject = async (attributes: IAsyncMapGetter<AllowedVariablesType>) => {
-    this.injector.knownVariables = this.filledVariables;
-
-    this.filledVariables = await this.injector.injectValues(attributes);
+    this.suppliedVars = await StaticInjector.inject(
+      this.varsConfig,
+      this.suppliedVars,
+      attributes,
+    );
   };
 
-  public getVariablesDescription() {
-    return this.formattedVariablesConfiguration.flatMap((el) => el.variables);
-  }
+  importState = (filledValues: SuppliedVariables[]) => {
+    this.inserter.import(filledValues);
 
-  public getVariablesValues() {
-    return this.filledVariables;
-  }
+    this.suppliedVars = this.inserter.filledVars;
 
-  public getVariablesEncoded(): VariablesStruct[] {
-    return this.filledVariables.map(({ nodeId, values }) => ({
-      nodeId,
-      values: values.map((val) => solidityEncodeSingleParam(val)),
-    }));
-  }
+    return this;
+  };
 
-  public getVariableDescription(uniqueName: string) {
-    return this.getVariablesDescription().find(
-      (el) => el.uniqueName == uniqueName,
+  dumpState = (): Array<SuppliedVariables> => {
+    return this.suppliedVars;
+  };
+
+  // note: actually not serialized, rather packed to be
+  // compatible with policy-handler "evaluate" method define onchain using Solidity
+  toSerializedVariables = (): Array<VariablesStruct> => {
+    // note: only completely supplied variables have to be serialized
+    this.validateAllFilled();
+
+    const solidityPackedVariablesList = this.suppliedVars.map(
+      ({ nodeId, values }) => ({
+        nodeId,
+        values: values.map((val) => solidityEncodeSingleParam(val)),
+      }),
     );
+
+    return solidityPackedVariablesList;
+  };
+
+  getVarDescription(varName: string): VarDescription {
+    const variableDescription = this.getVarsDescription().find(
+      ({ uniqueName }) => uniqueName == varName,
+    );
+
+    // note: validate variable exists (and has a description)
+    if (!variableDescription) throw ErrorFactory.variableNotFound(varName);
+
+    return variableDescription;
   }
 
-  public validateFilledAllOrThrow() {
-    this._validateFillingWithAdditionalCondition();
-  }
+  getVarsDescription = (): VarDescription[] => {
+    // flattened list of each node variables
+    const variablesDescriptionList: VarDescription[] = this.varsConfig.flatMap(
+      ({ variables }) => variables,
+    );
 
-  public validateFilledAllExceptInjectionsOrThrow() {
-    const graceToInjections = (varDecl: FormattedVariableDescription) =>
-      !varDecl.injection;
+    return variablesDescriptionList;
+  };
 
-    this._validateFillingWithAdditionalCondition(graceToInjections);
-  }
+  validateAllFilledExceptInjections = (): void => {
+    const isVariableInjectable = (varDescription: VarDescription) => {
+      // note: undefined means not injection; defined means injection
+      return !!varDescription.injection;
+    };
 
-  private _validateVariableValueType(
-    filledValue: AllowedVariablesType,
-    uniqueVariableName: string,
-  ) {
-    const varDescription = this.getVariableDescription(uniqueVariableName);
-    if (!varDescription)
-      throw ErrorFactory.variableNotFound(uniqueVariableName);
+    validateAllVariablesSupplied(
+      this.varsConfig,
+      this.suppliedVars,
+      isVariableInjectable,
+    );
+  };
 
-    if (!valueCompliesExpectedType(filledValue, varDescription.type))
-      throw ErrorFactory.variableTypeNotMet(
-        filledValue.toString(),
-        varDescription.type,
-      );
-  }
-
-  private _validateFillingWithAdditionalCondition(
-    nuance: (varDecl: FormattedVariableDescription) => boolean = (_) => true,
-  ) {
-    for (let i = 0; i < this.formattedVariablesConfiguration.length; i++) {
-      const expectedVariables = this.formattedVariablesConfiguration[i];
-      const filledValues = this.filledVariables[i];
-
-      for (let j = 0; j < expectedVariables.variables.length; j++) {
-        const expectedVariable = expectedVariables.variables[j];
-
-        if (filledValues.values[j] == undefined && nuance(expectedVariable)) {
-          throw ErrorFactory.variableNotFilled(
-            expectedVariable.uniqueName,
-            expectedVariable.injection,
-          );
-        }
-      }
-    }
-  }
+  validateAllFilled = (): void => {
+    validateAllVariablesSupplied(this.varsConfig, this.suppliedVars);
+  };
 }

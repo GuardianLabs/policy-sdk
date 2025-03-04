@@ -1,40 +1,46 @@
 import { ErrorFactory } from '../errors';
 import {
   NodeVariablesConfig,
-  SupportedDescriptionType,
+  NodeVariablesDescription,
   TypedRawOnchainVariablesDescription,
   Variable,
 } from '../types';
 
-export const formatOnchainVariables = (
-  rawVariables: SupportedDescriptionType[],
+export const translateVarsDescriptionToConfig = (
+  nodesVarsList: NodeVariablesDescription[],
 ): NodeVariablesConfig[] => {
   const nodesVarsConfig: NodeVariablesConfig[] = [];
 
-  for (let rawVariablesByNode of rawVariables.map(
+  for (let nodeVars of nodesVarsList.map(
     rawOnchainVariablesDescriptionToOffchainView,
   )) {
     nodesVarsConfig.push({
-      nodeId: rawVariablesByNode.nodeId,
+      nodeId: nodeVars.nodeId,
       variables: [],
     });
 
-    for (const [index, variable] of rawVariablesByNode.variables.entries()) {
-      nodesVarsConfig[nodesVarsConfig.length - 1].variables.push({
+    // note: add all variable data excluding injections
+    for (const [index, variable] of nodeVars.variables.entries()) {
+      const variableConfig = {
         name: variable.name,
         type: variable.typename,
-        uniqueName: buildUniqueVariablesName(variable, rawVariablesByNode),
+        uniqueName: buildUniqueVariablesName(variable, nodeVars),
         index,
-      });
+      };
+
+      nodesVarsConfig[nodesVarsConfig.length - 1].variables.push(
+        variableConfig,
+      );
     }
 
-    for (const injection of rawVariablesByNode.injections) {
-      const varToInject = nodesVarsConfig[
+    // note: add injections
+    for (const injection of nodeVars.injections) {
+      const injectableVar = nodesVarsConfig[
         nodesVarsConfig.length - 1
       ].variables.find((el) => el.index == Number(injection.index));
 
-      if (varToInject) {
-        varToInject.injection = injection.value;
+      if (!!injectableVar) {
+        injectableVar.injection = injection.value;
       } else
         throw ErrorFactory.injectionFormatting(
           injection.value,
@@ -47,10 +53,10 @@ export const formatOnchainVariables = (
 };
 
 export const rawOnchainVariablesDescriptionToOffchainView = (
-  rawVariable: SupportedDescriptionType,
+  nodeVars: NodeVariablesDescription,
 ): TypedRawOnchainVariablesDescription => {
   const { nodeId, variables, injections, artifactAddress, nodeIndex } =
-    rawVariable;
+    nodeVars;
 
   const result = {
     nodeId,
@@ -65,9 +71,10 @@ export const rawOnchainVariablesDescriptionToOffchainView = (
   return result;
 };
 
+// note: this is a DEFINABLE method in what it outputs; double-check before applying adjustment
 const buildUniqueVariablesName = (
   variable: Variable,
-  description: TypedRawOnchainVariablesDescription,
+  varDescription: NodeVariablesDescription,
 ) => {
-  return `${variable.name}_${variable.typename}_${description.artifactAddress}_${description.nodeIndex}`;
+  return `${variable.name}_${variable.typename}_${varDescription.artifactAddress}_${varDescription.nodeIndex}`;
 };

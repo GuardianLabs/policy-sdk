@@ -12,7 +12,7 @@ Variables can be injected or inserted. \
 ------------
 ### Usage
 The main class needed is `VariablesPopulator`, exported from `./src`. \
-It needs description of variables of a policy, returned by the onchain method of Policy Handler `getVariablesList`. \
+It needs description of variables of a policy, returned by the onchain method of `PolicyHandler.getVariablesList`. \
 The populator can then be built:
 ```javascript
 const populator = new VariablesPopulator(rawOnchainVariables);
@@ -32,25 +32,25 @@ The final encoded values can be obtained with the help of `getVariablesEncoded` 
 const vars = populator.getVariablesEncoded();
 ```
 And then provided directely into `evaluate` onchain PolicyHandler method.
-> To list variables, use `getVariablesDescription` method.
+> To list variables, use `getVarsDescriptions` method.
 
 ### Validation
 Except setters and getters, validation methods are provided. \
-`validateFilledAllOrThrow` ensures all variable values (inserted and injected) are filled. \
-`validateFilledAllExceptInjectionsOrThrow` ensures inserted variable values are filled - ignoring *injected* consistency.
+`validateAllFilled` ensures all variable values (both inserted and injected) are filled. \
+`validateAllFilledExceptInjections` ensures inserted variable values are filled - ignoring *injected* consistency.
 ### Interrupted flow
 To fill the variables partially and then continue with other `VariablesPopulator` instance (but having same state), dump and import methods exist. \
-To dump already filled values, use `getVariablesValues` method. \
-To import values filled previously into fresh `VariablesPopulator` instance use `import` methods. 
+To dump already filled values, use `dumpState` method. \
+To import values filled previously into fresh `VariablesPopulator` instance use `importState` methods. 
 ```javascript
 const oldPopulator = new VariablesPopulator(rawOnchainVariables);
 // insert/inject
-intermediateFillingResult = oldPopulator.getVariablesValues();
+intermediateFillingResult = oldPopulator.dumpState();
 
 // switching scope
 
 const newPopulator = new VariablesPopulator(rawOnchainVariables);
-newPopulator.import(intermediateFillingResult);
+newPopulator.importState(intermediateFillingResult);
 
 // now oldPopulator is equivalent to newPopulator
 ```

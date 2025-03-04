@@ -11,17 +11,13 @@ import { PrimitiveEncodeParamTypes } from '@guardian-network/shared/src/types/so
 
 export type AllowedVariablesType = PrimitiveEncodeParamTypes; // string | number | boolean;
 
-export type NodeVariablesConfig = {
-  nodeId: NodeId;
-  variables: FormattedVariableDescription[];
-};
-
-export type FormattedVariableDescription = {
-  name: string;
-  type: string;
-  uniqueName: string;
-  index: number;
-  injection?: string;
+// note: this reflects in some way a bit reshaped entry of 'NodeVariablesDescription' type
+export type VarDescription = {
+  name: string; // according to "Artifact.getExecDescriptor" definition, or dsl definition
+  type: string; // according to "Artifact.getExecDescriptor" definition, or dsl definition
+  uniqueName: string; // this contain unique variable name in comparison to other variables in the same node or in the other nodes
+  index: number; // position is node vars list
+  injection?: string; // unique injection-id if variable injects
 };
 
 export type VarValue = {
@@ -52,9 +48,16 @@ export type TypedRawOnchainVariablesDescription = {
   injections: Array<Injection>;
 };
 
-export type SupportedDescriptionType =
+export type NodeVariablesDescription =
   | OnchainVariablesDescription
   | TypedRawOnchainVariablesDescription;
+
+// note: this reflects in some way a bit reshaped value of 'NodeVariablesDescription' type
+// see also, 'VarDescription' definition
+export type NodeVariablesConfig = {
+  nodeId: NodeId;
+  variables: VarDescription[];
+};
 
 export type VarName = string;
 export type VarIndex = number;

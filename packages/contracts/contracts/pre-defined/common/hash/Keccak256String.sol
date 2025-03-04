@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import { StatelessArtifactBase } from "../basis/StatelessArtifactBase.sol";
-import { STRING, BYTES32 } from "../../constants/Export.sol";
+import { STRING, BYTES } from "../../constants/Export.sol";
 
 contract Keccak256String is StatelessArtifactBase {
     function getExecDescriptor()
@@ -19,7 +19,7 @@ contract Keccak256String is StatelessArtifactBase {
         argsTypes = new string[](argsLength);
         argsTypes[0] = STRING;
 
-        returnType = BYTES32;
+        returnType = BYTES;
     }
 
     function _exec(bytes[] memory data) internal override returns (bytes memory) {

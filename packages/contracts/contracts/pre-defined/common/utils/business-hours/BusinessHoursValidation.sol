@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import { StatefulArtifactBase } from "../../basis/StatefulArtifactBase.sol";
-import { BOOL, STRING, UINT24_LIST, ADDRESS } from "../../../constants/Export.sol";
+import { BOOL, STRING, BYTES, ADDRESS } from "../../../constants/Export.sol";
 import { BusinessHoursValidationInternal } from "./BusinessHoursValidationInternal.sol";
 
 contract BusinessHoursValidation is StatefulArtifactBase, BusinessHoursValidationInternal {
@@ -23,8 +23,8 @@ contract BusinessHoursValidation is StatefulArtifactBase, BusinessHoursValidatio
         argsTypes = new string[](argsLength);
         argsTypes[0] = STRING;
         argsTypes[1] = ADDRESS;
-        argsTypes[2] = UINT24_LIST;
-        argsTypes[3] = UINT24_LIST;
+        argsTypes[2] = BYTES;
+        argsTypes[3] = BYTES;
     }
 
     function getExecDescriptor()
