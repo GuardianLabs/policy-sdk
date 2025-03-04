@@ -20,7 +20,7 @@ import {
 // note: fill each variable with respective data
 export class VariablesPopulator {
   protected varsConfig: NodeVariablesConfig[];
-  public inserter: Inserter;
+  private inserter: Inserter;
   private suppliedVars: SuppliedVariables[];
 
   constructor(varsDescriptions: Array<NodeVariablesDescription>) {
@@ -43,6 +43,7 @@ export class VariablesPopulator {
   };
 
   inject = async (attributes: IAsyncMapGetter<AllowedVariablesType>) => {
+    // note: this might be called as more time as required
     this.suppliedVars = await StaticInjector.inject(
       this.varsConfig,
       this.suppliedVars,

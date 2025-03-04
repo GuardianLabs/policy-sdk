@@ -96,14 +96,15 @@ describe('Populate variables: basic flow', () => {
     });
 
     describe('failure', () => {
-      it('sharing inserted values with backend and partially injecting attributes', async () => {
+      // NO MORE A CASE, SINCE PARTIAL INJECTION IS ALLOWED
+      /* it.skip('sharing inserted values with backend and partially injecting attributes', async () => {
         const expectedErrorMessage =
           'No injection or default value for argB_bool_0x084e6d675B4F24854f351f5A4E39E65E017d2954_2 (attribute IS_DEV) is provided';
 
         await expect(vars.inject(internalAttributes)).to.be.rejectedWith(
           expectedErrorMessage,
         );
-      });
+      }); */
     });
 
     describe('success', () => {

@@ -1,4 +1,3 @@
-import { ErrorFactory } from '../errors';
 import {
   AllowedVariablesType,
   IAsyncMapGetter,
@@ -35,25 +34,21 @@ export class StaticInjector {
 
         // note: look up attributes to fill injected variable
         const attribute = await attributesSource.get(varDescription.injection);
-        const defaultValue = mayBeSuppliedVariable.values[index];
+        // const defaultValue = mayBeSuppliedVariable.values[index];
         const expectedType = varDescription.type;
 
         if (attribute !== undefined) {
           validateVarValueTypeWithErr(attribute, expectedType);
-
           mayBeSuppliedVariable.values[index] = attribute;
-          // } else { continue }
-          // note: ??redundancy. this is validated while insert
-        } else if (defaultValue !== undefined) {
-          validateVarValueTypeWithErr(defaultValue, expectedType);
 
-          mayBeSuppliedVariable.values[index] = defaultValue;
-          // note: Redundancy? this is validated in VariablesPopulator.validateAllFilled()
-        } else
-          throw ErrorFactory.cannotLookupVariableValue(
-            varDescription.uniqueName,
-            varDescription.injection,
-          );
+          // note: ??redundancy. this is validated while insert
+        }
+        // note: Redundancy? this is validated in VariablesPopulator.validateAllFilled()
+        //  else
+        //   throw ErrorFactory.cannotLookupVariableValue(
+        //     varDescription.uniqueName,
+        //     varDescription.injection,
+        //   );
       }
     }
 
