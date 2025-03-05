@@ -34,7 +34,7 @@ describe.only('ErrorFactory using VariablePopulator', () => {
       const action = () => vars.insert(varName, 'invalidType'); // Invalid type for uint256
 
       expect(action).to.throw(
-        ErrorFactory.variableTypeNotMet("invalidType", 'uint256').message,
+        ErrorFactory.variableTypeNotMet('invalidType', 'uint256').message,
       );
     });
   });
@@ -83,12 +83,12 @@ describe.only('ErrorFactory using VariablePopulator', () => {
   });
 
   // non-initialized [] inserter is not possible using populator
-  describe.skip('NodeHasNoVariablesError', () => {
-    it('should throw NodeHasNoVariablesError when node has no variables', async () => {
+  describe.skip('nodeVariablesAreUndefinedError', () => {
+    it('should throw nodeVariablesAreUndefinedError when node has no variables', async () => {
       const vars = new VariablesPopulator([]);
 
       expect(() => vars.validateAllFilled()).to.throw(
-        ErrorFactory.nodeHasNoVariables('123').message,
+        ErrorFactory.nodeVariablesAreUndefined('123').message,
       );
     });
   });
@@ -96,28 +96,30 @@ describe.only('ErrorFactory using VariablePopulator', () => {
   // insert is validating far before validateAllFilled does
   describe.skip('VariableTypeNotKnownError', () => {
     it('should throw VariableTypeNotKnownError when variable type is not known', async () => {
-      const vars = new VariablesPopulator([{
-        nodeId:
-          '0xd3ffe9815819423e66f0a03302f6fa0243f44a09855b746802f579d21c56139b',
-        nodeIndex: 0,
-        artifactAddress: '0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3',
-        variables: [
-          {
-            typename: 'unknown',
-            name: 'argA',
-          },
-          {
-            typename: 'uint256',
-            name: 'argB',
-          },
-        ],
-        injections: [
-          {
-            value: 'allowance',
-            index: 1,
-          },
-        ],
-      },]);
+      const vars = new VariablesPopulator([
+        {
+          nodeId:
+            '0xd3ffe9815819423e66f0a03302f6fa0243f44a09855b746802f579d21c56139b',
+          nodeIndex: 0,
+          artifactAddress: '0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3',
+          variables: [
+            {
+              typename: 'unknown',
+              name: 'argA',
+            },
+            {
+              typename: 'uint256',
+              name: 'argB',
+            },
+          ],
+          injections: [
+            {
+              value: 'allowance',
+              index: 1,
+            },
+          ],
+        },
+      ]);
       const varName =
         'argA_unknown_0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3_0';
       vars.insert(varName, 11111111111);
