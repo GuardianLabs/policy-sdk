@@ -28,6 +28,13 @@ export class VariableNodeNotFoundError extends BaseError {
   };
 }
 
+export class NodeHasNoVariablesError extends BaseError {
+  static create = (targetNode: string) => {
+    const errorMessage = `Variables record not found for node id: ${targetNode}`;
+    return this.build(errorMessage);
+  };
+}
+
 export class InjectionFormattingError extends BaseError {
   static create = (injectionValue: string, injectionIndex: number) => {
     const errorMessage = `Failed formatting variables description onchain output. Problems with injection ${injectionValue}:${injectionIndex}`;

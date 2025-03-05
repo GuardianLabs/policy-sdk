@@ -1,6 +1,6 @@
 import {
-  CannotLookupVariableValueError,
   InjectionFormattingError,
+  NodeHasNoVariablesError,
   VariableNodeNotFoundError,
   VariableNotFilledError,
   VariableNotFoundError,
@@ -13,12 +13,6 @@ export class ErrorFactory {
     ...params: Parameters<typeof VariableTypeNotMetError.create>
   ) => {
     return VariableTypeNotMetError.create(...params);
-  };
-
-  static cannotLookupVariableValue = (
-    ...params: Parameters<typeof CannotLookupVariableValueError.create>
-  ) => {
-    return CannotLookupVariableValueError.create(...params);
   };
 
   static variableNotFound = (
@@ -37,6 +31,12 @@ export class ErrorFactory {
     ...params: Parameters<typeof VariableNodeNotFoundError.create>
   ) => {
     return VariableNodeNotFoundError.create(...params);
+  };
+
+  static nodeHasNoVariables = (
+    ...params: Parameters<typeof NodeHasNoVariablesError.create>
+  ) => {
+    return NodeHasNoVariablesError.create(...params);
   };
 
   static providedVariableWithNotKnownType = (

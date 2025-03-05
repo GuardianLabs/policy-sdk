@@ -43,7 +43,7 @@ export class VariablesPopulator {
   };
 
   inject = async (attributes: IAsyncMapGetter<AllowedVariablesType>) => {
-    // note: this might be called as more time as required
+    // note: this might be called as more times as required
     this.suppliedVars = await StaticInjector.inject(
       this.varsConfig,
       this.suppliedVars,

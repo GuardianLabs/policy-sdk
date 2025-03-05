@@ -56,27 +56,25 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
     }
   };
 
-  insert = (name: string, value: AllowedVariablesType) => {
-    const targetNodeId = this.varNameToNodeId.get(name);
+  insert = (varName: string, varValue: AllowedVariablesType) => {
+    const targetNodeId = this.varNameToNodeId.get(varName);
+    if (!targetNodeId) throw ErrorFactory.variableNodeNotFound(varName);
 
-    if (!targetNodeId) throw ErrorFactory.variableNodeNotFound(name);
+    const nodeVariables = this.nodeToVars.get(targetNodeId);
+    if (!nodeVariables) throw ErrorFactory.nodeHasNoVariables(targetNodeId);
 
-    // todo: a dedicated error
-    if (!this.nodeToVars.get(targetNodeId))
-      throw ErrorFactory.variableNodeNotFound(name);
-
-    // todo: safer approach
-    this.nodeToVars.get(targetNodeId)!.push({
-      index: this.varNameToVarIndex.get(name)!,
-      value,
+    nodeVariables.push({
+      // todo: safer approach
+      index: this.varNameToVarIndex.get(varName)!,
+      value: varValue,
     });
   };
 
   get = (varName: string): AllowedVariablesType | undefined => {
     const nodeId = this.varNameToNodeId.get(varName)!;
 
-    // todo: safer approach
     const result = this.nodeToVars
+      // todo: safer approach
       .get(nodeId)!
       .find((el) => el.index == this.varNameToVarIndex.get(varName))?.value;
 

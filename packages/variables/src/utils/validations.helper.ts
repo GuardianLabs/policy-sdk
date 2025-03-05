@@ -78,7 +78,7 @@ const defaultExtraCondition = (_: VarDescription) => false;
 export const validateAllVariablesSupplied = (
   varsConfig: NodeVariablesConfig[],
   knownVariables: SuppliedVariables[],
-  // note: usually has to be "isInjection" method; when not, then instead default blank method consumed
+  // note: usually has to be "isInjection" func; when not, then instead default blank method consumed
   isVariableInjectable: (
     varDescription: VarDescription,
   ) => boolean = defaultExtraCondition,
@@ -92,25 +92,22 @@ export const validateAllVariablesSupplied = (
 
       // "defaultExtraCondition" gives "false" value, which treats each variable as NOT-AN-INJECTION
       const isInjection = isVariableInjectable(variable);
-      const isVariableSupplied = suppliedVars.values[j] != undefined;
+      const isVariableSupplied = suppliedVars.values[j] !== undefined;
 
-      // todo: double validate value type against expected type
-      // when not supplied and not injection
+      // note: throw when not supplied and not injection
       if (!isVariableSupplied && !isInjection) {
         throw ErrorFactory.variableNotFilled(
           variable.uniqueName,
           variable.injection,
         );
       }
+
+      // note: this is intentional double validation of value type against the expected type
+      // the initial validation is done in VariablesPopulator.insert, or VariablesPopulator.inject
       if (isVariableSupplied) {
         const value = suppliedVars.values[j];
         const expectedType = variable.type;
-        if (!validateVarValueType(value, expectedType)) {
-          throw ErrorFactory.variableTypeNotMet(
-            value.toString(),
-            expectedType,
-          );
-        }
+        validateVarValueTypeWithErr(value, expectedType);
       }
     }
   }
