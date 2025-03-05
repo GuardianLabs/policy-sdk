@@ -63,8 +63,8 @@ export class VariablesPopulator {
     return this.suppliedVars;
   };
 
-  // note: actually not serialized, rather packed to be
-  // compatible with policy-handler "evaluate" method define onchain using Solidity
+  // note: actually, not serialized, rather packed to be
+  // compatible with "PolicyHandler.evaluate"" method (defined onchaun using Solidity)
   toSerializedVariables = (): Array<VariablesStruct> => {
     // note: only completely supplied variables have to be serialized
     this.validateAllFilled();

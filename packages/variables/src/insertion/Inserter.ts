@@ -27,7 +27,7 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
   // variable-unique-name => its-node-id
   private varNameToNodeId: Map<VarName, NodeId> = new Map();
 
-  // variable-unique-name => its-index-in-node-vars-list (defined in "this.nodeToVars")
+  // variable-unique-name => its-index-in-node-vars-list (as defined in "this.nodeToVars")
   private varNameToVarIndex: Map<VarName, VarIndex> = new Map();
 
   // node-id => its-known-variables; known = filled
@@ -61,7 +61,8 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
     if (!targetNodeId) throw ErrorFactory.variableNodeNotFound(varName);
 
     const nodeVariables = this.nodeToVars.get(targetNodeId);
-    if (!nodeVariables) throw ErrorFactory.nodeHasNoVariables(targetNodeId);
+    if (!nodeVariables)
+      throw ErrorFactory.nodeVariablesAreUndefined(targetNodeId);
 
     nodeVariables.push({
       // todo: safer approach
