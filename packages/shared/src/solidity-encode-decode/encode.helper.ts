@@ -1,7 +1,7 @@
 import {
   SolidityAddressType,
   SolidityBytesType,
-} from '../solidity-types/wrapped-types';
+} from '../solidity-types/native-types';
 import {
   EncodedParamType,
   ObjectEncodeParamTypes,

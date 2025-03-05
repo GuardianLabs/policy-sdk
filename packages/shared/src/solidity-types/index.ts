@@ -1,2 +1,3 @@
+export * from './native-types';
 export * from './solidity-types-verification.helper';
-export * from './wrapped-types';
+export * from './synthetic-types';

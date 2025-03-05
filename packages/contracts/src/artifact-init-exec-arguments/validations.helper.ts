@@ -1,5 +1,9 @@
 import { inferSolidityType } from '@guardian-network/shared/src/solidity-encode-decode';
 import {
+  SolidityAddressType,
+  SolidityBytesType,
+} from '@guardian-network/shared/src/solidity-types';
+import {
   ALLOWED_SOLIDITY_REFERENCE_TYPES,
   ALLOWED_SOLIDITY_VALUE_TYPES,
   SOLIDITY_ADDRESS,
@@ -9,10 +13,6 @@ import {
   SOLIDITY_STRING,
   SOLIDITY_UINT256,
 } from '@guardian-network/shared/src/solidity-types/constants';
-import {
-  SolidityAddressType,
-  SolidityBytesType,
-} from '@guardian-network/shared/src/solidity-types/wrapped-types';
 import {
   NormalizedParamType,
   Unnormalized,
@@ -95,7 +95,7 @@ const tryNormalizeType = (
 ): NormalizedParamType => {
   const typename = solidityTypename;
   // if (typename === SOLIIDTY_UINT24_LIST && Array.isArray(value)) {
-  //   return SolidityUint24ListType.create(value);
+  //   return SolidityUint24ListTypePacked.create(value);
   // }
 
   if (typename === SOLIDITY_ADDRESS && typeof value === 'string') {

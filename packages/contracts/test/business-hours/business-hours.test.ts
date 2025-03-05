@@ -1,10 +1,11 @@
+import { SolidityUint24ListTypePacked } from '@guardian-network/shared/src/solidity-types';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 import { MockedExecParams } from '../mocked-init-exec-arguments';
 import { check } from '../test-helpers';
-import { InitParams, SolidityAddressType, SolidityBytesType } from '../types';
+import { InitParams, SolidityAddressType } from '../types';
 import {
   deployBusinessHoursContracts,
   solidityDecodeSingleParam,
@@ -16,7 +17,7 @@ import {
   TrustedTimezoneOffsetSource,
 } from './';
 
-describe.only('Business Hours artifact', () => {
+describe('Business Hours artifact', () => {
   const TIMEZONE_ID: string = 'Europe/Kyiv';
   const timezoneOffset: number = 2 * 60;
   const timezoneOffsetIsNegative = false;
@@ -78,9 +79,9 @@ describe.only('Business Hours artifact', () => {
   describe('Business Hours Artifact: Initialization', () => {
     it('should init Business hours artifact', async () => {
       const openingSecondsUint24List =
-        SolidityBytesType.createUint24List(openingSeconds);
+        SolidityUint24ListTypePacked.fromUint24List(openingSeconds);
       const closingSecondsUint24List =
-        SolidityBytesType.createUint24List(closingSeconds);
+        SolidityUint24ListTypePacked.fromUint24List(closingSeconds);
       const trustedTimezoneSourceAddress = SolidityAddressType.create(
         await trustedTimezoneOffsetSourceInstance.getAddress(),
       );
@@ -108,8 +109,8 @@ describe.only('Business Hours artifact', () => {
   describe('Business Hours Artifact: Check if business is open', () => {
     describe('failure', () => {
       let businessHoursInstance: BusinessHoursValidation;
-      let openingSecondsUint24List: SolidityBytesType;
-      let closingSecondsUint24List: SolidityBytesType;
+      let openingSecondsUint24List: SolidityUint24ListTypePacked;
+      let closingSecondsUint24List: SolidityUint24ListTypePacked;
       let trustedTimezoneSourceAddress: SolidityAddressType;
 
       before(async () => {
@@ -126,17 +127,17 @@ describe.only('Business Hours artifact', () => {
         } = await deployBusinessHoursContracts(adminSigner, offsetParams));
 
         openingSecondsUint24List =
-          SolidityBytesType.createUint24List(openingSeconds);
+          SolidityUint24ListTypePacked.fromUint24List(openingSeconds);
         closingSecondsUint24List =
-          SolidityBytesType.createUint24List(closingSeconds);
+          SolidityUint24ListTypePacked.fromUint24List(closingSeconds);
         trustedTimezoneSourceAddress = SolidityAddressType.create(
           await trustedTimezoneOffsetSourceInstance.getAddress(),
         );
       });
 
       it('when closing time is earlier than opening time', async () => {
-        openingSeconds[0] = 5;
-        closingSeconds[0] = 4;
+        openingSecondsUint24List.setValueAtPos(0, 5);
+        closingSecondsUint24List.setValueAtPos(0, 4);
 
         const init = InitParams.create(
           await businessHoursInstance.getInitDescriptor(),
@@ -152,8 +153,8 @@ describe.only('Business Hours artifact', () => {
       });
 
       it('when opening period during single day last less than 60 seconds', async () => {
-        openingSeconds[0] = 40;
-        closingSeconds[0] = 50;
+        openingSecondsUint24List.setValueAtPos(0, 40);
+        closingSecondsUint24List.setValueAtPos(0, 50);
 
         const init = InitParams.create(
           await businessHoursInstance.getInitDescriptor(),
@@ -169,8 +170,8 @@ describe.only('Business Hours artifact', () => {
       });
 
       it('when closing time passed as seconds is higher than 24 * 3600 (one day in seconds)', async () => {
-        openingSeconds[0] = 40;
-        closingSeconds[0] = 86401;
+        openingSecondsUint24List.setValueAtPos(0, 40);
+        closingSecondsUint24List.setValueAtPos(0, 86401);
 
         const init = InitParams.create(
           await businessHoursInstance.getInitDescriptor(),

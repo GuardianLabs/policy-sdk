@@ -1,5 +1,5 @@
 import {
-  SolidityBytes32Type,
+  SolidityBytes32TypePacked,
   SolidityBytesListPacked,
 } from '@guardian-network/shared/src/solidity-types';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
@@ -225,7 +225,7 @@ describe('Approval-Flow Artifact', () => {
           signatures.push(await approverSigner.signMessage(payload));
         }
 
-        const hashPacked = SolidityBytes32Type.fromString(messageHash);
+        const hashPacked = SolidityBytes32TypePacked.fromString(messageHash);
         const signaturesPacked = SolidityBytesListPacked.fromList(signatures);
 
         const exec = ExecParams.create(
@@ -251,7 +251,7 @@ describe('Approval-Flow Artifact', () => {
         signaturesListMock[3] = signaturesListMock[4];
         const messageHash = hashMessage(payload);
 
-        const hashPacked = SolidityBytes32Type.fromString(messageHash);
+        const hashPacked = SolidityBytes32TypePacked.fromString(messageHash);
         const signaturesPacked =
           SolidityBytesListPacked.fromList(signaturesListMock);
 
@@ -273,7 +273,7 @@ describe('Approval-Flow Artifact', () => {
         signaturesListMock[3] = randomBytes();
         const messageHash = hashMessage(payload);
 
-        const hashPacked = SolidityBytes32Type.fromString(messageHash);
+        const hashPacked = SolidityBytes32TypePacked.fromString(messageHash);
         const signaturesPacked =
           SolidityBytesListPacked.fromList(signaturesListMock);
 
@@ -294,7 +294,7 @@ describe('Approval-Flow Artifact', () => {
         );
         const messageHash = hashMessage(payload);
 
-        const hashPacked = SolidityBytes32Type.fromString(messageHash);
+        const hashPacked = SolidityBytes32TypePacked.fromString(messageHash);
         let signaturesPacked =
           SolidityBytesListPacked.fromList(signaturesListMock);
 
@@ -329,7 +329,7 @@ describe('Approval-Flow Artifact', () => {
         );
         const messageHash = hashMessage(payload);
 
-        const hashPacked = SolidityBytes32Type.fromString(messageHash);
+        const hashPacked = SolidityBytes32TypePacked.fromString(messageHash);
         const signaturesPacked =
           SolidityBytesListPacked.fromList(signaturesListMock);
 

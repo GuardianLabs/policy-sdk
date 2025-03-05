@@ -1,6 +1,7 @@
+import { SolidityType } from '../base';
 import { verifyAddress } from '../solidity-types-verification.helper';
-import { SolidityType } from './SolidityType';
 
+// natively supported type in artifacts
 export class SolidityAddressType extends SolidityType<string> {
   static create = (address: string) => {
     return this.build(address, verifyAddress);

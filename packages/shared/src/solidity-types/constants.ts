@@ -1,7 +1,7 @@
 export const SOLIDITY_UINT256 = 'uint256';
 export const SOLIDITY_BOOL = 'bool';
 export const SOLIDITY_ADDRESS = 'address';
-// export const SOLIDITY_BYTES32 = 'bytes32'; // NOT SUPPORTED YET
+export const SOLIDITY_BYTES32 = 'bytes32'; // NOT SUPPORTED YET, but wraps into SOLIDITY_BYTES offchain
 
 export const SOLIDITY_BYTES = 'bytes';
 export const SOLIDITY_STRING = 'string';

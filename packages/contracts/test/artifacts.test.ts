@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { SolidityUint24ListTypePacked } from '@guardian-network/shared/src/solidity-types';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';
@@ -594,8 +595,8 @@ describe('Artifacts: Pre defined', () => {
           await businessHoursArtifact.getInitDescriptor(),
           TIMEZONE_ID,
           trustedTimezoneSourceAddress,
-          SolidityBytesType.createUint24List(opening),
-          SolidityBytesType.createUint24List(closing),
+          SolidityUint24ListTypePacked.fromUint24List(opening),
+          SolidityUint24ListTypePacked.fromUint24List(closing),
         );
         const tx = await businessHoursArtifact.init(init.params);
         await tx.wait();

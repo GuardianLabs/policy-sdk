@@ -3,7 +3,7 @@ export { ParserWithValidation } from '@guardian-network/policy-intermediate-repr
 export {
   SolidityAddressListPacked,
   SolidityAddressType,
-  SolidityBytes32Type,
+  SolidityBytes32TypePacked as SolidityBytes32Type,
   SolidityBytesListPacked,
   SolidityBytesType,
 } from '@guardian-network/shared/src/solidity-types';
