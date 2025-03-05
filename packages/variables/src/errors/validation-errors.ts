@@ -28,9 +28,9 @@ export class VariableNodeNotFoundError extends BaseError {
   };
 }
 
-export class NodeHasNoVariablesError extends BaseError {
+export class NodeVariablesAreUndefinedErr extends BaseError {
   static create = (targetNode: string) => {
-    const errorMessage = `Variables record not found for node id: ${targetNode}`;
+    const errorMessage = `Variables record is missing for node id: ${targetNode}`;
     return this.build(errorMessage);
   };
 }

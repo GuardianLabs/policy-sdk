@@ -1,6 +1,6 @@
 import {
   InjectionFormattingError,
-  NodeHasNoVariablesError,
+  NodeVariablesAreUndefinedErr,
   VariableNodeNotFoundError,
   VariableNotFilledError,
   VariableNotFoundError,
@@ -27,16 +27,16 @@ export class ErrorFactory {
     return InjectionFormattingError.create(...params);
   };
 
+  static nodeVariablesAreUndefined = (
+    ...params: Parameters<typeof NodeVariablesAreUndefinedErr.create>
+  ) => {
+    return NodeVariablesAreUndefinedErr.create(...params);
+  };
+
   static variableNodeNotFound = (
     ...params: Parameters<typeof VariableNodeNotFoundError.create>
   ) => {
     return VariableNodeNotFoundError.create(...params);
-  };
-
-  static nodeHasNoVariables = (
-    ...params: Parameters<typeof NodeHasNoVariablesError.create>
-  ) => {
-    return NodeHasNoVariablesError.create(...params);
   };
 
   static providedVariableWithNotKnownType = (
