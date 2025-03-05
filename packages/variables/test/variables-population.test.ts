@@ -6,6 +6,7 @@ import {
   TypedRawOnchainVariablesDescription,
   VariablesPopulator,
 } from '../src';
+import { ErrorFactory } from '../src/errors';
 import { SupportedTypes } from '../src/types';
 import { onchainVariables } from './snapshots/dummy-onchain-variables-data';
 
@@ -57,11 +58,18 @@ describe('Populate variables: basic flow', () => {
         varName = 'argA_bool_0x084e6d675B4F24854f351f5A4E39E65E017d2954_2'; // isAdmin
         vars.insert(varName, true);
 
-        expect(() => vars.validateAllFilled()).to.throw(
-          'Variable argB_uint256_0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3_0 (injection: allowance) was not filled',
-        );
+        let expectedMessage = ErrorFactory.variableNotFilled(
+          'argB_uint256_0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3_0',
+          'allowance',
+        ).message;
+        expect(() => vars.validateAllFilled()).to.throw(expectedMessage);
+
+        // Variable argA_string_0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed_1  was not filled
+        expectedMessage = ErrorFactory.variableNotFilled(
+          'argA_string_0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed_1',
+        ).message;
         expect(() => vars.validateAllFilledExceptInjections()).to.throw(
-          'Variable argA_string_0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed_1  was not filled',
+          expectedMessage,
         );
 
         intermediateFillingResult = vars.dumpState();
@@ -76,8 +84,10 @@ describe('Populate variables: basic flow', () => {
           'argA_string_0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed_1'; // username
         vars.insert(varName, 'Admin');
 
+        // todo: build message
         const expectedErrorMessage =
           'Variable argB_uint256_0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3_0 (injection: allowance) was not filled';
+
         expect(() => vars.validateAllFilled()).to.throw(expectedErrorMessage);
         expect(() => vars.validateAllFilledExceptInjections()).to.not.throw();
 

@@ -8,7 +8,7 @@ import { ErrorFactory } from '../src/errors/ErrorFactory';
 import { SupportedTypes } from '../src/types';
 import { onchainVariables } from './snapshots/dummy-onchain-variables-data';
 
-describe.only('ErrorFactory using VariablePopulator', () => {
+describe('ErrorFactory using VariablePopulator', () => {
   let onchainVariablesDescription: TypedRawOnchainVariablesDescription[];
   let internalAttributes: Map<string, SupportedTypes<AllowedVariablesType>>;
 

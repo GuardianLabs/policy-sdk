@@ -64,6 +64,7 @@ const validateVarValueType = (
       break;
     // note: handles when unknown (Solidty) type provided
     default:
+      // should not reach there, since previous validations step in faster
       throw ErrorFactory.providedVariableWithNotKnownType(
         varValue.toString(),
         vatiableSolidityType,
