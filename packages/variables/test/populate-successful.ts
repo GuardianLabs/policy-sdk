@@ -6,7 +6,6 @@ import {
   TypedRawOnchainVariablesDescription,
   VariablesPopulator,
 } from '../src';
-import { ErrorFactory } from '../src/errors';
 import { SupportedTypes } from '../src/types';
 import { onchainVariables } from './snapshots/dummy-onchain-variables-data';
 
@@ -15,7 +14,7 @@ const enableChainWithPromises = async () => {
   chai.use(chaiAsPromised.default);
 };
 
-describe('Populate variables: basic flow', () => {
+describe('Populate variables: successfull basic flow', () => {
   let onchainVariablesDescription: TypedRawOnchainVariablesDescription[];
   let intermediateFillingResult: SuppliedVariables[];
   const internalAttributes: Map<
@@ -48,28 +47,12 @@ describe('Populate variables: basic flow', () => {
 
     describe('failure', () => {
       it('should initially insert frontend variables', async () => {
-        // console.log(vars.getVarsDescription());
-
         let varName =
           'argA_uint256_0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3_0'; // timestamp_login
-        vars.insert(varName, 11111111111);
+        expect(() => vars.insert(varName, 11111111111)).to.not.throw();
 
         varName = 'argA_bool_0x084e6d675B4F24854f351f5A4E39E65E017d2954_2'; // isAdmin
-        vars.insert(varName, true);
-
-        let expectedMessage = ErrorFactory.variableNotFilled(
-          'argB_uint256_0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3_0',
-          'allowance',
-        ).message;
-        expect(() => vars.validateAllFilled()).to.throw(expectedMessage);
-
-        // Variable argA_string_0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed_1  was not filled
-        expectedMessage = ErrorFactory.variableNotFilled(
-          'argA_string_0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed_1',
-        ).message;
-        expect(() => vars.validateAllFilledExceptInjections()).to.throw(
-          expectedMessage,
-        );
+        expect(() => vars.insert(varName, true)).to.not.throw();
 
         intermediateFillingResult = vars.dumpState();
       });
@@ -81,14 +64,7 @@ describe('Populate variables: basic flow', () => {
 
         const varName =
           'argA_string_0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed_1'; // username
-        vars.insert(varName, 'Admin');
-
-        // todo: build message
-        const expectedErrorMessage =
-          'Variable argB_uint256_0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3_0 (injection: allowance) was not filled';
-
-        expect(() => vars.validateAllFilled()).to.throw(expectedErrorMessage);
-        expect(() => vars.validateAllFilledExceptInjections()).to.not.throw();
+        expect(() => vars.insert(varName, 'Admin')).to.not.throw();
 
         intermediateFillingResult = vars.dumpState();
       });
@@ -104,18 +80,6 @@ describe('Populate variables: basic flow', () => {
       vars.importState(intermediateFillingResult);
     });
 
-    describe('failure', () => {
-      // NO MORE A CASE, SINCE PARTIAL INJECTION IS ALLOWED
-      /* it.skip('sharing inserted values with backend and partially injecting attributes', async () => {
-        const expectedErrorMessage =
-          'No injection or default value for argB_bool_0x084e6d675B4F24854f351f5A4E39E65E017d2954_2 (attribute IS_DEV) is provided';
-
-        await expect(vars.inject(internalAttributes)).to.be.rejectedWith(
-          expectedErrorMessage,
-        );
-      }); */
-    });
-
     describe('success', () => {
       it('fully injecting attributes and validating completeness', async () => {
         internalAttributes.set('IS_DEV', false);
@@ -124,9 +88,6 @@ describe('Populate variables: basic flow', () => {
 
         expect(() => vars.validateAllFilled()).to.not.throw();
         expect(() => vars.validateAllFilledExceptInjections()).to.not.throw();
-
-        // console.log(vars.getVariablesValues());
-        // console.log(vars.getVariablesEncoded());
       });
     });
   });
