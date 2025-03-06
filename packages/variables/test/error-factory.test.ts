@@ -10,7 +10,6 @@ import { onchainVariables } from './snapshots/dummy-onchain-variables-data';
 
 const enableChainWithPromises = async () => {
   const chaiAsPromised = await import('chai-as-promised');
-  chaiAsPromised.default;
   use(chaiAsPromised.default);
 };
 
