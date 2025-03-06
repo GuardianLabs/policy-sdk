@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect, use } from 'chai';
 import {
   AllowedVariablesType,
   TypedRawOnchainVariablesDescription,
@@ -11,7 +11,7 @@ import { onchainVariables } from './snapshots/dummy-onchain-variables-data';
 const enableChainWithPromises = async () => {
   const chaiAsPromised = await import('chai-as-promised');
   chaiAsPromised.default;
-  chai.use(chaiAsPromised.default);
+  use(chaiAsPromised.default);
 };
 
 describe('ErrorFactory using VariablePopulator', () => {
@@ -58,14 +58,36 @@ describe('ErrorFactory using VariablePopulator', () => {
     });
   });
 
-  // if there is unknown injection in the attributes source it will be just ignored
-  describe.skip('InjectionFormattingError', () => {
+  describe('InjectionFormattingError', () => {
     it('should throw InjectionFormattingError when injection formatting is invalid', async () => {
-      const vars = new VariablesPopulator(onchainVariablesDescription);
-      internalAttributes.set('invalidKey', 'invalidValue');
+      const action = () => new VariablesPopulator([
+        {
+          nodeId:
+            '0xd3ffe9815819423e66f0a03302f6fa0243f44a09855b746802f579d21c56139b',
+          nodeIndex: 0,
+          artifactAddress: '0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3',
+          variables: [
+            {
+              typename: 'unknown',
+              name: 'argA',
+            },
+            {
+              typename: 'uint256',
+              name: 'argB',
+            },
+          ],
+          injections: [
+            {
+              value: 'allowance',
+              index: 1234, // mistake: variables bount is less then injection index
+            },
+          ],
+        },
+      ]);
 
-      expect(() => vars
-        .inject(internalAttributes)).to.be.rejectedWith(ErrorFactory.injectionFormatting('invalidKey', 1234).message);
+      expect(action).to.throw(
+        ErrorFactory.injectionFormatting('allowance', 1234).message,
+      );
     });
   });
 
