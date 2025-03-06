@@ -8,11 +8,19 @@ import { ErrorFactory } from '../src/errors/ErrorFactory';
 import { SupportedTypes } from '../src/types';
 import { onchainVariables } from './snapshots/dummy-onchain-variables-data';
 
+const enableChainWithPromises = async () => {
+  const chaiAsPromised = await import('chai-as-promised');
+  chaiAsPromised.default;
+  chai.use(chaiAsPromised.default);
+};
+
 describe('ErrorFactory using VariablePopulator', () => {
   let onchainVariablesDescription: TypedRawOnchainVariablesDescription[];
   let internalAttributes: Map<string, SupportedTypes<AllowedVariablesType>>;
 
-  before(() => {
+  before(async () => {
+    await enableChainWithPromises();
+
     onchainVariablesDescription = onchainVariables;
     internalAttributes = new Map();
     internalAttributes.set('magic_hash', '0xdeadbeef');
@@ -56,16 +64,8 @@ describe('ErrorFactory using VariablePopulator', () => {
       const vars = new VariablesPopulator(onchainVariablesDescription);
       internalAttributes.set('invalidKey', 'invalidValue');
 
-      return vars
-        .inject(internalAttributes)
-        .then(() => {
-          throw new Error('Expected injection to fail');
-        })
-        .catch((error) => {
-          expect(error.message).to.equal(
-            ErrorFactory.injectionFormatting('invalidKey', 1234).message,
-          );
-        });
+      expect(() => vars
+        .inject(internalAttributes)).to.be.rejectedWith(ErrorFactory.injectionFormatting('invalidKey', 1234).message);
     });
   });
 
