@@ -58,9 +58,11 @@ export class Inserter implements IAsyncMapGetter<AllowedVariablesType> {
 
   insert = (varName: string, varValue: AllowedVariablesType) => {
     const targetNodeId = this.varNameToNodeId.get(varName);
+    // won't reach if calling from Populator - getVarDescription will catch earlier
     if (!targetNodeId) throw ErrorFactory.variableNodeNotFound(varName);
 
     const nodeVariables = this.nodeToVars.get(targetNodeId);
+    // must have been caught in "initialized" previously
     if (!nodeVariables)
       throw ErrorFactory.nodeVariablesAreUndefined(targetNodeId);
 
