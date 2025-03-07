@@ -1,6 +1,7 @@
 import { OnchainPresentation } from '@guardian-network/shared/src/types/contracts.types';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
+import { Wallet } from 'ethers';
 import { ethers } from 'hardhat';
 import { PolicyClientBuildable } from '../src/client';
 import { CalculatedFeeProvider } from '../src/client/fee-provider';
@@ -35,6 +36,14 @@ describe('Policy: client usage', () => {
 
   before(async () => {
     [adminSigner] = await ethers.getSigners();
+    const artifactsDeployer = new Wallet(
+      '0x2074744ee14645fee95cf9b64c6f2dff357554a35e05f2b34f5acb1e28d94ce0',
+      adminSigner.provider,
+    );
+    await adminSigner.sendTransaction({
+      to: artifactsDeployer.address,
+      value: ethers.parseEther('1.0'),
+    });
 
     const AtomicDeployerFactory = new PolicyFactory__factory(adminSigner);
     const atomicDeployer = await AtomicDeployerFactory.deploy();
@@ -50,7 +59,7 @@ describe('Policy: client usage', () => {
       and: andArtifact,
       xor: xorArtifact,
       equalString: equalStringsArtifact,
-    } = await deployArtifacts(adminSigner));
+    } = await deployArtifacts(artifactsDeployer));
 
     const gatewayDeployer = new PolicyHandler__factory(adminSigner);
 
@@ -187,17 +196,16 @@ describe('Policy: client usage', () => {
       check(evaluationResult, false);
     });
 
-    // todo: fix
-    it.skip('returns correct variables list for simple policy', async () => {
+    it('returns correct variables list for simple policy', async () => {
       const variables = await client.getVariablesList();
 
       expect(variables).to.have.lengthOf(1);
 
       expect(variables[0]).to.deep.equal({
         nodeId:
-          '0x8751d196c2f3cd3b2b554c556c3d2b00507fcddc95792423bcce4c908a8b7177',
+          '0xf965718370c6477549b29a1494cbbb3b5696c08ad59de12d19e67c640f442e31',
         nodeIndex: '0',
-        artifactAddress: '0x5402C77b39D91773d330E93C0E3E7788d595414e',
+        artifactAddress: '0x108c4bb13fE6743575BDa3d5B53D746a2a77F952',
         variables: [['argB', 'bool']],
         injections: [],
       });

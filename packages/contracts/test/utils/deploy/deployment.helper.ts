@@ -1,4 +1,5 @@
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
+import { Wallet } from 'ethers';
 import { TimezoneOffset } from '../../business-hours';
 import {
   AND__factory,
@@ -52,7 +53,9 @@ type SupportedDeployments =
   | ApprovalFlow__factory
   | PayloadHasher__factory;
 
-export const deployArtifacts = async (deploySigner: SignerWithAddress) => {
+export const deployArtifacts = async (
+  deploySigner: SignerWithAddress | Wallet,
+) => {
   const and = await deployWithFactory(new AND__factory(deploySigner));
   const or = await deployWithFactory(new OR__factory(deploySigner));
   const not = await deployWithFactory(new NOT__factory(deploySigner));
