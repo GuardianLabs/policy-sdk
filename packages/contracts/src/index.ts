@@ -11,5 +11,6 @@ export { ApproveTransactionPayloadStruct } from './typechain/contracts/eip712/ap
 export {
   GraphInitParamsStruct,
   NamedTypedVariablesStructOutput,
+  PolicyHandler,
   TreeNodeInitParamsStruct,
 } from './typechain/contracts/PolicyHandler';
