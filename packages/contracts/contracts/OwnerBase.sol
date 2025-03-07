@@ -15,12 +15,16 @@ contract OwnerBase {
         adminUser = _adminUser;
     }
 
-    function admin() internal view returns (address adminAddress) {
-        adminAddress = adminUser;
+    function setOwner(address newAdmin) public onlyOwner {
+        adminUser = newAdmin;
+    }
+
+    function isAdmin(address maybeAdminUser) public view returns (bool isAdminAddress) {
+        isAdminAddress = maybeAdminUser == adminUser;
     }
 
     function _checkOwner() internal view virtual {
-        if (admin() != msg.sender) {
+        if (!isAdmin(msg.sender)) {
             revert(AUTH_ADMIN_ERR);
         }
     }

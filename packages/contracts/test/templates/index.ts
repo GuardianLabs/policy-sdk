@@ -13,6 +13,15 @@ export const policy = {
   
               evaluate xorOutput;
       `,
+            and: (artifactAddress: string) => `
+              constant bool a = false;
+              var bool b;
+  
+              artifact and = ${artifactAddress};
+              instance bool andOutput of and takes (a, b);
+  
+              evaluate andOutput;
+      `,
           },
         },
       },
