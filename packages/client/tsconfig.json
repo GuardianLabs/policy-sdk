@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig-prod.json",
+  "include": [
+    "./src/**/*",
+    "./test/**/*",
+    "./ignition/**/*",
+    "./hardhat-scripts/**/*",
+    "./config-hardhat/**/*"
+  ],
+  "files": ["./hardhat.config.ts"],
+  "compilerOptions": {
+    "resolveJsonModule": true
+  }
+}
