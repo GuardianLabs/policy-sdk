@@ -16,4 +16,7 @@ interface IArbitraryDataArtifact {
         external
         pure
         returns (string[] memory argsNames, string[] memory argsTypes);
+
+    // note: this is required to display on client side when needed
+    function description() external pure returns (string memory desc);
 }

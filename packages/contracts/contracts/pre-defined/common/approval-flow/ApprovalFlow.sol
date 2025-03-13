@@ -41,6 +41,12 @@ contract ApprovalFlow is StatefulArtifactBase, ApprovalFlowInternal {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to validate signatures from a predefined list of approvers. Requires a quorum of valid signatures to approve. First parameter - messageHash packed as bytes, second one - signatures packed as bytes array. Returns bool representing whether enough valid signatures were provided."
+        );
+    }
+
     function _init(bytes memory data) internal override {
         // note: trigger base configuration & validations
         super._init(data);

@@ -37,6 +37,12 @@ contract DestinationBlacklist is StatefulArtifactBase, DestinationBlacklistInter
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to check if an address is blacklisted. Parameter - receiver address to check. Returns bool representing whether the address is blacklisted."
+        );
+    }
+
     function _init(bytes memory data) internal override {
         // note: trigger base configuration & validations
         super._init(data);

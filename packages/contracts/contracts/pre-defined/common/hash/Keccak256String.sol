@@ -22,6 +22,12 @@ contract Keccak256String is StatelessArtifactBase {
         returnType = BYTES;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to compute keccak256 hash of a string value. Parameter - string value to hash. Returns bytes representing the computed hash."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory) {
         super._exec(data);
 

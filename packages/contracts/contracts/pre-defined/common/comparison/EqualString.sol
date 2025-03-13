@@ -24,6 +24,12 @@ contract EqualString is StatelessArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to compare two string values. First parameter - argA, second one - argB. Returns bool representing whether hashes of two string arguments are equal or not."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory) {
         // note: trigger base validations
         super._exec(data);

@@ -24,6 +24,12 @@ contract XOR is StatelessArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to perform logical XOR operation on two boolean values. First parameter - argA, second one - argB. Returns bool representing exclusive OR (true when exactly one argument is true)."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
         super._exec(data);
 

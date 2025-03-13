@@ -17,13 +17,6 @@ contract PayloadHasherInternal {
 
     event PayloadHasherInited(address indexed verifyingContract);
 
-    function _initialize(address _verifyingContract) internal {
-        validateAddressValue(_verifyingContract);
-        verifyingContract = _verifyingContract;
-
-        emit PayloadHasherInited(verifyingContract);
-    }
-
     // todo: set visibility to internal; public is required to generate typechain version of ApproveTransactionPayload
     function eip712PayloadHash(
         ApproveTransactionPayload memory message
@@ -34,6 +27,13 @@ contract PayloadHasherInternal {
         bytes32 domainSeparator = _buildDomainSeparator();
 
         eip712Hash = Util.hashTypedDataV4(domainSeparator, hashedPayload);
+    }
+
+    function _initialize(address _verifyingContract) internal {
+        validateAddressValue(_verifyingContract);
+        verifyingContract = _verifyingContract;
+
+        emit PayloadHasherInited(verifyingContract);
     }
 
     function _buildDomainSeparator() internal view returns (bytes32) {

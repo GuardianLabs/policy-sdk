@@ -24,6 +24,12 @@ contract EqualBytes is StatelessArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to compare two bytes values. First address parameter - argA, second one - argB. Returns bool representing whether hashes of two bytes arguments are equal or not."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
         super._exec(data);
 

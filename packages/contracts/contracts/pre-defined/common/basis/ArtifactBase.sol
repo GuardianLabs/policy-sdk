@@ -29,6 +29,9 @@ abstract contract ArtifactBase is IArbitraryDataArtifact {
         virtual
         returns (string[] memory argsNames, string[] memory argsTypes, string memory returnType);
 
+    // note: this is required to display on client side when needed
+    function description() external pure virtual returns (string memory desc);
+
     function _init(bytes memory data) internal virtual;
 
     function _exec(bytes[] memory data) internal virtual returns (bytes memory encodedResult);

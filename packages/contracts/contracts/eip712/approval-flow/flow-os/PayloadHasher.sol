@@ -39,6 +39,12 @@ contract PayloadHasher is StatefulArtifactBase, PayloadHasherInternal {
         returnType = BYTES;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to calculate/be source of respective hash for the Approval-flow artifact"
+        );
+    }
+
     function _init(bytes memory data) internal override {
         // note: trigger base configuration & validations
         super._init(data);

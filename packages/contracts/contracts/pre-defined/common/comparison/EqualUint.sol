@@ -24,6 +24,12 @@ contract EqualUint is StatelessArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to compare two uint values. First parameter - argA, second one - argB. Returns bool representing whether two uint arguments are equal or not."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
         // note: trigger base validations
         super._exec(data);
