@@ -7,6 +7,7 @@ You may want to see the subpackages READMEs, but here is a brief digest:
 - The high-level language has standalone interface (`./cli`)
 - To evaluate the created policy, you may need to provide some variables (`./variables`)
 - There is a codebase used and shared between multiple workspace packages (`./shared`)
+- The policy client, which encapsulates most onchain and offchain steps (**creation**, **deployment**, **initialisation**) required to complete before the Policy consumption (`./client`)
 
 ## Steps to build, run, test:
 
@@ -66,5 +67,11 @@ pnpm publish
 ### 8. Publish Shared-utils package
 ```bash
 cd packages/shared
+pnpm publish
+```
+
+### 9. Publish Client package
+```bash
+cd packages/client
 pnpm publish
 ```
