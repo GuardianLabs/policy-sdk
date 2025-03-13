@@ -11,6 +11,10 @@ import { createSafeSigner, Validator } from './validator';
 // artifacts-graph (see PolicyClient class); still under certain circumstances, it is convenient to deploy and use the new PolicyClient immediatelly, which
 // is reflected in the following class
 export class PolicyClientBuildable extends PolicyClient {
+  // todo: add buildFromMnemonic buliding method
+
+  // todo: add buildFromDsl building method
+
   @TryCatch(BuildNew.FROM_EMPTY_POLICY)
   static async buildEmptyPolicy(
     // todo: create safeSigner through a param decorator which also consumer other surrounding params such as fee provider
