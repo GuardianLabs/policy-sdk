@@ -22,6 +22,12 @@ contract NOT is StatelessArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to perform logical NOT operation on a boolean value. Parameter - argA. Returns bool representing (!argA)."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory) {
         super._exec(data);
 

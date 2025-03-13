@@ -24,6 +24,12 @@ contract OR is StatelessArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to perform logical OR operation on two boolean values. First parameter - argA, second one - argB. Returns bool representing (argA || argB)."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
         super._exec(data);
 

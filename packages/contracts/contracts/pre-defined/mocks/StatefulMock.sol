@@ -59,6 +59,10 @@ contract StatefulMock is StatefulArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = "StatefulMock artifact";
+    }
+
     function _init(bytes memory data) internal override {
         super._init(data);
 

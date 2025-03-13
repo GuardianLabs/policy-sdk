@@ -24,6 +24,12 @@ contract GtUint is StatelessArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to check if first uint is greater than second uint. First parameter - argA, second one - argB. Returns bool representing whether argA > argB."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
         super._exec(data);
 

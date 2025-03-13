@@ -13,11 +13,11 @@ import { IArbitraryDataArtifact } from "./pre-defined/common/basis/interfaces/Ex
 import {
     BytesAndIndex,
     Bytes32AndIndex,
-    NamedTypedVariables,
     Node,
     TreeNodeInitParams,
     Variables,
-    CacheRecord
+    CacheRecord,
+    NamedTypedVariables
 } from "./Types.sol";
 import { ArtifactNodesBase } from "./ArtifactNodesBase.sol";
 import "./Utilities.sol" as Utils;

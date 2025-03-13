@@ -37,6 +37,12 @@ contract DestinationWhitelist is StatefulArtifactBase, DestinationWhitelistInter
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to check if an address is whitelisted. Parameter - receiver address to check. Returns bool representing whether the address is whitelisted."
+        );
+    }
+
     function _init(bytes memory data) internal override {
         // note: trigger base configuration & validations
         super._init(data);

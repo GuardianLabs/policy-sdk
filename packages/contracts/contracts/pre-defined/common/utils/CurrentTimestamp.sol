@@ -15,6 +15,12 @@ contract CurrentTimestamp is StatelessArtifactBase {
         returnType = UINT;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to get current block timestamp. Returns uint256 representing current block timestamp in seconds."
+        );
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory) {
         super._exec(data);
 

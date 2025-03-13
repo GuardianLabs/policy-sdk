@@ -71,21 +71,6 @@ contract PolicyHandler is OwnerBase {
         return Utils.getVariablesListInternal(graph.getNodes());
     }
 
-    function _addNodes(GraphInitParams memory params) private {
-        uint256 rootNodeIncludeCount;
-
-        for (uint256 i = 0; i < params.nodes.length; i++) {
-            graph.addNode(params.nodes[i]);
-
-            if (params.rootNode == params.nodes[i].id) {
-                rootNodeIncludeCount++;
-            }
-        }
-
-        require(rootNodeIncludeCount != 0, MISSING_ROOT_NODE_ERR);
-        require(rootNodeIncludeCount == 1, DUPLICATED_ROOT_NODE_ERR);
-    }
-
     function _set(GraphInitParams memory params) internal onlyOwner returns (address) {
         // note: solves https://ethereum.stackexchange.com/questions/142102/solidity-1024-call-stack-depth as ad-hoc
         // todo: bring instead sophisticated check
@@ -103,5 +88,20 @@ contract PolicyHandler is OwnerBase {
         isInitialized = true;
 
         return address(graph);
+    }
+
+    function _addNodes(GraphInitParams memory params) private {
+        uint256 rootNodeIncludeCount;
+
+        for (uint256 i = 0; i < params.nodes.length; i++) {
+            graph.addNode(params.nodes[i]);
+
+            if (params.rootNode == params.nodes[i].id) {
+                rootNodeIncludeCount++;
+            }
+        }
+
+        require(rootNodeIncludeCount != 0, MISSING_ROOT_NODE_ERR);
+        require(rootNodeIncludeCount == 1, DUPLICATED_ROOT_NODE_ERR);
     }
 }

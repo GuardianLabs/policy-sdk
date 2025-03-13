@@ -28,4 +28,8 @@ abstract contract StatefulArtifactBase is ArtifactBase {
     function validateArtifactNotInitalized() internal view {
         require(isInited == false, ARTIFACT_IS_INITED_ERR);
     }
+
+    function _makeDescription(string memory suffix) internal pure returns (string memory desc) {
+        desc = string.concat("Stateful artifact: ", suffix);
+    }
 }

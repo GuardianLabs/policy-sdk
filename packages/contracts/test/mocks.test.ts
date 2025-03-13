@@ -70,7 +70,7 @@ describe('Deploying and querying mocks for subsequent tests', () => {
         rawOnchainVariablesDescriptionToOffchainView,
       );
 
-      console.log(JSON.stringify(variablesFormatted, null, 2));
+      // console.log(JSON.stringify(variablesFormatted, null, 2));
     });
   });
 });

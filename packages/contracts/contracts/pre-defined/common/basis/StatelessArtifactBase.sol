@@ -14,4 +14,8 @@ abstract contract StatelessArtifactBase is ArtifactBase {
         (encodedResult);
         validateExecArgumentsLength(data);
     }
+
+    function _makeDescription(string memory suffix) internal pure returns (string memory desc) {
+        desc = string.concat("Stateless artifact: ", suffix);
+    }
 }

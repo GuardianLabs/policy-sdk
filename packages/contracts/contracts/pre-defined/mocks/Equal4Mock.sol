@@ -37,6 +37,10 @@ contract Equal4Mock is StatelessArtifactBase {
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = "Equal4Mock artifact";
+    }
+
     function _exec(bytes[] memory data) internal override returns (bytes memory) {
         super._exec(data);
 

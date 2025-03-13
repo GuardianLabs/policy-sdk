@@ -38,6 +38,12 @@ contract BusinessHoursValidation is StatefulArtifactBase, BusinessHoursValidatio
         returnType = BOOL;
     }
 
+    function description() external pure override returns (string memory desc) {
+        desc = _makeDescription(
+            "used to validate if current time falls within configured business hours for a specific timezone. Returns bool representing whether current time is within business hours."
+        );
+    }
+
     function _init(bytes memory data) internal override {
         // note: trigger base configuration & validations
         super._init(data);
