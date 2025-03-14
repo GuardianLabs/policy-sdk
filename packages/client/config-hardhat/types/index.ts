@@ -1,4 +1,4 @@
-export enum NetworkName {
-  amoy = 'amoy',
-  polygon = 'polygon',
-}
+export {
+  SupportedNetworkIdEnum as NetworkID,
+  SupportedNetworkNameEnum as NetworkName,
+} from '../../src/types';

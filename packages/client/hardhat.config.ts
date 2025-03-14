@@ -12,6 +12,7 @@ import {
   getMnemonic,
   isAutoMiningEnabled,
   miningInterval,
+  NetworkID,
   NetworkName,
   REPORT_GAS,
 } from './config-hardhat';
@@ -50,6 +51,22 @@ const config: HardhatUserConfig = {
       url: getDevelopmentNodeRpcUri(),
       chainId: developmentChainId(),
     },
+    [NetworkName.baseMainnet]: {
+      chainId: 8453,
+      accounts: {
+        mnemonic: getMnemonic(),
+        count: MAX_ACCOUNT_NUMBER,
+      },
+      url: getBlockchainNodeRpcUri(NetworkName.baseMainnet),
+    },
+    [NetworkName.baseSepolia]: {
+      chainId: 84532,
+      accounts: {
+        mnemonic: getMnemonic(),
+        count: MAX_ACCOUNT_NUMBER,
+      },
+      url: getBlockchainNodeRpcUri(NetworkName.baseSepolia),
+    },
     [NetworkName.amoy]: {
       chainId: 80002,
       accounts: {
@@ -65,6 +82,22 @@ const config: HardhatUserConfig = {
         count: MAX_ACCOUNT_NUMBER,
       },
       url: getBlockchainNodeRpcUri(NetworkName.polygon),
+    },
+    'redbelly-mainnet': {
+      chainId: NetworkID.redbellyMainnet,
+      accounts: {
+        mnemonic: getMnemonic(),
+        count: MAX_ACCOUNT_NUMBER,
+      },
+      url: 'https://governors.mainnet.redbelly.network',
+    },
+    'redbelly-testnet': {
+      chainId: NetworkID.redbellyTestnet,
+      accounts: {
+        mnemonic: getMnemonic(),
+        count: MAX_ACCOUNT_NUMBER,
+      },
+      url: 'https://governors.testnet.redbelly.network',
     },
   },
   paths: {
@@ -86,12 +119,7 @@ const config: HardhatUserConfig = {
     alphaSort: true,
     disambiguatePaths: true,
     runOnCompile: true,
-    only: [
-      ':AND$',
-      ':OR$',
-      ':XOR$',
-      ':NOT$' /* , 'BusinessHoursValidation$' */,
-    ],
+    only: [':PolicyFactory$'],
     strict: false,
   },
 };
