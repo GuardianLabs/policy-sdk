@@ -1,6 +1,5 @@
 import { Signer } from 'ethers';
-import { connectPolicyFactoryInstance } from '../helpers';
-import { PolicyFactory } from '../typechain';
+import { PolicyFactory, PolicyFactory__factory } from '../typechain';
 import { KnownPolicyFactoriesType } from '../types';
 
 export const getFactoryInstance = async (
@@ -14,8 +13,7 @@ export const getFactoryInstance = async (
 
   const factoryAddress = retrieveFactoryAddress(chainId, knownFactories);
 
-  return connectPolicyFactoryInstance(factoryAddress, signer);
-  // return PolicyFactory__factory.connect(factoryAddress, signer)
+  return PolicyFactory__factory.connect(factoryAddress, signer);
 };
 
 const retrieveFactoryAddress = (

@@ -82,13 +82,6 @@ export const decodePolicyAddressFromTx = async (
   }
 };
 
-export const connectPolicyFactoryInstance = (
-  factoryAddress: string,
-  signer: Signer,
-): PolicyFactory => {
-  return PolicyFactory__factory.connect(factoryAddress, signer);
-};
-
 export const deployPolicyFactoryInstance = async (
   signer: Signer,
 ): Promise<PolicyFactory> => {

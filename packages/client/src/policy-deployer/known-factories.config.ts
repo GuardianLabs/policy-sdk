@@ -1,4 +1,4 @@
-import { KnownPolicyFactoriesType } from '../types';
+import { KnownPolicyFactoriesType, SupportedNetworkIdEnum } from '../types';
 
 // todo: add polygon-mainnet, base-sepolia as hardcoded addresses
 const knownPolicyFactories: KnownPolicyFactoriesType = {
