@@ -20,7 +20,7 @@
     "check:ts:dev": "tsc -p tsconfig.json --noEmit",
     "clean": "pnpm remove:dist && pnpm remove:contracts && pnpm remove:typechain",
     "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
-    "deploy:modules:base": "pnpm deployAndExport:noNetwork base",
+    "deploy:modules:base": "pnpm deploy:modules:noNetwork base-mainnet",
     "deploy:modules:noNetwork": "pnpm exec hardhat run hardhat-scripts/deployModules.ts --network",
     "format:all:fix": "pnpm format:sol:fix && pnpm format:ts:fix",
     "format:ts:fix": "pnpm exec prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config-hardhat/**/*.ts\" \"ignition/**/*.ts\" \"hardhat-scripts/**/*.ts\"",
