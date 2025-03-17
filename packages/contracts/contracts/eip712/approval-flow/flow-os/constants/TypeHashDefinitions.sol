@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
 bytes32 constant DOMAIN_TYPE_HASH = keccak256(

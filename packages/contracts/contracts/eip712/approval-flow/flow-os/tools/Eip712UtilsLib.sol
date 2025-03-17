@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
 import { DOMAIN_TYPE_HASH } from "../constants/TypeHashDefinitions.sol";
