@@ -8,6 +8,8 @@ dist
 testMatrix.json
 mochaOutput.json
 
+.cursor
+
 #Hardhat files
 cache
 artifacts
