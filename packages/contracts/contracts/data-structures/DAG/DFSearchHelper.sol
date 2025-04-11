@@ -3,9 +3,9 @@ pragma solidity ^0.8.27;
 
 import { DFSHelper, VisitStatus } from "./types/Types.sol";
 
-// note: only reason to keep it in a dedicated contract is
+// note: only reasons to keep it in a dedicated contract are
 // a. to have cleaner codebase
-// b. the need of DFSHelper variable currently available only through storage
+// b. the need of DFSHelper variable to be state variable accessing storage
 contract DFSearchHelper {
     // todo: apply transient storage
     DFSHelper private dfs;

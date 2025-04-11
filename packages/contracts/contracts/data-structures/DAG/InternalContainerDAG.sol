@@ -3,7 +3,7 @@ pragma solidity ^0.8.27;
 
 import { DAG, DAGNode } from "./types/Types.sol";
 import { toUint } from "./utils/Utils.sol";
-import { DAGOperationsLib } from "./LibraryDAG.sol";
+import { DAGOperationsLib } from "./libs/LibraryDAG.sol";
 import { DFSearchHelper } from "./DFSearchHelper.sol";
 
 // note: his is rather a container (proxy) to access the DAGOperationsLib library,

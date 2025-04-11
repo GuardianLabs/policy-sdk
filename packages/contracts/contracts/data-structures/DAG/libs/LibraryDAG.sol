@@ -1,10 +1,11 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { reverseList } from "./utils/Utils.sol";
-import { DAG, DAGNode as Node, VisitStatus, DFSHelper } from "./types/Types.sol";
-import "./utils/validation/ValidationUtils.sol" as ValidationUtils;
-import "./utils/validation/Validations.sol" as Validator;
+import { CYCLE_DETECTED_WHILE_TOPOLIGICAL_SORT_ERR } from "../constants/Errors.sol";
+import { reverseList } from "../utils/Utils.sol";
+import { DAG, DAGNode as Node, VisitStatus, DFSHelper } from "../types/Types.sol";
+import "../utils/validation/ValidationUtils.sol" as ValidationUtils;
+import "../utils/validation/Validations.sol" as Validator;
 
 library DAGOperationsLib {
     // note: add a new node to the graph
@@ -58,7 +59,7 @@ library DAGOperationsLib {
             uint256 nodeId = self.nodeIds[i];
 
             if (dfsHelper.visited[nodeId] == VisitStatus.Unvisited) {
-                depthFirstSearch(self, nodeId, dfsHelper);
+                _topologicalSortDfs(self, nodeId, dfsHelper);
             }
         }
 
@@ -182,17 +183,17 @@ library DAGOperationsLib {
     }
 
     // note: helper function for DFS-based topological sorting
-    function depthFirstSearch(
+    function _topologicalSortDfs(
         DAG storage self,
         uint256 _nodeId,
         DFSHelper storage dfsHelper
     ) private {
-        if (dfsCycleCheckV2(self, _nodeId, dfsHelper)) {
-            revert("Graph contains a cycle");
-        }
+        bool isCycleDetected = dfsCycleCheckV2(self, _nodeId, dfsHelper);
+
+        Validator.boolIsFalsyWithErr(isCycleDetected, CYCLE_DETECTED_WHILE_TOPOLIGICAL_SORT_ERR);
     }
 
-    // note: helper function for cycle check (used in topological sorting)
+    // note: helper function for topoligical sort and dag cycle check
     function dfsCycleCheckV2(
         DAG storage self,
         uint256 _nodeId,
@@ -215,7 +216,7 @@ library DAGOperationsLib {
         }
 
         dfsHelper.visited[_nodeId] = VisitStatus.Visited;
-        dfsHelper.sorted.push(_nodeId);
+        dfsHelper.sorted.push(_nodeId); // the best place to push sorted values
 
         // note: mark as fully visited
         return false;
