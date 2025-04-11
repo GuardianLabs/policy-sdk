@@ -6,7 +6,8 @@ import { toUint } from "./utils/Utils.sol";
 import { DAGOperationsLib } from "./LibraryDAG.sol";
 import { DFSearchHelper } from "./DFSearchHelper.sol";
 
-// note: rather container (proxy) to access DAGOperationsLib library, since some DAG checks not enforce herein
+// note: his is rather a container (proxy) to access the DAGOperationsLib library,
+// since some DAG checks are not enforced here.
 contract InternalContainerDAG is DFSearchHelper {
     using DAGOperationsLib for DAG;
 

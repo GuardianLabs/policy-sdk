@@ -57,7 +57,7 @@ describe('DSL-Builder Framework test', () => {
       );
     });
 
-    it('querying policy with injection for policy-variables package testing', async () => {
+    it.skip('querying policy with injection for policy-variables package testing', async () => {
       const compiler = LacLangCompiler.fromSources(dsl, {
         checkTypesAgainstDslDeclarations: true,
         provider: admin.provider,

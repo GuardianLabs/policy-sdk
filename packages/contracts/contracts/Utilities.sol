@@ -24,7 +24,7 @@ function getVarsDesriptionList(
         vars.artifactAddress = rule.clonedArtifact;
         vars.injections = rule.injections;
 
-        // THIS IS REDUNDANT CHECK: since there is no need to check teh condition on already configured DAG/Nodes
+        // THIS IS REDUNDANT CHECK: since there is no need to check the condition on already configured DAG/Nodes
         // require(
         //     argNames.length >= rule.variableExecArgs.length,
         //     NODE_VARIABLES_LIST_LENGTH_VIOLATES_DESCRIPTOR_ERR

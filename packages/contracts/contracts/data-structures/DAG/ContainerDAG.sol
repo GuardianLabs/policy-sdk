@@ -5,7 +5,8 @@ import { DAG } from "./types/Types.sol";
 import { DAGOperationsLib } from "./LibraryDAG.sol";
 import { DFSearchHelper } from "./DFSearchHelper.sol";
 
-// note: rather container (proxy) to access DAGOperationsLib library than fully capable DAG
+// note: his is rather a container (proxy) to access the DAGOperationsLib library,
+// since some DAG checks are not enforced here.
 contract ContainerDAG is DFSearchHelper {
     using DAGOperationsLib for DAG;
 

@@ -3,7 +3,8 @@ pragma solidity ^0.8.27;
 
 import { InternalContainerDAG } from "./InternalContainerDAG.sol";
 
-// note: rather container (proxy) to access DAGOperationsLib library, since some DAG checks not enforce herein
+// note: his is rather a container (proxy) to access the DAGOperationsLib library,
+// since some DAG checks are not enforced here.
 contract ContainerDAGBytes32 is InternalContainerDAG {
     function addNode(bytes32 _nodeId) public {
         _addNode(_nodeId);
