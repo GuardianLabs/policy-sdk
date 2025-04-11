@@ -1,15 +1,18 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { Node, TreeNodeInitParams } from "./Types.sol";
+import { InternalContainerDAG } from "./data-structures/DAG/Export.sol";
+import { NodeInitData, Node } from "./Types.sol";
 import { OwnerBase } from "./OwnerBase.sol";
 import "./Validations.sol" as Validate;
 import "./Utilities.sol" as Utils;
 
-contract ArtifactNodesBase is OwnerBase {
+contract ArtifactNodesBase is InternalContainerDAG, OwnerBase {
+    bytes32 internal rootNodeId;
     Node[] internal nodes;
-    mapping(bytes32 => uint256) internal idToIndex; // nodeIdToIndex
+
     // mapping(uint256 => bytes32) internal indexToId; // nodeIndexToId
+    mapping(bytes32 => uint256) internal idToIndex; // nodeIdToIndex
 
     constructor(address _adminUser) OwnerBase(_adminUser) {
         // note: the first node is always empty. its index: 0, its id: bytes32(0)
@@ -18,46 +21,32 @@ contract ArtifactNodesBase is OwnerBase {
     }
 
     function addNodeInternal(
-        TreeNodeInitParams memory params
+        NodeInitData memory nodeParams
     ) internal returns (uint256 newNodeIndex) {
-        (Node storage newNode, uint256 nodeIndex) = createEmptyNodeWithId(params.id);
-        newNodeIndex = nodeIndex;
+        Node storage newNode;
 
-        maybeCreateArtifactState(newNode, params);
+        (newNode, newNodeIndex) = createEmptyNodeWithId(nodeParams.id);
 
-        setNodeConstants(newNode, params);
+        maybeCreateArtifactState(newNode, nodeParams);
 
-        setNodeVariables(newNode, params);
+        setNodeConstants(newNode, nodeParams);
 
-        setNodeInjections(newNode, params);
+        setNodeVariables(newNode, nodeParams);
 
-        setNodeSubstibutions(newNode, params);
+        setNodeInjections(newNode, nodeParams);
 
-        setArgsCount(newNode, params);
-    }
+        setNodeSubstibutions(newNode, nodeParams);
 
-    function maybeCreateArtifactState(Node storage node, TreeNodeInitParams memory params) private {
-        // note: IArbitraryDataArtifact is erc165-compatible
-        node.artifactContractAddress = Validate.validateAddressIsArtifact(params.artifactAddress);
-
-        // note: in case the artifact is STATELESS, or it is ok to rely on shared state:
-        node.implementationContractAddress = node.artifactContractAddress;
-
-        // note: in case artifact is STATEFULL and it is sensetive to have/consume a dedicated state within artifact
-        if (params.needsInitialization) {
-            address deployed = Utils.deployArtifact(node);
-            Utils.toArtifactInstance(deployed).init(params.initData);
-
-            node.implementationContractAddress = deployed;
-        }
+        // note: this has to be the final setter call in the method body; order matters
+        setArgsCount(newNode, nodeParams);
     }
 
     function createEmptyNode() private returns (Node storage emptyNode, uint256 emptyNodeIndex) {
-        // note: pushing new empty node thereby making its storage accesible to write/reade
+        // note: pushing new empty node, thereby making its storage accesible to write/reade
         nodes.push();
 
         // note: emptyNodeIndex = total_nodes_count - 1
-        // the value of 0 is prevented to be assigned to 'emptyNodeIndex' by pushing Empty Node in constructor
+        // the value of 0 is prevented in 'addNodeInternal' to be assigned to 'emptyNodeIndex' by pushing Empty Node in constructor
         emptyNodeIndex = nodes.length - 1;
         emptyNode = nodes[emptyNodeIndex];
 
@@ -74,32 +63,51 @@ contract ArtifactNodesBase is OwnerBase {
         return (node, index);
     }
 
-    function setNodeConstants(Node storage node, TreeNodeInitParams memory params) private {
-        for (uint256 i = 0; i < params.partialExecData.length; i++) {
-            node.partialExecData.push(params.partialExecData[i]);
+    function maybeCreateArtifactState(Node storage node, NodeInitData memory nodeParams) private {
+        // note: if this is an instance of IArbitraryDataArtifact it has to be erc165-compatible
+        node.originalArtifact = Validate.validateAddressIsArtifact(nodeParams.artifactAddress);
+
+        // note: when the artifact is STATELESS, it is ok to rely on shared (between other artifacts users) state
+        node.clonedArtifact = node.originalArtifact;
+
+        // note: when artifact is STATEFULL it means it must allocate/init/consume a new isolated state variables
+        if (nodeParams.needsInitialization) {
+            address newInstance = Utils.deployArtifact(node);
+            Utils.toArtifactInstance(newInstance).init(nodeParams.initData);
+
+            node.clonedArtifact = newInstance;
         }
     }
 
-    function setNodeVariables(Node storage node, TreeNodeInitParams memory params) private {
-        for (uint256 i = 0; i < params.variables.length; i++) {
-            node.variables.push(params.variables[i]);
+    function setNodeConstants(Node storage node, NodeInitData memory nodeParams) private {
+        for (uint256 i = 0; i < nodeParams.constantExecArgs.length; i++) {
+            node.constantExecArgs.push(nodeParams.constantExecArgs[i]);
         }
     }
 
-    function setNodeInjections(Node storage node, TreeNodeInitParams memory params) private {
-        for (uint256 i = 0; i < params.injections.length; i++) {
-            node.injections.push(params.injections[i]);
+    function setNodeVariables(Node storage node, NodeInitData memory nodeParams) private {
+        for (uint256 i = 0; i < nodeParams.variableExecArgs.length; i++) {
+            node.variableExecArgs.push(nodeParams.variableExecArgs[i]);
         }
     }
 
-    function setNodeSubstibutions(Node storage node, TreeNodeInitParams memory params) private {
-        for (uint256 i = 0; i < params.substitutions.length; i++) {
-            node.substitutions.push(params.substitutions[i]);
+    function setNodeSubstibutions(Node storage node, NodeInitData memory nodeParams) private {
+        // todo: validate (AT HIGHER LEVEL) artifact assigned to "nodeParams.substitutedExecArgs[i].supplierNodeId" returns the
+        // desired type matches with "node.clonedArtifact.getExecDescriptor" type at the same index
+
+        for (uint256 i = 0; i < nodeParams.substitutedExecArgs.length; i++) {
+            node.substitutedExecArgs.push(nodeParams.substitutedExecArgs[i]);
         }
     }
 
-    function setArgsCount(Node storage node, TreeNodeInitParams memory params) private {
-        Validate.validateArgsCount(node, params.argsCount);
-        node.argsCount = params.argsCount;
+    function setNodeInjections(Node storage node, NodeInitData memory nodeParams) private {
+        for (uint256 i = 0; i < nodeParams.injections.length; i++) {
+            node.injections.push(nodeParams.injections[i]);
+        }
+    }
+
+    function setArgsCount(Node storage node, NodeInitData memory nodeParams) private {
+        Validate.validateArgsCount(node, nodeParams.argsCount);
+        node.argsCount = nodeParams.argsCount;
     }
 }

@@ -1,5 +1,5 @@
-import "./header.lac";
-import "./lib.lac";
+import "./header.lac"; // imports art1
+import "./lib.lac"; // imports num1, bts1, bool1, addr1, str1
 
 pragma injected-only;
 

@@ -30,8 +30,7 @@ describe('Policy: compilation with predefined artifacts', () => {
   before(async () => {
     [adminSigner] = await ethers.getSigners();
 
-    const { and, xor, gteUint, lteUint, gtUint, equalString } =
-      await deployArtifacts(adminSigner);
+    const { and, xor, equalString } = await deployArtifacts(adminSigner);
 
     andArtifact = and;
     xorArtifact = xor;

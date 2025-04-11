@@ -1,4 +1,4 @@
-import { GraphInitParamsStruct } from '@guardian-network/policy-contracts/src';
+import { InitParamsStruct } from '@guardian-network/policy-contracts/src';
 import { Signer } from 'ethers';
 import { PolicyClient } from './PolicyClient';
 import { TryCatch } from './decorators';
@@ -37,7 +37,7 @@ export class PolicyClientBuildable extends PolicyClient {
   @TryCatch(BuildNew.FROM_EMPTY_POLICY_WITH_CONFIG)
   static async buildConfiguredPolicy(
     adminSigner: Signer, // also a deploy signer
-    config: GraphInitParamsStruct,
+    config: InitParamsStruct,
     feeProvider: IFeeProvider,
     policyDeployer: PolicyDeployer = new PolicyDeployer(adminSigner),
   ) {

@@ -37,11 +37,11 @@ export class ParserBase {
 
     const processedArtifact: Omit<ParsingResult, 'id'> = {
       artifactAddress,
-      partialExecData: execKnownParamsList,
-      variables: execRuntimeVariablesIndices,
+      constantExecArgs: execKnownParamsList,
+      variableExecArgs: execRuntimeVariablesIndices,
       injections: execRuntimeVariablesInjectionsWithIndices,
       argsCount,
-      substitutions: execSubstitutionParamsList.map(toRegularParam),
+      substitutedExecArgs: execSubstitutionParamsList.map(toRegularParam),
       initData: initDataParamsSolidityPacked,
       needsInitialization,
     };
@@ -73,7 +73,7 @@ const toRegularParam = ({
   atPos,
 }: SubstitutingParameter): NormalizedExecParameter => {
   return {
-    value: from,
+    supplierNodeId: from,
     index: atPos,
   };
 };

@@ -44,7 +44,7 @@ export type TypedRawOnchainVariablesDescription = {
   nodeId: NodeId;
   nodeIndex: number; // parent node
   artifactAddress: string;
-  variables: Array<Variable>;
+  descriptions: Array<Variable>;
   injections: Array<Injection>;
 };
 

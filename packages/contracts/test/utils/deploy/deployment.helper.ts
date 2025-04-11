@@ -6,6 +6,8 @@ import {
   ApprovalFlow__factory,
   BusinessHoursValidation,
   BusinessHoursValidation__factory,
+  ContainerDAG,
+  ContainerDAG__factory,
   CurrentTimestamp__factory,
   DestinationBlacklist__factory,
   DestinationWhitelist__factory,
@@ -175,6 +177,16 @@ export const deployDestinationArtifacts = async (
     destinationWhitelist,
     destinationBlacklist,
   };
+};
+
+export const deployDagContainer = async (
+  deploySigner: SignerWithAddress,
+): Promise<ContainerDAG> => {
+  const dagContainerFactory = new ContainerDAG__factory(deploySigner);
+  const timezoneInstance = await dagContainerFactory.deploy();
+  await timezoneInstance.waitForDeployment();
+
+  return timezoneInstance;
 };
 
 export const deployBusinessHoursContracts = async (

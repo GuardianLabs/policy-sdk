@@ -146,7 +146,7 @@ const parse = async (
     const substitutions = parameters
       .filter((val) => strIsSubst(val.value))
       .map((val) => ({
-        value: val.value.replace(/\|/g, ''),
+        supplierNodeId: val.value.replace(/\|/g, ''),
         index: val.index,
       }));
 
@@ -182,11 +182,11 @@ const parse = async (
     res.push({
       id: NodeId.fromNotation(artifact, index),
       artifactAddress,
-      partialExecData,
-      variables,
+      constantExecArgs: partialExecData,
+      variableExecArgs: variables,
       injections,
       argsCount: parameters.length,
-      substitutions,
+      substitutedExecArgs: substitutions,
       initData,
       needsInitialization: initArgs.length != 0,
     });

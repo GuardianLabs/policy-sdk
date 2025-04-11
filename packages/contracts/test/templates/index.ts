@@ -29,6 +29,23 @@ export const policy = {
     two_artifacts: {
       one_variable: {
         one_constant: {
+          incorrect_artifacts_state: {
+            unlinked_artifact: (
+              andArtifactAddress: string,
+              equalStringArtifactAddress: string,
+            ) => `
+              var string str;
+
+              artifact and = ${andArtifactAddress};
+              artifact equalString = ${equalStringArtifactAddress};
+
+              instance bool stringOutput of equalString takes ("I'm an input", str);
+              instance bool andOutput of and takes (true, stringOutput);
+              instance bool floatingAnd of and takes (false, false);
+  
+              evaluate andOutput;
+      `,
+          },
           one_substitution: {
             and: (
               andArtifactAddress: string,

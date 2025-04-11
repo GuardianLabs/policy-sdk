@@ -1,8 +1,8 @@
 import {
-  GraphInitParamsStruct,
-  NamedTypedVariablesStruct,
+  ExecVariablesStruct,
+  ExecVarsMetadataStruct,
+  InitParamsStruct,
   PolicyHandler,
-  VariablesStruct,
 } from '@guardian-network/policy-contracts/src';
 import { Signer, TransactionRequest } from 'ethers';
 import { FeeDataEip1559 } from '../types';
@@ -28,10 +28,10 @@ export interface IAdminAccessValidator {
 export type IValidator = IAdminAccessValidator & IBalanceValidator;
 
 export interface IPolicyClient {
-  initialize: (policyConfig: GraphInitParamsStruct) => Promise<void>;
-  reset: (policyConfig: GraphInitParamsStruct) => Promise<void>;
-  evaluate: (variables: VariablesStruct[]) => Promise<boolean>;
-  evaluateDryRun: (variables: VariablesStruct[]) => Promise<boolean>;
+  initialize: (policyConfig: InitParamsStruct) => Promise<void>;
+  reset: (policyConfig: InitParamsStruct) => Promise<void>;
+  evaluate: (variables: ExecVariablesStruct[]) => Promise<boolean>;
+  evaluateDryRun: (variables: ExecVariablesStruct[]) => Promise<boolean>;
   getPolicyAddress: () => Promise<string>;
-  getVariablesList: () => Promise<NamedTypedVariablesStruct[]>;
+  getVariablesList: () => Promise<ExecVarsMetadataStruct[]>;
 }

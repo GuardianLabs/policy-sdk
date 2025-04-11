@@ -1,4 +1,4 @@
-import { GraphInitParamsStruct } from '@guardian-network/policy-contracts/src';
+import { InitParamsStruct } from '@guardian-network/policy-contracts/src';
 import { Signer } from 'ethers';
 import { deployPolicyFactoryInstance } from '../helpers';
 import { KnownPolicyFactoriesType } from '../types';
@@ -32,7 +32,7 @@ export class PolicyDeployer {
   // note: it does this (deploy + init) ATOMICALLY
   deployAndConfigure = async (
     policyAdmin: string,
-    policyConfig: GraphInitParamsStruct,
+    policyConfig: InitParamsStruct,
   ) => {
     return StaticPolicyDeployer.deployAndConfigure(
       this.signerWithProvider,

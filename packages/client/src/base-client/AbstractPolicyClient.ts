@@ -1,8 +1,8 @@
 import {
-  GraphInitParamsStruct,
-  NamedTypedVariablesStruct,
+  ExecVariablesStruct,
+  ExecVarsMetadataStruct,
+  InitParamsStruct,
   PolicyHandler,
-  VariablesStruct,
 } from '@guardian-network/policy-contracts/src';
 import { Signer } from 'ethers';
 import { decodeEvaluationResultFromTx } from '../helpers';
@@ -24,17 +24,17 @@ export abstract class AbstractPolicyClient implements IPolicyClient {
     this.policyHandler = this.policyHandler.connect(this.signer);
   }
 
-  async initialize(policyConfig: GraphInitParamsStruct): Promise<void> {
+  async initialize(policyConfig: InitParamsStruct): Promise<void> {
     const tx = await this.policyHandler.set(policyConfig);
     await tx.wait();
   }
 
-  async reset(policyConfig: GraphInitParamsStruct): Promise<void> {
+  async reset(policyConfig: InitParamsStruct): Promise<void> {
     const tx = await this.policyHandler.reset(policyConfig);
     await tx.wait();
   }
 
-  async evaluate(variables: VariablesStruct[]): Promise<boolean> {
+  async evaluate(variables: ExecVariablesStruct[]): Promise<boolean> {
     const tx = await this.policyHandler.evaluate(variables);
     await tx.wait();
 
@@ -42,23 +42,25 @@ export abstract class AbstractPolicyClient implements IPolicyClient {
     return isActionPermitted;
   }
 
-  async evaluateDryRun(variables: VariablesStruct[]): Promise<boolean> {
+  async evaluateDryRun(variables: ExecVariablesStruct[]): Promise<boolean> {
     const isActionPermitted =
       await this.policyHandler.evaluate.staticCall(variables);
 
     return isActionPermitted;
   }
 
-  async getVariablesList(): Promise<NamedTypedVariablesStruct[]> {
+  async getVariablesList(): Promise<ExecVarsMetadataStruct[]> {
     const response = await this.policyHandler.getVariablesList.staticCall();
 
-    return response.map((item) => ({
+    const result = response.map((item) => ({
       nodeId: item.nodeId,
       nodeIndex: item.nodeIndex,
       artifactAddress: item.artifactAddress,
-      variables: item.variables,
+      descriptions: item.descriptions,
       injections: item.injections,
     }));
+
+    return result;
   }
 
   async getPolicyAddress(): Promise<string> {

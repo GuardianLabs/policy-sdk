@@ -26,7 +26,7 @@ export class SimplifiedParser {
   }
 
   // note:
-  // a. When processed it basically returns a List of 'TreeNodeInitParamsStruct' matching
+  // a. When processed it basically returns a List of 'NodeInitDataStruct' matching
   // the interface requirements of onchain artifacts declaration
   // b. Each List entry includes the values of [constants-data], [substitutions-data], [init-data], [runtime-supplied-params-indices]
   // and other related data of Artifact.

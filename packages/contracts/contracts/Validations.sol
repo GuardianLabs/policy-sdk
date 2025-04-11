@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { Node } from "./Types.sol";
+import { Node as ConfiguredNode } from "./Types.sol";
 // import {
 //     ARTIFACT_INSTANCE_NOT_IMPLEMENTS_ERC165_INTERFACE_ERR,
 //     ARTIFACT_INSTANCE_NOT_SUPPORTS_REQUIRED_INTERFACE_ERR,
@@ -25,9 +25,10 @@ function validateAddressIsArtifact(address artifactAddress) pure returns (addres
     validated = artifactAddress;
 }
 
-function validateArgsCount(Node memory node, uint256 argsCount) pure {
-    uint256 suppliedArgsCount = node.partialExecData.length +
-        node.substitutions.length +
-        node.variables.length;
+function validateArgsCount(ConfiguredNode memory rule, uint256 argsCount) pure {
+    uint256 suppliedArgsCount = rule.constantExecArgs.length +
+        rule.substitutedExecArgs.length +
+        rule.variableExecArgs.length;
+
     require(argsCount == suppliedArgsCount, INCORRECT_NODE_ARGUMENTS_NUMBER_IS_SUPPLIED_ERR);
 }

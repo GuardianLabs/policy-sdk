@@ -3,7 +3,7 @@ pragma solidity ^0.8.27;
 
 import {
     SUPPLIED_VARIABLES_LIST_LENGTH_NOT_MATCHES_EXPECTED_LENGTH_ERR,
-    SUPPLIED_NODE_ID_NOT_UNIQUE_ERR,
+    NODE_ID_IS_ALREADY_EXISTS_ERR,
     SUPPLIED_NODE_ID_IS_NIL_ERR,
     NODE_NOT_EXISTS_ERR,
     NODE_INDEX_NOT_EXISTS_ERR,
@@ -11,13 +11,11 @@ import {
 } from "./Errors.sol";
 import { IArbitraryDataArtifact } from "./pre-defined/common/basis/interfaces/Export.sol";
 import {
-    BytesAndIndex,
-    Bytes32AndIndex,
     Node,
-    TreeNodeInitParams,
-    Variables,
-    CacheRecord,
-    NamedTypedVariables
+    ConstantArgument,
+    SubstitutionArgument,
+    NodeInitData,
+    ExecVariables
 } from "./Types.sol";
 import { ArtifactNodesBase } from "./ArtifactNodesBase.sol";
 import "./Utilities.sol" as Utils;
@@ -25,116 +23,116 @@ import "./Utilities.sol" as Utils;
 contract ArtifactNodes is ArtifactNodesBase {
     constructor(address _adminUser) ArtifactNodesBase(_adminUser) {}
 
-    function addNode(
-        TreeNodeInitParams memory params
-    ) public onlyOwner returns (uint256 newNodeIndex) {
+    function addNode(NodeInitData memory params) public onlyOwner returns (uint256 newNodeIndex) {
         require(params.id != bytes32(0), SUPPLIED_NODE_ID_IS_NIL_ERR);
-        require(idToIndex[params.id] == 0, SUPPLIED_NODE_ID_NOT_UNIQUE_ERR);
+        require(idToIndex[params.id] == 0, NODE_ID_IS_ALREADY_EXISTS_ERR);
 
         newNodeIndex = addNodeInternal(params);
     }
 
+    function setRootNode(bytes32 _rootNodeId) public onlyOwner {
+        // note: _rootNodeId != bytes32(0) is implicitly validated at higher level
+
+        // todo: add the way to validate graph.node[params.rootNode] evaluates as bool
+        // 1. getNodeById
+        // 2. node.toArtifact
+        // 3. artifact.getExecDescriptor
+        // 4. returnType == "bool"
+        rootNodeId = _rootNodeId;
+    }
+
     // note: policy tree can not be too broad or
-    // cyclic cause of stack depth (see: PolicyHandler.set)
+    // cyclic, because of stack depth (see: PolicyHandler.set)
     function evaluateRecursively(
         Node memory node,
-        Variables[] memory variables,
-        CacheRecord[] memory cache,
-        uint256 lastCacheRecord
+        ExecVariables[] memory variableValuesList // vars for each node
     ) public onlyOwner returns (bytes memory result) {
-        // note: validation "isUnuqie(variables[i].nodeId)" is redundant since this.addNode requires nodes to have uniqe id
+        // note: general list containing the all values of Node
+        // (known constants, applied substitutions, run-time supplied variable-values)
+        bytes[] memory generalArgumentsList = new bytes[](node.argsCount);
+
+        fillVariableArguments(node, generalArgumentsList, variableValuesList);
+
+        fillConstantArguments(node, generalArgumentsList);
+
+        fillSubstitutedArguments(node, generalArgumentsList, variableValuesList);
+
         IArbitraryDataArtifact instance = Utils.toArtifactInstance(node);
-        bytes[] memory selfVariables;
-
-        // todo: maybe something more efficient
-        // suggestion: if variables[i] is consumed, then it is removed from the 'variables'
-        // and the altered array is passed to next recursive iteration.
-
-        // important: if artifact a requires artifact d and artifact b requires artifact d, then it is prohibited
-        // the same instance of artifact d can not be re-used by multiple artifacts. motivation: this will simplify evertyhing
-        for (uint256 i = 0; i < variables.length; i++) {
-            if (variables[i].nodeId == node.id) {
-                selfVariables = variables[i].values;
-                break;
-            }
-        }
-
-        bytes[] memory execArgumentsArraified = new bytes[](node.argsCount);
-
-        require(
-            node.variables.length == selfVariables.length,
-            SUPPLIED_VARIABLES_LIST_LENGTH_NOT_MATCHES_EXPECTED_LENGTH_ERR
-        );
-        // note: writing run-time supplied variables to exec arguments
-        for (uint256 i = 0; i < node.variables.length; i++) {
-            execArgumentsArraified[node.variables[i]] = selfVariables[i];
-        }
-
-        // note: writing constans to exec arguments
-        for (uint256 i = 0; i < node.partialExecData.length; i++) {
-            BytesAndIndex memory constMember = node.partialExecData[i];
-
-            execArgumentsArraified[constMember.index] = constMember.value;
-        }
-
-        // note: writting execution results of other Artifacts as exec arguments of the current one
-        // note: recursion base
-        // question: what if node.substitutions.length == 0; recursion should stop at this point. can this lead to unexpected result?
-        // answer: actually this in my opinion is an optimisation
-        for (uint256 i = 0; i < node.substitutions.length; i++) {
-            Bytes32AndIndex memory pointer = node.substitutions[i];
-            bool cacheHit;
-
-            for (uint256 j = 0; j < cache.length; j++) {
-                if (cache[j].key == pointer.value) {
-                    execArgumentsArraified[pointer.index] = cache[j].evaluationResult;
-                    cacheHit = true;
-                    break;
-                }
-            }
-
-            if (cacheHit) continue;
-
-            Node memory subsequentNode = getNodeById(pointer.value);
-
-            bytes memory subsequentResult = evaluateRecursively(
-                subsequentNode,
-                variables,
-                cache,
-                lastCacheRecord + 1
-            );
-
-            execArgumentsArraified[pointer.index] = subsequentResult;
-
-            cache[lastCacheRecord] = CacheRecord({
-                key: subsequentNode.id,
-                evaluationResult: subsequentResult
-            });
-        }
-
-        result = instance.exec(execArgumentsArraified);
+        result = instance.exec(generalArgumentsList);
     }
 
-    function nodesCount() public view returns (uint256) {
-        return nodes.length;
+    function getRootNode() public view onlyOwner returns (Node memory result) {
+        result = getNodeById(rootNodeId);
     }
 
-    // nodeByIndex
-    function getNode(uint256 index) public view returns (Node memory) {
+    // get node by unique ID
+    function getNodeById(bytes32 uniqueNodeIdentifier) public view returns (Node memory node) {
+        require(uniqueNodeIdentifier != bytes32(0), PROVIDED_NODE_REFERENCE_IS_NIL_ERR);
+
+        uint256 nodeIndex = idToIndex[uniqueNodeIdentifier];
+        require(nodeIndex > 0, NODE_NOT_EXISTS_ERR);
+
+        node = getNodeByIndex(nodeIndex);
+    }
+
+    // get node by index in nodes list
+    function getNodeByIndex(uint256 index) public view returns (Node memory node) {
         require(index < nodes.length, NODE_INDEX_NOT_EXISTS_ERR);
-        return nodes[index];
+
+        node = nodes[index];
     }
 
     function getNodes() public view returns (Node[] memory) {
         return nodes;
     }
 
-    // nodeById
-    function getNodeById(bytes32 id) public view returns (Node memory) {
-        require(id != bytes32(0), PROVIDED_NODE_REFERENCE_IS_NIL_ERR);
-        uint256 nodeIndex = idToIndex[id];
+    function fillSubstitutedArguments(
+        Node memory node,
+        bytes[] memory argsList,
+        ExecVariables[] memory variableValuesList
+    ) private {
+        /* note about caching: cache has to be avoided since some artifatcs may have sensitive state 
+            to incoming exec calls, therefore, if there are at least two calls for the same artifact instance during the
+            recursion, then cache becomes invalide and its purpose fails */
 
-        require(nodeIndex > 0, NODE_NOT_EXISTS_ERR);
-        return getNode(nodeIndex);
+        // note: writting evaluation results of each child node as exec arguments of the currently processed one
+        for (uint256 i = 0; i < node.substitutedExecArgs.length; i++) {
+            SubstitutionArgument memory substituting = node.substitutedExecArgs[i];
+
+            Node memory childNode = getNodeById(substituting.supplierNodeId);
+
+            bytes memory childNodeExecResult = evaluateRecursively(childNode, variableValuesList);
+
+            argsList[substituting.index] = childNodeExecResult;
+        }
+    }
+
+    function fillVariableArguments(
+        Node memory node,
+        bytes[] memory argsList,
+        ExecVariables[] memory variableValuesList
+    ) private pure {
+        bytes[] memory nodeVars = Utils.filterSpecificNodeVariables(variableValuesList, node.id);
+
+        // note: this validates 'variableValuesList' eventually contains all run-time required vars for a given node-id
+        require(
+            node.variableExecArgs.length == nodeVars.length,
+            SUPPLIED_VARIABLES_LIST_LENGTH_NOT_MATCHES_EXPECTED_LENGTH_ERR
+        );
+
+        // note: writing run-time supplied variables to exec arguments
+        for (uint256 i = 0; i < node.variableExecArgs.length; i++) {
+            uint256 pos = node.variableExecArgs[i];
+            argsList[pos] = nodeVars[i];
+        }
+    }
+
+    function fillConstantArguments(Node memory node, bytes[] memory argsList) private pure {
+        // note: writing constans to exec arguments
+        for (uint256 i = 0; i < node.constantExecArgs.length; i++) {
+            ConstantArgument memory arg = node.constantExecArgs[i];
+            uint256 pos = arg.index;
+            argsList[pos] = arg.value;
+        }
     }
 }

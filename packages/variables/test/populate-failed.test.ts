@@ -67,7 +67,7 @@ describe('Populate variables: failures', () => {
                 '0xd3ffe9815819423e66f0a03302f6fa0243f44a09855b746802f579d21c56139b',
               nodeIndex: 0,
               artifactAddress: '0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3',
-              variables: [
+              descriptions: [
                 {
                   typename: 'unknown',
                   name: 'argA',
@@ -140,7 +140,7 @@ describe('Populate variables: failures', () => {
               '0xd3ffe9815819423e66f0a03302f6fa0243f44a09855b746802f579d21c56139b',
             nodeIndex: 0,
             artifactAddress: '0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3',
-            variables: [
+            descriptions: [
               {
                 typename: 'unknown',
                 name: 'argA',

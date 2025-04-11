@@ -1,5 +1,5 @@
 import {
-  GraphInitParamsStruct,
+  InitParamsStruct,
   PolicyHandler,
 } from '@guardian-network/policy-contracts/src';
 import { ContractTransactionResponse, Signer } from 'ethers';
@@ -27,7 +27,7 @@ export class StaticPolicyDeployer {
   static deployAndConfigure = async (
     signer: Signer,
     policyAdmin: string,
-    policyConfig: GraphInitParamsStruct,
+    policyConfig: InitParamsStruct,
     knownFactories: KnownPolicyFactoriesType = getKnownPolicyFactories(),
   ): Promise<PolicyHandler> => {
     const policyFactory = await getFactoryInstance(signer, knownFactories);
