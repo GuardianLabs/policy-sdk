@@ -20,7 +20,7 @@ export const translateVarsDescriptionToConfig = (
     });
 
     // note: add all variable data excluding injections
-    for (const [index, variable] of nodeVars.variables.entries()) {
+    for (const [index, variable] of nodeVars.descriptions.entries()) {
       const variableConfig = {
         name: variable.name,
         type: variable.typename,
@@ -55,14 +55,17 @@ export const translateVarsDescriptionToConfig = (
 export const rawOnchainVariablesDescriptionToOffchainView = (
   nodeVars: NodeVariablesDescription,
 ): TypedRawOnchainVariablesDescription => {
-  const { nodeId, variables, injections, artifactAddress, nodeIndex } =
+  const { nodeId, descriptions, injections, artifactAddress, nodeIndex } =
     nodeVars;
 
   const result = {
     nodeId,
     nodeIndex: Number(nodeIndex),
     artifactAddress,
-    variables: variables.map(({ typename, name }) => ({ typename, name })),
+    descriptions: descriptions.map(({ typename, name }) => ({
+      typename,
+      name,
+    })),
     injections: injections.map(({ value, index }) => ({
       value,
       index: Number(index),

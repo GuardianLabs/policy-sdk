@@ -18,9 +18,9 @@ export const validateFinalRepresentation = (
   representation: OnchainPresentation,
 ) => {
   const nodes: DslNode[] = representation.nodes.map(
-    ({ id, substitutions }) => ({
+    ({ id, substitutedExecArgs: substitutions }) => ({
       id: id.toString(),
-      references: substitutions.map((subst) => subst.value.toString()),
+      references: substitutions.map((subst) => subst.supplierNodeId.toString()),
     }),
   );
 

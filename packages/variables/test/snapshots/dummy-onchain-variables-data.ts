@@ -4,7 +4,7 @@ export const onchainVariables = [
       '0xd3ffe9815819423e66f0a03302f6fa0243f44a09855b746802f579d21c56139b',
     nodeIndex: 0,
     artifactAddress: '0x56a6c1bdFa20ca3418C03b7fb24F08d3351cB8f3',
-    variables: [
+    descriptions: [
       {
         typename: 'uint256',
         name: 'argA',
@@ -26,7 +26,7 @@ export const onchainVariables = [
       '0x47c0903898a150002605e0e2f4c45f59f642e22981ae4cd9a94eaf44de874c21',
     nodeIndex: 1,
     artifactAddress: '0xc356608dD2F2aDd1B2fD2f430ae9084782e77Bed',
-    variables: [
+    descriptions: [
       {
         typename: 'string',
         name: 'argA',
@@ -39,7 +39,7 @@ export const onchainVariables = [
       '0x82983bb4145b75f21d93795c7993ac2e9436cdcc35790d226eec0105a30aae1a',
     nodeIndex: 2,
     artifactAddress: '0x084e6d675B4F24854f351f5A4E39E65E017d2954',
-    variables: [
+    descriptions: [
       {
         typename: 'bool',
         name: 'argA',
@@ -61,7 +61,7 @@ export const onchainVariables = [
       '0x71de7e84ab4d1c102c6d7e969d5091ba48a14b485f6056265e2244ffff4da45e',
     nodeIndex: 3,
     artifactAddress: '0xda78dAfC4bfd1F6F72d284F926793f010ebE296a',
-    variables: [
+    descriptions: [
       {
         typename: 'bytes',
         name: 'argA',
@@ -87,7 +87,7 @@ export const onchainVariables = [
       '0xadd641d7b2dc990f8a2188702ada897509e0c7fd2bfa34997d3deaaa1efe29f7',
     nodeIndex: 4,
     artifactAddress: '0x0540B2b10ed6C9d43c2133BCCa1Ce40715915e37',
-    variables: [
+    descriptions: [
       {
         typename: 'address',
         name: 'argA',

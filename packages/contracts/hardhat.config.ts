@@ -87,10 +87,12 @@ const config: HardhatUserConfig = {
     disambiguatePaths: true,
     runOnCompile: true,
     only: [
+      ':PolicyHandler',
       ':AND$',
       ':OR$',
       ':XOR$',
-      ':NOT$' /* , 'BusinessHoursValidation$' */,
+      ':DAGWithPolicyMetadata$',
+      ':NOT$',
     ],
     strict: false,
   },

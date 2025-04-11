@@ -2,53 +2,77 @@
 pragma solidity ^0.8.27;
 
 import { Clones } from "@openzeppelin/contracts/proxy/Clones.sol";
-import { Node, Argument, NamedTypedVariables } from "./Types.sol";
+import { ArgumentDescription, ExecVarsMetadata } from "./UtilTypes.sol";
+import { Node as ConfiguredNode, ExecVariables } from "./Types.sol";
 import { NODE_VARIABLES_LIST_LENGTH_VIOLATES_DESCRIPTOR_ERR } from "./Errors.sol";
 import { IArbitraryDataArtifact } from "./pre-defined/common/basis/interfaces/Export.sol";
 
-function getVariablesListInternal(
-    Node[] memory nodesList
-) pure returns (NamedTypedVariables[] memory variablesList) {
-    variablesList = new NamedTypedVariables[](nodesList.length - 1);
+function getVarsDesriptionList(
+    ConfiguredNode[] memory nodesList
+) pure returns (ExecVarsMetadata[] memory varsList) {
+    varsList = new ExecVarsMetadata[](nodesList.length - 1);
 
     for (uint256 i = 0; i < nodesList.length - 1; i++) {
-        Node memory node = nodesList[i + 1];
+        ConfiguredNode memory rule = nodesList[i + 1];
 
-        (string[] memory argNames, string[] memory argTypes, ) = toArtifactInstance(node)
+        (string[] memory argNames, string[] memory argTypes, ) = toArtifactInstance(rule)
             .getExecDescriptor();
 
-        NamedTypedVariables memory variablesOfNode = variablesList[i];
-        variablesOfNode.nodeId = node.id;
-        variablesOfNode.artifactAddress = node.implementationContractAddress;
-        variablesOfNode.injections = node.injections;
-        variablesOfNode.nodeIndex = i;
+        ExecVarsMetadata memory vars = varsList[i];
+        vars.nodeIndex = i;
+        vars.nodeId = rule.id;
+        vars.artifactAddress = rule.clonedArtifact;
+        vars.injections = rule.injections;
 
-        require(
-            argNames.length >= node.variables.length,
-            NODE_VARIABLES_LIST_LENGTH_VIOLATES_DESCRIPTOR_ERR
-        );
-        variablesOfNode.variables = new Argument[](node.variables.length);
+        // THIS IS REDUNDANT CHECK: since there is no need to check teh condition on already configured DAG/Nodes
+        // require(
+        //     argNames.length >= rule.variableExecArgs.length,
+        //     NODE_VARIABLES_LIST_LENGTH_VIOLATES_DESCRIPTOR_ERR
+        // );
 
-        for (uint256 j = 0; j < node.variables.length; j++) {
-            uint256 variableIndex = node.variables[j];
+        vars.descriptions = new ArgumentDescription[](rule.variableExecArgs.length);
 
-            variablesOfNode.variables[j] = Argument({
-                name: argNames[variableIndex],
-                typename: argTypes[variableIndex]
+        for (uint256 j = 0; j < rule.variableExecArgs.length; j++) {
+            uint256 variablePosInTotalArgsList = rule.variableExecArgs[j];
+
+            vars.descriptions[j] = ArgumentDescription({
+                typename: argTypes[variablePosInTotalArgsList],
+                name: argNames[variablePosInTotalArgsList]
             });
         }
     }
 }
 
-function toArtifactInstance(Node memory node) pure returns (IArbitraryDataArtifact instance) {
-    instance = toArtifactInstance(node.implementationContractAddress);
+function toArtifactInstance(
+    ConfiguredNode memory rule
+) pure returns (IArbitraryDataArtifact instance) {
+    instance = toArtifactInstance(rule.clonedArtifact);
 }
 
 function toArtifactInstance(address artifact) pure returns (IArbitraryDataArtifact instance) {
     instance = IArbitraryDataArtifact(artifact);
 }
 
-function deployArtifact(Node memory node) returns (address cloned) {
+function deployArtifact(ConfiguredNode memory rule) returns (address cloned) {
     // note: makes a fast copy using Clone-Factory pattern; also gas consumption is great
-    cloned = Clones.clone(node.artifactContractAddress);
+    cloned = Clones.clone(rule.originalArtifact);
+}
+
+function filterSpecificNodeVariables(
+    ExecVariables[] memory variableValuesList,
+    bytes32 nodeId
+) pure returns (bytes[] memory suppliedVars) {
+    // important: if artifact a requires artifact d and artifact b requires artifact d, then it is prohibited
+    // the same instance of artifact d can not be re-used by multiple artifacts. motivation: this will simplify evertyhing
+
+    for (uint256 i = 0; i < variableValuesList.length; i++) {
+        // todo: maybe something more efficient;
+        // when transient storage for reference type the approach could be as follows:
+        // if variableValuesList[i] is consumed, then it is removed from the 'variableValuesList' array
+
+        if (variableValuesList[i].nodeId == nodeId) {
+            suppliedVars = variableValuesList[i].values;
+            break;
+        }
+    }
 }

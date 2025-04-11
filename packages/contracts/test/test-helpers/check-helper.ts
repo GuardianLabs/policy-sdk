@@ -1,4 +1,5 @@
 import { assert, expect } from 'chai';
+import { BaseContract, ContractTransactionResponse } from 'ethers';
 
 type ComparingType = string | number | boolean | bigint;
 
@@ -76,6 +77,24 @@ const validateComparingType = (
 
 const validateStringType = (value: ComparingType): value is string => {
   return typeof value === 'string';
+};
+
+export const checkEvent = async (
+  tx: Promise<ContractTransactionResponse>,
+  instance: BaseContract,
+  event: string,
+  ...args: any[]
+) => {
+  await expect(tx)
+    .to.emit(instance, event)
+    .withArgs(...args);
+};
+
+export const checkRevert = async (
+  tx: Promise<ContractTransactionResponse>,
+  errorDescription: string,
+) => {
+  await expect(tx).to.be.revertedWith(errorDescription);
 };
 
 export const check = <T extends ComparingType>(

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import { PolicyHandler } from "@guardian-network/policy-contracts/contracts/PolicyHandler.sol";
-import { GraphInitParams } from "@guardian-network/policy-contracts/contracts/Types.sol";
+import { InitParams } from "@guardian-network/policy-contracts/contracts/Types.sol";
 
 contract PolicyFactory {
     event PolicyDeployed(address indexed instanceAddress);
@@ -15,7 +15,7 @@ contract PolicyFactory {
 
     function deployAndConfigure(
         address policyAdmin,
-        GraphInitParams memory params
+        InitParams memory params
     ) public returns (PolicyHandler policyInstance) {
         address configurationAdmin = address(this); // factory is tmp policy-admin
 
@@ -31,7 +31,7 @@ contract PolicyFactory {
         policyInstance = new PolicyHandler(policyAdmin);
     }
 
-    function _configurePolicy(PolicyHandler policyInstance, GraphInitParams memory params) private {
+    function _configurePolicy(PolicyHandler policyInstance, InitParams memory params) private {
         policyInstance.set(params);
     }
 

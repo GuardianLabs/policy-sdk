@@ -8,22 +8,22 @@ import {
 } from '../src';
 import { getKnownPolicyFactories } from '../src/policy-deployer/known-factories.config';
 import { check, checkNotEqual } from './test-helpers';
-import { GraphInitParamsStruct, TreeNodeInitParamsStruct } from './types';
+import { InitParamsStruct, NodeInitDataStruct } from './types';
 
-const mockedNode: TreeNodeInitParamsStruct = {
+const mockedNode: NodeInitDataStruct = {
   id: '0x0000000000000000000000000000000000000000000000000000000000000001',
-  artifactAddress: '0x0000000000000000000000000000000000000002',
-  argsCount: 0,
-  partialExecData: [],
-  variables: [],
-  injections: [],
-  substitutions: [],
   initData: '0x',
   needsInitialization: false,
+  artifactAddress: '0x0000000000000000000000000000000000000002',
+  argsCount: 0,
+  constantExecArgs: [],
+  variableExecArgs: [],
+  injections: [],
+  substitutedExecArgs: [],
 };
 
 // Setup mock policy config
-const mockPolicyConfig: GraphInitParamsStruct = {
+const mockPolicyConfig: InitParamsStruct = {
   nodes: [mockedNode],
   rootNode:
     '0x0000000000000000000000000000000000000000000000000000000000000001',

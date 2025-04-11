@@ -63,7 +63,7 @@ export type RawArtifactComponents = AddressComponent &
   UnprocessedInitDataAndExecParams;
 
 export type NormalizedExecParameter = {
-  value: string;
+  supplierNodeId: string;
   index: number;
 };
 

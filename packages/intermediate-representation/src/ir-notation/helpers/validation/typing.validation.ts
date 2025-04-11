@@ -61,8 +61,10 @@ export const onchainSubstitutionToReturnTypesValidation =
         provider,
       );
 
-      for (const refNode of instance.substitutions) {
-        const refDeclaration = output.find((el) => el.id == refNode.value)!;
+      for (const refNode of instance.substitutedExecArgs) {
+        const refDeclaration = output.find(
+          (el) => el.id == refNode.supplierNodeId,
+        )!;
         const refArtifactInstance = MinArbitraryDataArtifactFactory.connect(
           <string>refDeclaration?.artifactAddress,
           provider,
@@ -77,7 +79,7 @@ export const onchainSubstitutionToReturnTypesValidation =
             <string>instance.id,
             argsNames[Number(refNode.index)],
             argsTypes[Number(refNode.index)],
-            <string>refNode.value,
+            <string>refNode.supplierNodeId,
             returnType,
           );
       }

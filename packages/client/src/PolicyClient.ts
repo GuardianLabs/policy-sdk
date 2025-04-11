@@ -1,7 +1,7 @@
 import {
-  GraphInitParamsStruct,
+  ExecVariablesStruct,
+  InitParamsStruct,
   PolicyHandler,
-  VariablesStruct,
 } from '@guardian-network/policy-contracts/src';
 import { Signer } from 'ethers';
 import { AbstractPolicyClient } from './base-client';
@@ -48,7 +48,7 @@ export class PolicyClient extends AbstractPolicyClient {
   static async buildFromPolicyInstanceWithConfig(
     instanceAddress: string,
     adminSigner: Signer,
-    config: GraphInitParamsStruct,
+    config: InitParamsStruct,
     feeProvider: IFeeProvider,
   ) {
     const client = await this.buildFromPolicyInstance(
@@ -73,22 +73,24 @@ export class PolicyClient extends AbstractPolicyClient {
   }
 
   @TryCatch(Flow.INITIALIZE)
-  public async initialize(policyConfig: GraphInitParamsStruct): Promise<void> {
+  public async initialize(policyConfig: InitParamsStruct): Promise<void> {
     return super.initialize(policyConfig);
   }
 
   @TryCatch(Flow.RESET_POLICY)
-  public async reset(policyConfig: GraphInitParamsStruct): Promise<void> {
+  public async reset(policyConfig: InitParamsStruct): Promise<void> {
     return super.reset(policyConfig);
   }
 
   @TryCatch(Flow.EVALUATE)
-  public async evaluate(variables: VariablesStruct[]): Promise<boolean> {
+  public async evaluate(variables: ExecVariablesStruct[]): Promise<boolean> {
     return super.evaluate(variables);
   }
 
   @TryCatch(Flow.EVALUATE_DRY_RUN)
-  public async evaluateDryRun(variables: VariablesStruct[]): Promise<boolean> {
+  public async evaluateDryRun(
+    variables: ExecVariablesStruct[],
+  ): Promise<boolean> {
     return super.evaluateDryRun(variables);
   }
 }
