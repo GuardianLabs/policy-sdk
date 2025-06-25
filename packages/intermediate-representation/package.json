@@ -2,7 +2,7 @@
   "name": "@guardian-network/policy-intermediate-representation",
   "author": "v.grabovski@lacero.io, vpriadko@lacero.io",
   "description": "Artifcts high level declaration language",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "main": "index.ts",
   "engines": {
     "node": ">=18.20.4"
