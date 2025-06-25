@@ -7,6 +7,9 @@
   "engines": {
     "node": ">=18.20.4"
   },
+  "publishConfig": {
+    "@guardian-network:registry": "https://gitlab.com/api/v4/projects/61976590/packages/npm/"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json && pnpm format:all:fix && pnpm copy-dts",
     "check": "pnpm lint:ts && pnpm check:ts",
