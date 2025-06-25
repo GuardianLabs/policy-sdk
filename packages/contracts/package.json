@@ -9,6 +9,8 @@
     "node": ">=18.20.4"
   },
   "files": [
+    "dist",
+    "src",
     "/contracts/**/*.sol",
     "/predefined-artifacts-exports/**/*.lac"
   ],
