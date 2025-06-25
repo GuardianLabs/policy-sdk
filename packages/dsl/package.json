@@ -24,7 +24,8 @@
     "lint:ts:fix": "eslint --fix",
     "remove:dist": "npx rimraf dist",
     "test": "mocha",
-    "tests:coverage:ts": "nyc pnpm test"
+    "tests:coverage:ts": "nyc pnpm test",
+    "version": "pnpm version"
   },
   "keywords": [],
   "devDependencies": {
