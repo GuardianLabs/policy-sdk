@@ -2,7 +2,7 @@
   "name": "@guardian-network/policy-variables",
   "author": "vpriadko@lacero.io",
   "description": "Variables scrapping and encoding for policies infrastructure",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.ts",
   "engines": {
     "node": ">=18.20.4"

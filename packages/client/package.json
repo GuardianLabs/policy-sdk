@@ -2,7 +2,7 @@
   "name": "@guardian-network/policy-client",
   "author": "vpriadko@lacero.io, v.grabovski@lacero.io",
   "description": "Extensible and simple Policy client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "index.ts",
   "engines": {

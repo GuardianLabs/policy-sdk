@@ -2,7 +2,7 @@
   "name": "@guardian-network/policy-cli",
   "author": "vpriadko@lacero.io, v.grabovski@lacero.io",
   "description": "CLI for Policy SDK",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.ts",
   "engines": {
     "node": ">=18.20.4"
