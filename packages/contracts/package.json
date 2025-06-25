@@ -37,6 +37,7 @@
     "lint:ts": "eslint",
     "lint:ts:fix": "eslint --fix",
     "local:development:node": "pnpm exec hardhat node --network hardhat",
+    "publish-package": "pnpm publish --no-git-checks",
     "remove:contracts": "pnpm exec hardhat clean",
     "remove:dist": "pnpm exec rimraf dist",
     "remove:typechain": "pnpm exec rimraf src/typechain",

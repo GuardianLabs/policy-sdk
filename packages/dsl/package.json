@@ -22,6 +22,7 @@
     "format:ts:fix": "prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint:ts": "eslint",
     "lint:ts:fix": "eslint --fix",
+    "publish-package": "pnpm publish --no-git-checks",
     "remove:dist": "npx rimraf dist",
     "test": "mocha",
     "tests:coverage:ts": "nyc pnpm test",
