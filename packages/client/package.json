@@ -4,13 +4,16 @@
   "description": "Extensible and simple Policy client",
   "version": "0.1.3",
   "license": "MIT",
-  "main": "index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "/contracts/**/*.sol"
+  ],
   "engines": {
     "node": ">=18.20.4"
   },
-  "files": [
-    "/contracts/**/*.sol"
-  ],
   "publishConfig": {
     "@guardian-network:registry": "https://gitlab.com/api/v4/projects/61976590/packages/npm/"
   },
