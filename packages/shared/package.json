@@ -2,7 +2,7 @@
   "name": "@guardian-network/shared",
   "author": "v.grabovski@lacero.io, vpriadko@lacero.io",
   "description": "A shared tools, types, interfaces of Policy SDK",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
