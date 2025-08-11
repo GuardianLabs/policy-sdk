@@ -8,6 +8,7 @@
     "clean:all": "pnpm -r clean",
     "check:all": "pnpm -r check",
     "remove:node_modules": "rm -rf node_modules",
+    "version": "cross-env-shell \"pnpm -r version $npm_package_version\" && git add **/package.json",
     "increase-version": "cross-env-shell \"pnpm -r version $npm_package_version\" && git add **/package.json",
     "publish-packages": "cross-env-shell \"pnpm -r publish-package\"",
     "test:all": "pnpm -r test"
