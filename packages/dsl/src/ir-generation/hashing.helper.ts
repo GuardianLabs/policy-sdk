@@ -1,5 +1,4 @@
-import { NodeId } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
-import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
+import { InstanceConfig, NodeId } from '@guardian-network/shared';
 import { IRTransformer } from '.';
 
 export const nodeIdFromDeclaration = (

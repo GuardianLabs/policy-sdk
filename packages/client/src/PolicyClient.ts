@@ -2,7 +2,7 @@ import {
   ExecVariablesStruct,
   InitParamsStruct,
   PolicyHandler,
-} from '@guardian-network/policy-contracts/src';
+} from '@guardian-network/policy-contracts';
 import { Signer } from 'ethers';
 import { AbstractPolicyClient } from './base-client';
 import { TryCatch } from './decorators';

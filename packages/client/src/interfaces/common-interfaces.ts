@@ -3,7 +3,7 @@ import {
   ExecVarsMetadataStruct,
   InitParamsStruct,
   PolicyHandler,
-} from '@guardian-network/policy-contracts/src';
+} from '@guardian-network/policy-contracts';
 import { Signer, TransactionRequest } from 'ethers';
 import { FeeDataEip1559 } from '../types';
 

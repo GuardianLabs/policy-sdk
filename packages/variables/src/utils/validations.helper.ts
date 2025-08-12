@@ -1,8 +1,8 @@
 import {
+  SupportedSolidityType,
   verifyAddress,
   verifyBytes,
-} from '@guardian-network/shared/src/solidity-types/solidity-types-verification.helper';
-import { SupportedSolidityType } from '@guardian-network/shared/src/types/intermediate-representation.types';
+} from '@guardian-network/shared';
 import { ErrorFactory } from '../errors';
 import {
   AllowedVariablesType,

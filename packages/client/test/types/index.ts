@@ -1,4 +1,4 @@
-export { LacLangCompiler } from '@guardian-network/policy-compiler/src';
+export { LacLangCompiler } from '@guardian-network/policy-compiler';
 export {
   AND,
   AND__factory,
@@ -33,9 +33,9 @@ export {
   TrustedTimezoneOffsetSource__factory,
   XOR,
   XOR__factory,
-} from '@guardian-network/policy-contracts/src';
+} from '@guardian-network/policy-contracts';
 export {
   EncodedParamType,
   PrimitiveEncodeParamTypes,
-} from '@guardian-network/shared/src/types/solidity-encode.types';
+} from '@guardian-network/shared';
 export * from '../../src';

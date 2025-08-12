@@ -1,4 +1,4 @@
-import { PolicyHandler } from '@guardian-network/policy-contracts/src';
+import { PolicyHandler } from '@guardian-network/policy-contracts';
 import { Signer, TransactionRequest } from 'ethers';
 import { extractUserAndTxData } from '../helpers';
 import { FeeDataEip1559 } from '../types';

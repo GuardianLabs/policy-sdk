@@ -1,4 +1,4 @@
-import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
+import { InstanceConfig } from '@guardian-network/shared';
 import {
   ArtifactDeclarationContext,
   ConstantDeclarationContext,

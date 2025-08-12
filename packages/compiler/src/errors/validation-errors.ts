@@ -1,4 +1,4 @@
-import { BaseError } from '@guardian-network/shared/src/errors';
+import { BaseError } from '@guardian-network/shared';
 
 export class CyclicReferenceError extends BaseError {
   static create = (referencedNode: string, selfNode: string) => {

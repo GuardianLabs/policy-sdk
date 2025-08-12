@@ -1,23 +1,18 @@
-import { inferSolidityType } from '@guardian-network/shared/src/solidity-encode-decode';
-import {
-  SolidityAddressType,
-  SolidityBytesType,
-} from '@guardian-network/shared/src/solidity-types';
 import {
   ALLOWED_SOLIDITY_REFERENCE_TYPES,
   ALLOWED_SOLIDITY_VALUE_TYPES,
+  inferSolidityType,
+  EncodedParamType as NormalizedParamType,
   SOLIDITY_ADDRESS,
   SOLIDITY_BOOL,
   SOLIDITY_BYTES,
   // SOLIDITY_BYTES32,
   SOLIDITY_STRING,
   SOLIDITY_UINT256,
-} from '@guardian-network/shared/src/solidity-types/constants';
-import {
-  NormalizedParamType,
-  Unnormalized,
-  UnnormalizedParamType,
-} from './types';
+  SolidityAddressType,
+  SolidityBytesType,
+} from '@guardian-network/shared';
+import { Unnormalized, UnnormalizedParamType } from './types';
 
 export const validateAppendedParamsCount = (
   expectedLength: number,

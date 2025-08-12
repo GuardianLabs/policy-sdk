@@ -1,4 +1,4 @@
-import { InitParamsStruct } from '@guardian-network/policy-contracts/src';
+import { InitParamsStruct } from '@guardian-network/policy-contracts';
 import { Signer } from 'ethers';
 import { deployPolicyFactoryInstance } from '../helpers';
 import { KnownPolicyFactoriesType } from '../types';

@@ -1,5 +1,7 @@
-import { OnchainVariablesDescription } from '@guardian-network/shared/src/types/contracts.types';
-import { PrimitiveEncodeParamTypes } from '@guardian-network/shared/src/types/solidity-encode.types';
+import {
+  OnchainVariablesDescription,
+  PrimitiveEncodeParamTypes,
+} from '@guardian-network/shared';
 
 /* type OnchainVariablesDescription = {
   nodeId: string;

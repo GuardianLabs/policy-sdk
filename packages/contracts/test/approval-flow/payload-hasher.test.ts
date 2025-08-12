@@ -1,11 +1,9 @@
 import {
-  solidityDecode,
-  solidityEncode,
-} from '@guardian-network/shared/src/solidity-encode-decode';
-import {
   SolidityAddressType,
   SolidityBytesType,
-} from '@guardian-network/shared/src/solidity-types';
+  solidityDecode,
+  solidityEncode,
+} from '@guardian-network/shared';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';

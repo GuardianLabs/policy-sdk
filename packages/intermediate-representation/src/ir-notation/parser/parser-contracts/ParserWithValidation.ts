@@ -1,8 +1,8 @@
-import { LacLangCompilerOptions as CompilerConfiguration } from '@guardian-network/shared/src/types/compiler.types';
 import {
+  LacLangCompilerOptions as CompilerConfiguration,
   InstanceConfig,
   TranspilerOutput,
-} from '@guardian-network/shared/src/types/dsl.types';
+} from '@guardian-network/shared';
 import { ContractRunner } from 'ethers';
 import { TypingsValidator } from '../parser.validated';
 import { ValidationMiddlware } from '../types';

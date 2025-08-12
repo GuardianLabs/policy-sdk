@@ -1,4 +1,4 @@
-import { NodeId } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
+import { NodeId } from '@guardian-network/shared';
 import { ParsingResult } from '../../types';
 import { ParamsExtractor } from '../tools';
 import {

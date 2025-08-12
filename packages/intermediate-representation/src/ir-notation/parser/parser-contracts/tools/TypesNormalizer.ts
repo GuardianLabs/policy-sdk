@@ -1,4 +1,4 @@
-import { solidityEncode } from '@guardian-network/shared/src/solidity-encode-decode';
+import { solidityEncode } from '@guardian-network/shared';
 import { getAddress, getBytes } from 'ethers';
 import { isSupportedSolidityType } from '../guards';
 import {

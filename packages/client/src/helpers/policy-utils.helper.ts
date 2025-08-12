@@ -1,4 +1,4 @@
-import { PolicyHandler__factory } from '@guardian-network/policy-contracts/src';
+import { PolicyHandler__factory } from '@guardian-network/policy-contracts';
 import { Signer } from 'ethers';
 
 // APPLY

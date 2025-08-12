@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { NodeId } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
+import { NodeId } from '@guardian-network/shared';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ZeroAddress, ZeroHash } from 'ethers';

@@ -1,6 +1,5 @@
-import { EncodedParamType as NormalizedParamType } from '@guardian-network/shared/src/types/solidity-encode.types';
+import { EncodedParamType as NormalizedParamType } from '@guardian-network/shared';
 import { ArtifactBase } from '../../typechain';
-export { EncodedParamType as NormalizedParamType } from '@guardian-network/shared/src/types/solidity-encode.types';
 export * from './config.types';
 
 export type Unnormalized = /* Array<number> | */ string | boolean | number;

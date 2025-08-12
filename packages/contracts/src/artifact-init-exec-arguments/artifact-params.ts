@@ -1,7 +1,8 @@
 import {
+  EncodedParamType as NormalizedParamType,
   solidityEncodeMultipleParams,
   solidityEncodeSingleParam,
-} from '@guardian-network/shared/src/solidity-encode-decode';
+} from '@guardian-network/shared';
 import { BytesLike } from 'ethers';
 import {
   ExecParamsBase,
@@ -16,7 +17,6 @@ import {
   InitParamsDescriptorValueType,
   NormalizedParamsExecConfig,
   NormalizedParamsInitConfig,
-  NormalizedParamType,
   Unnormalized,
   UnnormalizedParamsExecConfig,
   UnnormalizedParamsInitConfig,

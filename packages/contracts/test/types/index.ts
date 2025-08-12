@@ -1,14 +1,12 @@
-export { LacLangCompiler } from '@guardian-network/policy-compiler/src';
-export { ParserWithValidation } from '@guardian-network/policy-intermediate-representation/src';
+export { LacLangCompiler } from '@guardian-network/policy-compiler';
+export { ParserWithValidation } from '@guardian-network/policy-intermediate-representation';
 export {
+  EncodedParamType,
+  PrimitiveEncodeParamTypes,
   SolidityAddressListPacked,
   SolidityAddressType,
   SolidityBytes32TypePacked as SolidityBytes32Type,
   SolidityBytesListPacked,
   SolidityBytesType,
-} from '@guardian-network/shared/src/solidity-types';
-export {
-  EncodedParamType,
-  PrimitiveEncodeParamTypes,
-} from '@guardian-network/shared/src/types/solidity-encode.types';
+} from '@guardian-network/shared';
 export * from '../../src';

@@ -1,7 +1,5 @@
-import {
-  NormalizedParamType,
-  UnnormalizedOrNormalizedParamType,
-} from '../types';
+import { EncodedParamType as NormalizedParamType } from '@guardian-network/shared';
+import { UnnormalizedOrNormalizedParamType } from '../types';
 import {
   validateAppendedParamsCount,
   validateParamTypes,

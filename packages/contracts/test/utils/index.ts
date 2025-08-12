@@ -1,8 +1,8 @@
-export { rawOnchainVariablesDescriptionToOffchainView } from '@guardian-network/policy-variables/src';
-export { keccak256Hash } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
+export { rawOnchainVariablesDescriptionToOffchainView } from '@guardian-network/policy-variables';
 export {
+  keccak256Hash,
   solidityDecodeSingleParam,
   solidityEncode,
-} from '@guardian-network/shared/src/solidity-encode-decode';
+} from '@guardian-network/shared';
 export * from './deploy/deployment.helper';
 export * from './random.helper';

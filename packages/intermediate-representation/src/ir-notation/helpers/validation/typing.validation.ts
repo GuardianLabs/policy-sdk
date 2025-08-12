@@ -1,6 +1,8 @@
-import { MinArbitraryDataArtifactFactory } from '@guardian-network/shared/src/arbitrary-data-artifact';
-import { NodeTreeInitData as ParsingResult } from '@guardian-network/shared/src/types/contracts.types';
-import { MinTypedValue } from '@guardian-network/shared/src/types/dsl.types';
+import {
+  MinArbitraryDataArtifactFactory,
+  MinTypedValue,
+  NodeTreeInitData as ParsingResult,
+} from '@guardian-network/shared';
 import { ContractRunner } from 'ethers';
 import { ErrorFactory } from '../../errors';
 import { DSLTypesToIRTypes } from '../formatters';

@@ -1,7 +1,7 @@
 import {
   InitParamsStruct,
   PolicyHandler,
-} from '@guardian-network/policy-contracts/src';
+} from '@guardian-network/policy-contracts';
 import { ContractTransactionResponse, Signer } from 'ethers';
 import { decodePolicyAddressFromTx } from '../helpers';
 import { PolicyHandler__factory } from '../typechain';

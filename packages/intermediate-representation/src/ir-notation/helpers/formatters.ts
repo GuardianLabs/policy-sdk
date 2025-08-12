@@ -1,8 +1,8 @@
-import { defaultAbiCoder } from '@guardian-network/shared/src/solidity-encode-decode';
 import {
+  defaultAbiCoder,
   DSLType,
   SupportedSolidityType,
-} from '@guardian-network/shared/src/types/intermediate-representation.types';
+} from '@guardian-network/shared';
 import { toTypedWithKnownType } from '.';
 import { DSLTypesMapping } from '../parser/types';
 

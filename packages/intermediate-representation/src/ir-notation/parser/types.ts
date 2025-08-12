@@ -1,9 +1,9 @@
-import { NodeTreeInitData } from '@guardian-network/shared/src/types/contracts.types';
-import { InstanceConfig } from '@guardian-network/shared/src/types/dsl.types';
 import {
   DSLType,
+  InstanceConfig,
+  NodeTreeInitData,
   SupportedSolidityType,
-} from '@guardian-network/shared/src/types/intermediate-representation.types';
+} from '@guardian-network/shared';
 
 export type ParsingResult = NodeTreeInitData;
 

@@ -1,4 +1,4 @@
-import { OnchainPresentation } from '@guardian-network/shared/src/types/contracts.types';
+import { OnchainPresentation } from '@guardian-network/shared';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { Wallet } from 'ethers';

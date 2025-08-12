@@ -1,8 +1,5 @@
-import { LacLangCompiler } from '@guardian-network/policy-compiler/src';
-import {
-  ICompiler,
-  LacLangCompilerOptions,
-} from '@guardian-network/shared/src/types/compiler.types';
+import { LacLangCompiler } from '@guardian-network/policy-compiler';
+import { ICompiler, LacLangCompilerOptions } from '@guardian-network/shared';
 import { Command } from 'commander';
 import { JsonRpcProvider } from 'ethers';
 import { COMPILE } from '../../constants';

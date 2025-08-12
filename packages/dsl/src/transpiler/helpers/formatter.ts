@@ -1,7 +1,4 @@
-import {
-  InstanceConfig,
-  TypedValue,
-} from '@guardian-network/shared/src/types/dsl.types';
+import { InstanceConfig, TypedValue } from '@guardian-network/shared';
 import { InstanceDeclarationContext, LiteralContext } from '../../antlr';
 import { ErrorFactory } from '../errors/ErrorFactory';
 import { LatentState } from '../state/LatentState';

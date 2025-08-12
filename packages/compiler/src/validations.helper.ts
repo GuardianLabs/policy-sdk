@@ -1,7 +1,9 @@
-import { DslNode } from '@guardian-network//shared/src/types/dsl.types';
-import { findCycle } from '@guardian-network/shared/src/misc-utils/find-cycle-node.helper';
-import { LacLangCompilerOptions } from '@guardian-network/shared/src/types/compiler.types';
-import { OnchainPresentation } from '@guardian-network/shared/src/types/contracts.types';
+import {
+  DslNode,
+  findCycle,
+  LacLangCompilerOptions,
+  OnchainPresentation,
+} from '@guardian-network/shared';
 import { ErrorFactory } from './errors';
 
 export const validateProviderIsSupplied = (options: LacLangCompilerOptions) => {

@@ -1,8 +1,8 @@
-import { mapToArray } from '@guardian-network/shared/src/misc-utils/data-structure-transformation.helper';
 import {
   InstanceConfig,
+  mapToArray,
   TypedValue,
-} from '@guardian-network/shared/src/types/dsl.types';
+} from '@guardian-network/shared';
 import { LatentState } from '../transpiler/state/LatentState';
 
 export class IRTransformer {

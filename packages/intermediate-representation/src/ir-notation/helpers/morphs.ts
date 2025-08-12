@@ -1,4 +1,4 @@
-import { SupportedSolidityType } from '@guardian-network/shared/src/types/intermediate-representation.types';
+import { SupportedSolidityType } from '@guardian-network/shared';
 import { getAddress, getBytes } from 'ethers';
 
 export const strToBool = (str: string): boolean => {

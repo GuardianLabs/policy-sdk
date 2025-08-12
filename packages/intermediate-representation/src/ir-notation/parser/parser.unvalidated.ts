@@ -1,9 +1,9 @@
-import { NodeId } from '@guardian-network/shared/src/misc-utils/node-id-tooling';
 import {
   InstanceConfig,
+  NodeId,
+  SupportedSolidityType,
   TranspilerOutput,
-} from '@guardian-network/shared/src/types/dsl.types';
-import { SupportedSolidityType } from '@guardian-network/shared/src/types/intermediate-representation.types';
+} from '@guardian-network/shared';
 import { ContractRunner } from 'ethers/providers';
 import {
   bytesEncodeArgs,

@@ -1,4 +1,4 @@
-import { TranspilerOutput } from '@guardian-network/shared/src/types/dsl.types';
+import { TranspilerOutput } from '@guardian-network/shared';
 import { CharStreams, CodePointCharStream, CommonTokenStream } from 'antlr4ts';
 import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener';
 import { ParseTreeWalker } from 'antlr4ts/tree/ParseTreeWalker';

@@ -1,5 +1,7 @@
-import { solidityEncodeSingleParam } from '@guardian-network/shared/src/solidity-encode-decode';
-import { VariablesStruct } from '@guardian-network/shared/src/types/contracts.types';
+import {
+  VariablesStruct,
+  solidityEncodeSingleParam,
+} from '@guardian-network/shared';
 import { ErrorFactory } from './errors';
 import { StaticInjector } from './injection';
 import { Inserter } from './insertion';

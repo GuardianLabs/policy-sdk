@@ -1,4 +1,4 @@
-import { PolicyHandler } from '@guardian-network/policy-contracts/src';
+import { PolicyHandler } from '@guardian-network/policy-contracts';
 import { Signer, TransactionRequest } from 'ethers';
 import { IFeeProvider, IValidator } from '../interfaces/common-interfaces';
 import { StaticValidator } from './StaticValidator';

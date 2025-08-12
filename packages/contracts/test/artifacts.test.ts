@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { SolidityUint24ListTypePacked } from '@guardian-network/shared/src/solidity-types';
+import { SolidityUint24ListTypePacked } from '@guardian-network/shared';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 import { expect } from 'chai';

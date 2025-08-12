@@ -1,5 +1,7 @@
-import { NodeTreeInitData as ParsingResult } from '@guardian-network/shared/src/types/contracts.types';
-import { InstanceConfigArgumentsOnly } from '@guardian-network/shared/src/types/dsl.types';
+import {
+  InstanceConfigArgumentsOnly,
+  NodeTreeInitData as ParsingResult,
+} from '@guardian-network/shared';
 
 export type InnerValidationMiddleware = (
   artifactAddress: string,

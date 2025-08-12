@@ -1,7 +1,7 @@
 import {
   IMinArbitraryDataArtifact,
   MinArbitraryDataArtifactFactory,
-} from '@guardian-network/shared/src/arbitrary-data-artifact';
+} from '@guardian-network/shared';
 import { ContractRunner } from 'ethers';
 import {
   ExecInitArtifactTypes,

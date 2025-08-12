@@ -1,14 +1,12 @@
-import { Transpiler } from '@guardian-network/policy-dsl/src';
-import { ParserWithValidation } from '@guardian-network/policy-intermediate-representation/src';
+import { Transpiler } from '@guardian-network/policy-dsl';
+import { ParserWithValidation } from '@guardian-network/policy-intermediate-representation';
 import {
   ICompiler,
   LacLangCompilerOptions,
-} from '@guardian-network/shared/src/types/compiler.types';
-import {
   OnchainPresentation,
   NodeTreeInitData as ParsingResult,
-} from '@guardian-network/shared/src/types/contracts.types';
-import { TranspilerOutput } from '@guardian-network/shared/src/types/dsl.types';
+  TranspilerOutput,
+} from '@guardian-network/shared';
 import { dirname } from 'path';
 import { cwd } from 'process';
 import {

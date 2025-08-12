@@ -1,4 +1,4 @@
-import { TranspilerOutput } from '@guardian-network/shared/src/types/dsl.types';
+import { TranspilerOutput } from '@guardian-network/shared';
 import { ContractRunner } from 'ethers';
 import {
   dslTypesToOnchainTypesParamsValidation,

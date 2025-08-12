@@ -1,3 +1,4 @@
+import { EncodedParamType as NormalizedParamType } from '@guardian-network/shared';
 import { BytesLike } from 'ethers';
 import {
   ArtifactParamsConfig,
@@ -5,7 +6,6 @@ import {
   InitParamsDescriptorValueType,
   NormalizedParamsExecConfig,
   NormalizedParamsInitConfig,
-  NormalizedParamType,
   ParamsDescriptorValueType,
   UnnormalizedOrNormalizedParamType,
   UnnormalizedParamsExecConfig,

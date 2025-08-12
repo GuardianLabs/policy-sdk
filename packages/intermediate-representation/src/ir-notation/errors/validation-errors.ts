@@ -1,4 +1,4 @@
-import { BaseError } from '@guardian-network/shared/src/errors';
+import { BaseError } from '@guardian-network/shared';
 
 export class InitTypesDoNotMatchError extends BaseError {
   static create = (

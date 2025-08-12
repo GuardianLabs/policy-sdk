@@ -1,4 +1,4 @@
-import { BaseError } from '@guardian-network/shared/src/errors';
+import { BaseError } from '@guardian-network/shared';
 import { ParserRuleContext } from 'antlr4ts';
 import { formatTranspileErrorLocation as formatLocation } from './helpers';
 

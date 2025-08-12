@@ -1,6 +1,4 @@
-import { mapToArray } from '@guardian-network/shared/src/misc-utils/data-structure-transformation.helper';
-import { findCycle } from '@guardian-network/shared/src/misc-utils/find-cycle-node.helper';
-import { TypedValue } from '@guardian-network/shared/src/types/dsl.types';
+import { findCycle, mapToArray, TypedValue } from '@guardian-network/shared';
 import { ParserRuleContext } from 'antlr4ts';
 import { ErrorFactory } from '../errors/ErrorFactory';
 import { extractReferenceNodeIds, formatInstanceReference } from '../helpers';

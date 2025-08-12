@@ -1,7 +1,7 @@
+import { EncodedParamType as NormalizedParamType } from '@guardian-network/shared';
 import {
   ExecParamsDescriptorValueType,
   InitParamsDescriptorValueType,
-  NormalizedParamType,
   UnnormalizedParamType,
 } from './';
 

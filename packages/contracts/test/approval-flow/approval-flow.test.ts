@@ -1,7 +1,7 @@
 import {
   SolidityBytes32TypePacked,
   SolidityBytesListPacked,
-} from '@guardian-network/shared/src/solidity-types';
+} from '@guardian-network/shared';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
