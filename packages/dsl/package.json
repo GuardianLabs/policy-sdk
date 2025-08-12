@@ -2,7 +2,7 @@
   "name": "@guardian-network/policy-dsl",
   "author": "vpriadko@lacero.io",
   "description": "Artifcts high level declaration language",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
