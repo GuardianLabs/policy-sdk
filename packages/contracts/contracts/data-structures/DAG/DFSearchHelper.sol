@@ -7,7 +7,7 @@ import { DFSHelper, VisitStatus } from "./types/Types.sol";
 // a. to have cleaner codebase
 // b. the need of DFSHelper variable to be state variable accessing storage
 contract DFSearchHelper {
-    // todo: apply transient storage
+    // todo: apply transient storage whenever available for other types than value types
     DFSHelper private dfs;
 
     function getDfsHelper(uint256[] memory nodeIds) internal returns (DFSHelper storage _dfs) {
