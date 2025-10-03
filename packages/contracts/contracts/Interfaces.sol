@@ -37,3 +37,7 @@ interface IPolicyHandler {
      */
     function getVariablesList() external view returns (ExecVarsMetadata[] memory list);
 }
+
+interface IPolicyHandlerInitializable is IPolicyHandler {
+    function initialize(address _adminUser) external;
+}
