@@ -50,7 +50,7 @@ const validateVarValueType = (
       try {
         verifyAddress(varValue as any as string);
         verified = true;
-      } catch (e: unknown) {
+      } catch (_: unknown) {
         verified = false;
       }
       break;
@@ -58,7 +58,7 @@ const validateVarValueType = (
       try {
         verifyBytes(varValue as any as string);
         verified = true;
-      } catch (e: unknown) {
+      } catch (_: unknown) {
         verified = false;
       }
       break;
