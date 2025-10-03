@@ -3,7 +3,7 @@ pragma solidity ^0.8.27;
 
 import { ExecVariables, InitParams as PolicyInitParams } from "./Types.sol";
 import { ExecVarsMetadata } from "./UtilTypes.sol";
-import { OwnerBase } from "./OwnerBase.sol";
+import { OwnerBaseInitializable } from "./OwnerBaseInitializable.sol";
 import { MAX_NODES_LENGTH } from "./Constants.sol";
 import { DAGWithPolicyMetadata } from "./DAGWithPolicyMetadata.sol";
 import "./Utilities.sol" as Utils;
@@ -13,17 +13,19 @@ import {
     POLICY_ALREADY_INITIALIZED_ERR,
     POLICY_NOT_INITIALIZED_ERR
 } from "./Errors.sol";
-import { IPolicyHandler } from "./IPolicyHandler.sol";
+import { IPolicyHandler } from "./Interfaces.sol";
 
-contract PolicyHandler is IPolicyHandler, OwnerBase {
+contract PolicyHandler is IPolicyHandler, OwnerBaseInitializable {
     DAGWithPolicyMetadata internal dag;
-    bool private isInitialized = false;
+    bool private isPolicyInitialized = false;
 
-    constructor(address _adminUser) OwnerBase(_adminUser) {}
+    constructor(address _adminUser) {
+        initializeOwnable(_adminUser);
+    }
 
     // note: initialises policy handler with rules (list of linked artifacts)
     function set(PolicyInitParams memory params) public onlyOwner {
-        require(!isInitialized, POLICY_ALREADY_INITIALIZED_ERR);
+        require(!isPolicyInitialized, POLICY_ALREADY_INITIALIZED_ERR);
 
         _set(params);
 
@@ -33,7 +35,7 @@ contract PolicyHandler is IPolicyHandler, OwnerBase {
     // note: re-initialises policy handler with rules (list of linked artifacts);
     // at the same time previous configuraion is abandoned
     function reset(PolicyInitParams memory params) public onlyOwner {
-        require(isInitialized, POLICY_NOT_INITIALIZED_ERR);
+        require(isPolicyInitialized, POLICY_NOT_INITIALIZED_ERR);
 
         // todo: consider pros/cons of the optimised approach (where the existing graph modified), instead of creating of new instance
         _set(params);
@@ -57,7 +59,7 @@ contract PolicyHandler is IPolicyHandler, OwnerBase {
 
     // note: this should return arguments list for only these args that have are run-time supplied (to a particular Node)
     function getVariablesList() public view returns (ExecVarsMetadata[] memory list) {
-        require(isInitialized, POLICY_NOT_INITIALIZED_ERR);
+        require(isPolicyInitialized, POLICY_NOT_INITIALIZED_ERR);
 
         list = Utils.getVarsDesriptionList(dag.getNodes());
     }
@@ -74,6 +76,6 @@ contract PolicyHandler is IPolicyHandler, OwnerBase {
         dag = new DAGWithPolicyMetadata(address(this));
         dag.init(params);
 
-        isInitialized = true;
+        isPolicyInitialized = true;
     }
 }

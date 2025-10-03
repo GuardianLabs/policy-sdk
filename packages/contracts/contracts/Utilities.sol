@@ -53,9 +53,13 @@ function toArtifactInstance(address artifact) pure returns (IArbitraryDataArtifa
     instance = IArbitraryDataArtifact(artifact);
 }
 
-function deployArtifact(ConfiguredNode memory rule) returns (address cloned) {
+function deployArtifact(ConfiguredNode memory rule) returns (address artifact) {
+    artifact = cloneContract(rule.originalArtifact);
+}
+
+function cloneContract(address implementation) returns (address cloneInstance) {
     // note: makes a fast copy using Clone-Factory pattern; also gas consumption is great
-    cloned = Clones.clone(rule.originalArtifact);
+    cloneInstance = Clones.clone(implementation);
 }
 
 function filterSpecificNodeVariables(

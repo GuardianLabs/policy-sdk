@@ -5,7 +5,7 @@ type ComparingType = string | number | boolean | bigint;
 
 type ComparingMethod<T extends ComparingType> = (first: T, second: T) => void;
 
-class Check {
+class CheckHelper {
   static check = <T extends ComparingType>(
     first: T,
     second: T,
@@ -102,7 +102,7 @@ export const check = <T extends ComparingType>(
   second: T,
   strict: boolean = false,
 ) => {
-  return Check.check(first, second, strict);
+  return CheckHelper.check(first, second, strict);
 };
 
 export const checkNotEqual = <T extends ComparingType>(
@@ -110,5 +110,5 @@ export const checkNotEqual = <T extends ComparingType>(
   second: T,
   strict: boolean = false,
 ) => {
-  return Check.notCheck(first, second, strict);
+  return CheckHelper.notCheck(first, second, strict);
 };
