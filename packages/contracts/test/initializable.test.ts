@@ -53,7 +53,7 @@ describe('PolicyHandler (Initializable) flow', () => {
     );
   });
 
-  it('1) call on uninitialized contract', async () => {
+  it('step 1: call on uninitialized contract', async () => {
     await expect(policy.getVariablesList()).to.be.revertedWith('T-005');
 
     const emptyParams: InitParamsStruct = {
@@ -63,7 +63,7 @@ describe('PolicyHandler (Initializable) flow', () => {
     await expect(policy.set(emptyParams)).to.be.revertedWith('Not initialized');
   });
 
-  it('2) initialize policy contract with (minimal one-node policy)', async () => {
+  it('step 2: initialize policy contract with minimal one-node policy', async () => {
     await policy.initialize(admin.address);
 
     await expect(policy.initialize(admin.address)).to.be.revertedWith(
