@@ -2,7 +2,7 @@
   "name": "@guardian-network/policy-contracts",
   "author": "v.grabovski@lacero.io, vpriadko@lacero.io",
   "description": "Policy with dynamic conditions defined onchain",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
