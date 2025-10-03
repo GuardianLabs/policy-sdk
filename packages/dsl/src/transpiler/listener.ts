@@ -172,7 +172,7 @@ export class LacLangTranspiler implements LacLangListener {
     };
   }
 
-  exitProgram(ctx: ProgramContext) {
+  exitProgram(_: ProgramContext) {
     if (!this.latentState.evaluateRelativeTo && !this.config.partialSources)
       throw ErrorFactory.noEvaluateStatement();
   }
