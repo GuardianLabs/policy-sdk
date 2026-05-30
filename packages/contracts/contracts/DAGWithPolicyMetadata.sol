@@ -174,7 +174,7 @@ contract DAGWithPolicyMetadata is InternalContainerDAG, OwnerBase {
     }
 
     function _getPolicyRule(bytes32 nodeId) private view returns (ConfiguredNode storage rule) {
-        // note: no mapping-value-exist validations, since it always operates with known ids
+        // note: no mapping-value-exist validations required, since it always operates with known ids
 
         rule = policyRulesMap[uint256(nodeId)];
     }
