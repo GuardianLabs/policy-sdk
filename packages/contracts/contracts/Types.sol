@@ -17,13 +17,13 @@ struct Node {
     uint256 argsCount; // total number of artifact-instance exec params (including vars, constants, sustitutions)
     SubstitutionArgument[] substitutedExecArgs; // exec "substitution-data" (what nodes this node relies on; known at deploy time)
     ConstantArgument[] constantExecArgs; // exec "constants-data" (known at deploy time)
-    uint256[] variableExecArgs; // actually, a POSITION index list (where to put supplied variable value) in generic arguments-list of particular node
+    uint256[] variableExecArgs; // actually, a list of POSITION index (where to put the run-time supplied variable value) in generic arguments-list of particular node
     InjectionMetadata[] injections;
 }
 
 // note: not configured node
 struct NodeInitData {
-    // unique id, generated offchain
+    // unique id, preferable offchain
     bytes32 id;
     // init data of artifact-instance (can be "0x")
     bytes initData;
@@ -35,17 +35,17 @@ struct NodeInitData {
     SubstitutionArgument[] substitutedExecArgs;
     ConstantArgument[] constantExecArgs;
     uint256[] variableExecArgs;
-    InjectionMetadata[] injections; // pure METADATA param; not required in any evaluation; has to be know at deploy time
+    InjectionMetadata[] injections; // pure METADATA param; not required in any evaluation; has to be known at deploy time
 }
 
 struct SubstitutionArgument {
-    bytes32 supplierNodeId; // what node-id from the total nodes list to retrieve its result from
+    bytes32 supplierNodeId; // what node-id from the total nodes list to retrieve the result from (result of particular node estimatation)
     uint256 index; // position where in generic-arguments-list (of particular node) to insert the substituting node result
 }
 
 // note: bytes-packed value with pos
 struct ConstantArgument {
-    bytes value; // actual bytes encoded constant value
+    bytes value; // bytes encoded constant value
     // todo: pos
     uint256 index; // position where in generic arguments-list (of particular node) to insert the constant value
 }
