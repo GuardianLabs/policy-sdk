@@ -17,7 +17,7 @@
     "cross-env": "^7.0.3"
   },
   "publishConfig": {
-    "@guardian-network:registry": "https://gitlab.com/api/v4/projects/69589082/packages/npm/",
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "pnpm": {

@@ -15,7 +15,7 @@
     "node": ">=18.20.4"
   },
   "publishConfig": {
-    "registry": "https://npmjs.org",
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "scripts": {
