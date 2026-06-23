@@ -13,7 +13,8 @@
     "node": ">=18.20.4"
   },
   "publishConfig": {
-    "@guardian-network:registry": "https://gitlab.com/api/v4/projects/61976590/packages/npm/"
+    "registry": "https://npmjs.org",
+    "access": "public"
   },
   "scripts": {
     "antlr": "antlr4ts ./grammar/LacLang.g4 -o ./src/antlr/generated",
