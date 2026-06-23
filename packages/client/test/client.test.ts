@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 import { OnchainPresentation } from '@guardian-network/shared';
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';

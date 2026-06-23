@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export const policy = {
   simple: {
     one_artifact: {

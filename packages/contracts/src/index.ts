@@ -13,5 +13,4 @@ export {
   ExecVarsMetadataStructOutput,
   InitParamsStruct,
   NodeInitDataStruct,
-  PolicyHandler,
 } from './typechain/contracts/PolicyHandler';

@@ -15,7 +15,8 @@ export const getIRParser = (
   input: TranspilerOutput,
   provider: ContractRunner,
 ) => {
-  const middlerware = TypingsValidator(provider);
+  // const middlerware = TypingsValidator(provider);
+
   return {
     validated: {
       DSL_TYPING: async () => {

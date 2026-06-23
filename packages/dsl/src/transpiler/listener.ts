@@ -172,6 +172,7 @@ export class LacLangTranspiler implements LacLangListener {
     };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   exitProgram(_: ProgramContext) {
     if (!this.latentState.evaluateRelativeTo && !this.config.partialSources)
       throw ErrorFactory.noEvaluateStatement();

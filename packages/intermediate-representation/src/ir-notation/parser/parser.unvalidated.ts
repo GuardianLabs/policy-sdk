@@ -41,8 +41,8 @@ const getKnownExecDataAndInitDataFromDslTypes = (
   parameters: Array<Parameter>,
   initArgs: string[],
   instanceConfig: InstanceConfig,
-  artifactAddress: string,
-  provider?: ContractRunner,
+  /* artifactAddress: string,
+  provider?: ContractRunner, */
 ): KnownParamsAndInitData => {
   const execConstTypes = instanceConfig.execArguments
     .filter((el) => el.constant)
