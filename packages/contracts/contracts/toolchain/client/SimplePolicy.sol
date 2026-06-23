@@ -14,7 +14,7 @@ contract SimplePolicy is BasicPolicyWrapper {
     // Friday, 29 May 2026 at 22:26:35
     uint256 private constant CONSTANT_PARAMETER_TIMESTAMP = 1780093595;
 
-    // policy rules: now >= uint256-const && bool-variable;
+    // policy rules: (now >= uint256-const) && bool-variable;
 
     // can be depicted as tree:
     //                 and_artifact

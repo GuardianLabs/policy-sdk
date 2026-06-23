@@ -1,7 +1,10 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { Chainlink, ChainlinkClient } from "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import {
+    Chainlink,
+    ChainlinkClient
+} from "@chainlink/contracts/src/v0.8/operatorforwarder/ChainlinkClient.sol";
 import {
     LinkTokenInterface
 } from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
