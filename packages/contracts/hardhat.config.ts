@@ -1,5 +1,3 @@
-import '@nomicfoundation/hardhat-ethers';
-import '@nomicfoundation/hardhat-ignition-ethers';
 import '@nomicfoundation/hardhat-toolbox';
 import 'hardhat-contract-sizer';
 import { HardhatUserConfig } from 'hardhat/config';
