@@ -8,6 +8,8 @@ import {
   BusinessHoursValidation__factory,
   ContainerDAG,
   ContainerDAG__factory,
+  CreditScore,
+  CreditScore__factory,
   CurrentTimestamp__factory,
   DestinationBlacklist__factory,
   DestinationWhitelist__factory,
@@ -53,7 +55,9 @@ type SupportedDeployments =
   | DestinationWhitelist__factory
   | DestinationBlacklist__factory
   | ApprovalFlow__factory
-  | PayloadHasher__factory;
+  | PayloadHasher__factory
+  | ContainerDAG__factory
+  | CreditScore__factory;
 
 export const deployArtifacts = async (
   deploySigner: SignerWithAddress | Wallet,
@@ -182,11 +186,15 @@ export const deployDestinationArtifacts = async (
 export const deployDagContainer = async (
   deploySigner: SignerWithAddress,
 ): Promise<ContainerDAG> => {
-  const dagContainerFactory = new ContainerDAG__factory(deploySigner);
-  const timezoneInstance = await dagContainerFactory.deploy();
-  await timezoneInstance.waitForDeployment();
+  // DAGConatiner
+  return deployWithFactory(new ContainerDAG__factory(deploySigner));
+};
 
-  return timezoneInstance;
+export const deployCreditScore = async (
+  deploySigner: SignerWithAddress,
+): Promise<CreditScore> => {
+  // CreditScore
+  return deployWithFactory(new CreditScore__factory(deploySigner));
 };
 
 export const deployBusinessHoursContracts = async (
