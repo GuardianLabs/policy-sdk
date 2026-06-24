@@ -111,7 +111,6 @@ const config: HardhatUserConfig = {
   gasReporter: {
     enabled: Config.isSet(REPORT_GAS),
     currency: 'USD',
-    showTimeSpent: true,
   },
   contractSizer: {
     alphaSort: true,
