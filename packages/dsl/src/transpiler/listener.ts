@@ -1,3 +1,4 @@
+/* eslint-disable import/no-nodejs-modules */
 import { InstanceConfig } from '@guardian-network/shared';
 import { join, normalize } from 'node:path';
 import {
