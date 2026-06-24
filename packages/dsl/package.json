@@ -71,7 +71,7 @@
     "antlr4ts": "0.5.0-alpha.4",
     "dotenv": "^16.4.5",
     "ethers": "^6.16.0",
-    "generator-code": "^1.11.18",
+    "generator-code": "^1.12.0",
     "sync-fetch": "0.6.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
