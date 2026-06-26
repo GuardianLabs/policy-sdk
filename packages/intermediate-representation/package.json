@@ -8,6 +8,7 @@
     "url": "git+https://github.com/GuardianLabs/policy-sdk/"
   },
   "license": "MIT",
+  "homepage": "https://github.com/GuardianLabs/policy-sdk/tree/dev/packages/intermediate-representation#readme",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
