@@ -3,6 +3,10 @@
   "author": "vpriadko@lacero.io, v.grabovski@lacero.io",
   "description": "Extensible and simple Policy client",
   "version": "0.3.4",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuardianLabs/policy-sdk/"
+  },
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -3,6 +3,10 @@
   "author": "v.grabovski@lacero.io, vpriadko@lacero.io",
   "description": "Policy with dynamic conditions defined onchain",
   "version": "0.3.4",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuardianLabs/policy-sdk/"
+  },
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

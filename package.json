@@ -1,6 +1,5 @@
 {
   "name": "root",
-  "license": "proprietary",
   "version": "0.3.4",
   "description": "Guardian Policies SDK",
   "scripts": {
