@@ -22,6 +22,7 @@
   "pnpm": {
     "overrides": {
       "elliptic": "^6.6.1",
+      "read-yaml-file": "2.1.0",
       "@ethersproject/providers": "5.8.0",
       "@arbitrum/nitro-contracts": "3.1.0",
       "@ethersproject/providers>ws": "8.21.0",
