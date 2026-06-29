@@ -1,5 +1,10 @@
-# Policy SDK monorepository
-A set of instruments, implementations and references to ***Composable policies with arbitrary artifacts*** approach. \
+# Policy SDK Monorepository
+A set of instruments, implementations and references to ***Composable policies with reusable rules (artifacts)*** approach. \
+Based on [ERC-8006](https://github.com/GuardianLabs/ERCs/blob/universal-policy-engine/ERCS/erc-8006.md).
+
+> **DO NOT USE IN PRODUCTION. \
+> This implementation is in early development. It has not been reviewed or audited. It is not suitable to be used in production. Expect bugs!**
+
 You may want to see the subpackages READMEs, but here is a brief digest:
 - Policies consist of atomic operations - artifacts (`./contracts`)
 - The policy can be created using special low-level notation (`./intermediate-representation`)

@@ -1,4 +1,8 @@
 # CLI for Policy SDK
+
+> **DO NOT USE IN PRODUCTION. \
+> This implementation is in early development. It has not been reviewed or audited. It is not suitable to be used in production. Expect bugs!**
+
 Policy SDK has a bunch of tools and subsystems. Some of them are exposed as a command line utilites.
 
 ------------

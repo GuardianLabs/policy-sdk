@@ -1,4 +1,8 @@
-# Policy Variables population helper
+# Helper library to populate Policy Variables offchain
+
+> **DO NOT USE IN PRODUCTION. \
+> This implementation is in early development. It has not been reviewed or audited. It is not suitable to be used in production. Expect bugs!**
+
 Policy may have variables values of which need to be provided during the evaluation step. \
 These values must be formatted and encoded into specific form that onchain Policy handler understands. This package is dedicated to help with it.
 

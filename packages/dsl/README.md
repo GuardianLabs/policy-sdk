@@ -1,4 +1,8 @@
 # Policy definition DSL translator (LacLang)
+
+> **DO NOT USE IN PRODUCTION. \
+> This implementation is in early development. It has not been reviewed or audited. It is not suitable to be used in production. Expect bugs!**
+
 The DSL is used to define policy structure and translate it to intermediate representation, that will further be translated into actual policy configuration for onchain initialization.
 The DSL is high-level markup language without expressions, with imports, declarations and compiler directives.
 The syntax is simple yet versatile, so anyone can combine artifacts into policies almost intuitively.

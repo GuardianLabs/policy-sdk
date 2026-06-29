@@ -1,4 +1,8 @@
-# Composable policy with arbitrary artifacts system contracts
+# Contracts for Composable policy with arbitrary artifacts system
+
+> **DO NOT USE IN PRODUCTION. \
+> This implementation is in early development. It has not been reviewed or audited. It is not suitable to be used in production. Expect bugs!**
+
 The policy system needs to be backed with all kinds of setellite contracts to work properly. This package provides them.
 
 - **Predefined artifacts** \

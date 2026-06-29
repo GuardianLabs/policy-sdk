@@ -1,4 +1,8 @@
 # Policy definition DSL (LacLang) compiler
+
+> **DO NOT USE IN PRODUCTION. \
+> This implementation is in early development. It has not been reviewed or audited. It is not suitable to be used in production. Expect bugs!**
+
 The package exposes programmatical compiler of LacLang sources.
 The resulting object can be used directely to initialize policy onchain.
 

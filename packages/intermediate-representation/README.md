@@ -1,4 +1,8 @@
-# Policy definition IR translator
+# IR translator to define Policy 
+
+> **DO NOT USE IN PRODUCTION. \
+> This implementation is in early development. It has not been reviewed or audited. It is not suitable to be used in production. Expect bugs!**
+
 Intermediate representation (IR) is needed to create the layer of abstraction between high-level policy constructors and the code that represents the policy onchain.
 IR can be perseived as an interface between human-readable code, GUI constructors - all sorts of tools convenient to humans, and object model of a policy that is used only by onchain code.
 IR is not ment neither to be written by humans nor to be read or debugged by them. It's an unambigous notation for policy-constructing translator.
