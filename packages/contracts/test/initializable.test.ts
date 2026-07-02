@@ -6,7 +6,7 @@ import { ethers } from 'hardhat';
 import {
   InitParamsStruct,
   PolicyHandlerInitializable,
-} from '../src/typechain/contracts/PolicyHandlerInitializable';
+} from '../src/typechain/contracts/sdk/PolicyHandlerInitializable';
 import { check } from './test-helpers';
 import { findMatchingEventArgs } from './test-helpers/events-helper';
 import { getId } from './test-helpers/random-helper';

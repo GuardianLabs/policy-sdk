@@ -6,11 +6,11 @@ export {
   UnnormalizedInitParams,
 } from './artifact-init-exec-arguments';
 export * from './typechain';
-export { ExecVariablesStruct } from './typechain/contracts/DAGWithPolicyMetadata';
-export { ApproveTransactionPayloadStruct } from './typechain/contracts/eip712/approval-flow/flow-os/PayloadHasher';
+export { ExecVariablesStruct } from './typechain/contracts/sdk/DAGWithPolicyMetadata';
+export { ApproveTransactionPayloadStruct } from './typechain/contracts/sdk/eip712/approval-flow/flow-os/PayloadHasher';
 export {
   ExecVarsMetadataStruct,
   ExecVarsMetadataStructOutput,
   InitParamsStruct,
   NodeInitDataStruct,
-} from './typechain/contracts/PolicyHandler';
+} from './typechain/contracts/sdk/PolicyHandler';

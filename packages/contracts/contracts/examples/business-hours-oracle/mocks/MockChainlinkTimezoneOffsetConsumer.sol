@@ -1,11 +1,19 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { TimezoneRecord } from "../types/Types.sol";
 import {
-    IChainlinkTimezoneOffsetSource,
+    TimezoneRecord
+} from "../../../sdk/pre-defined/common/utils/business-hours/timezone-offset-source/types/Types.sol";
+import {
+    ITimezoneOffsetSource,
     ITimezoneOffsetConsumer
-} from "../../interfaces/Exports.sol";
+} from "../../../sdk/pre-defined/common/utils/business-hours/interfaces/Exports.sol";
+
+interface IChainlinkTimezoneOffsetSource is ITimezoneOffsetSource {
+    // extending chainlink with a special method with produces a delayed resposne
+    // note: must return the timezone offset from cache, or make a supply request to oracle-service
+    function getOrRequestTimezoneOffset(string memory timezoneId) external;
+}
 
 contract MockChainlinkTimezoneOffsetConsumer is ITimezoneOffsetConsumer {
     IChainlinkTimezoneOffsetSource public chainlinkTimezoneOffsetSource;

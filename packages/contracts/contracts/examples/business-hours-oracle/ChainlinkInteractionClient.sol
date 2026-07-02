@@ -8,7 +8,7 @@ import {
 import {
     LinkTokenInterface
 } from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
-import { NOT_ENOUGH_ORACLE_TOKEN_ERR } from "../constants/Errors.sol";
+import { NOT_ENOUGH_ORACLE_TOKEN_ERR } from "./Errors.sol";
 
 contract ChainlinkInteractionClient is ChainlinkClient {
     using Chainlink for Chainlink.Request;

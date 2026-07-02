@@ -2,9 +2,5 @@
 pragma solidity ^0.8.27;
 
 /* solhint-disable no-unused-import */
-import {
-    ITimezoneOffsetSource,
-    IChainlinkTimezoneOffsetSource,
-    IMinTimezoneOffsetSource
-} from "./ITimezoneOffsetSource.sol";
+import { ITimezoneOffsetSource, IMinTimezoneOffsetSource } from "./ITimezoneOffsetSource.sol";
 import { ITimezoneOffsetConsumer } from "./ITimezoneOffsetConsumer.sol";

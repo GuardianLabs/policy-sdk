@@ -14,7 +14,7 @@
   "files": [
     "dist",
     "src",
-    "/contracts/**/*.sol",
+    "/contracts/sdk/**/*.sol",
     "/predefined-artifacts-exports/**/*.lac"
   ],
   "engines": {

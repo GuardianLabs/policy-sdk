@@ -24,9 +24,3 @@ interface ITimezoneOffsetSource is IMinTimezoneOffsetSource {
         string memory timezoneId
     ) external returns (TimezoneRecord memory offset);
 }
-
-interface IChainlinkTimezoneOffsetSource is ITimezoneOffsetSource {
-    // extending chainlink with a special method with produces a delayed resposne
-    // note: must return the timezone offset from cache, or make a supply request to oracle-service
-    function getOrRequestTimezoneOffset(string memory timezoneId) external;
-}

@@ -1,13 +1,19 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { TimezoneRecord } from "./types/Types.sol";
+import {
+    TimezoneRecord
+} from "../../sdk/pre-defined/common/utils/business-hours/timezone-offset-source/types/Types.sol";
 import {
     LibChainlinkTimezoneOffsetUtils as OffsetResponseParser
 } from "./libs/LibChainlinkTimezoneOffsetUtils.sol";
-import { BaseTimezoneOffsetSource } from "./BaseTimezoneOffsetSource.sol";
-import { ITimezoneOffsetConsumer } from "../interfaces/Exports.sol";
-import { ChainlinkInteractionClient } from "./chainlink-client/ChainlinkInteractionClient.sol";
+import {
+    BaseTimezoneOffsetSource
+} from "../../sdk/pre-defined/common/utils/business-hours/timezone-offset-source/BaseTimezoneOffsetSource.sol";
+import {
+    ITimezoneOffsetConsumer
+} from "../../sdk/pre-defined/common/utils/business-hours/interfaces/Exports.sol";
+import { ChainlinkInteractionClient } from "./ChainlinkInteractionClient.sol";
 
 contract ChainlinkTimezoneOffsetSource is BaseTimezoneOffsetSource, ChainlinkInteractionClient {
     /*
