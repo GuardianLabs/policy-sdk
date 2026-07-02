@@ -47,7 +47,7 @@
     "@types/chai": "4.3.3",
     "@types/chai-as-promised": "^8.0.1",
     "@types/mocha": "^10.0.9",
-    "@types/node": "^22.8.0",
+    "@types/node": "^22.9.2",
     "@typescript-eslint/eslint-plugin": "^8.61.1",
     "chai": "^4.5.0",
     "chai-as-promised": "^8.0.1",
@@ -66,11 +66,11 @@
     "nyc": "^18.0.0",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@guardian-network/shared": "workspace:*",
-    "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }
 }

@@ -21,15 +21,7 @@
   },
   "pnpm": {
     "overrides": {
-      "elliptic": "^6.6.1",
-      "read-yaml-file": "2.1.0",
-      "@ethersproject/providers": "5.8.0",
-      "@arbitrum/nitro-contracts": "3.1.0",
-      "@ethersproject/providers>ws": "8.21.0",
-      "ethers@^6.16.0>ws": "8.21.0",
-      "@arbitrum/nitro-contracts@3.1.0>@openzeppelin/contracts-upgradeable": "4.8.3",
-      "@arbitrum/nitro-contracts@3.1.0>@offchainlabs/upgrade-executor": "1.1.1",
-      "@offchainlabs/upgrade-executor@1.1.1>@openzeppelin/contracts-upgradeable": "4.8.3"
+      "ethers@^6.16.0>ws": "8.21.0"
     }
   }
 }

@@ -38,7 +38,6 @@
     "format:all:fix": "pnpm format:sol:fix && pnpm format:ts:fix",
     "format:ts:fix": "pnpm exec prettier -w -c \"src/**/*.ts\" \"test/**/*.ts\" \"config-hardhat/**/*.ts\" \"ignition/**/*.ts\" \"hardhat-scripts/**/*.ts\"",
     "format:sol:fix": "pnpm exec prettier --plugin=prettier-plugin-solidity -w -c \"contracts/**/*.sol\"",
-    "generate-errors": "pnpm exec ts-node src/constants/generate-errors-enum.ts",
     "lint:sol": "pnpm exec solhint -f table --max-warnings 0 'contracts/**/*.sol'",
     "lint:sol:fix": "pnpm exec solhint --noPrompt -f table 'contracts/**/*.sol' --fix",
     "lint:ts": "eslint",
@@ -56,6 +55,7 @@
   },
   "keywords": [],
   "devDependencies": {
+    "@chainlink/contracts": "^1.5.0",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.14.0",
     "@faker-js/faker": "^9.9.0",
@@ -72,7 +72,7 @@
     "@nomicfoundation/ignition-core": "^0.15.15",
     "@types/chai": "4.3.3",
     "@types/mocha": "^10.0.9",
-    "@types/node": "^22.8.0",
+    "@types/node": "^22.9.2",
     "@typescript-eslint/eslint-plugin": "^8.61.1",
     "@typescript-eslint/parser": "^8.8.0",
     "chai": "^4.5.0",
@@ -94,15 +94,14 @@
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-solidity": "^1.4.1",
     "rimraf": "^6.0.1",
-    "solhint": "^5.0.5"
+    "solhint": "^5.0.5",
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
-    "@chainlink/contracts": "1.5.0",
     "@openzeppelin/contracts": "^5.1.0",
     "@solidity-parser/parser": "^0.18.0",
     "dotenv": "^16.4.5",
     "ethers": "6.16.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }
 }
