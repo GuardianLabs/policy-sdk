@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { PolicyHandler } from "@guardian-network/policy-contracts/contracts/PolicyHandler.sol";
-import { InitParams } from "@guardian-network/policy-contracts/contracts/Types.sol";
+import { PolicyHandler } from "@guardian-network/policy-contracts/contracts/sdk/PolicyHandler.sol";
+import { InitParams } from "@guardian-network/policy-contracts/contracts/sdk/Types.sol";
 
 contract PolicyFactory {
     event PolicyDeployed(address indexed instanceAddress);
