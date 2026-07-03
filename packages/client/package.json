@@ -2,7 +2,7 @@
   "name": "@guardian-network/policy-client",
   "author": "v.grabovski@lacero.io, vpriadko@lacero.io",
   "description": "Extensible and simple Policy client",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GuardianLabs/policy-sdk/"

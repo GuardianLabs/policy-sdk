@@ -2,7 +2,7 @@
   "name": "@guardian-network/policy-intermediate-representation",
   "author": "v.grabovski@lacero.io, vpriadko@lacero.io",
   "description": "Artifcts high level declaration language",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GuardianLabs/policy-sdk/"
