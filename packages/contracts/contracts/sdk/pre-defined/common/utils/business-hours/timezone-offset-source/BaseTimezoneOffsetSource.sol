@@ -87,9 +87,11 @@ abstract contract BaseTimezoneOffsetSource is ITimezoneOffsetSource, ERC165 {
         // note: before returning the result convert the offset value from minutes to seconds
         // solhint-disable-next-line not-rely-on-time
         uint256 blockTime = block.timestamp;
-        timeWithTimezoneOffsetAppliedInSeconds = offsetStruct.isNegative
-            ? blockTime - offsetStruct.offsetValue * 60
-            : blockTime + offsetStruct.offsetValue * 60;
+        if (offsetStruct.isNegative) {
+            timeWithTimezoneOffsetAppliedInSeconds = blockTime - offsetStruct.offsetValue * 60;
+        } else {
+            timeWithTimezoneOffsetAppliedInSeconds = blockTime + offsetStruct.offsetValue * 60;
+        }
     }
 
     // note: returns the offset value if it is in cache; othervise reverts
