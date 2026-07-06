@@ -31,3 +31,5 @@ packages/**/typechain/
 
 packages/**/deployments/chain-31337/**
 packages/**/deployments/chain-31337
+
+slither-graphs

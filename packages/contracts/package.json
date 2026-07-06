@@ -47,6 +47,7 @@
     "remove:contracts": "pnpm exec hardhat clean",
     "remove:dist": "pnpm exec rimraf dist",
     "remove:typechain": "pnpm exec rimraf src/typechain",
+    "slither": "ts-node scripts/runSlither.ts",
     "test": "pnpm test:contracts",
     "test:contracts": "pnpm exec hardhat test --bail",
     "tests:coverage:sol": "pnpm exec hardhat coverage --testfiles 'test/**/*.ts'",
