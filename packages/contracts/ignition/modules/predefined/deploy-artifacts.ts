@@ -7,7 +7,7 @@ import {
 } from '../../tools';
 import { IgnitionModuleResultType, IgnitionModuleType } from '../../types';
 
-const ARTIFACTS_PATH = 'contracts/pre-defined/';
+const ARTIFACTS_PATH = 'contracts/sdk/pre-defined/';
 const MODULE_ID = 'ArtifactsPredefined';
 
 const artifactsModule: IgnitionModuleType = buildModule(MODULE_ID, (m) => {
