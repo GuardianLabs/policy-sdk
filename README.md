@@ -1,6 +1,8 @@
 # Policy SDK Monorepository
-A set of instruments, implementations and references to ***Composable policies with reusable rules (artifacts)*** approach. \
-Based on [ERC-8006](https://github.com/GuardianLabs/ERCs/blob/universal-policy-engine/ERCS/erc-8006.md).
+
+**Programmable compliance** in the context of blockchain and digital assets is the practice of embedding legal requirements, regulatory requirements, and business rules related to compliance directly into the software that governs digital assets and transactions. Instead of relying solely on manual reviews or after-the-fact monitoring, compliance rules are automatically enforced by code.
+
+This SDK is a collection of tools, packages, libraries, and reference implementations that help developers implement programmable compliance in smart contracts and Web2 applications that use smart contracts as their source of truth. At its core, the SDK is based on the ***Composable Policies with Reusable Rules (Artifacts)*** approach originally introduced in [ERC-8006](https://github.com/GuardianLabs/ERCs/blob/universal-policy-engine/ERCS/erc-8006.md).
 
 > **DO NOT USE IN PRODUCTION. \
 > This implementation is in early development. It has not been reviewed or audited. It is not suitable to be used in production. Expect bugs!**
@@ -16,7 +18,7 @@ You may want to see the subpackages READMEs, but here is a brief digest:
 
 ## Steps to build, run, test:
 
-* Install [pnpm](https://pnpm.io/installation)
+* Install [pnpm](https://pnpm.io/installation) version 20 or higher
 * ```pnpm i```
 * ```pnpm clean:all``` 
 * ```pnpm build:all```
