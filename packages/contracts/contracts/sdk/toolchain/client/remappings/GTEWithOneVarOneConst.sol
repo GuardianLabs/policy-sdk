@@ -9,7 +9,7 @@ import { ConstantArgument, SubstitutionArgument } from "../../../Types.sol";
 
 // note: artifact that compares if variable value (left-hand operand) is greater
 // than or equal to constant value (right-hand operand)
-contract GTE_constant1 is BasicArtifactReflection {
+contract GTEWithOneVarOneConst is BasicArtifactReflection {
     constructor() BasicArtifactReflection(GTE_CONSTANT) {}
 
     // note: left-hand operand (supplied as substituion)

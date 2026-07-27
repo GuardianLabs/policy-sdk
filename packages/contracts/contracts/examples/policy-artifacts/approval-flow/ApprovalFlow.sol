@@ -1,8 +1,10 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { StatefulArtifactBase } from "../basis/StatefulArtifactBase.sol";
-import { BOOL, BYTES, UINT } from "../../constants/Export.sol";
+import {
+    StatefulArtifactBase
+} from "../../../sdk/pre-defined/common/basis/StatefulArtifactBase.sol";
+import { BOOL, BYTES, UINT } from "../../../sdk/pre-defined/constants/Export.sol";
 import { ApprovalFlowInternal } from "./ApprovalFlowInternal.sol";
 
 contract ApprovalFlow is StatefulArtifactBase, ApprovalFlowInternal {
