@@ -66,7 +66,7 @@ describe('DSL-Builder Framework test', () => {
       const compilerOutput = await compiler.compile();
       await policyHandler.set(compilerOutput);
 
-      const variables = await policyHandler.getVariablesList();
+      const variables = await policyHandler.getVariablesListDecoded();
       const variablesFormatted = variables.map(
         rawOnchainVariablesDescriptionToOffchainView,
       );

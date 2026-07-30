@@ -4,7 +4,7 @@ import { ethers } from 'hardhat';
 import { CreditScore } from '../src/typechain';
 import { deployCreditScore } from './utils';
 
-describe.only('Fully onchain policy interaction (create + initialization and enforcement)', () => {
+describe('Purely onchain policy flow (create + initialization + enforcement)', () => {
   let admin: SignerWithAddress;
   let user: SignerWithAddress;
   let creditScore: CreditScore;

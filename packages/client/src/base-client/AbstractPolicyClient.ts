@@ -49,8 +49,8 @@ export abstract class AbstractPolicyClient implements IPolicyClient {
     return isActionPermitted;
   }
 
-  async getVariablesList(): Promise<ExecVarsMetadataStruct[]> {
-    const response = await this.policyHandler.getVariablesList.staticCall();
+  async getVariablesListDecoded(): Promise<ExecVarsMetadataStruct[]> {
+    const response = await this.policyHandler.getVariablesListDecoded.staticCall();
 
     const result = response.map((item) => ({
       nodeId: item.nodeId,

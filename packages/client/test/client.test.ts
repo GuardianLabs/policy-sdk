@@ -195,7 +195,7 @@ describe('Policy: client usage', () => {
     });
 
     it('returns correct variables list for simple policy', async () => {
-      const variables = await client.getVariablesList();
+      const variables = await client.getVariablesListDecoded();
 
       expect(variables).to.have.lengthOf(1);
 

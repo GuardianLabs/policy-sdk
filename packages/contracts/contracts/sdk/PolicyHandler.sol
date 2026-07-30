@@ -58,10 +58,20 @@ contract PolicyHandler is IPolicyHandler, OwnerBaseInitializable {
     }
 
     // note: this should return arguments list for only these args that have are run-time supplied (to a particular Node)
-    function getVariablesList() public view returns (ExecVarsMetadata[] memory list) {
+    function getVariablesListDecoded() public view returns (ExecVarsMetadata[] memory list) {
         require(isPolicyInitialized, POLICY_NOT_INITIALIZED_ERR);
 
         list = Utils.getVarsDesriptionList(dag.getNodes());
+    }
+
+    // note: this should return arguments list as bytes list for only these args that have are run-time supplied (to a particular Node)
+    function getVariablesList() public view returns (bytes[] memory list) {
+        ExecVarsMetadata[] memory vars = getVariablesListDecoded();
+
+        list = new bytes[](vars.length);
+        for (uint256 i = 0; i < vars.length; i++) {
+            list[i] = abi.encode(vars[i]);
+        }
     }
 
     function _set(PolicyInitParams memory params) internal onlyOwner {

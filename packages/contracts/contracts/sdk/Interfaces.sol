@@ -35,7 +35,9 @@ interface IPolicyHandler {
      * @notice Returns the list of run-time arguments that need to be supplied to nodes
      * @return list Array of variable metadata descriptions
      */
-    function getVariablesList() external view returns (ExecVarsMetadata[] memory list);
+    function getVariablesListDecoded() external view returns (ExecVarsMetadata[] memory list);
+
+    function getVariablesList() external view returns (bytes[] memory list);
 }
 
 interface IPolicyHandlerInitializable is IPolicyHandler {
