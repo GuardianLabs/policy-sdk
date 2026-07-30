@@ -25,11 +25,13 @@ contract OwnerBaseInitializable {
     constructor() {}
 
     function initializeOwnable(address _adminUser) public onlyNonInitialized {
+        // todo: check not zero address
         adminUser = _adminUser;
         isOwnerInitialized = true;
     }
 
     function setOwner(address newAdmin) public onlyOwner onlyInitialized {
+        // todo: check not zero address
         adminUser = newAdmin;
     }
 

@@ -32,6 +32,7 @@ contract IsDividableUint is StatelessArtifactBase {
 
     function _exec(bytes[] memory data) internal override returns (bytes memory encodedResult) {
         super._exec(data);
+        // todo: argB != 0
 
         uint256 argA = abi.decode(data[0], (uint256));
         uint256 argB = abi.decode(data[1], (uint256));
