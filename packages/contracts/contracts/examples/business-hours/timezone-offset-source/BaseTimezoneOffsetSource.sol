@@ -3,7 +3,7 @@ pragma solidity ^0.8.27;
 
 import { ERC165 } from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import { TimezoneRecord } from "./types/Types.sol";
-import { IMinTimezoneOffsetSource, ITimezoneOffsetSource } from "../interfaces/Exports.sol";
+import { IMinTimezoneOffsetSource, ITimezoneOffsetSource } from "../interfaces/Interfaces.sol";
 import {
     NO_TIMEZONE_OFFSET_IN_CACHE_ERR,
     MUST_BE_IN_WHITELIST_ERR,

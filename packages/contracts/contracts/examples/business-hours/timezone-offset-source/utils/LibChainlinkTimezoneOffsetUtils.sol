@@ -1,9 +1,7 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import {
-    TimezoneRecord
-} from "../../../sdk/pre-defined/common/utils/business-hours/timezone-offset-source/types/Types.sol";
+import { TimezoneRecord } from "../types/Types.sol";
 
 // supplied bytes with timezone offset details has incorrect length
 string constant SUPPLIED_TIMEZONE_VALUE_LENGTH_IS_INCORRECT_ERR = "LCTOF-001";

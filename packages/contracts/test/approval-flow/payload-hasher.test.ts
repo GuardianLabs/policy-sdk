@@ -7,12 +7,8 @@ import {
 import { SignerWithAddress } from '@nomicfoundation/hardhat-ethers/signers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-import {
-  ApproveTransactionPayloadStruct,
-  ExecParams,
-  InitParams,
-  PayloadHasher,
-} from '../types';
+import { ApprovePayloadStruct } from '../../src/typechain/contracts/examples/approval/payload-hasher/EIP712PayloadHasherArtifact';
+import { EIP712PayloadHasherArtifact, ExecParams, InitParams } from '../types';
 import {
   deployPayloadHasher,
   randomBytes,
@@ -24,7 +20,7 @@ import {
 
 describe('Payload-hasher Artifact', () => {
   let adminSigner: SignerWithAddress;
-  let payloadHasherInstance: PayloadHasher;
+  let payloadHasherInstance: EIP712PayloadHasherArtifact;
 
   before(async () => {
     [adminSigner] = await ethers.getSigners();
@@ -56,7 +52,7 @@ describe('Payload-hasher Artifact', () => {
     });
 
     describe('failure', async () => {
-      let payloadHasherInstanceLocal: PayloadHasher;
+      let payloadHasherInstanceLocal: EIP712PayloadHasherArtifact;
 
       before(async () => {
         [adminSigner] = await ethers.getSigners();
@@ -98,7 +94,7 @@ describe('Payload-hasher Artifact', () => {
   });
 
   describe('Payload-hasher Artifact: calculate message eip712-hash', () => {
-    let payloadHasherInstanceLocal: PayloadHasher;
+    let payloadHasherInstanceLocal: EIP712PayloadHasherArtifact;
 
     before(async () => {
       ({ payloadHasher: payloadHasherInstanceLocal } =
@@ -118,7 +114,7 @@ describe('Payload-hasher Artifact', () => {
 
     describe('success', () => {
       it('when valid payload is supplied', async () => {
-        const payload: ApproveTransactionPayloadStruct = {
+        const payload: ApprovePayloadStruct = {
           nonce: randomUint(),
           data: randomBytes(),
           asset: randomEthAddress(),
@@ -169,7 +165,7 @@ describe('Payload-hasher Artifact', () => {
 
     describe('failure', () => {
       it('when supplied incorrect payload', async () => {
-        const incorrectPayload: ApproveTransactionPayloadStruct = {
+        const incorrectPayload: ApprovePayloadStruct = {
           nonce: randomUint(),
           data: randomBytes(),
           asset: ethers.ZeroAddress,

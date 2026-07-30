@@ -1,12 +1,21 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { StatefulArtifactBase } from "../../../pre-defined/common/basis/StatefulArtifactBase.sol";
-import { ADDRESS, BYTES } from "../../../pre-defined/constants/Export.sol";
+import {
+    StatefulArtifactBase
+} from "../../../sdk/pre-defined/common/basis/StatefulArtifactBase.sol";
+import { ADDRESS, BYTES } from "../../../sdk/pre-defined/constants/Export.sol";
 import { PayloadHasherInternal } from "./PayloadHasherInternal.sol";
-import { ApproveTransactionPayload } from "./types/PayloadTypes.sol";
+import { ApprovePayload } from "./types/PayloadTypes.sol";
 
-contract PayloadHasher is StatefulArtifactBase, PayloadHasherInternal {
+/* 
+Q: Why is PayloadHasherArtifact required, and why is it separated from ApprovalFlow?
+A: The existence of PayloadHasherArtifact makes it possible to introduce a generic ApprovalFlow artifact.
+Instead of processing the payload itself (decoding the signed payload, validating it, and hashing it according to the EIP-712 scheme),
+ApprovalFlow delegates these responsibilities to PayloadHasherArtifact. It is expected that both artifacts are configured
+together in a policy, where ApprovalFlow consumes the hash produced by PayloadHasherArtifact.
+ */
+contract EIP712PayloadHasherArtifact is StatefulArtifactBase, PayloadHasherInternal {
     function getInitDescriptor()
         external
         pure
@@ -60,13 +69,11 @@ contract PayloadHasher is StatefulArtifactBase, PayloadHasherInternal {
 
         bytes memory messagePacked = abi.decode(data[0], (bytes));
 
-        ApproveTransactionPayload memory payload = abi.decode(
-            messagePacked,
-            (ApproveTransactionPayload)
-        );
+        ApprovePayload memory payload = abi.decode(messagePacked, (ApprovePayload));
 
         bytes32 eip712Hash = eip712PayloadHash(payload);
-        // packs from bytes32 to bytes; then packs bytes to bytes
+        // packs from bytes32 to bytes;
+        // then packs bytes to bytes as required in `getExecDescriptor()`
         encodedResult = abi.encode(abi.encode(eip712Hash));
     }
 }

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import { TimezoneRecord } from "../types/Types.sol";
-import { ITimezoneOffsetSource, ITimezoneOffsetConsumer } from "../../interfaces/Exports.sol";
+import { ITimezoneOffsetSource, ITimezoneOffsetConsumer } from "../../interfaces/Interfaces.sol";
 
 contract MockTimezoneOffsetConsumer is ITimezoneOffsetConsumer {
     ITimezoneOffsetSource public timezoneOffsetSource;

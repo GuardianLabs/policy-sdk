@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { StatelessArtifactBase } from "../basis/StatelessArtifactBase.sol";
-import { UINT } from "../../constants/Export.sol";
+import { StatelessArtifactBase } from "../../basis/StatelessArtifactBase.sol";
+import { UINT } from "../../../constants/Export.sol";
 
-contract CurrentTimestamp is StatelessArtifactBase {
+contract BasicTimeSource is StatelessArtifactBase {
     function getExecDescriptor()
         external
         pure

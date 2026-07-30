@@ -13,6 +13,7 @@ import {
   CurrentTimestamp__factory,
   DestinationBlacklist__factory,
   DestinationWhitelist__factory,
+  EIP712PayloadHasherArtifact__factory,
   EqualAddress__factory,
   EqualBytes__factory,
   EqualString__factory,
@@ -26,7 +27,6 @@ import {
   LtUint__factory,
   NOT__factory,
   OR__factory,
-  PayloadHasher__factory,
   PolicyHandler__factory,
   TrustedTimezoneOffsetSource,
   TrustedTimezoneOffsetSource__factory,
@@ -55,7 +55,7 @@ type SupportedDeployments =
   | DestinationWhitelist__factory
   | DestinationBlacklist__factory
   | ApprovalFlow__factory
-  | PayloadHasher__factory
+  | EIP712PayloadHasherArtifact__factory
   | ContainerDAG__factory
   | CreditScore__factory;
 
@@ -107,7 +107,7 @@ export const deployArtifacts = async (
     new ApprovalFlow__factory(deploySigner),
   );
   const payloadHasher = await deployWithFactory(
-    new PayloadHasher__factory(deploySigner),
+    new EIP712PayloadHasherArtifact__factory(deploySigner),
   );
 
   return {
@@ -149,7 +149,7 @@ const deployWithFactory = async <
 
 export const deployPayloadHasher = async (deploySigner: SignerWithAddress) => {
   const payloadHasher = await deployWithFactory(
-    new PayloadHasher__factory(deploySigner),
+    new EIP712PayloadHasherArtifact__factory(deploySigner),
   );
   return {
     payloadHasher,

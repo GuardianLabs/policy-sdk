@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { StatefulArtifactBase } from "../common/basis/StatefulArtifactBase.sol";
-import { BOOL, ADDRESS, BYTES, UINT, STRING } from "../constants/Export.sol";
+import { StatefulArtifactBase } from "../../sdk/pre-defined/common/basis/StatefulArtifactBase.sol";
+import { BOOL, ADDRESS, BYTES, UINT, STRING } from "../../sdk/pre-defined/constants/Export.sol";
 
-contract StatefulMock is StatefulArtifactBase {
+contract CompareRunTimeWithInitTimeParamsExample is StatefulArtifactBase {
     bool private var1;
     address private var2;
     bytes private var3;

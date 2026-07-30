@@ -1,13 +1,8 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import {
-    TimezoneRecord
-} from "../../../sdk/pre-defined/common/utils/business-hours/timezone-offset-source/types/Types.sol";
-import {
-    ITimezoneOffsetSource,
-    ITimezoneOffsetConsumer
-} from "../../../sdk/pre-defined/common/utils/business-hours/interfaces/Exports.sol";
+import { TimezoneRecord } from "../types/Types.sol";
+import { ITimezoneOffsetSource, ITimezoneOffsetConsumer } from "../../interfaces/Interfaces.sol";
 
 interface IChainlinkTimezoneOffsetSource is ITimezoneOffsetSource {
     // extending chainlink with a special method with produces a delayed resposne

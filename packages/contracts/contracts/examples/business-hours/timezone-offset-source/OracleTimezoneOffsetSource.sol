@@ -1,21 +1,18 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import {
-    TimezoneRecord
-} from "../../sdk/pre-defined/common/utils/business-hours/timezone-offset-source/types/Types.sol";
+import { TimezoneRecord } from "./types/Types.sol";
 import {
     LibChainlinkTimezoneOffsetUtils as OffsetResponseParser
-} from "./libs/LibChainlinkTimezoneOffsetUtils.sol";
+} from "./utils/LibChainlinkTimezoneOffsetUtils.sol";
+import { BaseTimezoneOffsetSource } from "./BaseTimezoneOffsetSource.sol";
+import { ITimezoneOffsetConsumer } from "../interfaces/Interfaces.sol";
 import {
-    BaseTimezoneOffsetSource
-} from "../../sdk/pre-defined/common/utils/business-hours/timezone-offset-source/BaseTimezoneOffsetSource.sol";
-import {
-    ITimezoneOffsetConsumer
-} from "../../sdk/pre-defined/common/utils/business-hours/interfaces/Exports.sol";
-import { ChainlinkInteractionClient } from "./ChainlinkInteractionClient.sol";
+    ChainlinkInteractionClient
+} from "../timezone-oracle-client/ChainlinkInteractionClient.sol";
 
-contract ChainlinkTimezoneOffsetSource is BaseTimezoneOffsetSource, ChainlinkInteractionClient {
+/* NOT PRODUCTION READY */
+contract OracleTimezoneOffsetSource is BaseTimezoneOffsetSource, ChainlinkInteractionClient {
     /*
         if there is no information about the timezone offset in the suppliedOffsets,
         we store the address of the requesting contract in order to provide the result

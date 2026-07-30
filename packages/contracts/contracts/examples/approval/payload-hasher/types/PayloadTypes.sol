@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-struct ApproveTransactionPayload {
+struct ApprovePayload {
     uint256 nonce;
     bytes data;
     address asset;

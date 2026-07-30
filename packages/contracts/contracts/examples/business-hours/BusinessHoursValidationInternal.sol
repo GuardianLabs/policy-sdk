@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import { IERC165 } from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
-import { IMinTimezoneOffsetSource } from "./interfaces/Exports.sol";
+import { IMinTimezoneOffsetSource } from "./interfaces/Interfaces.sol";
 import {
     CLOSING_SECOND_MAX_VALUE_ERR,
     TIME_SOURCE_INTERFACE_ERR,

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import { APPROVE_TX_TYPEHASH } from "./constants/TypeHashDefinitions.sol";
-import { ApproveTransactionPayload } from "./types/PayloadTypes.sol";
+import { ApprovePayload } from "./types/PayloadTypes.sol";
 import { Eip712UtilsLib as Util } from "./tools/Eip712UtilsLib.sol";
 import { DOMAIN_NAME, DOMAIN_VERSION } from "./constants/Domain.sol";
 import {
@@ -17,9 +17,10 @@ contract PayloadHasherInternal {
 
     event PayloadHasherInited(address indexed verifyingContract);
 
-    // todo: set visibility to internal; public is required to generate typechain version of ApproveTransactionPayload
+    // note: public visivility is required only to generate typechain version of ApprovePayload
+    // todo: set visibility to internal;
     function eip712PayloadHash(
-        ApproveTransactionPayload memory message
+        ApprovePayload memory message
     ) public view returns (bytes32 eip712Hash) {
         doPayloadValidations(message);
 
@@ -41,7 +42,7 @@ contract PayloadHasherInternal {
     }
 
     function _encodeApproveTxParameters(
-        ApproveTransactionPayload memory message
+        ApprovePayload memory message
     ) internal pure returns (bytes memory) {
         return
             abi.encode(
@@ -57,7 +58,7 @@ contract PayloadHasherInternal {
             );
     }
 
-    function doPayloadValidations(ApproveTransactionPayload memory message) internal pure {
+    function doPayloadValidations(ApprovePayload memory message) internal pure {
         validateAddressValue(message.asset);
 
         validateBytes32Value(message.mandatoryTagHashed);

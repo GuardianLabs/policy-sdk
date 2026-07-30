@@ -1,11 +1,13 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { StatelessArtifactBase } from "../common/basis/StatelessArtifactBase.sol";
-import { BOOL } from "../constants/Export.sol";
+import {
+    StatelessArtifactBase
+} from "../../sdk/pre-defined/common/basis/StatelessArtifactBase.sol";
+import { BOOL } from "../../sdk/pre-defined/constants/Export.sol";
 
 /* solhint-disable var-name-mixedcase */
-contract Equal4Mock is StatelessArtifactBase {
+contract CompareVarsVsConstsExample is StatelessArtifactBase {
     function getExecDescriptor()
         external
         pure
