@@ -11,4 +11,12 @@ contract CloneFactory {
         emit Cloned(cloneInstance);
         return cloneInstance;
     }
+
+    function cloneWithInit(address implementation, bytes memory initData) public returns (address) {
+        // todo: extract selector and data; call via yul; wrap in try catch
+        (initData);
+        address cloneInstance = cloneContract(implementation);
+        emit Cloned(cloneInstance);
+        return cloneInstance;
+    }
 }
