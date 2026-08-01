@@ -4,7 +4,7 @@ import {
   AND__factory,
   ApprovalFlow__factory,
   BusinessHoursValidation__factory,
-  CurrentTimestamp__factory,
+  BasicTimeSource__factory,
   DestinationBlacklist__factory,
   DestinationWhitelist__factory,
   EqualAddress__factory,
@@ -42,7 +42,7 @@ type SupportedDeployments =
   | EqualString__factory
   | GtUint__factory
   | EqualUint__factory
-  | CurrentTimestamp__factory
+  | BasicTimeSource__factory
   | BusinessHoursValidation__factory
   | DestinationWhitelist__factory
   | DestinationBlacklist__factory
@@ -82,7 +82,7 @@ export const deployArtifacts = async (
     new EqualBytes__factory(deploySigner),
   );
   const currentTimestamp = await deployWithFactory(
-    new CurrentTimestamp__factory(deploySigner),
+    new BasicTimeSource__factory(deploySigner),
   );
   const businessHours = await deployWithFactory(
     new BusinessHoursValidation__factory(deploySigner),

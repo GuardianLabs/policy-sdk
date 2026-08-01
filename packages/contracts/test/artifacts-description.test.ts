@@ -4,8 +4,8 @@ import { check } from './test-helpers';
 import {
   AND,
   ApprovalFlow,
+  BasicTimeSource,
   BusinessHoursValidation,
-  CurrentTimestamp,
   DestinationBlacklist,
   DestinationWhitelist,
   EqualAddress,
@@ -30,7 +30,7 @@ import {
 } from './utils';
 
 // note: can be skipped to speed up test running
-describe.skip('Artifacts: Description getter', () => {
+describe('Artifacts: Description getter', () => {
   let adminSigner: SignerWithAddress;
 
   // Comparison artifacts
@@ -57,7 +57,7 @@ describe.skip('Artifacts: Description getter', () => {
   let isDividableUint: IsDividableUint;
 
   // Utils artifacts
-  let currentTimestamp: CurrentTimestamp;
+  let currentTimestamp: BasicTimeSource;
   let businessHoursValidation: BusinessHoursValidation;
   let destinationBlacklist: DestinationBlacklist;
   let destinationWhitelist: DestinationWhitelist;

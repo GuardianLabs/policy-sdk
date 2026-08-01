@@ -5,7 +5,7 @@ export {
   ApprovalFlow__factory,
   BusinessHoursValidation,
   BusinessHoursValidation__factory,
-  CurrentTimestamp__factory,
+  BasicTimeSource__factory,
   DestinationBlacklist__factory,
   DestinationWhitelist__factory,
   EqualAddress__factory,

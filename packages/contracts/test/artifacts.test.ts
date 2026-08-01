@@ -14,8 +14,8 @@ import { MockedExecParams } from './mocked-init-exec-arguments';
 import { check } from './test-helpers';
 import {
   AND,
+  BasicTimeSource,
   BusinessHoursValidation,
-  CurrentTimestamp,
   EqualAddress,
   EqualBytes,
   EqualString,
@@ -71,7 +71,7 @@ describe('Artifacts: Pre defined', () => {
   let equalAddressesArtifact: EqualAddress;
   // utils
   let isDividableUintArtifact: IsDividableUint;
-  let currentTimestampArtifact: CurrentTimestamp;
+  let currentTimestampArtifact: BasicTimeSource;
 
   before(async () => {
     [adminSigner] = await ethers.getSigners();
