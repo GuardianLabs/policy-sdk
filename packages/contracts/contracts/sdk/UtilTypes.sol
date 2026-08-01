@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.36;
 
 // note: this struct describes only those params that have to be run-time supplied

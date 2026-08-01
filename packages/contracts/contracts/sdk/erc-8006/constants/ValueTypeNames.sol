@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.36;
 
 // https://docs.soliditylang.org/en/v0.8.36/types.html#value-types

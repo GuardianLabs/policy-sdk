@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.36;
 
 import { PolicyHandler } from "@guardian-network/policy-contracts/contracts/sdk/PolicyHandler.sol";

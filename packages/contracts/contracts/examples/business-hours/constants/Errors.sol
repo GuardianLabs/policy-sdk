@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.36;
 
 string constant TIME_SOURCE_INTERFACE_ERR = "BH-001";

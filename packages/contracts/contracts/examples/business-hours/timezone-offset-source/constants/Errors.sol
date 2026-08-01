@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.36;
 
 string constant NO_TIMEZONE_OFFSET_IN_CACHE_ERR = "TFO-001";

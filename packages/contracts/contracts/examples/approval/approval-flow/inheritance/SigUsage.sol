@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.36;
 
 import { SIGNATURE_IS_CONSUMED_ERR } from "../constants/Errors.sol";

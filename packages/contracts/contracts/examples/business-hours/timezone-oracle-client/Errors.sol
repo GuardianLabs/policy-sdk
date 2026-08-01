@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.36;
 
 string constant NOT_ENOUGH_ORACLE_TOKEN_ERR = "CTOS-001";

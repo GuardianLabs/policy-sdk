@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicensed
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.36;
 
 import { DOMAIN_TYPE_HASH } from "../constants/TypeHashDefinitions.sol";
