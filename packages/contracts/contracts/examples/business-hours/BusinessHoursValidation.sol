@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { StatefulArtifactBase } from "../../sdk/pre-defined/common/basis/StatefulArtifactBase.sol";
-import { BOOL, ADDRESS, BYTES, STRING } from "../../sdk/pre-defined/constants/Export.sol";
+import { StatefulArtifactBase } from "../../sdk/erc-8006/StatefulArtifactBase.sol";
+import { BOOL, ADDRESS, BYTES, STRING } from "../../sdk/erc-8006/constants/Export.sol";
 import { BusinessHoursValidationInternal } from "./BusinessHoursValidationInternal.sol";
 
 contract BusinessHoursValidation is StatefulArtifactBase, BusinessHoursValidationInternal {

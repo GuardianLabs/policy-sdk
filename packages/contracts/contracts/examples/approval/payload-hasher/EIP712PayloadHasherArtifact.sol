@@ -1,10 +1,8 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import {
-    StatefulArtifactBase
-} from "../../../sdk/pre-defined/common/basis/StatefulArtifactBase.sol";
-import { ADDRESS, BYTES } from "../../../sdk/pre-defined/constants/Export.sol";
+import { StatefulArtifactBase } from "../../../sdk/erc-8006/StatefulArtifactBase.sol";
+import { ADDRESS, BYTES } from "../../../sdk/erc-8006/constants/Export.sol";
 import { PayloadHasherInternal } from "./PayloadHasherInternal.sol";
 import { ApprovePayload } from "./types/PayloadTypes.sol";
 

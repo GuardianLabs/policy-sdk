@@ -1,10 +1,8 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import {
-    StatelessArtifactBase
-} from "../../sdk/pre-defined/common/basis/StatelessArtifactBase.sol";
-import { BOOL } from "../../sdk/pre-defined/constants/Export.sol";
+import { StatelessArtifactBase } from "../../sdk/erc-8006/StatelessArtifactBase.sol";
+import { BOOL } from "../../sdk/erc-8006/constants/Export.sol";
 
 /* solhint-disable var-name-mixedcase */
 contract CompareVarsVsConstsExample is StatelessArtifactBase {

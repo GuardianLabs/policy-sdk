@@ -5,7 +5,7 @@ import { ExecVariables, InitParams as PolicyInitParams } from "./Types.sol";
 import { ExecVarsMetadata } from "./UtilTypes.sol";
 import { OwnerBaseInitializable } from "./OwnerBaseInitializable.sol";
 import { MAX_NODES_LENGTH } from "./Constants.sol";
-import { DAGWithPolicyMetadata } from "./DAGWithPolicyMetadata.sol";
+import { PolicyMetadata } from "./PolicyMetadata.sol";
 import "./Utilities.sol" as Utils;
 import {
     POLICY_DOES_NOT_HAVE_ANY_ARTIFACT_ERR,
@@ -16,7 +16,7 @@ import {
 import { IPolicyHandler } from "./Interfaces.sol";
 
 contract PolicyHandler is IPolicyHandler, OwnerBaseInitializable {
-    DAGWithPolicyMetadata internal dag;
+    PolicyMetadata internal dag;
     bool private isPolicyInitialized = false;
 
     constructor(address _adminUser) {
@@ -83,7 +83,7 @@ contract PolicyHandler is IPolicyHandler, OwnerBaseInitializable {
             INIT_NODES_LIST_IS_LARGER_THAN_MAX_LENGTH_ERR
         );
 
-        dag = new DAGWithPolicyMetadata(address(this));
+        dag = new PolicyMetadata(address(this));
         dag.init(params);
 
         isPolicyInitialized = true;

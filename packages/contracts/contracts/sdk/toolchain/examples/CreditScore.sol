@@ -1,13 +1,13 @@
 //SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.27;
 
-import { SimplePolicy } from "../client/SimplePolicy.sol";
+import { CreditScorePolicy } from "./CreditScorePolicy.sol";
 
 /* Consumer contract */
 contract CreditScore {
     uint256 private constant DEFAULT_SCORE = 9999; // 9.999 * 10^3
     mapping(address userAddress => uint256 score) private usersScore;
-    SimplePolicy internal policy;
+    CreditScorePolicy internal policy;
 
     constructor() {
         _initPolicy();
@@ -25,7 +25,7 @@ contract CreditScore {
     }
 
     function _initPolicy() internal {
-        policy = new SimplePolicy();
+        policy = new CreditScorePolicy();
         policy.create();
     }
 

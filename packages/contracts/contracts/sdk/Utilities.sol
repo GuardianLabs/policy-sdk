@@ -5,7 +5,7 @@ import { Clones } from "@openzeppelin/contracts/proxy/Clones.sol";
 import { ArgumentDescription, ExecVarsMetadata } from "./UtilTypes.sol";
 import { Node as ConfiguredNode, ExecVariables } from "./Types.sol";
 import { NODE_VARIABLES_LIST_LENGTH_VIOLATES_DESCRIPTOR_ERR } from "./Errors.sol";
-import { IArbitraryDataArtifact } from "./pre-defined/common/basis/interfaces/Export.sol";
+import { IArbitraryDataArtifact } from "./erc-8006/interfaces/Interfaces.sol";
 
 function getVarsDesriptionList(
     ConfiguredNode[] memory nodesList
