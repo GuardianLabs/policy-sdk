@@ -83,7 +83,7 @@ import { GTE_constant1 } from "./remappings/GTE_constant1.sol";
 import { Now1 } from "./remappings/Now1.sol";
 import { AND } from "../../pre-defined/common/logical/AndBool.sol";
 import { GteUint } from "../../pre-defined/common/comparison/GteUint.sol";
-import { CurrentTimestamp } from "../../pre-defined/common/utils/CurrentTimestamp.sol";
+import { BasicTimeSource } from "../../pre-defined/common/utils/BasicTimeSource.sol";
 
 contract SimplePolicy is BasicPolicyWrapper {
     bool private runTimeVariable;
@@ -110,7 +110,7 @@ Instantiate the required artifact reflections (`BasicArtifactReflection`), link 
         gte_constant1.updateArtifactAddress(address(new GteUint()));
 
         Now1 now1 = new Now1();
-        now1.updateArtifactAddress(address(new CurrentTimestamp()));
+        now1.updateArtifactAddress(address(new BasicTimeSource()));
 
         // 2. Add artifacts to the wrapper's list
         artifactsList.push(and1);
