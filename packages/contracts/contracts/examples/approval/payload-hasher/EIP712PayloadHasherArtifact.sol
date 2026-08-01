@@ -12,6 +12,7 @@ A: The existence of PayloadHasherArtifact makes it possible to introduce a gener
 Instead of processing the payload itself (decoding the signed payload, validating it, and hashing it according to the EIP-712 scheme),
 ApprovalFlow delegates these responsibilities to PayloadHasherArtifact. It is expected that both artifacts are configured
 together in a policy, where ApprovalFlow consumes the hash produced by PayloadHasherArtifact.
+PayloadHasherArtifact must be customized for each payload type.
  */
 contract EIP712PayloadHasherArtifact is StatefulArtifactBase, PayloadHasherInternal {
     function getInitDescriptor()
