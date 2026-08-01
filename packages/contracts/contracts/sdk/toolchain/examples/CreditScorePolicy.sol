@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { AND1 } from "./remappings/AND1.sol";
 import { GTEWithOneVarOneConst } from "./remappings/GTEWithOneVarOneConst.sol";

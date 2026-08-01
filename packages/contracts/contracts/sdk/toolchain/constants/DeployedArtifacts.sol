@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 // amoy_addresses
 address constant AND = 0xB60B02062d1256A79C81A061a9277e84ffbB0Ff7;

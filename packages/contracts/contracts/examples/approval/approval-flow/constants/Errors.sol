@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 string constant INCORRECT_SIGNATORY_ADDRESS = "AF-001";
 string constant CONSENSUS_IS_ZERO_ERR = "AF-002";

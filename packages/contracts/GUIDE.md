@@ -75,7 +75,7 @@ Create a new contract that inherits from `BasicPolicyWrapper`. Define your runti
 
 ```solidity
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { BasicPolicyWrapper } from "./inheritance/BasicPolicyWrapper.sol";
 import { AND1 } from "./remappings/AND1.sol";

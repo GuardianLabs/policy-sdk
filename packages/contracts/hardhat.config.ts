@@ -20,7 +20,7 @@ const DEFAULT_BALANCE_PER_ADDRESS = '161000000000000000000';
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: '0.8.27',
+    version: '0.8.36',
     settings: {
       optimizer: {
         enabled: true,

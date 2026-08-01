@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { APPROVE_TX_TYPEHASH } from "./constants/TypeHashDefinitions.sol";
 import { ApprovePayload } from "./types/PayloadTypes.sol";

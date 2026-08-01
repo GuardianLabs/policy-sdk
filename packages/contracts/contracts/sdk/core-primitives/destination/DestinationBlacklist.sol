@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { StatefulArtifactBase } from "../../erc-8006/StatefulArtifactBase.sol";
 import { ADDRESS, BOOL, BYTES } from "../../erc-8006/constants/Export.sol";

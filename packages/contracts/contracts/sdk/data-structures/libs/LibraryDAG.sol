@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { CYCLE_DETECTED_WHILE_TOPOLIGICAL_SORT_ERR } from "../constants/Errors.sol";
 import { reverseList } from "../utils/Utils.sol";

@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
-// https://docs.soliditylang.org/en/v0.8.26/types.html#value-types
+// https://docs.soliditylang.org/en/v0.8.36/types.html#value-types
 string constant UINT = "uint256";
 string constant BOOL = "bool";
 string constant ADDRESS = "address";

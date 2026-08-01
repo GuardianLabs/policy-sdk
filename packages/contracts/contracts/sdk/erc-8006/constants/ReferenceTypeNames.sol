@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
-// https://docs.soliditylang.org/en/v0.8.26/types.html#reference-types
+// https://docs.soliditylang.org/en/v0.8.36/types.html#reference-types
 string constant BYTES = "bytes";
 string constant STRING = "string";
 // NOT SUPPORTED YET

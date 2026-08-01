@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 function reverseList(uint256[] memory list) pure returns (uint256[] memory reversedList) {
     if (list.length == 0) return reversedList;

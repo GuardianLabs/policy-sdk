@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { ERC165 } from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import { TimezoneRecord } from "./types/Types.sol";

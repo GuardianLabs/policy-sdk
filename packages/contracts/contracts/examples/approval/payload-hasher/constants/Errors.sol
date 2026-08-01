@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 string constant SUPPLIED_ZERO_ADDRESS_VALUE_ERR = "EAFFO-001";
 string constant SUPPLIED_ZERO_STRING_VALUE_ERR = "EAFFO-002";

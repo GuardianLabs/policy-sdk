@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 string constant EDDGE_ALREADY_EXISTS_ERR = "DAGV-001";
 string constant CYCLIC_EDGE_IS_PROHIBITED_ERR = "DAGV-002";

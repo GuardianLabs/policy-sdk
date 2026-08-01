@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { GTE_ONE_VAR_ONE_CONSTANT } from "../../constants/DeployedArtifacts.sol";
 import { ArtifactReflectionCore } from "../../client/ArtifactReflectionCore.sol";

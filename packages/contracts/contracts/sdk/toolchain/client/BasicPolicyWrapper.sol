@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { ArtifactReflectionCore } from "./ArtifactReflectionCore.sol";
 import { PolicyHandler } from "../../PolicyHandler.sol";

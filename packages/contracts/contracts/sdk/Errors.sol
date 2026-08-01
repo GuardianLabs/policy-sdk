@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 string constant PROVIDED_NODE_REFERENCE_IS_NIL_ERR = "A-004";
 string constant NODE_INDEX_NOT_EXISTS_ERR = "A-005";

@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 string constant NO_TIMEZONE_OFFSET_IN_CACHE_ERR = "TFO-001";
 string constant MUST_BE_IN_WHITELIST_ERR = "TFO-002";

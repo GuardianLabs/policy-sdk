@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 bytes32 constant DOMAIN_TYPE_HASH = keccak256(
     "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"

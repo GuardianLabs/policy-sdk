@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 // note: this struct describes only those params that have to be run-time supplied
 struct ExecVarsMetadata {

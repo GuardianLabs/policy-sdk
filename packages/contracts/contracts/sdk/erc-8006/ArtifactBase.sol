@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.36;
 
 import { IArbitraryDataArtifact } from "./interfaces/Interfaces.sol";
 import { INCORRECT_EXEC_ARGUMENTS_LIST_LENGTH_ERR } from "./constants/Export.sol";
